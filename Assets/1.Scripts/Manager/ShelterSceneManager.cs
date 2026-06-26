@@ -1,22 +1,27 @@
 using UnityEngine;
 
+//ÀÌ°Ç TestScene¿ëµµ ¼ø¼­º¸Àå¿ëµµ ³ªÁß¿¡ »èÁ¦
+[DefaultExecutionOrder(-100)]
 public class ShelterSceneManager : MonoBehaviour
 {
     public static ShelterSceneManager Instance { get; private set; }
 
-    [Header("ë§¤ë‹ˆì €")]
+    [Header("Managers")]
+    [SerializeField] private ShelterDataManager m_ShelterDataManager;
     [SerializeField] private UIManager m_UIManager;
-    //ToDo : ì…¸í„° ì „ë°˜ì„ ê´€ë¦¬í•˜ëŠ” ë§¤ë‹ˆì € ë§Œë“¤ê¸°, MedicalManagerë¥¼ ì—¬ê¸°ì„œ ê°€ì§€ê³  ìžˆëŠ”ê±°ëŠ” ìž„ì‹œ í…ŒìŠ¤íŠ¸ìš©
     [SerializeField] private MedicalManager m_MedicalManager;
+    [SerializeField] private bool m_copyDataFromGameDataManagerOnAwake = true;
 
 
-    //ToDo : PlayerControlManagerë¡œ ë¬¶ì–´ì„œ ê´€ë¦¬í•˜ë„ë¡ í™•ìž¥ í•˜ê¸°
+    //ToDo : Ä³¸¯ÅÍ ÄÁÆ®·Ñ·¯ ¸Å´ÏÀú Å©°Ô ·¾ÇÎ ÇÊ¿ä
     [Header("Player Control")]
     [SerializeField] private PlayerMove m_PlayerMove;
     [SerializeField] private CameraLook m_CameraLook;
     [SerializeField] private bool m_autoFindReferences = true;
 
+    public ShelterDataManager ShelterDataManager => m_ShelterDataManager;
     public UIManager UIManager => m_UIManager;
+    public MedicalManager MedicalManager => m_MedicalManager;
     public bool IsPlayerControlLocked { get; private set; }
 
     private void Reset()
@@ -36,6 +41,9 @@ public class ShelterSceneManager : MonoBehaviour
 
         if (m_autoFindReferences)
             CacheSceneReferences();
+
+        if (m_copyDataFromGameDataManagerOnAwake)
+            CopyShelterDataFromGameDataManager();
     }
 
     private void OnEnable()
@@ -64,6 +72,20 @@ public class ShelterSceneManager : MonoBehaviour
             Instance = null;
     }
 
+    public void CopyShelterDataFromGameDataManager()
+    {
+        if (m_ShelterDataManager == null)
+            m_ShelterDataManager = ShelterDataManager.Instance;
+
+        if (m_ShelterDataManager == null)
+        {
+            Debug.LogWarning("[ShelterSceneManager] ShelterDataManager is not available.", this);
+            return;
+        }
+
+        m_ShelterDataManager.CopyFromDataManager();
+    }
+
     private void HandleActiveUIChanged(ShelterUIType activeUI)
     {
         ApplyPlayerControlLock(ShouldLockPlayerControl(activeUI));
@@ -87,6 +109,9 @@ public class ShelterSceneManager : MonoBehaviour
 
     private void CacheSceneReferences()
     {
+        if (m_ShelterDataManager == null)
+            m_ShelterDataManager = FindFirstObjectByType<ShelterDataManager>();
+
         if (m_UIManager == null)
             m_UIManager = FindFirstObjectByType<UIManager>();
 

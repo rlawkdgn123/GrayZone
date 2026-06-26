@@ -35,7 +35,7 @@ public class FacilityManager : MonoBehaviour
     public FacilityState GetState(string facilityId)
         => m_states.TryGetValue(facilityId, out FacilityState state) ? state : null;
 
-    public bool TryUnlock(string facilityId, ResourceStorage storage)
+    public bool TryUnlock(string facilityId)
     {
         FacilityState state = GetState(facilityId);
         if (state == null || state.IsUnlocked) return false;
@@ -43,17 +43,18 @@ public class FacilityManager : MonoBehaviour
         CostBundle cost = state.Definition.BuildUnlockCost();
         if (!cost.IsFree)
         {
-            foreach (CurrencyCost entry in cost.Costs)
+            if (ShelterDataManager.Instance == null)
             {
-                if (!storage.CanSpend(entry))
-                    return false;
+                Debug.LogWarning("[FacilityManager] ShelterDataManager is not available. Cannot spend unlock cost.", this);
+                return false;
             }
 
-            foreach (CurrencyCost entry in cost.Costs)
-                storage.TrySpend(entry);
+            if (!ShelterDataManager.Instance.TrySpendResources(cost))
+                return false;
         }
 
         state.Unlock();
+        ShelterDataManager.Instance?.MarkDirty();
         return true;
     }
 

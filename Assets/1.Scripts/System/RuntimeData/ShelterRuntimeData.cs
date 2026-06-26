@@ -8,35 +8,19 @@ public class ShelterRuntimeData
     public const int MinBattleSquadSize = 1;
     public const int MaxBattleSquadSize = 3;
 
-    public SharedRuntimeData sharedData = new SharedRuntimeData();
-    public int currentDay = 1;
-    public List<string> battleSquadNpcRuntimeIds = new List<string>();
-    public List<FacilityRuntimeState> facilityStates = new List<FacilityRuntimeState>();
+    [SerializeField] private int currentDay = 1;
+    [SerializeField] private List<string> battleSquadNpcRuntimeIds = new List<string>();
+    [SerializeField] private List<FacilityRuntimeState> facilityStates = new List<FacilityRuntimeState>();
 
-    public SharedRuntimeData SharedData
-    {
-        get
-        {
-            sharedData ??= new SharedRuntimeData();
-            return sharedData;
-        }
-    }
-
-    public ResourceStorage Resources => SharedData.Resources;
-    public NpcRoster NpcRoster => SharedData.NpcRoster;
-    public int RosterCount => SharedData.RosterCount;
-    public int TotalOwnedCharacterCount => SharedData.TotalOwnedCharacterCount;
-    public int PlayableCharacterCount => SharedData.PlayableCharacterCount;
-    public int NonPlayableNpcCount => SharedData.NonPlayableNpcCount;
-    public int ShelterStability => Mathf.Clamp(SharedData.shelterStability, 0, 100);
+    public int CurrentDay => Mathf.Max(1, currentDay);
     public IReadOnlyList<string> BattleSquadNpcRuntimeIds => battleSquadNpcRuntimeIds;
+    public IReadOnlyList<FacilityRuntimeState> FacilityStates => facilityStates;
 
     public void EnsureRuntimeContainers()
     {
         currentDay = Mathf.Max(1, currentDay);
         battleSquadNpcRuntimeIds ??= new List<string>();
         facilityStates ??= new List<FacilityRuntimeState>();
-        SharedData.EnsureRuntimeContainers();
         NormalizeBattleSquad();
 
         for (int i = facilityStates.Count - 1; i >= 0; i--)
@@ -54,8 +38,7 @@ public class ShelterRuntimeData
 
         ShelterRuntimeData clone = new ShelterRuntimeData
         {
-            sharedData = SharedData.Clone(),
-            currentDay = currentDay,
+            currentDay = CurrentDay,
             battleSquadNpcRuntimeIds = new List<string>(battleSquadNpcRuntimeIds),
             facilityStates = CloneFacilityStates(facilityStates)
         };
@@ -71,16 +54,45 @@ public class ShelterRuntimeData
         source.EnsureRuntimeContainers();
         EnsureRuntimeContainers();
 
-        SharedData.CopyFrom(source.SharedData);
-        currentDay = Mathf.Max(1, source.currentDay);
+        SetCurrentDay(source.CurrentDay);
         battleSquadNpcRuntimeIds = new List<string>(source.battleSquadNpcRuntimeIds);
         NormalizeBattleSquad();
         facilityStates = CloneFacilityStates(source.facilityStates);
     }
 
-    public void CopySharedFrom(SharedRuntimeData source)
+    public void SetCurrentDay(int day)
     {
-        SharedData.CopyFrom(source);
+        currentDay = Mathf.Max(1, day);
+    }
+
+    public void ApplySavedState(int day, IEnumerable<string> battleSquadRuntimeIds, IEnumerable<FacilityRuntimeState> savedFacilityStates)
+    {
+        SetCurrentDay(day);
+
+        battleSquadNpcRuntimeIds.Clear();
+        if (battleSquadRuntimeIds != null)
+        {
+            foreach (string runtimeId in battleSquadRuntimeIds)
+            {
+                TryAddBattleSquadNpc(runtimeId);
+            }
+        }
+
+        facilityStates.Clear();
+        if (savedFacilityStates != null)
+        {
+            foreach (FacilityRuntimeState state in savedFacilityStates)
+            {
+                if (state == null)
+                    continue;
+
+                state.EnsureValid();
+                if (string.IsNullOrWhiteSpace(state.facilityId))
+                    continue;
+
+                facilityStates.Add(new FacilityRuntimeState(state.facilityId, state.isUnlocked, state.upgradeLevel));
+            }
+        }
     }
 
     public FacilityRuntimeState GetOrCreateFacilityState(string facilityId, bool isUnlockedByDefault)
@@ -121,9 +133,6 @@ public class ShelterRuntimeData
             if (normalizedIds.Contains(trimmedRuntimeId))
                 continue;
 
-            if (!NpcRoster.Contains(trimmedRuntimeId))
-                return false;
-
             normalizedIds.Add(trimmedRuntimeId);
             if (normalizedIds.Count > MaxBattleSquadSize)
                 return false;
@@ -136,6 +145,33 @@ public class ShelterRuntimeData
         return true;
     }
 
+    public bool TryAddBattleSquadNpc(string runtimeId)
+    {
+        if (string.IsNullOrWhiteSpace(runtimeId))
+            return false;
+
+        string trimmedRuntimeId = runtimeId.Trim();
+        if (battleSquadNpcRuntimeIds.Contains(trimmedRuntimeId))
+            return true;
+
+        if (battleSquadNpcRuntimeIds.Count >= MaxBattleSquadSize)
+            return false;
+
+        battleSquadNpcRuntimeIds.Add(trimmedRuntimeId);
+        return true;
+    }
+
+    public bool TryRemoveBattleSquadNpc(string runtimeId)
+    {
+        if (string.IsNullOrWhiteSpace(runtimeId))
+            return false;
+
+        if (battleSquadNpcRuntimeIds.Count <= MinBattleSquadSize)
+            return false;
+
+        return battleSquadNpcRuntimeIds.Remove(runtimeId.Trim());
+    }
+
     public void ClearBattleSquad()
     {
         battleSquadNpcRuntimeIds.Clear();
@@ -143,8 +179,6 @@ public class ShelterRuntimeData
 
     public void RemoveNpcReferences(string runtimeId)
     {
-        SharedData.RemoveNpcReferences(runtimeId);
-
         if (string.IsNullOrWhiteSpace(runtimeId))
             return;
 

@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-300)]
 public class GameDataManager : MonoBehaviour
 {
     public static GameDataManager Instance { get; private set; }
@@ -7,8 +9,10 @@ public class GameDataManager : MonoBehaviour
     [Header("Shared Runtime Baseline Data")]
     [SerializeField] private SharedRuntimeData sharedData = new SharedRuntimeData();
 
+    [Header("Scene Runtime Backup Data")]
+    [SerializeField] private ShelterRuntimeData shelterData = new ShelterRuntimeData();
+
     private ShelterDataManager activeShelterDataManager;
-    //ToDo : 읽어올 BattleDataManager 등록하기
 
     private SharedRuntimeData SharedData
     {
@@ -19,11 +23,21 @@ public class GameDataManager : MonoBehaviour
         }
     }
 
+    private ShelterRuntimeData ShelterData
+    {
+        get
+        {
+            EnsureShelterData();
+            return shelterData;
+        }
+    }
+
     public int RosterCount => SharedData.RosterCount;
     public int TotalOwnedCharacterCount => SharedData.TotalOwnedCharacterCount;
     public int PlayableCharacterCount => SharedData.PlayableCharacterCount;
     public int NonPlayableNpcCount => SharedData.NonPlayableNpcCount;
-    public int ShelterStability => Mathf.Clamp(SharedData.shelterStability, 0, 100);
+    public int ShelterStability => Mathf.Clamp(SharedData.ShelterStability, 0, 100);
+    public int CurrentDay => ShelterData.CurrentDay;
     public bool HasActiveShelterDataManager => activeShelterDataManager != null;
 
     private void Awake()
@@ -34,6 +48,7 @@ public class GameDataManager : MonoBehaviour
         }
 
         EnsureSharedData();
+        EnsureShelterData();
         Instance = this;
     }
 
@@ -81,25 +96,31 @@ public class GameDataManager : MonoBehaviour
         }
 
         ApplySnapshot(shelterDataManager.CreateSharedSnapshot());
+        ApplyShelterSnapshot(shelterDataManager.CreateSnapshot());
         return true;
     }
 
-    public SharedRuntimeData CreateSnapshot()
+    public SharedRuntimeData CreateSharedSnapshot()
     {
         return SharedData.Clone();
     }
 
-    public SharedRuntimeData Snapshot()
+    public ShelterRuntimeData CreateShelterSnapshot()
     {
-        return CreateSnapshot();
+        return ShelterData.Clone();
     }
 
     public SaveData CreateSaveData(string profileId)
     {
-        SaveData saveData = new SaveData();
-        saveData.profileId = string.IsNullOrWhiteSpace(profileId) ? SaveFilePaths.DefaultProfileId : profileId;
-        saveData.progress.lastStageId = SharedData.lastStageId ?? string.Empty;
-        saveData.progress.currentDay = activeShelterDataManager != null ? activeShelterDataManager.CurrentDay : 1;
+        SaveData saveData = new SaveData
+        {
+            profileId = string.IsNullOrWhiteSpace(profileId) ? SaveFilePaths.DefaultProfileId : profileId
+        };
+
+        SharedRuntimeData sharedSnapshot = activeShelterDataManager != null ? activeShelterDataManager.CreateSharedSnapshot() : SharedData.Clone();
+        ShelterRuntimeData shelterSnapshot = activeShelterDataManager != null ? activeShelterDataManager.CreateSnapshot() : ShelterData.Clone();
+        saveData.shared = CreateSharedSaveData(sharedSnapshot);
+        saveData.shelter = CreateShelterSaveData(shelterSnapshot);
         saveData.MarkSavedNow();
         return saveData;
     }
@@ -112,13 +133,8 @@ public class GameDataManager : MonoBehaviour
             return;
         }
 
-        if (saveData.progress == null)
-        {
-            Debug.LogWarning("[GameDataManager] SaveData.progress is null.");
-            return;
-        }
-
-        SharedData.lastStageId = saveData.progress.lastStageId ?? string.Empty;
+        ApplySharedSaveData(saveData.shared ?? new SaveData.SharedSaveData());
+        ApplyShelterSaveData(saveData.shelter ?? new SaveData.ShelterSaveData());
     }
 
     public void ApplySnapshot(SharedRuntimeData snapshot)
@@ -132,10 +148,138 @@ public class GameDataManager : MonoBehaviour
         SharedData.CopyFrom(snapshot);
     }
 
+    public void ApplyShelterSnapshot(ShelterRuntimeData snapshot)
+    {
+        if (snapshot == null)
+        {
+            Debug.LogWarning("[GameDataManager] Shelter snapshot is null.");
+            return;
+        }
+
+        ShelterData.CopyFrom(snapshot);
+    }
+
     private void EnsureSharedData()
     {
         sharedData ??= new SharedRuntimeData();
         sharedData.EnsureRuntimeContainers();
+    }
+
+    private void EnsureShelterData()
+    {
+        shelterData ??= new ShelterRuntimeData();
+        shelterData.EnsureRuntimeContainers();
+    }
+
+    private SaveData.SharedSaveData CreateSharedSaveData(SharedRuntimeData source)
+    {
+        source.EnsureRuntimeContainers();
+
+        SaveData.SharedSaveData saveData = new SaveData.SharedSaveData
+        {
+            lastStageId = source.LastStageId,
+            shelterStability = source.ShelterStability,
+            playableCharacterCount = source.PlayableCharacterCount,
+            nonPlayableNpcCount = source.NonPlayableNpcCount
+        };
+
+        foreach (KeyValuePair<CurrencyType, int> resource in source.Resources.Amounts)
+        {
+            saveData.resources.Add(new SaveData.ResourceAmountData
+            {
+                type = resource.Key,
+                amount = Mathf.Max(0, resource.Value)
+            });
+        }
+
+        foreach (NPCRuntimeData npc in source.NpcRoster.All)
+        {
+            SaveData.NpcSaveData npcSaveData = NpcSaveDataMapper.FromRuntime(npc);
+            if (npcSaveData == null)
+                continue;
+
+            saveData.npcs.Add(npcSaveData);
+        }
+
+        return saveData;
+    }
+
+    private SaveData.ShelterSaveData CreateShelterSaveData(ShelterRuntimeData source)
+    {
+        source.EnsureRuntimeContainers();
+
+        SaveData.ShelterSaveData saveData = new SaveData.ShelterSaveData
+        {
+            currentDay = source.CurrentDay,
+            battleSquadNpcRuntimeIds = new List<string>(source.BattleSquadNpcRuntimeIds)
+        };
+
+        foreach (FacilityRuntimeState state in source.FacilityStates)
+        {
+            SaveData.FacilitySaveData facilitySaveData = FacilitySaveDataMapper.FromRuntime(state);
+            if (facilitySaveData == null)
+                continue;
+
+            saveData.facilities.Add(facilitySaveData);
+        }
+
+        return saveData;
+    }
+
+    private void ApplySharedSaveData(SaveData.SharedSaveData saveData)
+    {
+        SharedData.SetLastStageId(saveData.lastStageId);
+        SharedData.SetShelterStability(saveData.shelterStability);
+        SharedData.SetOwnedCharacterCounts(saveData.playableCharacterCount, saveData.nonPlayableNpcCount);
+
+        SharedData.Resources.Clear();
+        if (saveData.resources != null)
+        {
+            foreach (SaveData.ResourceAmountData resource in saveData.resources)
+            {
+                if (resource == null)
+                    continue;
+
+                SharedData.Resources.SetAmount(resource.type, resource.amount);
+            }
+        }
+
+        SharedData.NpcRoster.Clear();
+        if (saveData.npcs != null)
+        {
+            foreach (SaveData.NpcSaveData npc in saveData.npcs)
+            {
+                if (npc == null)
+                    continue;
+
+                NPCRuntimeData runtimeNpc = NpcSaveDataMapper.ToRuntime(npc);
+                if (runtimeNpc != null)
+                {
+                    SharedData.NpcRoster.Add(runtimeNpc);
+                }
+            }
+        }
+    }
+
+    private void ApplyShelterSaveData(SaveData.ShelterSaveData saveData)
+    {
+        List<FacilityRuntimeState> facilityStates = new List<FacilityRuntimeState>();
+        if (saveData.facilities != null)
+        {
+            foreach (SaveData.FacilitySaveData facility in saveData.facilities)
+            {
+                if (facility == null)
+                    continue;
+
+                FacilityRuntimeState runtimeState = FacilitySaveDataMapper.ToRuntime(facility);
+                if (runtimeState != null)
+                {
+                    facilityStates.Add(runtimeState);
+                }
+            }
+        }
+
+        ShelterData.ApplySavedState(saveData.currentDay, saveData.battleSquadNpcRuntimeIds, facilityStates);
     }
 
     private bool TryRejectDuplicateOrInvalidRoot()

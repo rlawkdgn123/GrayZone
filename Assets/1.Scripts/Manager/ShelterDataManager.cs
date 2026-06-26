@@ -2,17 +2,27 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+[DefaultExecutionOrder(-200)]
 public class ShelterDataManager : MonoBehaviour
 {
     public static ShelterDataManager Instance { get; private set; }
 
     [Header("Shelter Working Data")]
+    [SerializeField] private SharedRuntimeData sharedWorkingData = new SharedRuntimeData();
     [SerializeField] private ShelterRuntimeData shelterData = new ShelterRuntimeData();
-    [SerializeField] private bool copySharedDataFromGameDataManagerOnAwake = true;
 
-    public event Action<ShelterRuntimeData> ShelterDataChanged;
+    public event Action ShelterDataChanged;
 
-    public ShelterRuntimeData ShelterData
+    private SharedRuntimeData SharedData
+    {
+        get
+        {
+            EnsureSharedWorkingData();
+            return sharedWorkingData;
+        }
+    }
+
+    private ShelterRuntimeData ShelterData
     {
         get
         {
@@ -21,16 +31,17 @@ public class ShelterDataManager : MonoBehaviour
         }
     }
 
-    public SharedRuntimeData SharedData => ShelterData.SharedData;
-    public ResourceStorage Resources => ShelterData.Resources;
-    public NpcRoster NpcRoster => ShelterData.NpcRoster;
-    public int RosterCount => ShelterData.RosterCount;
-    public int TotalOwnedCharacterCount => ShelterData.TotalOwnedCharacterCount;
-    public int PlayableCharacterCount => ShelterData.PlayableCharacterCount;
-    public int NonPlayableNpcCount => ShelterData.NonPlayableNpcCount;
+    private ResourceStorage Resources => SharedData.Resources;
+    private NpcRoster NpcRoster => SharedData.NpcRoster;
+    public IReadOnlyDictionary<CurrencyType, int> ResourceAmounts => Resources.Amounts;
+    public IReadOnlyList<NPCRuntimeData> Npcs => NpcRoster.All;
+    public int RosterCount => SharedData.RosterCount;
+    public int TotalOwnedCharacterCount => SharedData.TotalOwnedCharacterCount;
+    public int PlayableCharacterCount => SharedData.PlayableCharacterCount;
+    public int NonPlayableNpcCount => SharedData.NonPlayableNpcCount;
     public IReadOnlyList<string> BattleSquadNpcRuntimeIds => ShelterData.BattleSquadNpcRuntimeIds;
-    public int CurrentDay => Mathf.Max(1, ShelterData.currentDay);
-    public int ShelterStability => ShelterData.ShelterStability;
+    public int CurrentDay => ShelterData.CurrentDay;
+    public int ShelterStability => SharedData.ShelterStability;
 
     private void Awake()
     {
@@ -41,16 +52,12 @@ public class ShelterDataManager : MonoBehaviour
         }
 
         Instance = this;
+        EnsureSharedWorkingData();
         EnsureShelterData();
 
         if (GameDataManager.Instance != null)
         {
             GameDataManager.Instance.RegisterShelterDataManager(this);
-
-            if (copySharedDataFromGameDataManagerOnAwake)
-            {
-                CopySharedDataFromGameDataManager();
-            }
         }
         else
         {
@@ -79,12 +86,19 @@ public class ShelterDataManager : MonoBehaviour
             return;
         }
 
-        ApplySharedSnapshot(GameDataManager.Instance.CreateSnapshot());
+        ApplySharedSnapshot(GameDataManager.Instance.CreateSharedSnapshot());
     }
 
     public void CopyFromDataManager()
     {
-        CopySharedDataFromGameDataManager();
+        if (GameDataManager.Instance == null)
+        {
+            Debug.LogWarning("[ShelterDataManager] GameDataManager.Instance is null.");
+            return;
+        }
+
+        ApplySharedSnapshot(GameDataManager.Instance.CreateSharedSnapshot());
+        ApplySnapshot(GameDataManager.Instance.CreateShelterSnapshot());
     }
 
     public bool PushToDataManager()
@@ -128,7 +142,7 @@ public class ShelterDataManager : MonoBehaviour
             return;
         }
 
-        ShelterData.CopySharedFrom(snapshot);
+        SharedData.CopyFrom(snapshot);
         NotifyShelterDataChanged();
     }
 
@@ -163,15 +177,105 @@ public class ShelterDataManager : MonoBehaviour
             return false;
         }
 
+        SharedData.RemoveNpcReferences(runtimeId);
         ShelterData.RemoveNpcReferences(runtimeId);
         SharedData.RefreshCountsFromRosterAsPlayable();
         NotifyShelterDataChanged();
         return true;
     }
 
+    public int GetResourceAmount(CurrencyType type)
+    {
+        return Resources.GetAmount(type);
+    }
+
+    public bool CanSpendResource(CurrencyCost cost)
+    {
+        return Resources.CanSpend(cost);
+    }
+
+    public bool CanSpendResources(CostBundle costBundle)
+    {
+        if (costBundle == null || costBundle.IsFree)
+            return true;
+
+        foreach (CurrencyCost cost in costBundle.Costs)
+        {
+            if (!CanSpendResource(cost))
+                return false;
+        }
+
+        return true;
+    }
+
+    public bool TrySpendResource(CurrencyCost cost)
+    {
+        bool result = Resources.TrySpend(cost);
+        if (result)
+            NotifyShelterDataChanged();
+
+        return result;
+    }
+
+    public bool TrySpendResources(CostBundle costBundle)
+    {
+        if (!CanSpendResources(costBundle))
+            return false;
+
+        if (costBundle == null || costBundle.IsFree)
+            return true;
+
+        foreach (CurrencyCost cost in costBundle.Costs)
+        {
+            Resources.TrySpend(cost);
+        }
+
+        NotifyShelterDataChanged();
+        return true;
+    }
+
+    public bool TryAddResource(CurrencyType type, int amount)
+    {
+        bool result = Resources.Add(type, amount);
+        if (result)
+            NotifyShelterDataChanged();
+
+        return result;
+    }
+
+    public void SetResourceAmount(CurrencyType type, int amount)
+    {
+        Resources.SetAmount(type, amount);
+        NotifyShelterDataChanged();
+    }
+
     public bool TrySetBattleSquad(IEnumerable<string> runtimeIds)
     {
+        if (!CanUseBattleSquad(runtimeIds))
+            return false;
+
         bool result = ShelterData.TrySetBattleSquad(runtimeIds);
+        if (result)
+            NotifyShelterDataChanged();
+
+        return result;
+    }
+
+    public bool TryAddBattleSquadNpc(string runtimeId)
+    {
+        if (!CanUseBattleSquadNpc(runtimeId))
+            return false;
+
+        bool result = ShelterData.TryAddBattleSquadNpc(runtimeId);
+        if (result)
+            NotifyShelterDataChanged();
+
+        return result;
+    }
+
+    public bool TryRemoveBattleSquadNpc(string runtimeId)
+    {
+        bool result = ShelterData.TryRemoveBattleSquadNpc(runtimeId);
         if (result)
             NotifyShelterDataChanged();
 
@@ -198,19 +302,19 @@ public class ShelterDataManager : MonoBehaviour
 
     public void SetLastStageId(string stageId)
     {
-        SharedData.lastStageId = stageId ?? string.Empty;
+        SharedData.SetLastStageId(stageId);
         NotifyShelterDataChanged();
     }
 
     public void SetCurrentDay(int day)
     {
-        ShelterData.currentDay = Mathf.Max(1, day);
+        ShelterData.SetCurrentDay(day);
         NotifyShelterDataChanged();
     }
 
     public void SetShelterStability(int stability)
     {
-        SharedData.shelterStability = Mathf.Clamp(stability, 0, 100);
+        SharedData.SetShelterStability(stability);
         NotifyShelterDataChanged();
     }
 
@@ -221,7 +325,35 @@ public class ShelterDataManager : MonoBehaviour
 
     private void NotifyShelterDataChanged()
     {
-        ShelterDataChanged?.Invoke(CreateSnapshot());
+        ShelterDataChanged?.Invoke();
+    }
+
+    private bool CanUseBattleSquad(IEnumerable<string> runtimeIds)
+    {
+        if (runtimeIds == null)
+            return false;
+
+        foreach (string runtimeId in runtimeIds)
+        {
+            if (string.IsNullOrWhiteSpace(runtimeId))
+                continue;
+
+            if (!CanUseBattleSquadNpc(runtimeId))
+                return false;
+        }
+
+        return true;
+    }
+
+    private bool CanUseBattleSquadNpc(string runtimeId)
+    {
+        return !string.IsNullOrWhiteSpace(runtimeId) && NpcRoster.Contains(runtimeId);
+    }
+
+    private void EnsureSharedWorkingData()
+    {
+        sharedWorkingData ??= new SharedRuntimeData();
+        sharedWorkingData.EnsureRuntimeContainers();
     }
 
     private void EnsureShelterData()

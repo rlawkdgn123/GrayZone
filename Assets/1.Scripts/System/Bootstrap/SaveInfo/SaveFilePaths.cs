@@ -8,6 +8,7 @@ public static class SaveFilePaths
     public const string DefaultProfileId = "default";
     public const string SettingsFileName = "settings.json";
 
+    //윈도우 기준 사용자의 AppData를 저장경로로 한다 (exe파일 기준으로도 가능하지만 권한문제가 생길수 있음 C:)
     public static string SaveDirectoryPath => Path.Combine(Application.persistentDataPath, SaveDirectoryName);
 
     public static void EnsureSaveDirectory()

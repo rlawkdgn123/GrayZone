@@ -1,15 +1,20 @@
 public interface IRecoveryComponent
 {
-    void CompleteShelterRecovery(NPCRuntimeData target);
+    bool TryCompleteShelterRecovery(CharacterManager characterManager, string runtimeId, out CharacterActionFailure failure);
 }
 
 public class RecoveryComponent : IRecoveryComponent
 {
-    public void CompleteShelterRecovery(NPCRuntimeData target)
+    public bool TryCompleteShelterRecovery(CharacterManager characterManager, string runtimeId, out CharacterActionFailure failure)
     {
-        if (target == null)
-            return;
+        failure = CharacterActionFailure.None;
 
-        target.CompleteRecovery();
+        if (characterManager == null)
+        {
+            failure = CharacterActionFailure.DataSourceUnavailable;
+            return false;
+        }
+
+        return characterManager.TryCompleteRecovery(runtimeId, out failure);
     }
 }

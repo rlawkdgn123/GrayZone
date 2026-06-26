@@ -1,51 +1,26 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class MedicalUI : MonoBehaviour
 {
-    [System.Serializable]
-    private sealed class MedicalSlotRow
-    {
-        [SerializeField] private Image[] m_slotImages;
-
-        public int SlotCount => m_slotImages != null ? m_slotImages.Length : 0;
-
-        public void Render(int unlockedSlotCount, int firstSlotIndex, Sprite unlockedSprite, Sprite lockedSprite)
-        {
-            if (m_slotImages == null)
-                return;
-
-            for (int i = 0; i < m_slotImages.Length; i++)
-            {
-                Image targetImage = m_slotImages[i];
-                if (targetImage == null)
-                    continue;
-
-                int slotIndex = firstSlotIndex + i;
-                bool isUnlocked = slotIndex < unlockedSlotCount;
-                Sprite slotSprite = isUnlocked ? unlockedSprite : lockedSprite;
-                ApplySlotSprite(targetImage, slotSprite);
-            }
-        }
-    }
-
     [Header("Root")]
     [SerializeField] private GameObject m_root;
     [SerializeField] private bool m_hideOnAwake = true;
 
-    [Header("Slot Images")]
-    [SerializeField] private Sprite m_unlockedSlotSprite;
-    [SerializeField] private Sprite m_lockedSlotSprite;
+    [Header("Patient Slots")]
+    [SerializeField] private MedicalPatientSlotView[] m_patientSlots;
 
-    [Header("Slot Rows")]
-    [SerializeField] private MedicalSlotRow[] m_slotRows;
+    [Header("Treatment Candidates")]
+    [SerializeField] private CharacterManager m_characterManager;
+    [SerializeField] private NpcPortraitCatalog m_portraitCatalog;
+    [SerializeField] private TestButton[] m_testButtons;
 
-    [Header("Flat Slot Images")]
-    [SerializeField] private Image[] m_slotImages;
+    private readonly List<NPCRuntimeData> m_treatmentCandidates = new List<NPCRuntimeData>();
 
     private MedicalManager m_currentManager;
+    private CharacterManager m_boundCharacterManager;
     private bool m_isOpening;
     private bool m_isOpen;
 
@@ -58,15 +33,23 @@ public class MedicalUI : MonoBehaviour
         if (m_root == null)
             m_root = gameObject;
 
+        CacheChildViews();
         m_isOpen = m_root != null && m_root.activeSelf;
 
         if (m_hideOnAwake && !m_isOpening)
             Close();
     }
 
+    private void Reset()
+    {
+        m_root = gameObject;
+        CacheChildViews();
+    }
+
     private void OnDisable()
     {
         UnbindManager();
+        UnbindCharacterManager();
 
         if (!m_isOpening)
             SetOpenState(false);
@@ -91,6 +74,8 @@ public class MedicalUI : MonoBehaviour
         if (m_currentManager != null)
             m_currentManager.OnPatientSlotsChanged += Refresh;
 
+        BindCharacterManager(CacheCharacterManager());
+
         m_isOpening = true;
         SetRootActive(true);
         SetOpenState(true);
@@ -102,67 +87,156 @@ public class MedicalUI : MonoBehaviour
     public void Close()
     {
         UnbindManager();
+        UnbindCharacterManager();
         SetRootActive(false);
         SetOpenState(false);
     }
 
     public void Refresh()
     {
+        CacheChildViews();
+        RefreshPatientSlots();
+        RefreshTreatmentCandidates();
+    }
+
+    private void CacheChildViews()
+    {
+        if (m_patientSlots == null || m_patientSlots.Length == 0)
+            m_patientSlots = GetComponentsInChildren<MedicalPatientSlotView>(true);
+
+        if (m_testButtons == null || m_testButtons.Length == 0)
+            m_testButtons = GetComponentsInChildren<TestButton>(true);
+    }
+
+    private void RefreshPatientSlots()
+    {
+        if (m_patientSlots == null)
+            return;
+
         int unlockedSlotCount = m_currentManager != null
             ? m_currentManager.PatientCapacity
             : 0;
 
-        if (m_slotRows != null && m_slotRows.Length > 0)
+        for (int i = 0; i < m_patientSlots.Length; i++)
         {
-            RefreshSlotRows(unlockedSlotCount);
-            return;
-        }
-
-        RefreshFlatSlots(unlockedSlotCount);
-    }
-
-    private void RefreshSlotRows(int unlockedSlotCount)
-    {
-        int firstSlotIndex = 0;
-        for (int i = 0; i < m_slotRows.Length; i++)
-        {
-            if (m_slotRows[i] == null)
-                continue;
-
-            m_slotRows[i].Render(unlockedSlotCount, firstSlotIndex, m_unlockedSlotSprite, m_lockedSlotSprite);
-            firstSlotIndex += m_slotRows[i].SlotCount;
-        }
-    }
-
-    private void RefreshFlatSlots(int unlockedSlotCount)
-    {
-        if (m_slotImages == null)
-            return;
-
-        for (int i = 0; i < m_slotImages.Length; i++)
-        {
-            Image targetImage = m_slotImages[i];
-            if (targetImage == null)
+            MedicalPatientSlotView slotView = m_patientSlots[i];
+            if (slotView == null)
                 continue;
 
             bool isUnlocked = i < unlockedSlotCount;
-            ApplySlotImage(targetImage, isUnlocked);
+            slotView.Bind(i, isUnlocked, HandlePatientSlotClicked);
         }
     }
 
-    private void ApplySlotImage(Image targetImage, bool isUnlocked)
+    private void RefreshTreatmentCandidates()
     {
-        Sprite slotSprite = isUnlocked ? m_unlockedSlotSprite : m_lockedSlotSprite;
-        ApplySlotSprite(targetImage, slotSprite);
-    }
+        ClearTreatmentCandidateButtons();
 
-    private static void ApplySlotSprite(Image targetImage, Sprite slotSprite)
-    {
-        if (targetImage == null || slotSprite == null)
+        if (m_currentManager == null || m_boundCharacterManager == null || m_testButtons == null)
             return;
 
-        targetImage.sprite = slotSprite;
-        targetImage.enabled = true;
+        if (m_currentManager.CurrentPatientCount >= m_currentManager.PatientCapacity)
+            return;
+
+        m_boundCharacterManager.FillTreatmentCandidates(m_treatmentCandidates);
+
+        int buttonCount = Mathf.Min(m_testButtons.Length, m_treatmentCandidates.Count);
+        for (int i = 0; i < buttonCount; i++)
+        {
+            TestButton button = m_testButtons[i];
+            if (button == null)
+                continue;
+
+            NPCRuntimeData character = m_treatmentCandidates[i];
+            button.Bind(character, GetPortrait(character), HandleTreatmentCandidateClicked);
+        }
+    }
+
+    private void ClearTreatmentCandidateButtons()
+    {
+        if (m_testButtons == null)
+            return;
+
+        for (int i = 0; i < m_testButtons.Length; i++)
+        {
+            if (m_testButtons[i] != null)
+                m_testButtons[i].Clear();
+        }
+
+        m_treatmentCandidates.Clear();
+    }
+
+    private void HandlePatientSlotClicked(int slotIndex)
+    {
+        RefreshTreatmentCandidates();
+    }
+
+    private void HandleTreatmentCandidateClicked(string runtimeId)
+    {
+        if (m_currentManager == null)
+            return;
+
+        if (m_currentManager.TryAssignPatient(runtimeId))
+            Refresh();
+        else
+            RefreshTreatmentCandidates();
+    }
+
+    private Sprite GetPortrait(NPCRuntimeData character)
+    {
+        if (character == null || m_portraitCatalog == null)
+            return null;
+
+        return m_portraitCatalog.GetPortrait(character.DefinitionId);
+    }
+
+    private CharacterManager CacheCharacterManager()
+    {
+        if (m_characterManager == null)
+            m_characterManager = CharacterManager.Instance;
+
+        if (m_characterManager == null)
+            m_characterManager = FindFirstObjectByType<CharacterManager>();
+
+        return m_characterManager;
+    }
+
+    private void BindCharacterManager(CharacterManager manager)
+    {
+        if (m_boundCharacterManager == manager)
+            return;
+
+        UnbindCharacterManager();
+        m_boundCharacterManager = manager;
+
+        if (m_boundCharacterManager == null)
+            return;
+
+        m_boundCharacterManager.CharacterChanged += HandleCharacterChanged;
+        m_boundCharacterManager.RosterChanged += HandleRosterChanged;
+    }
+
+    private void UnbindCharacterManager()
+    {
+        if (m_boundCharacterManager != null)
+        {
+            m_boundCharacterManager.CharacterChanged -= HandleCharacterChanged;
+            m_boundCharacterManager.RosterChanged -= HandleRosterChanged;
+        }
+
+        m_boundCharacterManager = null;
+    }
+
+    private void HandleCharacterChanged(NPCRuntimeData character)
+    {
+        if (m_isOpen)
+            Refresh();
+    }
+
+    private void HandleRosterChanged()
+    {
+        if (m_isOpen)
+            Refresh();
     }
 
     private void UnbindManager()

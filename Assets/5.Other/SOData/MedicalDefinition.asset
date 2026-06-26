@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 317ab8d5246dbc241b6e12125e148b3b, type: 3}
-  m_Name: Medical
+  m_Name: MedicalDefinition
   m_EditorClassIdentifier: Assembly-CSharp::FacilityDefinition
-  m_facilityId: 
-  m_facilityName: 
-  m_maxCapacity: 0
-  m_unlockCost:
-  - type: 0
-    amount: 50
+  m_facilityId: M_103
+  m_facilityName: MedicalCenter
+  m_unlockedByDefault: 1
+  m_unlockCost: []
+  m_defaultslot: 0

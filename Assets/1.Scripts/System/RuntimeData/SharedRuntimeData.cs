@@ -1,23 +1,29 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 [Serializable]
 public class SharedRuntimeData
 {
-    //ToDo : 공유 데이터 확인,  이곳에 있는건 셸터-배틀이 같이 쓰는 데이터 타입임
-    public string lastStageId = string.Empty;
+    //ToDo : 공유 데이터 확인
+    [SerializeField] private string lastStageId = string.Empty;
     //셸터 안정도
-    public int shelterStability = 100;
+    [SerializeField] private int shelterStability = 100;
     //플레이어블 캐릭터 수 ( 나중에 리스트 단위로 관리)
-    public int playableCharacterCount;
+    [SerializeField] private int playableCharacterCount;
     //논플레이어블 캐릭터수 ( 나중에 리스트 단위로 관리할수도 있음, npc종류가 다양해질경우 )
-    public int npcCount;
+    [SerializeField] private int npcCount;
 
     //창고에 대한 정보
     private ResourceStorage resources;
     //ToDo : Battle쪽 NPC 데이터 넘겨주는 방식에 맞춰야함 (NPC 데이터 정보 )
     private NpcRoster npcRoster;
+
+    public string LastStageId => lastStageId ?? string.Empty;
+    public int ShelterStability => Mathf.Clamp(shelterStability, 0, 100);
+    public int RosterCount => NpcRoster.Count;
+    public int TotalOwnedCharacterCount => PlayableCharacterCount + NonPlayableNpcCount;
+    public int PlayableCharacterCount => Mathf.Max(0, playableCharacterCount);
+    public int NonPlayableNpcCount => Mathf.Max(0, npcCount);
 
     public ResourceStorage Resources
     {
@@ -37,11 +43,6 @@ public class SharedRuntimeData
         }
     }
 
-    public int RosterCount => NpcRoster.Count;
-    public int TotalOwnedCharacterCount => playableCharacterCount + npcCount;
-    public int PlayableCharacterCount => playableCharacterCount;
-    public int NonPlayableNpcCount => npcCount;
-
     public void EnsureRuntimeContainers()
     {
         lastStageId ??= string.Empty;
@@ -59,10 +60,10 @@ public class SharedRuntimeData
 
         SharedRuntimeData clone = new SharedRuntimeData
         {
-            lastStageId = lastStageId ?? string.Empty,
-            shelterStability = shelterStability,
-            playableCharacterCount = playableCharacterCount,
-            npcCount = npcCount
+            lastStageId = LastStageId,
+            shelterStability = ShelterStability,
+            playableCharacterCount = PlayableCharacterCount,
+            npcCount = NonPlayableNpcCount
         };
 
         clone.Resources.CopyFrom(Resources);
@@ -82,10 +83,9 @@ public class SharedRuntimeData
         source.EnsureRuntimeContainers();
         EnsureRuntimeContainers();
 
-        lastStageId = source.lastStageId ?? string.Empty;
-        shelterStability = Mathf.Clamp(source.shelterStability, 0, 100);
-        playableCharacterCount = Mathf.Max(0, source.playableCharacterCount);
-        npcCount = Mathf.Max(0, source.npcCount);
+        SetLastStageId(source.LastStageId);
+        SetShelterStability(source.ShelterStability);
+        SetOwnedCharacterCounts(source.PlayableCharacterCount, source.NonPlayableNpcCount);
 
         Resources.CopyFrom(source.Resources);
 
@@ -94,6 +94,16 @@ public class SharedRuntimeData
         {
             NpcRoster.Add(npc?.Clone());
         }
+    }
+
+    public void SetLastStageId(string stageId)
+    {
+        lastStageId = stageId ?? string.Empty;
+    }
+
+    public void SetShelterStability(int stability)
+    {
+        shelterStability = Mathf.Clamp(stability, 0, 100);
     }
 
     public void SetOwnedCharacterCounts(int playableCount, int nonPlayableNpcCount)

@@ -7,20 +7,38 @@ public class NPCRuntimeData
     public string RuntimeId { get; }
     public NPCInjuryState CurrentInjuryState { get; private set; }
 
+    private readonly string definitionId;
+    private readonly NPCType npcType;
+    private readonly int maxHp;
     private bool IsAssignedToShelter { get; set; }
     private string AssignedRoomId { get; set; }
     private int CurrentHp { get; set; }
 
-    public int HealthPercent => MaxHp <= 0 ? 0 : CurrentHp * 100 / MaxHp;
-    public string DefinitionId => NPCData.DefinitionId;
-    public int MaxHp => NPCData != null ? NPCData.maxHP : 1;
+    public string DefinitionId => string.IsNullOrWhiteSpace(definitionId) ? string.Empty : definitionId;
+    public NPCType Type => NPCData != null ? NPCData.Type : npcType;
+    public int MaxHp => NPCData != null ? NPCData.MaxHP : Mathf.Max(1, maxHp);
     public bool IsDead => CurrentHp <= 0;
 
     public NPCRuntimeData(NPCChar npcData, string runtimeId = null)
     {
         NPCData = npcData ?? throw new ArgumentNullException(nameof(npcData));
-        RuntimeId = string.IsNullOrWhiteSpace(runtimeId) ? npcData.DefinitionId : runtimeId;
+        definitionId = npcData.DefinitionId ?? string.Empty;
+        npcType = npcData.Type;
+        maxHp = npcData.MaxHP;
+        RuntimeId = string.IsNullOrWhiteSpace(runtimeId) ? DefinitionId : runtimeId.Trim();
         ResetToBaseState();
+    }
+
+    public NPCRuntimeData(string definitionId, string runtimeId, NPCType type, int maxHp, int currentHp, NPCInjuryState injuryState, bool isAssignedToShelter, string assignedRoomId)
+    {
+        this.definitionId = definitionId ?? string.Empty;
+        npcType = type;
+        this.maxHp = Mathf.Max(1, maxHp);
+        RuntimeId = string.IsNullOrWhiteSpace(runtimeId) ? this.definitionId : runtimeId.Trim();
+        CurrentInjuryState = injuryState;
+        IsAssignedToShelter = isAssignedToShelter;
+        AssignedRoomId = assignedRoomId ?? string.Empty;
+        SetCurrentHp(currentHp);
     }
 
     public void ResetToBaseState()
@@ -46,31 +64,49 @@ public class NPCRuntimeData
         if (string.IsNullOrWhiteSpace(shelterId) || string.IsNullOrWhiteSpace(roomId))
             return false;
 
+        string normalizedRoomId = roomId.Trim();
+        if (IsAssignedToShelter && AssignedRoomId == normalizedRoomId)
+            return false;
+
         IsAssignedToShelter = true;
-        AssignedRoomId = roomId.Trim();
+        AssignedRoomId = normalizedRoomId;
         return true;
     }
 
-    public void ReleaseFromShelter()
+    public bool ReleaseFromShelter()
     {
+        if (!IsAssignedToShelter && string.IsNullOrEmpty(AssignedRoomId))
+            return false;
+
         IsAssignedToShelter = false;
         AssignedRoomId = string.Empty;
+        return true;
     }
 
-    public void SetCurrentHp(int value)
+    public bool SetCurrentHp(int value)
     {
-        CurrentHp = Mathf.Clamp(value, 0, MaxHp);
+        int clampedValue = Mathf.Clamp(value, 0, MaxHp);
+        if (CurrentHp == clampedValue)
+            return false;
+
+        CurrentHp = clampedValue;
+        return true;
     }
 
-    public void SetInjuryState(NPCInjuryState state)
+    public bool SetInjuryState(NPCInjuryState state)
     {
+        if (CurrentInjuryState == state)
+            return false;
+
         CurrentInjuryState = state;
+        return true;
     }
 
-    public void CompleteRecovery()
+    public bool CompleteRecovery()
     {
-        SetCurrentHp(MaxHp);
-        SetInjuryState(NPCInjuryState.Healthy);
+        bool hpChanged = SetCurrentHp(MaxHp);
+        bool injuryChanged = SetInjuryState(NPCInjuryState.Healthy);
+        return hpChanged || injuryChanged;
     }
 
     public bool ApplyDamage(int damage)
@@ -78,8 +114,7 @@ public class NPCRuntimeData
         if (damage <= 0)
             return false;
 
-        SetCurrentHp(CurrentHp - damage);
-        return true;
+        return SetCurrentHp(CurrentHp - damage);
     }
 
     public bool RecoverHp(int amount)
@@ -87,8 +122,7 @@ public class NPCRuntimeData
         if (amount <= 0)
             return false;
 
-        SetCurrentHp(CurrentHp + amount);
-        return true;
+        return SetCurrentHp(CurrentHp + amount);
     }
 
     public bool ReviveToPercent(int percent)
@@ -97,20 +131,11 @@ public class NPCRuntimeData
             return false;
 
         int healAmount = MaxHp * percent / 100;
-        SetCurrentHp(CurrentHp + healAmount);
-        return true;
+        return SetCurrentHp(CurrentHp + healAmount);
     }
 
     public NPCRuntimeData Clone()
     {
-        NPCRuntimeData clone = new NPCRuntimeData(NPCData, RuntimeId)
-        {
-            CurrentInjuryState = CurrentInjuryState,
-            IsAssignedToShelter = IsAssignedToShelter,
-            AssignedRoomId = AssignedRoomId,
-            CurrentHp = CurrentHp
-        };
-
-        return clone;
+        return new NPCRuntimeData(DefinitionId, RuntimeId, Type, MaxHp, CurrentHp, CurrentInjuryState, IsAssignedToShelter, AssignedRoomId);
     }
 }
