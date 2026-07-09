@@ -1,11 +1,11 @@
 public interface IRecoveryComponent
 {
-    bool TryCompleteShelterRecovery(CharacterManager characterManager, string runtimeId, out CharacterActionFailure failure);
+    bool TryCompleteShelterRecovery(CharacterManager characterManager, string definitionId, out CharacterActionFailure failure);
 }
 
 public class RecoveryComponent : IRecoveryComponent
 {
-    public bool TryCompleteShelterRecovery(CharacterManager characterManager, string runtimeId, out CharacterActionFailure failure)
+    public bool TryCompleteShelterRecovery(CharacterManager characterManager, string definitionId, out CharacterActionFailure failure)
     {
         failure = CharacterActionFailure.None;
 
@@ -15,6 +15,6 @@ public class RecoveryComponent : IRecoveryComponent
             return false;
         }
 
-        return characterManager.TryCompleteRecovery(runtimeId, out failure);
+        return characterManager.TryCompleteRecovery(definitionId, out failure);
     }
 }

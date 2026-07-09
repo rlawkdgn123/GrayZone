@@ -94,7 +94,7 @@ public class MainSceneSaveManager : MonoBehaviour
 
         for (int i = 0; i < startingNpcChars.Length; i++)
         {
-            SaveData.NpcSaveData npcSaveData = NpcSaveDataMapper.FromNpcChar(startingNpcChars[i], $"starting_npc_{i + 1}");
+            SaveData.NpcSaveData npcSaveData = NpcSaveDataMapper.FromNpcChar(startingNpcChars[i]);
             if (npcSaveData == null)
             {
                 continue;

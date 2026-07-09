@@ -9,17 +9,17 @@ public class ShelterRuntimeData
     public const int MaxBattleSquadSize = 3;
 
     [SerializeField] private int currentDay = 1;
-    [SerializeField] private List<string> battleSquadNpcRuntimeIds = new List<string>();
+    [SerializeField] private List<string> battleSquadNpcDefinitionIds = new List<string>();
     [SerializeField] private List<FacilityRuntimeState> facilityStates = new List<FacilityRuntimeState>();
 
     public int CurrentDay => Mathf.Max(1, currentDay);
-    public IReadOnlyList<string> BattleSquadNpcRuntimeIds => battleSquadNpcRuntimeIds;
+    public IReadOnlyList<string> BattleSquadNpcDefinitionIds => battleSquadNpcDefinitionIds;
     public IReadOnlyList<FacilityRuntimeState> FacilityStates => facilityStates;
 
     public void EnsureRuntimeContainers()
     {
         currentDay = Mathf.Max(1, currentDay);
-        battleSquadNpcRuntimeIds ??= new List<string>();
+        battleSquadNpcDefinitionIds ??= new List<string>();
         facilityStates ??= new List<FacilityRuntimeState>();
         NormalizeBattleSquad();
 
@@ -39,7 +39,7 @@ public class ShelterRuntimeData
         ShelterRuntimeData clone = new ShelterRuntimeData
         {
             currentDay = CurrentDay,
-            battleSquadNpcRuntimeIds = new List<string>(battleSquadNpcRuntimeIds),
+            battleSquadNpcDefinitionIds = new List<string>(battleSquadNpcDefinitionIds),
             facilityStates = CloneFacilityStates(facilityStates)
         };
 
@@ -55,7 +55,7 @@ public class ShelterRuntimeData
         EnsureRuntimeContainers();
 
         SetCurrentDay(source.CurrentDay);
-        battleSquadNpcRuntimeIds = new List<string>(source.battleSquadNpcRuntimeIds);
+        battleSquadNpcDefinitionIds = new List<string>(source.battleSquadNpcDefinitionIds);
         NormalizeBattleSquad();
         facilityStates = CloneFacilityStates(source.facilityStates);
     }
@@ -65,16 +65,16 @@ public class ShelterRuntimeData
         currentDay = Mathf.Max(1, day);
     }
 
-    public void ApplySavedState(int day, IEnumerable<string> battleSquadRuntimeIds, IEnumerable<FacilityRuntimeState> savedFacilityStates)
+    public void ApplySavedState(int day, IEnumerable<string> battleSquadDefinitionIds, IEnumerable<FacilityRuntimeState> savedFacilityStates)
     {
         SetCurrentDay(day);
 
-        battleSquadNpcRuntimeIds.Clear();
-        if (battleSquadRuntimeIds != null)
+        battleSquadNpcDefinitionIds.Clear();
+        if (battleSquadDefinitionIds != null)
         {
-            foreach (string runtimeId in battleSquadRuntimeIds)
+            foreach (string definitionId in battleSquadDefinitionIds)
             {
-                TryAddBattleSquadNpc(runtimeId);
+                TryAddBattleSquadNpc(definitionId);
             }
         }
 
@@ -118,22 +118,22 @@ public class ShelterRuntimeData
         return created;
     }
 
-    public bool TrySetBattleSquad(IEnumerable<string> runtimeIds)
+    public bool TrySetBattleSquad(IEnumerable<string> definitionIds)
     {
-        if (runtimeIds == null)
+        if (definitionIds == null)
             return false;
 
         List<string> normalizedIds = new List<string>();
-        foreach (string runtimeId in runtimeIds)
+        foreach (string definitionId in definitionIds)
         {
-            if (string.IsNullOrWhiteSpace(runtimeId))
+            if (string.IsNullOrWhiteSpace(definitionId))
                 continue;
 
-            string trimmedRuntimeId = runtimeId.Trim();
-            if (normalizedIds.Contains(trimmedRuntimeId))
+            string trimmedDefinitionId = definitionId.Trim();
+            if (normalizedIds.Contains(trimmedDefinitionId))
                 continue;
 
-            normalizedIds.Add(trimmedRuntimeId);
+            normalizedIds.Add(trimmedDefinitionId);
             if (normalizedIds.Count > MaxBattleSquadSize)
                 return false;
         }
@@ -141,75 +141,75 @@ public class ShelterRuntimeData
         if (normalizedIds.Count < MinBattleSquadSize)
             return false;
 
-        battleSquadNpcRuntimeIds = normalizedIds;
+        battleSquadNpcDefinitionIds = normalizedIds;
         return true;
     }
 
-    public bool TryAddBattleSquadNpc(string runtimeId)
+    public bool TryAddBattleSquadNpc(string definitionId)
     {
-        if (string.IsNullOrWhiteSpace(runtimeId))
+        if (string.IsNullOrWhiteSpace(definitionId))
             return false;
 
-        string trimmedRuntimeId = runtimeId.Trim();
-        if (battleSquadNpcRuntimeIds.Contains(trimmedRuntimeId))
+        string trimmedDefinitionId = definitionId.Trim();
+        if (battleSquadNpcDefinitionIds.Contains(trimmedDefinitionId))
             return true;
 
-        if (battleSquadNpcRuntimeIds.Count >= MaxBattleSquadSize)
+        if (battleSquadNpcDefinitionIds.Count >= MaxBattleSquadSize)
             return false;
 
-        battleSquadNpcRuntimeIds.Add(trimmedRuntimeId);
+        battleSquadNpcDefinitionIds.Add(trimmedDefinitionId);
         return true;
     }
 
-    public bool TryRemoveBattleSquadNpc(string runtimeId)
+    public bool TryRemoveBattleSquadNpc(string definitionId)
     {
-        if (string.IsNullOrWhiteSpace(runtimeId))
+        if (string.IsNullOrWhiteSpace(definitionId))
             return false;
 
-        if (battleSquadNpcRuntimeIds.Count <= MinBattleSquadSize)
+        if (battleSquadNpcDefinitionIds.Count <= MinBattleSquadSize)
             return false;
 
-        return battleSquadNpcRuntimeIds.Remove(runtimeId.Trim());
+        return battleSquadNpcDefinitionIds.Remove(definitionId.Trim());
     }
 
     public void ClearBattleSquad()
     {
-        battleSquadNpcRuntimeIds.Clear();
+        battleSquadNpcDefinitionIds.Clear();
     }
 
-    public void RemoveNpcReferences(string runtimeId)
+    public void RemoveNpcReferences(string definitionId)
     {
-        if (string.IsNullOrWhiteSpace(runtimeId))
+        if (string.IsNullOrWhiteSpace(definitionId))
             return;
 
-        battleSquadNpcRuntimeIds.RemoveAll(id => id == runtimeId.Trim());
+        battleSquadNpcDefinitionIds.RemoveAll(id => id == definitionId.Trim());
     }
 
     private void NormalizeBattleSquad()
     {
-        for (int i = battleSquadNpcRuntimeIds.Count - 1; i >= 0; i--)
+        for (int i = battleSquadNpcDefinitionIds.Count - 1; i >= 0; i--)
         {
-            string runtimeId = battleSquadNpcRuntimeIds[i];
-            if (string.IsNullOrWhiteSpace(runtimeId))
+            string definitionId = battleSquadNpcDefinitionIds[i];
+            if (string.IsNullOrWhiteSpace(definitionId))
             {
-                battleSquadNpcRuntimeIds.RemoveAt(i);
+                battleSquadNpcDefinitionIds.RemoveAt(i);
                 continue;
             }
 
-            battleSquadNpcRuntimeIds[i] = runtimeId.Trim();
+            battleSquadNpcDefinitionIds[i] = definitionId.Trim();
         }
 
-        for (int i = battleSquadNpcRuntimeIds.Count - 1; i >= 0; i--)
+        for (int i = battleSquadNpcDefinitionIds.Count - 1; i >= 0; i--)
         {
-            if (battleSquadNpcRuntimeIds.IndexOf(battleSquadNpcRuntimeIds[i]) != i)
+            if (battleSquadNpcDefinitionIds.IndexOf(battleSquadNpcDefinitionIds[i]) != i)
             {
-                battleSquadNpcRuntimeIds.RemoveAt(i);
+                battleSquadNpcDefinitionIds.RemoveAt(i);
             }
         }
 
-        if (battleSquadNpcRuntimeIds.Count > MaxBattleSquadSize)
+        if (battleSquadNpcDefinitionIds.Count > MaxBattleSquadSize)
         {
-            battleSquadNpcRuntimeIds.RemoveRange(MaxBattleSquadSize, battleSquadNpcRuntimeIds.Count - MaxBattleSquadSize);
+            battleSquadNpcDefinitionIds.RemoveRange(MaxBattleSquadSize, battleSquadNpcDefinitionIds.Count - MaxBattleSquadSize);
         }
     }
 

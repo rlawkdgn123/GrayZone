@@ -117,11 +117,28 @@ public class PlayerInteractor : MonoBehaviour
 
     private void InteractWithCurrentTarget()
     {
-        if (m_uiManager != null && m_uiManager.TryOpenTargetUI(m_currentTarget))
-            return;
+        // 실행은 대상에게 위임한다. UI 여는 시설(FacilityUIInteractable), 수면(SleepInteractable),
+        // 문/작업대 등 모두 IInteractable을 구현하므로 여기서는 타입을 몰라도 된다.
+        IInteractable interactable = ResolveInteractable(m_currentTarget);
 
-        // Later, this is the place to call IInteractable on Door/Bed/Workbench/NPC.
+        if (interactable != null)
+        {
+            interactable.Interact(gameObject);
+            return;
+        }
+
         Debug.Log($"Interact : {m_currentTarget.name}", m_currentTarget);
+    }
+
+    private IInteractable ResolveInteractable(GameObject target)
+    {
+        if (target == null)
+            return null;
+
+        // 규칙: IInteractable은 감지되는 콜라이더 오브젝트에 붙인다.
+        // "콜라이더는 자식, 로직은 루트" 구조를 위해 부모까지만 탐색한다(자신 포함).
+        // 자식 탐색은 중첩 상호작용에서 엉뚱한 대상을 잡을 수 있어 제외한다.
+        return target.GetComponentInParent<IInteractable>();
     }
 
     private void RefreshCurrentTarget()

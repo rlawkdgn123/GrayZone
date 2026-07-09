@@ -2,13 +2,19 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TestButton : MonoBehaviour
+public class TestButton : MonoBehaviour, INPCListItemView
 {
+    [Header("Catalogs")]
+    [SerializeField] private NpcPortraitCatalog npcCatalog;
+    [SerializeField] private NpcInjuryIconCatalog injuryIconCatalog;
+
+    [Header("Images")]
     [SerializeField] private Image portraitImage;
     [SerializeField] private Image injuryImage;
     [SerializeField] private Button button;
 
-    private string runtimeId;
+    private string definitionId;
+    private NPCInjuryState injuryState;
     private Action<string> clicked;
 
     private void Awake()
@@ -21,28 +27,41 @@ public class TestButton : MonoBehaviour
         CacheReferences();
     }
 
-    public void Bind(NPCRuntimeData character, Sprite portrait, Action<string> onClicked)
+    public void Bind(NPCRuntimeData npcData, Action<string> onClicked)
     {
         CacheReferences();
 
-        if (character == null)
+        if (npcData == null || string.IsNullOrWhiteSpace(npcData.DefinitionId))
         {
             Clear();
             return;
         }
 
         gameObject.SetActive(true);
-        runtimeId = character.RuntimeId;
+        definitionId = npcData.DefinitionId.Trim();
+        injuryState = npcData.GetCurrentInjuryState();
         clicked = onClicked;
 
+        Sprite portrait = npcCatalog != null ? npcCatalog.GetPortrait(definitionId) : null;
+        Sprite injuryIcon = injuryIconCatalog != null ? injuryIconCatalog.GetIcon(injuryState) : null;
+
         if (portraitImage != null)
+        {
             portraitImage.sprite = portrait;
+            portraitImage.enabled = portrait != null;
+        }
+
+        if (injuryImage != null)
+        {
+            injuryImage.sprite = injuryIcon;
+            injuryImage.enabled = injuryIcon != null;
+        }
 
         if (button != null)
         {
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(HandleClick);
-            button.interactable = !string.IsNullOrWhiteSpace(runtimeId);
+            button.interactable = !string.IsNullOrWhiteSpace(definitionId);
         }
     }
 
@@ -50,14 +69,21 @@ public class TestButton : MonoBehaviour
     {
         CacheReferences();
 
-        runtimeId = null;
+        definitionId = null;
+        injuryState = NPCInjuryState.Healthy;
         clicked = null;
 
         if (portraitImage != null)
+        {
             portraitImage.sprite = null;
+            portraitImage.enabled = false;
+        }
 
         if (injuryImage != null)
+        {
             injuryImage.sprite = null;
+            injuryImage.enabled = false;
+        }
 
         if (button != null)
         {
@@ -70,8 +96,8 @@ public class TestButton : MonoBehaviour
 
     private void HandleClick()
     {
-        if (!string.IsNullOrWhiteSpace(runtimeId))
-            clicked?.Invoke(runtimeId);
+        if (!string.IsNullOrWhiteSpace(definitionId))
+            clicked?.Invoke(definitionId);
     }
 
     private void CacheReferences()

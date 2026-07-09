@@ -39,7 +39,7 @@ public class ShelterDataManager : MonoBehaviour
     public int TotalOwnedCharacterCount => SharedData.TotalOwnedCharacterCount;
     public int PlayableCharacterCount => SharedData.PlayableCharacterCount;
     public int NonPlayableNpcCount => SharedData.NonPlayableNpcCount;
-    public IReadOnlyList<string> BattleSquadNpcRuntimeIds => ShelterData.BattleSquadNpcRuntimeIds;
+    public IReadOnlyList<string> BattleSquadNpcDefinitionIds => ShelterData.BattleSquadNpcDefinitionIds;
     public int CurrentDay => ShelterData.CurrentDay;
     public int ShelterStability => SharedData.ShelterStability;
 
@@ -98,7 +98,7 @@ public class ShelterDataManager : MonoBehaviour
         }
 
         ApplySharedSnapshot(GameDataManager.Instance.CreateSharedSnapshot());
-        ApplySnapshot(GameDataManager.Instance.CreateShelterSnapshot());
+        ApplyShelterSnapshot(GameDataManager.Instance.CreateShelterSnapshot());
     }
 
     public bool PushToDataManager()
@@ -112,7 +112,7 @@ public class ShelterDataManager : MonoBehaviour
         return GameDataManager.Instance.SyncFromShelter(this);
     }
 
-    public ShelterRuntimeData CreateSnapshot()
+    public ShelterRuntimeData CreateShelterSnapshot()
     {
         return ShelterData.Clone();
     }
@@ -122,7 +122,7 @@ public class ShelterDataManager : MonoBehaviour
         return SharedData.Clone();
     }
 
-    public void ApplySnapshot(ShelterRuntimeData snapshot)
+    public void ApplyShelterSnapshot(ShelterRuntimeData snapshot)
     {
         if (snapshot == null)
         {
@@ -165,20 +165,20 @@ public class ShelterDataManager : MonoBehaviour
         return result;
     }
 
-    public bool TryGetNpc(string runtimeId, out NPCRuntimeData runtimeNpc)
+    public bool TryGetNpc(string definitionId, out NPCRuntimeData runtimeNpc)
     {
-        return NpcRoster.TryGet(runtimeId, out runtimeNpc);
+        return NpcRoster.TryGet(definitionId, out runtimeNpc);
     }
 
-    public bool TryRemoveNpc(string runtimeId)
+    public bool TryRemoveNpc(string definitionId)
     {
-        if (!NpcRoster.Remove(runtimeId))
+        if (!NpcRoster.Remove(definitionId))
         {
             return false;
         }
 
-        SharedData.RemoveNpcReferences(runtimeId);
-        ShelterData.RemoveNpcReferences(runtimeId);
+        SharedData.RemoveNpcReferences(definitionId);
+        ShelterData.RemoveNpcReferences(definitionId);
         SharedData.RefreshCountsFromRosterAsPlayable();
         NotifyShelterDataChanged();
         return true;
@@ -249,33 +249,33 @@ public class ShelterDataManager : MonoBehaviour
         NotifyShelterDataChanged();
     }
 
-    public bool TrySetBattleSquad(IEnumerable<string> runtimeIds)
+    public bool TrySetBattleSquad(IEnumerable<string> definitionIds)
     {
-        if (!CanUseBattleSquad(runtimeIds))
+        if (!CanUseBattleSquad(definitionIds))
             return false;
 
-        bool result = ShelterData.TrySetBattleSquad(runtimeIds);
+        bool result = ShelterData.TrySetBattleSquad(definitionIds);
         if (result)
             NotifyShelterDataChanged();
 
         return result;
     }
 
-    public bool TryAddBattleSquadNpc(string runtimeId)
+    public bool TryAddBattleSquadNpc(string definitionId)
     {
-        if (!CanUseBattleSquadNpc(runtimeId))
+        if (!CanUseBattleSquadNpc(definitionId))
             return false;
 
-        bool result = ShelterData.TryAddBattleSquadNpc(runtimeId);
+        bool result = ShelterData.TryAddBattleSquadNpc(definitionId);
         if (result)
             NotifyShelterDataChanged();
 
         return result;
     }
 
-    public bool TryRemoveBattleSquadNpc(string runtimeId)
+    public bool TryRemoveBattleSquadNpc(string definitionId)
     {
-        bool result = ShelterData.TryRemoveBattleSquadNpc(runtimeId);
+        bool result = ShelterData.TryRemoveBattleSquadNpc(definitionId);
         if (result)
             NotifyShelterDataChanged();
 
@@ -328,26 +328,26 @@ public class ShelterDataManager : MonoBehaviour
         ShelterDataChanged?.Invoke();
     }
 
-    private bool CanUseBattleSquad(IEnumerable<string> runtimeIds)
+    private bool CanUseBattleSquad(IEnumerable<string> definitionIds)
     {
-        if (runtimeIds == null)
+        if (definitionIds == null)
             return false;
 
-        foreach (string runtimeId in runtimeIds)
+        foreach (string definitionId in definitionIds)
         {
-            if (string.IsNullOrWhiteSpace(runtimeId))
+            if (string.IsNullOrWhiteSpace(definitionId))
                 continue;
 
-            if (!CanUseBattleSquadNpc(runtimeId))
+            if (!CanUseBattleSquadNpc(definitionId))
                 return false;
         }
 
         return true;
     }
 
-    private bool CanUseBattleSquadNpc(string runtimeId)
+    private bool CanUseBattleSquadNpc(string definitionId)
     {
-        return !string.IsNullOrWhiteSpace(runtimeId) && NpcRoster.Contains(runtimeId);
+        return !string.IsNullOrWhiteSpace(definitionId) && NpcRoster.Contains(definitionId);
     }
 
     private void EnsureSharedWorkingData()

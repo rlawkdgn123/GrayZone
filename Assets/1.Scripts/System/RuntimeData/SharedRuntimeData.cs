@@ -1,21 +1,15 @@
-using System;
+癤퓎sing System;
 using UnityEngine;
 
 [Serializable]
 public class SharedRuntimeData
 {
-    //ToDo : 공유 데이터 확인
     [SerializeField] private string lastStageId = string.Empty;
-    //셸터 안정도
     [SerializeField] private int shelterStability = 100;
-    //플레이어블 캐릭터 수 ( 나중에 리스트 단위로 관리)
     [SerializeField] private int playableCharacterCount;
-    //논플레이어블 캐릭터수 ( 나중에 리스트 단위로 관리할수도 있음, npc종류가 다양해질경우 )
     [SerializeField] private int npcCount;
 
-    //창고에 대한 정보
     private ResourceStorage resources;
-    //ToDo : Battle쪽 NPC 데이터 넘겨주는 방식에 맞춰야함 (NPC 데이터 정보 )
     private NpcRoster npcRoster;
 
     public string LastStageId => lastStageId ?? string.Empty;
@@ -117,9 +111,9 @@ public class SharedRuntimeData
         SetOwnedCharacterCounts(NpcRoster.Count, 0);
     }
 
-    public void RemoveNpcReferences(string runtimeId)
+    public void RemoveNpcReferences(string definitionId)
     {
-        if (string.IsNullOrWhiteSpace(runtimeId))
+        if (string.IsNullOrWhiteSpace(definitionId))
             return;
     }
 }

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4c166dbb1880f149bf3fa72a30303c4, type: 3}
+  m_Name: NpcInjuryIconCatalog2
+  m_EditorClassIdentifier: Assembly-CSharp::NpcInjuryIconCatalog
+  entries:
+  - state: 0
+    icon: {fileID: 21300000, guid: 8887db11ce90ff44c816328ee7fc3d6b, type: 3}
+  - state: 1
+    icon: {fileID: 21300000, guid: b97fc4f20a3320347b1ade16b0aaa264, type: 3}
+  - state: 2
+    icon: {fileID: 21300000, guid: 204f0e2225f92f04ea743c5a330d05b6, type: 3}
+  - state: 3
+    icon: {fileID: 21300000, guid: c498fce26fe7ff94f8fe911a3966f5af, type: 3}

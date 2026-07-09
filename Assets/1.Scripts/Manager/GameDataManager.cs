@@ -95,8 +95,8 @@ public class GameDataManager : MonoBehaviour
             return false;
         }
 
-        ApplySnapshot(shelterDataManager.CreateSharedSnapshot());
-        ApplyShelterSnapshot(shelterDataManager.CreateSnapshot());
+        ApplySharedSnapshot(shelterDataManager.CreateSharedSnapshot());
+        ApplyShelterSnapshot(shelterDataManager.CreateShelterSnapshot());
         return true;
     }
 
@@ -118,7 +118,7 @@ public class GameDataManager : MonoBehaviour
         };
 
         SharedRuntimeData sharedSnapshot = activeShelterDataManager != null ? activeShelterDataManager.CreateSharedSnapshot() : SharedData.Clone();
-        ShelterRuntimeData shelterSnapshot = activeShelterDataManager != null ? activeShelterDataManager.CreateSnapshot() : ShelterData.Clone();
+        ShelterRuntimeData shelterSnapshot = activeShelterDataManager != null ? activeShelterDataManager.CreateShelterSnapshot() : ShelterData.Clone();
         saveData.shared = CreateSharedSaveData(sharedSnapshot);
         saveData.shelter = CreateShelterSaveData(shelterSnapshot);
         saveData.MarkSavedNow();
@@ -137,7 +137,7 @@ public class GameDataManager : MonoBehaviour
         ApplyShelterSaveData(saveData.shelter ?? new SaveData.ShelterSaveData());
     }
 
-    public void ApplySnapshot(SharedRuntimeData snapshot)
+    public void ApplySharedSnapshot(SharedRuntimeData snapshot)
     {
         if (snapshot == null)
         {
@@ -211,7 +211,7 @@ public class GameDataManager : MonoBehaviour
         SaveData.ShelterSaveData saveData = new SaveData.ShelterSaveData
         {
             currentDay = source.CurrentDay,
-            battleSquadNpcRuntimeIds = new List<string>(source.BattleSquadNpcRuntimeIds)
+            battleSquadNpcDefinitionIds = new List<string>(source.BattleSquadNpcDefinitionIds)
         };
 
         foreach (FacilityRuntimeState state in source.FacilityStates)
@@ -279,7 +279,7 @@ public class GameDataManager : MonoBehaviour
             }
         }
 
-        ShelterData.ApplySavedState(saveData.currentDay, saveData.battleSquadNpcRuntimeIds, facilityStates);
+        ShelterData.ApplySavedState(saveData.currentDay, saveData.battleSquadNpcDefinitionIds, facilityStates);
     }
 
     private bool TryRejectDuplicateOrInvalidRoot()

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public static class NpcSaveDataMapper
 {
-    public static SaveData.NpcSaveData FromNpcChar(NPCChar npcChar, string runtimeId = null)
+    public static SaveData.NpcSaveData FromNpcChar(NPCChar npcChar)
     {
         if (npcChar == null)
         {
@@ -14,12 +14,12 @@ public static class NpcSaveDataMapper
 
         return new SaveData.NpcSaveData
         {
-            runtimeId = ResolveRuntimeId(runtimeId, definitionId),
             definitionId = definitionId,
             type = npcChar.Type,
             maxHp = maxHp,
             currentHp = maxHp,
-            injuryState = NPCInjuryState.Healthy,
+            injuryGauge = npcChar.InjuryGauge,
+            maxInjuryGauge = npcChar.MaxInjuryGauge,
             isAssignedToShelter = false,
             assignedRoomId = string.Empty
         };
@@ -34,12 +34,12 @@ public static class NpcSaveDataMapper
 
         return new SaveData.NpcSaveData
         {
-            runtimeId = runtimeData.RuntimeId,
             definitionId = runtimeData.DefinitionId,
             type = runtimeData.Type,
             maxHp = runtimeData.MaxHp,
             currentHp = runtimeData.GetCurrentHp(),
-            injuryState = runtimeData.GetCurrentInjuryState(),
+            injuryGauge = runtimeData.InjuryGauge,
+            maxInjuryGauge = runtimeData.MaxInjuryGauge,
             isAssignedToShelter = runtimeData.GetIsAssignedToShelter(),
             assignedRoomId = runtimeData.GetAssignedRoomId()
         };
@@ -54,13 +54,14 @@ public static class NpcSaveDataMapper
 
         return new NPCRuntimeData(
             saveData.definitionId,
-            saveData.runtimeId,
             saveData.type,
             saveData.maxHp,
             saveData.currentHp,
-            saveData.injuryState,
             saveData.isAssignedToShelter,
-            saveData.assignedRoomId);
+            saveData.assignedRoomId,
+            saveData.injuryGauge,
+            saveData.maxInjuryGauge
+            );
     }
 
     private static string ResolveDefinitionId(NPCChar npcChar)
@@ -71,15 +72,5 @@ public static class NpcSaveDataMapper
         }
 
         return npcChar.name ?? string.Empty;
-    }
-
-    private static string ResolveRuntimeId(string runtimeId, string definitionId)
-    {
-        if (!string.IsNullOrWhiteSpace(runtimeId))
-        {
-            return runtimeId.Trim();
-        }
-
-        return definitionId ?? string.Empty;
     }
 }

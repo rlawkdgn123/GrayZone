@@ -1,10 +1,9 @@
-using System.Collections.Generic;
+癤퓎sing System.Collections.Generic;
 
 public class NpcRoster
 {
     private readonly List<NPCRuntimeData> npcs = new();
-    //기획 문서상 ID가 추가되었을때 사용할 수 있는 key value
-    private readonly Dictionary<string, NPCRuntimeData> byRuntimeId = new();
+    private readonly Dictionary<string, NPCRuntimeData> byDefinitionId = new();
 
     public IReadOnlyList<NPCRuntimeData> All => npcs;
     public int Count => npcs.Count;
@@ -30,30 +29,30 @@ public class NpcRoster
 
     public bool Add(NPCRuntimeData runtimeData)
     {
-        if (runtimeData == null || string.IsNullOrWhiteSpace(runtimeData.RuntimeId))
+        if (runtimeData == null || string.IsNullOrWhiteSpace(runtimeData.DefinitionId))
         {
             return false;
         }
 
-        string runtimeId = runtimeData.RuntimeId.Trim();
-        if (byRuntimeId.ContainsKey(runtimeId))
+        string definitionId = runtimeData.DefinitionId.Trim();
+        if (byDefinitionId.ContainsKey(definitionId))
         {
             return false;
         }
 
         npcs.Add(runtimeData);
-        byRuntimeId[runtimeId] = runtimeData;
+        byDefinitionId[definitionId] = runtimeData;
         return true;
     }
 
-    public bool Remove(string runtimeId)
+    public bool Remove(string definitionId)
     {
-        if (!TryGet(runtimeId, out NPCRuntimeData runtimeData))
+        if (!TryGet(definitionId, out NPCRuntimeData runtimeData))
         {
             return false;
         }
 
-        byRuntimeId.Remove(runtimeData.RuntimeId.Trim());
+        byDefinitionId.Remove(runtimeData.DefinitionId.Trim());
         npcs.Remove(runtimeData);
         return true;
     }
@@ -65,27 +64,15 @@ public class NpcRoster
             return false;
         }
 
-        return Remove(runtimeData.RuntimeId);
+        return Remove(runtimeData.DefinitionId);
     }
 
-    public bool Contains(string runtimeId)
+    public bool Contains(string definitionId)
     {
-        return !string.IsNullOrWhiteSpace(runtimeId) && byRuntimeId.ContainsKey(runtimeId.Trim());
+        return !string.IsNullOrWhiteSpace(definitionId) && byDefinitionId.ContainsKey(definitionId.Trim());
     }
 
-    public bool TryGet(string runtimeId, out NPCRuntimeData runtimeData)
-    {
-        runtimeData = null;
-
-        if (string.IsNullOrWhiteSpace(runtimeId))
-        {
-            return false;
-        }
-
-        return byRuntimeId.TryGetValue(runtimeId.Trim(), out runtimeData);
-    }
-
-    public bool TryGetFirstByDefinitionId(string definitionId, out NPCRuntimeData runtimeData)
+    public bool TryGet(string definitionId, out NPCRuntimeData runtimeData)
     {
         runtimeData = null;
 
@@ -94,22 +81,17 @@ public class NpcRoster
             return false;
         }
 
-        string trimmedDefinitionId = definitionId.Trim();
-        foreach (NPCRuntimeData npc in npcs)
-        {
-            if (npc != null && npc.DefinitionId == trimmedDefinitionId)
-            {
-                runtimeData = npc;
-                return true;
-            }
-        }
+        return byDefinitionId.TryGetValue(definitionId.Trim(), out runtimeData);
+    }
 
-        return false;
+    public bool TryGetFirstByDefinitionId(string definitionId, out NPCRuntimeData runtimeData)
+    {
+        return TryGet(definitionId, out runtimeData);
     }
 
     public void Clear()
     {
         npcs.Clear();
-        byRuntimeId.Clear();
+        byDefinitionId.Clear();
     }
 }

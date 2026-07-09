@@ -838,7 +838,7 @@ PlayerSettings:
     PS4: 
     PS5: 
     QNX: 
-    Standalone: UNITY_PIPELINE_URP
+    Standalone: UNITY_PIPELINE_URP;MAGICACLOTH2
     VisionOS: 
     WebGL: 
     Windows Store Apps: 

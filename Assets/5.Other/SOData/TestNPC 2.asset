@@ -15,6 +15,7 @@ MonoBehaviour:
   maxHP: 100
   Type: 2
   likeability: 0
-  Health: 0
+  InjuryGauge: 20
+  maxInjuryGauge: 100
   <DefinitionId>k__BackingField: TestNpc03
   <Prefab>k__BackingField: 

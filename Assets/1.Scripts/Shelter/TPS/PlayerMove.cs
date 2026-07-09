@@ -22,6 +22,9 @@ public class PlayerMove : MonoBehaviour
     [SerializeField] private float gravity = -20f;
     [SerializeField] private float groundedStickVelocity = -2f;
 
+    [Header("Jump")]
+    [SerializeField] private float jumpHeight = 1.2f;
+
     [Header("Interactor")]
     [SerializeField] private PlayerInteractor playerInteractor;
 
@@ -32,6 +35,7 @@ public class PlayerMove : MonoBehaviour
     private float rotationVelocity;
     private float animationBlend;
     private Vector3 currentMoveDirection;
+    private bool jumpedThisFrame;
 
 #if ENABLE_INPUT_SYSTEM
     private Vector2 playerInputMove;
@@ -81,6 +85,7 @@ public class PlayerMove : MonoBehaviour
         currentMoveDirection = GetCameraRelativeMoveDirection(MoveInput);
 
         RotateOnlyWhileMoving(currentMoveDirection);
+        ApplyJump();
         ApplyGravity();
         MoveCharacter(currentMoveDirection);
         UpdateAnimator();
@@ -134,6 +139,7 @@ public class PlayerMove : MonoBehaviour
         currentMoveDirection = Vector3.zero;
         rotationVelocity = 0f;
         animationBlend = 0f;
+        jumpedThisFrame = false;
         UpdateAnimator();
     }
 
@@ -232,6 +238,38 @@ public class PlayerMove : MonoBehaviour
         verticalVelocity += gravity * Time.deltaTime;
     }
 
+    private void ApplyJump()
+    {
+        jumpedThisFrame = false;
+
+        if (!characterController.isGrounded)
+            return;
+
+        if (!WasJumpPressed())
+            return;
+
+        verticalVelocity = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        jumpedThisFrame = true;
+    }
+
+    private bool WasJumpPressed()
+    {
+#if ENABLE_INPUT_SYSTEM
+        if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+            return true;
+
+        if (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)
+            return true;
+#endif
+
+#if ENABLE_LEGACY_INPUT_MANAGER
+        if (Input.GetButtonDown("Jump") || Input.GetKeyDown(KeyCode.Space))
+            return true;
+#endif
+
+        return false;
+    }
+
     private void MoveCharacter(Vector3 moveDirection)
     {
         Vector3 horizontalMove = moveDirection * moveSpeed;
@@ -256,7 +294,7 @@ public class PlayerMove : MonoBehaviour
         modelAnimator.SetFloat(speedAnimationId, animationBlend);
         modelAnimator.SetFloat(motionSpeedAnimationId, motionSpeed);
         modelAnimator.SetBool(groundedAnimationId, isGrounded);
-        modelAnimator.SetBool(jumpAnimationId, false);
+        modelAnimator.SetBool(jumpAnimationId, jumpedThisFrame);
         modelAnimator.SetBool(freeFallAnimationId, !isGrounded && verticalVelocity < groundedStickVelocity);
     }
 }
