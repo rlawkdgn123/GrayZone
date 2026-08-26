@@ -1462,7 +1462,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: eef8b3576239ebc45b3b3def531f4a04, type: 2}
+  - {fileID: 2100000, guid: 970b88c9aca3641428b808cf7d8b431b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1489,7 +1489,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 3175056432106976690, guid: 03054dc7ceaf5af4cae99c3e0fd3e06d, type: 3}
+  m_Mesh: {fileID: 3175056432106976690, guid: 8696ae2186738a14c9c77cb572773e37, type: 3}
   m_Bones:
   - {fileID: 989913054556515468}
   - {fileID: 4981911011026928452}
@@ -1820,7 +1820,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2644337924908843311}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: 03054dc7ceaf5af4cae99c3e0fd3e06d, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 01bc9eae3ec99a946b3e15f59c6ec447, type: 3}
   m_Controller: {fileID: 9100000, guid: 3fd17e2adcafe844cbeb5e82f1033584, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
@@ -1898,6 +1898,7 @@ MonoBehaviour:
   m_noiseHearingMultiplier: 1
   m_noiseAwarenessThreshold: 1
   m_noiseAwarenessDecayPerSecond: 0.15
+  m_debugDrawNoiseGauge: 1
   m_reevaluateInterval: 1
   m_switchPathDistanceDelta: 2
 --- !u!114 &442783041056669385
@@ -1936,6 +1937,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae29e012c37f264f9897571061f92bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+  m_enemyType: 1
   m_balanceSO: {fileID: 0}
   m_feedback: {fileID: 0}
   wanderRadius: 8
@@ -1951,6 +1953,9 @@ MonoBehaviour:
   noiseArriveDistance: 1.5
   noiseSearchDuration: 8
   noiseSearchRadius: 5
+  howlRadius: 25
+  howlBroadcastTime: 1.2
+  howlDuration: 3
   targetReevaluateInterval: 1
   targetSwitchPathDistanceDelta: 2
   hitStunDuration: 0.35
@@ -2019,6 +2024,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5fc22966b591ac48b12e131b4c62595, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RagdollController
+  m_inheritAnimationVelocity: 1
+  m_inheritedVelocityScale: 1
+  m_maxInheritedSpeed: 10
 --- !u!1 &2657728724699594717
 GameObject:
   m_ObjectHideFlags: 0

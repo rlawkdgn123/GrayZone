@@ -46,8 +46,17 @@ MonoBehaviour:
   m_recoilFovPunch: 1.5
   m_recoilFovPunchAds: 1.5
   m_damageFalloff:
-    m_mode: 0
-    m_trackMinDistance: 0
-    m_trackMaxDistance: 0
-    m_steps: []
+    m_mode: 1
+    m_trackMinDistance: 5
+    m_trackMaxDistance: 80
+    m_steps:
+    - m_maxDistance: 30
+      m_damageMultiplier: 1
+      m_flatDamage: 3
+    - m_maxDistance: 60
+      m_damageMultiplier: 0.7
+      m_flatDamage: 2
+    - m_maxDistance: 100
+      m_damageMultiplier: 0.4
+      m_flatDamage: 1
   m_stoppingPower: 0

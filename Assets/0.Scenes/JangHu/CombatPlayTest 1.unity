@@ -68486,6 +68486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae29e012c37f264f9897571061f92bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+  m_enemyType: 1
   m_balanceSO: {fileID: 0}
   m_feedback: {fileID: 0}
   wanderRadius: 8
@@ -73818,6 +73819,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_nonCombatBackViewCamera: {fileID: 0}
+  m_nonCombatBackView: 1
+  m_idleBackView: 0
+  m_freeLookIdleDelay: 1.5
+  m_combatRotationSmoothTime: 0.03
   m_landingAudioClip: {fileID: 0}
   m_footstepAudioClips: []
   m_footstepAudioVolume: 0.5
@@ -77584,6 +77590,11 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  m_nonCombatBackViewCamera: {fileID: 0}
+  m_nonCombatBackView: 1
+  m_idleBackView: 0
+  m_freeLookIdleDelay: 1.5
+  m_combatRotationSmoothTime: 0.03
   m_landingAudioClip: {fileID: 0}
   m_footstepAudioClips: []
   m_footstepAudioVolume: 0.5
@@ -104336,6 +104347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae29e012c37f264f9897571061f92bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
+  m_enemyType: 1
   m_balanceSO: {fileID: 11400000, guid: 9199ae7a21bc4dc6a804e2275068cbd5, type: 2}
   m_feedback: {fileID: 0}
   wanderRadius: 8
@@ -152577,9 +152589,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32c10d7c55ce4fee87d12ad3561563ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCorpseSettings
-  m_destroyCorpse: 1
-  m_corpseLifetime: 3
-  m_useRagdoll: 1
+  m_perTypeSettings:
+  - m_enemyType: 0
+    m_destroyCorpse: 1
+    m_corpseLifetime: 3
+    m_useRagdoll: 1
+  - m_enemyType: 1
+    m_destroyCorpse: 1
+    m_corpseLifetime: 3
+    m_useRagdoll: 1
 --- !u!114 &910000000000010006
 MonoBehaviour:
   m_ObjectHideFlags: 0

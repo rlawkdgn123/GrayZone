@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4761e63e20602fe419b47f7437ae8821
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 256451
+  packageName: Urban Abandoned District
+  packageVersion: 1.2
+  assetPath: Assets/ScansFactory/UrbanDistrict/Common/Scripts/TriggerLoad_Prefabs.cs
+  uploadId: 774897

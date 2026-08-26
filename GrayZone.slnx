@@ -2,8 +2,8 @@
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="MagicaClothV2.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
-  <Project Path="VInspector.csproj" />
-  <Project Path="VHierarchy.csproj" />
   <Project Path="MagicaClothV2.Editor.csproj" />
   <Project Path="MagicaCloth2Example.csproj" />
+  <Project Path="VInspector.csproj" />
+  <Project Path="VHierarchy.csproj" />
 </Solution>

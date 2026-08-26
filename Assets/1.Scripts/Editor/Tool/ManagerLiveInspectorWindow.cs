@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 ///
 /// Drag any GameObject from the Hierarchy into the window; the tool reflects over
 /// every MonoBehaviour on it and renders the values it EXPOSES — public instance
-/// properties (e.g. OwnedCharacterCount / ShelterStability / ResourceAmounts / OwnedCharacters) and,
+/// properties (e.g. RosterCount / ShelterStability / ResourceAmounts / Npcs) and,
 /// optionally, [SerializeField] private fields. Nothing is hard-coded per manager:
 /// whatever a component exposes is shown automatically. Dictionaries and lists are
 /// expanded, complex objects (e.g. NPCRuntimeData) recurse a couple of levels, and
@@ -43,37 +43,12 @@ public class ManagerLiveInspectorWindow : EditorWindow
     private readonly Dictionary<string, string> m_lastValue = new Dictionary<string, string>();
     private readonly Dictionary<string, double> m_changeTime = new Dictionary<string, double>();
 
-    [MenuItem("Tools/GrayZone/Manager Live Inspector")]
+    [MenuItem("GrayZone/Manager Live Inspector")]
     private static void Open()
     {
         ManagerLiveInspectorWindow window = GetWindow<ManagerLiveInspectorWindow>("Manager Live");
         window.minSize = new Vector2(360, 320);
         window.Show();
-    }
-
-    private void OnEnable()
-    {
-        AutoFindGameContainer();
-    }
-
-    /// <summary>
-    /// 게임 전역 데이터 컨테이너(<see cref="GameDataManager"/>)를 열려 있는 씬에서 자동으로 찾아
-    /// 감시 목록에 추가합니다. 매번 드래그로 넣지 않아도 창을 열면 바로 보이도록 하기 위함입니다.
-    /// 이미 감시 중이면 중복 추가하지 않고, 씬에 없으면 조용히 넘어갑니다(드래그로 수동 추가는 계속 가능).
-    /// </summary>
-    private void AutoFindGameContainer()
-    {
-        GameDataManager container = Object.FindFirstObjectByType<GameDataManager>(FindObjectsInactive.Include);
-        if (container == null)
-        {
-            return;
-        }
-
-        GameObject go = container.gameObject;
-        if (!m_targets.Contains(go))
-        {
-            m_targets.Add(go);
-        }
     }
 
     private void OnInspectorUpdate()

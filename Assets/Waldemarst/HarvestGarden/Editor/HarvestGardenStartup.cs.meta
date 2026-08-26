@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 9f849b04960e3d72a9eb1c10fb8fc71b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 316092
+  packageName: Harvest Garden
+  packageVersion: 1.0.8
+  assetPath: Assets/Waldemarst/HarvestGarden/Editor/HarvestGardenStartup.cs
+  uploadId: 935098

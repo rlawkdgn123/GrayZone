@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 2b69373ec0e1f2dd29018b297f40bf04
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 316092
+  packageName: Harvest Garden
+  packageVersion: 1.0.8
+  assetPath: Assets/Waldemarst/HarvestGarden/Scripts/BroccoliTreeController_Harvest_1_10_0.cs
+  uploadId: 935098

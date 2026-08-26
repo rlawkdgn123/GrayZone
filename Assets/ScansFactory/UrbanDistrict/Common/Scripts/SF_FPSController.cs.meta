@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d2bb9d806e1461c4b8dcd4bec9ab1301
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 256451
+  packageName: Urban Abandoned District
+  packageVersion: 1.2
+  assetPath: Assets/ScansFactory/UrbanDistrict/Common/Scripts/SF_FPSController.cs
+  uploadId: 774897

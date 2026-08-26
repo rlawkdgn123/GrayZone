@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: c71aebfca6edd6e45b49fb2d7c67e3cc
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 256451
+  packageName: Urban Abandoned District
+  packageVersion: 1.2
+  assetPath: Assets/ScansFactory/UrbanDistrict/Common/Scripts/HideGameOjbects.cs
+  uploadId: 774897
