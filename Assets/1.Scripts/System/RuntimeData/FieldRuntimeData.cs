@@ -606,6 +606,7 @@ public sealed class FieldMemberEntryData
     [SerializeField] private bool isDown;
     [SerializeField] private bool isCombatOut;
     [Min(0)][SerializeField] private int killCount;
+    [Min(0)][SerializeField] private int temporaryHpPenalty;
 
     /// <summary>영속 보유 캐릭터 목록에서 사용하는 캐릭터 정의 ID입니다.</summary>
     public string DefinitionId => definitionId ?? string.Empty;
@@ -660,6 +661,9 @@ public sealed class FieldMemberEntryData
 
     /// <summary>입장 스냅샷에 포함된 현재 출격의 캐릭터별 처치 수입니다.</summary>
     public int KillCount => Mathf.Max(0, killCount);
+
+    /// <summary>출격 중에만 적용하고 귀환 정산 시 복원할 고정 HP 감소량입니다.</summary>
+    public int TemporaryHpPenalty => Mathf.Max(0, temporaryHpPenalty);
 
     /// <summary>셸터와 필드가 공통으로 사용하는 캐릭터·총기 스냅샷입니다.</summary>
     public CharacterSnapshotData Snapshot => new CharacterSnapshotData(
@@ -758,10 +762,28 @@ public sealed class FieldMemberEntryData
         killCount = source.KillCount;
     }
 
+    /// <summary>공용 캐릭터 스냅샷에 출격 중 임시 HP 감소를 적용합니다.</summary>
+    public FieldMemberEntryData(CharacterSnapshotData snapshot, int requestedTemporaryHpPenalty)
+        : this(snapshot)
+    {
+        temporaryHpPenalty = Mathf.Min(
+            Mathf.Max(0, requestedTemporaryHpPenalty),
+            currentHp);
+        currentHp -= temporaryHpPenalty;
+    }
+
+    /// <summary>이미 HP가 감소된 스냅샷에 임시 감소량 메타데이터만 유지합니다.</summary>
+    public void PreserveTemporaryHpPenalty(int amount)
+    {
+        temporaryHpPenalty = Mathf.Max(0, amount);
+    }
+
     /// <summary>현재 값을 복제한 새 멤버 입장 데이터를 반환합니다.</summary>
     public FieldMemberEntryData Clone()
     {
-        return new FieldMemberEntryData(Snapshot);
+        FieldMemberEntryData clone = new FieldMemberEntryData(Snapshot);
+        clone.PreserveTemporaryHpPenalty(TemporaryHpPenalty);
+        return clone;
     }
 }
 
@@ -954,6 +976,8 @@ public sealed class FieldMemberRuntimeData
 
     /// <summary>이 멤버가 확정한 적 처치 수입니다.</summary>
     public int KillCount => Mathf.Max(0, killCount);
+
+    public int TemporaryHpPenalty => entryData?.TemporaryHpPenalty ?? 0;
 
     /// <summary>GameDataManager와 필드 결과가 그대로 공유하는 현재 캐릭터 스냅샷입니다.</summary>
     public CharacterSnapshotData Snapshot
@@ -1421,26 +1445,31 @@ public sealed class FieldRuntimeData
 public sealed class FieldMemberResultData
 {
     [SerializeField] private CharacterSnapshotData snapshot;
+    [Min(0)][SerializeField] private int temporaryHpPenalty;
 
     /// <summary>GameDataManager에 변환 없이 전달할 공용 캐릭터·총기 최종 스냅샷입니다.</summary>
     public CharacterSnapshotData Snapshot => snapshot?.Clone();
+
+    public int TemporaryHpPenalty => Mathf.Max(0, temporaryHpPenalty);
 
     /// <summary>멤버 런타임 상태에서 공용 캐릭터·총기 최종 스냅샷만 복제해 결과로 고정합니다.</summary>
     public FieldMemberResultData(FieldMemberRuntimeData runtimeData)
     {
         snapshot = runtimeData?.Snapshot;
+        temporaryHpPenalty = runtimeData?.TemporaryHpPenalty ?? 0;
     }
 
     /// <summary>이미 생성된 공용 캐릭터·총기 스냅샷을 멤버 최종 결과로 고정합니다.</summary>
-    public FieldMemberResultData(CharacterSnapshotData snapshot)
+    public FieldMemberResultData(CharacterSnapshotData snapshot, int temporaryHpPenalty = 0)
     {
         this.snapshot = snapshot?.Clone();
+        this.temporaryHpPenalty = Mathf.Max(0, temporaryHpPenalty);
     }
 
     /// <summary>멤버 최종 결과를 깊은 복사하여 반환합니다.</summary>
     public FieldMemberResultData Clone()
     {
-        return new FieldMemberResultData(snapshot);
+        return new FieldMemberResultData(snapshot, TemporaryHpPenalty);
     }
 }
 

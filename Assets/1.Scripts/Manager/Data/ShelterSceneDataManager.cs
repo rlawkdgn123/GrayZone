@@ -65,6 +65,10 @@ public class ShelterSceneDataManager : MonoBehaviour
     /// <summary>현재 셸터 안정도</summary>
     public int ShelterStability => RuntimeData.ShelterStability;
 
+    public bool FoodShortagePenaltyActive => RuntimeData.FoodShortagePenaltyActive;
+
+    public bool FuelShortagePenaltyActive => RuntimeData.FuelShortagePenaltyActive;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -163,6 +167,8 @@ public class ShelterSceneDataManager : MonoBehaviour
 
         RuntimeData.CopyFrom(snapshot);
         storageFacility?.NotifySnapshotApplied();
+        FacilityManager.Instance?.ApplyFuelShortagePenalty(
+            RuntimeData.FuelShortagePenaltyActive);
         NotifyShelterDataChanged();
     }
 
@@ -276,6 +282,12 @@ public class ShelterSceneDataManager : MonoBehaviour
     public void SetShelterStability(int stability)
     {
         RuntimeData.SetShelterStability(stability);
+        NotifyShelterDataChanged();
+    }
+
+    public void SetResourceShortagePenaltyState(bool foodActive, bool fuelActive)
+    {
+        RuntimeData.SetResourceShortagePenaltyState(foodActive, fuelActive);
         NotifyShelterDataChanged();
     }
 

@@ -47,10 +47,10 @@ public readonly struct ManufacturingMaterialQuoteLine
 /// 제조 작업과 창고 상태는 각각 <see cref="ShelterSceneDataManager.Manufacturing"/>과
 /// <see cref="ShelterSceneDataManager.Storage"/>를 직접 사용하며 이 컴포넌트가 복제본을 소유하지 않습니다.
 /// </remarks>
-public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable
+public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable, IFuelShortageAffected
 {
     private const int MaxLevelIndex = 3;
-    private const int TotalCraftingSlotCount = 4;
+    private const int TotalCraftingSlotCount = ManufacturingRuntimeData.SlotCount;
     private const int TotalHelperSlotCount = 2;
 
     private static readonly ManufacturingJobRuntimeData[] EmptyJobs =
@@ -82,6 +82,8 @@ public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable
     [SerializeField] private int baseProductivity = 5;
     [Min(0)]
     [SerializeField] private int level3ProductivityBonus = 5;
+    [Min(0)]
+    [SerializeField] private int fuelShortageEfficiencyDecrease = 2;
     [SerializeField] private HelperProductivityBonus[] helperProductivityBonuses =
     {
         new HelperProductivityBonus { type = NPCType.Tanker, bonus = 2 },
@@ -95,6 +97,9 @@ public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable
     [SerializeField] private int secondHelperSlotUnlockLevel = 3;
 
     private bool m_isUnlocked = true;
+    private bool m_isFuelShortageActive;
+    // 임시 빌드 전용: 슬롯별 1회 사용 상태. 세이브하지 않으며 방어전 귀환 연결점에서 재충전한다.
+    private readonly bool[] m_craftingSlotAvailable = new bool[TotalCraftingSlotCount];
 
     /// <summary>작업 생성, 진행, 취소 또는 시설 상태가 바뀌었을 때 발생합니다.</summary>
     public event Action StateChanged;
@@ -143,6 +148,7 @@ public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable
     private void Awake()
     {
         CacheDependencies();
+        RechargeAllCraftingSlots();
     }
 
     private void OnValidate()
@@ -152,6 +158,7 @@ public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable
         maxOrderQuantity = Mathf.Max(1, maxOrderQuantity);
         baseProductivity = Mathf.Max(1, baseProductivity);
         level3ProductivityBonus = Mathf.Max(0, level3ProductivityBonus);
+        fuelShortageEfficiencyDecrease = Mathf.Max(0, fuelShortageEfficiencyDecrease);
         secondHelperSlotUnlockLevel = Mathf.Clamp(secondHelperSlotUnlockLevel, 1, 4);
         recipes ??= Array.Empty<ManufacturingRecipeDefinition>();
         helperProductivityBonuses ??= Array.Empty<HelperProductivityBonus>();
@@ -161,8 +168,11 @@ public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable
     {
         CacheDependencies();
 
+        // 방어전을 위한 로직 변경
+        /*
         if (GameDateManager.Instance != null)
             GameDateManager.Instance.DayAdvanced += OnDayAdvanced;
+        */
 
         if (characterManager != null)
             characterManager.CharactersChanged += OnCharactersChanged;
@@ -173,8 +183,11 @@ public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable
 
     private void OnDestroy()
     {
+        // 방어전을 위한 로직 변경
+        /*
         if (GameDateManager.Instance != null)
             GameDateManager.Instance.DayAdvanced -= OnDayAdvanced;
+        */
 
         if (characterManager != null)
             characterManager.CharactersChanged -= OnCharactersChanged;
@@ -193,6 +206,16 @@ public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable
         m_isUnlocked = isUnlocked;
         RefreshLevelVisuals();
         NotifyStateChanged();
+    }
+
+    public void ApplyFuelShortageState(bool isActive)
+    {
+        if (m_isFuelShortageActive == isActive)
+            return;
+
+        m_isFuelShortageActive = isActive;
+        HelpersChanged?.Invoke();
+        StateChanged?.Invoke();
     }
 
     public CostBundle GetUpgradeCost(int currentLevel)
@@ -482,6 +505,137 @@ public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable
         return true;
     }
 
+    /// <summary>임시 빌드 전용: 지정 제작 슬롯의 1회 사용 가능 상태를 반환합니다.</summary>
+    public bool IsCraftingSlotAvailable(int slotIndex)
+    {
+        return slotIndex >= 0
+            && slotIndex < m_craftingSlotAvailable.Length
+            && m_craftingSlotAvailable[slotIndex];
+    }
+
+    /// <summary>
+    /// 임시 빌드 전용: 기존 레시피 재료 비용을 즉시 차감하고 결과물을 바로 창고에 입고합니다.
+    /// 날짜 작업, 진행 게이지, 취소 및 환불 데이터는 만들지 않습니다.
+    /// </summary>
+    public bool TryCraftImmediately(
+        int slotIndex,
+        string recipeId,
+        int requestedBatchCount,
+        out ManufacturingStartJobFailureReason failureReason)
+    {
+        failureReason = ManufacturingStartJobFailureReason.None;
+
+        if (slotIndex < 0 || slotIndex >= TotalCraftingSlotCount)
+        {
+            failureReason = ManufacturingStartJobFailureReason.InvalidSlot;
+            return false;
+        }
+
+        if (!IsCraftingSlotUnlocked(slotIndex))
+        {
+            failureReason = ManufacturingStartJobFailureReason.SlotLocked;
+            return false;
+        }
+
+        if (!IsCraftingSlotAvailable(slotIndex))
+        {
+            failureReason = ManufacturingStartJobFailureReason.SlotOccupied;
+            return false;
+        }
+
+        if (requestedBatchCount < 1 || requestedBatchCount > maxOrderQuantity)
+        {
+            failureReason = ManufacturingStartJobFailureReason.InvalidQuantity;
+            return false;
+        }
+
+        if (!TryGetRecipe(recipeId, out ManufacturingRecipeDefinition recipe))
+        {
+            failureReason = ManufacturingStartJobFailureReason.RecipeNotFound;
+            return false;
+        }
+
+        if (!IsRecipeUnlocked(recipe))
+        {
+            failureReason = ManufacturingStartJobFailureReason.RecipeLocked;
+            return false;
+        }
+
+        if (!recipe.HasValidResult)
+        {
+            failureReason = ManufacturingStartJobFailureReason.InvalidResultItem;
+            return false;
+        }
+
+        if (!TryGetContext(
+                out ShelterSceneDataManager dataManager,
+                out StorageFacility storage,
+                out ManufacturingRuntimeData runtimeData))
+        {
+            failureReason = ManufacturingStartJobFailureReason.ContextUnavailable;
+            return false;
+        }
+
+        if (runtimeData.TryGetJob(slotIndex, out _))
+        {
+            failureReason = ManufacturingStartJobFailureReason.SlotOccupied;
+            return false;
+        }
+
+        CostBundle unitCost = recipe.BuildUnitCost();
+        if (!TryBuildQuantityCost(unitCost, requestedBatchCount, out CostBundle totalCost))
+        {
+            failureReason = ManufacturingStartJobFailureReason.CostOverflow;
+            return false;
+        }
+
+        if (!TryCalculateResultQuantity(
+                requestedBatchCount,
+                recipe.ResultQuantityPerBatch,
+                out int totalResultQuantity)
+            || !CanStoreResultQuantity(
+                storage,
+                recipe.ResultKind,
+                recipe.ResultDefinitionId,
+                totalResultQuantity))
+        {
+            failureReason = ManufacturingStartJobFailureReason.ResultQuantityOverflow;
+            return false;
+        }
+
+        if (!storage.TrySpendResources(totalCost))
+        {
+            failureReason = ManufacturingStartJobFailureReason.InsufficientResources;
+            return false;
+        }
+
+        if (!TryStoreCompletedResult(
+                storage,
+                recipe.ResultKind,
+                recipe.ResultDefinitionId,
+                totalResultQuantity))
+        {
+            failureReason = ManufacturingStartJobFailureReason.RuntimeDataRejected;
+            return false;
+        }
+
+        m_craftingSlotAvailable[slotIndex] = false;
+        dataManager.MarkDirty();
+        NotifyJobsChanged();
+        return true;
+    }
+
+    /// <summary>
+    /// 임시 빌드 전용 방어전 귀환 연결점입니다. 방어전 결과 확정 후 셸터 진입 시 호출합니다.
+    /// </summary>
+    public void RechargeAllCraftingSlots()
+    {
+        for (int i = 0; i < m_craftingSlotAvailable.Length; i++)
+            m_craftingSlotAvailable[i] = true;
+
+        NotifyJobsChanged();
+    }
+
     /// <summary>
     /// 진행 중인 작업을 취소하고 아직 완성되지 않은 수량분의 시작 당시 비용을 환불합니다.
     /// </summary>
@@ -592,6 +746,8 @@ public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable
         return manager.TryReleaseFromFacility(runtimeId, out _);
     }
 
+    // 방어전을 위한 로직 변경
+    /*
     private void OnDayAdvanced(int previousDay, int nextDay)
     {
         if (!m_isUnlocked
@@ -673,6 +829,7 @@ public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable
         dataManager.MarkDirty();
         NotifyJobsChanged();
     }
+    */
 
     private void OnCharactersChanged()
     {
@@ -683,14 +840,17 @@ public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable
     private int CalculateFinalProductivity()
     {
         int total = baseProductivity + LevelProductivityBonus(CurrentLevel);
-        if (!TryGetCharacterManager(out CharacterManager manager))
-            return Mathf.Max(1, total);
-
-        foreach (ShelterMemberRuntimeData character in manager.Characters)
+        if (TryGetCharacterManager(out CharacterManager manager))
         {
-            if (IsAssignedHelper(character))
-                total += GetHelperProductivityBonus(character.Type);
+            foreach (ShelterMemberRuntimeData character in manager.Characters)
+            {
+                if (IsAssignedHelper(character))
+                    total += GetHelperProductivityBonus(character.Type);
+            }
         }
+
+        if (m_isFuelShortageActive)
+            total -= fuelShortageEfficiencyDecrease;
 
         return Mathf.Max(1, total);
     }

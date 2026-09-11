@@ -69,6 +69,8 @@ public sealed class ShelterRuntimeData
 
     [SerializeField] private int shelterStability = 100;
     [SerializeField] private int currentDay = 1;
+    [SerializeField] private bool foodShortagePenaltyActive;
+    [SerializeField] private bool fuelShortagePenaltyActive;
     [FormerlySerializedAs("battleSquadNpcDefinitionIds")]
     [FormerlySerializedAs("battleSquadRuntimeIds")]
     [SerializeField] private List<string> fieldSquadRuntimeIds = new();
@@ -85,6 +87,8 @@ public sealed class ShelterRuntimeData
     public int TotalOwnedCharacterCount => CharacterCount;
     public int CharacterCount => Characters.Count;
     public int CurrentDay => Mathf.Max(1, currentDay);
+    public bool FoodShortagePenaltyActive => foodShortagePenaltyActive;
+    public bool FuelShortagePenaltyActive => fuelShortagePenaltyActive;
     public IReadOnlyList<string> FieldSquadRuntimeIds => fieldSquadRuntimeIds;
     public IReadOnlyList<FacilityRuntimeState> FacilityStates => facilityStates;
     public IReadOnlyList<ShelterMemberRuntimeData> Characters => characters;
@@ -148,6 +152,8 @@ public sealed class ShelterRuntimeData
         {
             shelterStability = ShelterStability,
             currentDay = CurrentDay,
+            foodShortagePenaltyActive = FoodShortagePenaltyActive,
+            fuelShortagePenaltyActive = FuelShortagePenaltyActive,
             fieldSquadRuntimeIds = new List<string>(fieldSquadRuntimeIds),
             facilityStates = CloneFacilityStates(facilityStates),
             characters = CloneCharacters(characters),
@@ -167,6 +173,8 @@ public sealed class ShelterRuntimeData
         itemStorageEntries ??= new List<ItemStorageEntry>();
         shelterStability = source.ShelterStability;
         currentDay = source.CurrentDay;
+        foodShortagePenaltyActive = source.FoodShortagePenaltyActive;
+        fuelShortagePenaltyActive = source.FuelShortagePenaltyActive;
         fieldSquadRuntimeIds = new List<string>(source.fieldSquadRuntimeIds);
         facilityStates = CloneFacilityStates(source.facilityStates);
         characters = CloneCharacters(source.characters);
@@ -179,6 +187,12 @@ public sealed class ShelterRuntimeData
     public void SetShelterStability(int stability) => shelterStability = Mathf.Clamp(stability, 0, 100);
 
     public void SetCurrentDay(int day) => currentDay = Mathf.Max(1, day);
+
+    public void SetResourceShortagePenaltyState(bool foodActive, bool fuelActive)
+    {
+        foodShortagePenaltyActive = foodActive;
+        fuelShortagePenaltyActive = fuelActive;
+    }
 
     /// <summary>현재 보유 아이템 목록을 깊은 복사해 셸터 작업 데이터에 적용합니다.</summary>
     public void SetItemStorageEntries(IEnumerable<ItemStorageEntry> entries)

@@ -65,7 +65,7 @@ public sealed class OperationCenter : MonoBehaviour
         SelectionChanged?.Invoke();
     }
 
-    /// <summary>보유 캐릭터 전체를 출격 후보 버퍼에 채웁니다.</summary>
+    /// <summary>정상·경상이며 생존 중인 캐릭터만 출격 후보 버퍼에 채웁니다.</summary>
     public void FillDeploymentCandidates(List<ShelterMemberRuntimeData> results)
     {
         if (results == null)
@@ -73,8 +73,16 @@ public sealed class OperationCenter : MonoBehaviour
 
         results.Clear();
         CharacterManager manager = CacheCharacterManager();
-        if (manager != null)
-            manager.FillAllCharacters(results);
+        if (manager == null)
+            return;
+
+        IReadOnlyList<ShelterMemberRuntimeData> characters = manager.Characters;
+        for (int i = 0; i < characters.Count; i++)
+        {
+            ShelterMemberRuntimeData character = characters[i];
+            if (CanDeployCharacter(character))
+                results.Add(character);
+        }
     }
 
     /// <summary>캐릭터를 임시 명단에 추가하거나, 이미 선택되어 있으면 제거합니다.</summary>
@@ -94,7 +102,9 @@ public sealed class OperationCenter : MonoBehaviour
         }
 
         CharacterManager manager = CacheCharacterManager();
-        if (manager == null || !manager.TryGetCharacter(id, out _))
+        if (manager == null
+            || !manager.TryGetCharacter(id, out ShelterMemberRuntimeData character)
+            || !CanDeployCharacter(character))
             return false;
 
         if (m_pendingSquadRuntimeIds.Count >= ShelterRuntimeData.MaxFieldSquadSize)
@@ -150,7 +160,7 @@ public sealed class OperationCenter : MonoBehaviour
 
         if (!ValidateSquad(m_confirmedSquadRuntimeIds))
         {
-            Debug.LogWarning("[OperationCenter] Exactly three confirmed characters are required.", this);
+            Debug.LogWarning("[OperationCenter] Exactly three deployable characters are required.", this);
             return false;
         }
 
@@ -201,7 +211,8 @@ public sealed class OperationCenter : MonoBehaviour
             string id = NormalizeId(runtimeIds[i]);
             if (string.IsNullOrEmpty(id)
                 || !uniqueIds.Add(id)
-                || !manager.TryGetCharacter(id, out _))
+                || !manager.TryGetCharacter(id, out ShelterMemberRuntimeData character)
+                || !CanDeployCharacter(character))
             {
                 return false;
             }
@@ -217,7 +228,11 @@ public sealed class OperationCenter : MonoBehaviour
 
         for (int i = m_pendingSquadRuntimeIds.Count - 1; i >= 0; i--)
         {
-            if (manager == null || !manager.TryGetCharacter(m_pendingSquadRuntimeIds[i], out _))
+            if (manager == null
+                || !manager.TryGetCharacter(
+                    m_pendingSquadRuntimeIds[i],
+                    out ShelterMemberRuntimeData character)
+                || !CanDeployCharacter(character))
             {
                 m_pendingSquadRuntimeIds.RemoveAt(i);
                 changed = true;
@@ -310,5 +325,14 @@ public sealed class OperationCenter : MonoBehaviour
     private static string NormalizeId(string runtimeId)
     {
         return runtimeId?.Trim() ?? string.Empty;
+    }
+
+    private static bool CanDeployCharacter(ShelterMemberRuntimeData character)
+    {
+        if (character == null || character.IsDead || character.IsDown)
+            return false;
+
+        return character.InjuryState == CharacterInjuryState.Normal
+            || character.InjuryState == CharacterInjuryState.Minor;
     }
 }

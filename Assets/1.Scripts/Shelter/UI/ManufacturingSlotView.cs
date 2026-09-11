@@ -17,6 +17,7 @@ public sealed class ManufacturingSlotView : MonoBehaviour
     [Header("Sprites")]
     [SerializeField] private Sprite m_emptySprite;
     [SerializeField] private Sprite m_lockedSprite;
+    [SerializeField] private Sprite m_usedSprite;
 
     [Header("Texts")]
     [SerializeField] private TMP_Text m_nameText;
@@ -25,12 +26,15 @@ public sealed class ManufacturingSlotView : MonoBehaviour
 
     private int m_slotIndex = -1;
     private bool m_isUnlocked;
+    // 임시 빌드 전용: 매니저에서 전달받은 이 슬롯의 1회 사용 가능 상태.
+    private bool m_isAvailable;
     private bool m_hasJob;
     private bool m_isInteractionEnabled = true;
     private Action<int> m_slotClicked;
     private Action<int> m_cancelClicked;
 
     public int SlotIndex => m_slotIndex;
+    public bool IsAvailable => m_isAvailable;
     public bool HasJob => m_hasJob;
 
     private void Awake()
@@ -46,6 +50,7 @@ public sealed class ManufacturingSlotView : MonoBehaviour
     public void Bind(
         int slotIndex,
         bool isUnlocked,
+        bool isAvailable,
         ManufacturingJobRuntimeData job,
         ManufacturingRecipeDefinition recipe,
         int productivity,
@@ -56,6 +61,7 @@ public sealed class ManufacturingSlotView : MonoBehaviour
 
         m_slotIndex = slotIndex;
         m_isUnlocked = isUnlocked;
+        m_isAvailable = isAvailable;
         m_hasJob = job != null;
         m_slotClicked = onSlotClicked;
         m_cancelClicked = onCancelClicked;
@@ -65,14 +71,14 @@ public sealed class ManufacturingSlotView : MonoBehaviour
             m_itemButton.onClick.RemoveListener(HandleSlotClicked);
             m_itemButton.onClick.AddListener(HandleSlotClicked);
             m_itemButton.interactable =
-                m_isInteractionEnabled && m_isUnlocked && !m_hasJob;
+                m_isInteractionEnabled && m_isUnlocked && m_isAvailable && !m_hasJob;
         }
 
         if (m_cancelButton != null)
         {
             m_cancelButton.onClick.RemoveListener(HandleCancelClicked);
             m_cancelButton.onClick.AddListener(HandleCancelClicked);
-            m_cancelButton.gameObject.SetActive(m_isUnlocked && m_hasJob);
+            m_cancelButton.gameObject.SetActive(m_isUnlocked && m_isAvailable && m_hasJob);
             m_cancelButton.interactable = m_isInteractionEnabled;
         }
 
@@ -89,7 +95,7 @@ public sealed class ManufacturingSlotView : MonoBehaviour
         if (m_itemButton != null)
         {
             m_itemButton.interactable =
-                m_isInteractionEnabled && m_isUnlocked && !m_hasJob;
+                m_isInteractionEnabled && m_isUnlocked && m_isAvailable && !m_hasJob;
         }
 
         if (m_cancelButton != null)
@@ -105,6 +111,14 @@ public sealed class ManufacturingSlotView : MonoBehaviour
         {
             SetImage(m_lockedSprite != null ? m_lockedSprite : m_emptySprite);
             SetTexts("잠김", string.Empty, string.Empty);
+            return;
+        }
+
+        if (!m_isAvailable)
+        {
+            // usedSprite 미지정 시 현재 빈 슬롯 이미지를 임시 이미지로 사용한다.
+            SetImage(m_usedSprite != null ? m_usedSprite : m_emptySprite);
+            SetTexts("사용 완료", string.Empty, string.Empty);
             return;
         }
 
@@ -152,13 +166,13 @@ public sealed class ManufacturingSlotView : MonoBehaviour
 
     private void HandleSlotClicked()
     {
-        if (m_isUnlocked && !m_hasJob && m_slotIndex >= 0)
+        if (m_isUnlocked && m_isAvailable && !m_hasJob && m_slotIndex >= 0)
             m_slotClicked?.Invoke(m_slotIndex);
     }
 
     private void HandleCancelClicked()
     {
-        if (m_isUnlocked && m_hasJob && m_slotIndex >= 0)
+        if (m_isUnlocked && m_isAvailable && m_hasJob && m_slotIndex >= 0)
             m_cancelClicked?.Invoke(m_slotIndex);
     }
 

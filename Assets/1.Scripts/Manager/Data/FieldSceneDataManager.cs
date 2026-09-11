@@ -752,7 +752,10 @@ public class FieldSceneDataManager : MonoBehaviour
             WeaponSnapshotData resolvedWeapon = resolvedSnapshot.Weapon;
             resolvedWeapon.MergeSceneAmmo(sceneSnapshot.Weapon);
             resolvedSnapshot.SetWeapon(resolvedWeapon);
-            entryData.AddMember(new FieldMemberEntryData(resolvedSnapshot));
+            FieldMemberEntryData resolvedMember = new FieldMemberEntryData(resolvedSnapshot);
+            resolvedMember.PreserveTemporaryHpPenalty(
+                persistedMember?.TemporaryHpPenalty ?? 0);
+            entryData.AddMember(resolvedMember);
         }
 
 

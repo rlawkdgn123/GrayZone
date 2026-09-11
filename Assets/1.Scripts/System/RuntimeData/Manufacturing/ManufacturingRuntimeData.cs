@@ -8,6 +8,8 @@ using UnityEngine;
 [Serializable]
 public sealed class ManufacturingRuntimeData
 {
+    public const int SlotCount = 4;
+
     [SerializeField] private List<ManufacturingJobRuntimeData> m_jobs = new();
 
     public IReadOnlyList<ManufacturingJobRuntimeData> Jobs

@@ -91,6 +91,23 @@ public class FacilityManager : MonoBehaviour
 
         m_facilities[facilityId] = facility;
         ApplyPersistedState(facility);
+
+        if (facility is IFuelShortageAffected affected)
+        {
+            affected.ApplyFuelShortageState(
+                ShelterSceneDataManager.Instance?.FuelShortagePenaltyActive ?? false);
+        }
+    }
+
+    public void ApplyFuelShortagePenalty(bool isActive)
+    {
+        foreach (IFacilityUpgradeable facility in m_facilities.Values)
+        {
+            if (facility is IFuelShortageAffected affected)
+            {
+                affected.ApplyFuelShortageState(isActive);
+            }
+        }
     }
 
     /// <summary>

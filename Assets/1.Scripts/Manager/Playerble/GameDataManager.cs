@@ -20,6 +20,10 @@ public class GameDataManager : MonoBehaviour
     [Range(0, 100)][SerializeField] private int shelterStability = 100;
     [Tooltip("현재 셸터 진행 일차입니다. 1 이상으로 유지됩니다.")]
     [Min(1)][SerializeField] private int currentDay = 1;
+    [Header("Resource Shortage Penalty")]
+    [Min(0)][SerializeField] private int foodShortageHpDecrease = 10;
+    [SerializeField] private bool foodShortagePenaltyActive;
+    [SerializeField] private bool fuelShortagePenaltyActive;
     [Header("Resources")]
     [Tooltip("자원 종류별 현재 보유량입니다. 같은 종류는 런타임에 하나로 정규화됩니다.")]
     [SerializeField] private List<ResourceAmountState> resourceAmounts = new();
@@ -95,6 +99,10 @@ public class GameDataManager : MonoBehaviour
 
     /// <summary>현재 셸터 진행 일차입니다.</summary>
     public int CurrentDay => Mathf.Max(1, currentDay);
+
+    public bool FoodShortagePenaltyActive => foodShortagePenaltyActive;
+
+    public bool FuelShortagePenaltyActive => fuelShortagePenaltyActive;
 
     /// <summary>현재 씬의 ShelterSceneDataManager가 등록되어 있는지 여부입니다.</summary>
     public bool HasActiveShelterSceneDataManager => activeShelterSceneDataManager != null;
@@ -184,6 +192,9 @@ public class GameDataManager : MonoBehaviour
         EnsureRuntimeState();
         ShelterRuntimeData packet = new ShelterRuntimeData();
         packet.SetShelterStability(shelterStability);
+        packet.SetResourceShortagePenaltyState(
+            foodShortagePenaltyActive,
+            fuelShortagePenaltyActive);
         packet.ApplySavedState(currentDay, playableSquadRuntimeIds, facilityStates);
         packet.Manufacturing.CopyFrom(manufacturing);
         packet.SetItemStorageEntries(itemStorageEntries);
@@ -223,6 +234,8 @@ public class GameDataManager : MonoBehaviour
         packet.EnsureRuntimeContainers();
         shelterStability = packet.ShelterStability;
         currentDay = packet.CurrentDay;
+        foodShortagePenaltyActive = packet.FoodShortagePenaltyActive;
+        fuelShortagePenaltyActive = packet.FuelShortagePenaltyActive;
         playableSquadRuntimeIds = new List<string>(packet.FieldSquadRuntimeIds);
         facilityStates = CloneFacilityStates(packet.FacilityStates);
         manufacturing ??= new ManufacturingRuntimeData();
@@ -384,7 +397,12 @@ public class GameDataManager : MonoBehaviour
 
             CharacterSnapshotData characterSnapshot = characters[characterIndex].Clone();
             characterSnapshot.SetPlayerSquadMember(i == 0);
-            entryData.AddMember(new FieldMemberEntryData(characterSnapshot));
+            int temporaryHpPenalty = FoodShortagePenaltyActive
+                ? foodShortageHpDecrease
+                : 0;
+            entryData.AddMember(new FieldMemberEntryData(
+                characterSnapshot,
+                temporaryHpPenalty));
         }
 
         return entryData;
@@ -487,8 +505,12 @@ public class GameDataManager : MonoBehaviour
             return;
         }
 
-        ApplySharedSaveData(saveData.shared ?? new SaveData.SharedSaveData());
+        SaveData.SharedSaveData sharedSaveData = saveData.shared ?? new SaveData.SharedSaveData();
+        ApplySharedSaveData(sharedSaveData);
         ApplyShelterSaveData(saveData.shelter ?? new SaveData.ShelterSaveData());
+
+        // 시설 해금/레벨과 캐릭터 배치를 먼저 구성한 뒤 제조 슬롯 진행 상태를 복원합니다.
+        manufacturing = ManufacturingFacilitySaveDataMapper.ToRuntime(sharedSaveData.manufacturing);
 
         FieldResultData savedFieldResult = saveData.lastFieldResult ?? saveData.lastBattleResult;
         if (savedFieldResult != null
@@ -552,8 +574,11 @@ public class GameDataManager : MonoBehaviour
         {
             lastStageId = lastStageId,
             shelterStability = ShelterStability,
+            foodShortagePenaltyActive = FoodShortagePenaltyActive,
+            fuelShortagePenaltyActive = FuelShortagePenaltyActive,
             totalFieldKillCount = TotalFieldKillCount,
-            fieldKillHistory = new List<int>(fieldKillHistory)
+            fieldKillHistory = new List<int>(fieldKillHistory),
+            manufacturing = ManufacturingFacilitySaveDataMapper.FromRuntime(manufacturing)
         };
 
         for (int i = 0; i < resourceAmounts.Count; i++)
@@ -618,6 +643,8 @@ public class GameDataManager : MonoBehaviour
     {
         lastStageId = saveData.lastStageId?.Trim() ?? string.Empty;
         shelterStability = Mathf.Clamp(saveData.shelterStability, 0, 100);
+        foodShortagePenaltyActive = saveData.foodShortagePenaltyActive;
+        fuelShortagePenaltyActive = saveData.fuelShortagePenaltyActive;
         totalFieldKillCount = Mathf.Max(0, saveData.totalFieldKillCount);
         fieldKillHistory = saveData.fieldKillHistory != null
             ? new List<int>(saveData.fieldKillHistory)
@@ -667,7 +694,6 @@ public class GameDataManager : MonoBehaviour
     private void ApplyShelterSaveData(SaveData.ShelterSaveData saveData)
     {
         currentDay = Mathf.Max(1, saveData.currentDay);
-        manufacturing = new ManufacturingRuntimeData();
         itemStorageEntries = new List<ItemStorageEntry>();
         IEnumerable<string> savedSquadIds = saveData.battleSquadRuntimeIds != null
             && saveData.battleSquadRuntimeIds.Count > 0
@@ -715,6 +741,23 @@ public class GameDataManager : MonoBehaviour
         CharacterSnapshotData snapshot = memberResult?.Snapshot;
         if (snapshot != null)
         {
+            int temporaryHpPenalty = memberResult.TemporaryHpPenalty;
+            if (temporaryHpPenalty > 0
+                && snapshot.CurrentHp > 0
+                && !snapshot.IsDown
+                && !snapshot.IsCombatOut)
+            {
+                snapshot.SetCombatState(
+                    Mathf.Min(snapshot.MaxHp, snapshot.CurrentHp + temporaryHpPenalty),
+                    snapshot.MaxHp,
+                    snapshot.InjurySeverityGauge,
+                    snapshot.MaxInjuryGauge,
+                    snapshot.InjuryState,
+                    snapshot.IsDown,
+                    snapshot.IsCombatOut,
+                    snapshot.IsPlayerSquadMember);
+            }
+
             TryBindFieldCharacterSnapshot(snapshot);
         }
     }
@@ -815,6 +858,7 @@ public class GameDataManager : MonoBehaviour
         lastStageId ??= string.Empty;
         shelterStability = Mathf.Clamp(shelterStability, 0, 100);
         currentDay = Mathf.Max(1, currentDay);
+        foodShortageHpDecrease = Mathf.Max(0, foodShortageHpDecrease);
         resourceAmounts ??= new List<ResourceAmountState>();
         itemStorageEntries ??= new List<ItemStorageEntry>();
         characters ??= new List<CharacterSnapshotData>();

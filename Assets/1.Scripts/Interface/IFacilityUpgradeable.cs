@@ -48,3 +48,9 @@ public interface IFacilityUpgradeable
     /// <remarks>표시 전용이며 로직에 영향을 주지 않습니다.</remarks>
     IReadOnlyList<FacilityFeatureLine> GetUpgradeFeatureLines(int currentLevel);
 }
+
+/// <summary>연료 부족으로 효율 저하가 적용되는 시설의 런타임 계약입니다.</summary>
+public interface IFuelShortageAffected
+{
+    void ApplyFuelShortageState(bool isActive);
+}

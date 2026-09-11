@@ -13,6 +13,7 @@ public class MedicalPatientSlotView : MonoBehaviour
     [SerializeField] private Image m_slotImage;
     [SerializeField] private Sprite m_unlockedSprite;
     [SerializeField] private Sprite m_lockedSprite;
+    [SerializeField] private Sprite m_usedSprite;
     [SerializeField] private Button m_cancelButton;   // 점유 시 표시되는 배치취소 버튼 (슬롯과 형제, 배경 아래)
     [FormerlySerializedAs("m_npccatalog")]
     [SerializeField] private CharacterPortraitCatalog m_characterCatalog;
@@ -34,13 +35,22 @@ public class MedicalPatientSlotView : MonoBehaviour
     [SerializeField] private string m_daysFormat = "{0}일";
 
 
+    private int m_slotIndex = -1;
     private bool m_isUnlocked;
+    // 임시 빌드 전용: 매니저에서 전달받은 이 슬롯의 1회 사용 가능 상태.
+    private bool m_isAvailable;
     private string m_patientRuntimeId;           // null/공백 = 비점유
     private string m_patientDefinitionId;
     private Action<MedicalPatientSlotView> m_clicked;
 
     /// <summary>세이브/로드 시에만 사용하는 슬롯 식별자</summary>
     public string SlotId => m_slotId;
+
+    /// <summary>현재 UI에 바인딩된 슬롯 인덱스</summary>
+    public int SlotIndex => m_slotIndex;
+
+    /// <summary>임시 빌드 전용 슬롯 사용 가능 상태</summary>
+    public bool IsAvailable => m_isAvailable;
 
     /// <summary>현재 슬롯을 점유 중인 환자 런타임 ID</summary>
     public string PatientRuntimeId => m_patientRuntimeId;
@@ -59,14 +69,22 @@ public class MedicalPatientSlotView : MonoBehaviour
     }
 
     /// <summary>
-    /// 슬롯의 잠금 상태와 클릭 콜백을 설정 환자 점유 상태는 변경하지 않음
+    /// 슬롯의 잠금/사용 가능 상태와 클릭 콜백을 설정. 환자 점유 상태는 변경하지 않음
     /// </summary>
+    /// <param name="slotIndex">UI 배열과 매니저 상태를 연결하는 슬롯 인덱스</param>
     /// <param name="isUnlocked">슬롯 해금 여부</param>
+    /// <param name="isAvailable">임시 빌드에서 아직 사용 가능한 슬롯인지 여부</param>
     /// <param name="onClicked">슬롯 또는 취소 버튼 클릭 시 호출할 콜백</param>
-    public void Bind(bool isUnlocked, Action<MedicalPatientSlotView> onClicked)
+    public void Bind(
+        int slotIndex,
+        bool isUnlocked,
+        bool isAvailable,
+        Action<MedicalPatientSlotView> onClicked)
     {
         CacheReferences();
+        m_slotIndex = slotIndex;
         m_isUnlocked = isUnlocked;
+        m_isAvailable = isAvailable;
         m_clicked = onClicked;
 
         UpdateVisual();
@@ -179,7 +197,8 @@ public class MedicalPatientSlotView : MonoBehaviour
     {
         // 슬롯 버튼(빈칸→배치)과 취소 버튼(점유→해제) 모두 여기로 통지.
         // 빈칸/점유 분기는 컨트롤러가 PatientId로 판단.
-        m_clicked?.Invoke(this);
+        if (m_isUnlocked && m_isAvailable)
+            m_clicked?.Invoke(this);
     }
 
     // 빈 슬롯: 슬롯 버튼 활성(배치), 취소 버튼 숨김.
@@ -187,10 +206,10 @@ public class MedicalPatientSlotView : MonoBehaviour
     private void UpdateButtonStates()
     {
         if (m_button != null)
-            m_button.interactable = m_isUnlocked && !HasPatient;
+            m_button.interactable = m_isUnlocked && m_isAvailable && !HasPatient;
 
         if (m_cancelButton != null)
-            m_cancelButton.gameObject.SetActive(m_isUnlocked && HasPatient);
+            m_cancelButton.gameObject.SetActive(m_isUnlocked && m_isAvailable && HasPatient);
     }
 
     private void UpdateVisual()
@@ -201,6 +220,14 @@ public class MedicalPatientSlotView : MonoBehaviour
         if (!m_isUnlocked)
         {
             m_slotImage.sprite = m_lockedSprite;
+            return;
+        }
+
+        if (!m_isAvailable)
+        {
+            // usedSprite 미지정 시에도 임시 빌드 상태를 구분할 수 있도록 잠금 이미지를 대신 사용한다.
+            m_slotImage.sprite = m_usedSprite != null ? m_usedSprite : m_lockedSprite;
+            ClearStatusDisplay();
             return;
         }
 

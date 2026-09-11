@@ -96,7 +96,10 @@ public sealed class ManufacturingUI : MonoBehaviour
         CacheChildViews();
         BindCreateView();
         CloseCreateView();
-        m_staffSlotController?.SetManager(m_currentManager);
+        if (m_staffSlotController != null)
+            m_staffSlotController.gameObject.SetActive(false);
+        // 임시 빌드에서는 제작 헬퍼 UI와 헬퍼 생산력 연결을 사용하지 않는다.
+        // m_staffSlotController?.SetManager(m_currentManager);
         ClearNotice();
         Refresh();
     }
@@ -123,14 +126,18 @@ public sealed class ManufacturingUI : MonoBehaviour
             if (slot == null)
                 continue;
 
-            ManufacturingJobRuntimeData job = FindJob(i);
+            ManufacturingJobRuntimeData job = null;
             ManufacturingRecipeDefinition recipe = null;
+            /* 날짜 기반 제작 작업 표시를 다시 사용할 때 복구할 기존 상태 조회.
+            job = FindJob(i);
             if (job != null)
                 m_currentManager?.TryGetRecipe(job.RecipeId, out recipe);
+            */
 
             slot.Bind(
                 i,
                 m_currentManager != null && m_currentManager.IsCraftingSlotUnlocked(i),
+                m_currentManager != null && m_currentManager.IsCraftingSlotAvailable(i),
                 job,
                 recipe,
                 m_currentManager != null ? m_currentManager.FinalProductivity : 0,
@@ -139,14 +146,15 @@ public sealed class ManufacturingUI : MonoBehaviour
             slot.SetInteractionEnabled(allowSlotInput);
         }
 
-        m_staffSlotController?.RefreshSlots();
+        // 임시 빌드에서는 제작 헬퍼 UI를 표시하지 않는다.
+        // m_staffSlotController?.RefreshSlots();
     }
 
     private void HandleSlotClicked(int slotIndex)
     {
         if (m_currentManager == null
             || !m_currentManager.IsCraftingSlotUnlocked(slotIndex)
-            || FindJob(slotIndex) != null
+            || !m_currentManager.IsCraftingSlotAvailable(slotIndex)
             || (m_createView != null && m_createView.IsOpen))
         {
             return;
@@ -190,6 +198,7 @@ public sealed class ManufacturingUI : MonoBehaviour
             return;
         }
 
+        /* 날짜 기반 제작 작업을 다시 사용할 때 복구할 기존 시작 호출.
         if (m_currentManager.TryStartJob(
                 request.SlotIndex,
                 request.RecipeId,
@@ -198,6 +207,19 @@ public sealed class ManufacturingUI : MonoBehaviour
         {
             ClearNotice();
             m_createView.CloseAfterConfirmed();
+            return;
+        }
+        */
+
+        if (m_currentManager.TryCraftImmediately(
+                request.SlotIndex,
+                request.RecipeId,
+                request.RequestedBatchCount,
+                out ManufacturingStartJobFailureReason failureReason))
+        {
+            ClearNotice();
+            m_createView.CloseAfterConfirmed();
+            Refresh();
             return;
         }
 

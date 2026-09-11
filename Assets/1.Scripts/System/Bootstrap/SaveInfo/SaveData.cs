@@ -11,7 +11,7 @@ public enum SaveSlotType
 [Serializable]
 public class SaveData
 {
-    public const int CurrentSchemaVersion = 10;
+    public const int CurrentSchemaVersion = 11;
 
     public int schemaVersion = CurrentSchemaVersion;
     public string profileId = "default";
@@ -36,6 +36,8 @@ public class SaveData
     {
         public string lastStageId = string.Empty;
         public int shelterStability = 100;
+        public bool foodShortagePenaltyActive;
+        public bool fuelShortagePenaltyActive;
         public int totalFieldKillCount;
         public List<int> fieldKillHistory = new List<int>();
         /// <summary>schemaVersion 6 이하 저장 파일을 읽기 위한 레거시 수량 필드입니다.</summary>
@@ -45,6 +47,8 @@ public class SaveData
         public List<ResourceAmountData> resources = new List<ResourceAmountData>();
         /// <summary>schemaVersion 7 이상에서 사용하는 Field 공용 캐릭터 정본입니다.</summary>
         public List<CharacterSnapshotData> characters = new List<CharacterSnapshotData>();
+        /// <summary>제조 시설의 전체 슬롯과 진행 중인 작업 스냅샷입니다.</summary>
+        public ManufacturingFacilitySaveData manufacturing = new ManufacturingFacilitySaveData();
         /// <summary>schemaVersion 6 이하 저장 파일을 읽기 위한 레거시 NPC 목록입니다.</summary>
         public List<NpcSaveData> npcs = new List<NpcSaveData>();
     }

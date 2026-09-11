@@ -18,6 +18,9 @@ public class MedicalUI : MonoBehaviour
     [SerializeField] private CharacterManager m_characterManager;
     [SerializeField] private CharacterCandidateListPanel m_candidateListPanel;
 
+    [Header("Staff")]
+    [SerializeField] private MedicalStaffSlotController m_staffSlotController;
+
     private readonly List<ShelterMemberRuntimeData> m_treatmentCandidates = new List<ShelterMemberRuntimeData>();
 
     private MedicalManager m_currentManager;
@@ -101,7 +104,8 @@ public class MedicalUI : MonoBehaviour
         if (m_currentManager != null)
         {
             m_currentManager.OnPatientSlotsChanged += Refresh;
-            m_currentManager.OnPatientHealed += HandlePatientHealed;
+            // 임시 빌드에서는 날짜 경과 치료 완료 이벤트를 사용하지 않는다.
+            // m_currentManager.OnPatientHealed += HandlePatientHealed;
         }
 
         BindCharacterManager(CacheCharacterManager());
@@ -112,8 +116,11 @@ public class MedicalUI : MonoBehaviour
         m_isOpening = false;
 
         CacheChildViews();
+        if (m_staffSlotController != null)
+            m_staffSlotController.gameObject.SetActive(false);
         HideTreatmentCandidateList();
-        SyncSlotsFromManager();
+        // 임시 빌드에서는 치료 배치 상태를 슬롯에 복원하지 않는다.
+        // SyncSlotsFromManager();
         Refresh();
     }
 
@@ -136,7 +143,8 @@ public class MedicalUI : MonoBehaviour
     {
         CacheChildViews();
         RefreshPatientSlots();
-        ApplyPatientStatusesToSlots();
+        // 임시 빌드에서는 진행 게이지/남은 일자 표시를 사용하지 않는다.
+        // ApplyPatientStatusesToSlots();
 
         if (m_isTreatmentCandidateListOpen)
             RefreshTreatmentCandidates();
@@ -148,6 +156,9 @@ public class MedicalUI : MonoBehaviour
     {
         if (m_patientSlots == null || m_patientSlots.Length == 0)
             m_patientSlots = GetComponentsInChildren<MedicalPatientSlotView>(true);
+
+        if (m_staffSlotController == null)
+            m_staffSlotController = GetComponentInChildren<MedicalStaffSlotController>(true);
     }
 
     private void RefreshPatientSlots()
@@ -166,7 +177,9 @@ public class MedicalUI : MonoBehaviour
                 continue;
 
             bool isUnlocked = i < unlockedSlotCount;
-            slotView.Bind(isUnlocked, HandleSlotClicked);
+            bool isAvailable = m_currentManager != null
+                && m_currentManager.IsPatientSlotAvailable(i);
+            slotView.Bind(i, isUnlocked, isAvailable, HandleSlotClicked);
         }
     }
 
@@ -292,6 +305,10 @@ public class MedicalUI : MonoBehaviour
         if (slot == null || m_currentManager == null)
             return;
 
+        if (!slot.IsAvailable)
+            return;
+
+        /* 날짜 기반 치료 배치/취소를 다시 사용할 때 복구할 기존 슬롯 동작.
         if (slot.HasPatient)
         {
             // 점유 슬롯 → 배치 취소
@@ -302,6 +319,7 @@ public class MedicalUI : MonoBehaviour
             }
             return;
         }
+        */
 
         // 빈 슬롯 → 환자 후보 목록 열기 (이 슬롯을 배치 대상으로 기억)
         m_helperMode = false;
@@ -318,22 +336,27 @@ public class MedicalUI : MonoBehaviour
         bool wasCandidateListOpen = m_isTreatmentCandidateListOpen;
         m_isTreatmentCandidateListOpen = false;
 
+        /* 날짜 기반 배치 UI를 다시 사용할 때 복구할 기존 선택 데이터.
         ShelterMemberRuntimeData selected = m_treatmentCandidates.Find(
             character => character != null && character.RuntimeId == runtimeId);
+        */
         bool assigned = m_helperMode
             ? m_currentManager.TryAssignHelper(runtimeId)
-            : m_currentManager.TryAssignPatient(runtimeId);
+            : m_pendingSlot != null
+                && m_currentManager.TryUsePatientSlot(m_pendingSlot.SlotIndex, runtimeId);
 
         if (assigned)
         {
-            // 환자 모드에서만 클릭해 둔 빈 슬롯에 고정 배치. 헬퍼 전용 슬롯 UI는 에디터 배선 필요.
+            /* 날짜 기반 배치 UI를 다시 사용할 때 복구할 기존 환자 표시.
             if (!m_helperMode && m_pendingSlot != null && selected != null)
                 m_pendingSlot.SetPatient(selected.RuntimeId, selected.DefinitionId);
+            */
             m_pendingSlot = null;
 
             HideTreatmentCandidateList();
             RefreshPatientSlots();
-            ApplyPatientStatusesToSlots();
+            // 임시 빌드에서는 진행 게이지/남은 일자 표시를 사용하지 않는다.
+            // ApplyPatientStatusesToSlots();
         }
         else
         {
@@ -448,7 +471,8 @@ public class MedicalUI : MonoBehaviour
         if (m_currentManager != null)
         {
             m_currentManager.OnPatientSlotsChanged -= Refresh;
-            m_currentManager.OnPatientHealed -= HandlePatientHealed;
+            // 임시 빌드에서는 날짜 경과 치료 완료 이벤트를 사용하지 않는다.
+            // m_currentManager.OnPatientHealed -= HandlePatientHealed;
         }
 
         m_currentManager = null;
