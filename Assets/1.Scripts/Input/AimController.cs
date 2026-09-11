@@ -2775,20 +2775,20 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
 
         m_inCombatStance = inCombat;
 
-        // <b>상체 조준 리그(m_aimRig)는 건드리지 않습니다(실측으로 발견).</b>
-        // 그 리그의 MultiAimConstraint source가 씬에 하나뿐인 LookTarget 오브젝트이고 세 멤버가 그것을
-        // 공유합니다. 그래서 두 방향 모두 오염됩니다.
-        //  - 그냥 weight만 올리면: 타겟이 플레이어 조준점에 있으므로 봇 상체가 플레이어 마우스를 따라 꺾입니다.
-        //  - AI가 타겟을 옮기면: 같은 오브젝트라 플레이어 상체까지 같이 꺾입니다.
-        // 멤버마다 자기 LookTarget을 갖도록 프리팹과 리그를 고쳐야 풀립니다. 그 전까지는 조준 포즈를
-        // Base Layer의 IsAim 트리로만 냅니다(카메라와 무관).
+        // 애니메이션에 관한 한 봇은 조작 멤버와 같아야 합니다. 그래서 아래 두 줄은
+        // <see cref="ApplyCombatStanceState"/>가 조작 멤버에 적용하는 것과 같은 값을 씁니다.
+        // 다른 것은 조준 카메라·조준선처럼 스쿼드가 공유하는 UI뿐이고, 그쪽은 여기서 건드리지 않습니다.
         //
-        // 손 IK는 무기 그립을 따라가는 per-character 타겟이라 안전하므로 함께 올립니다.
-        SetRigWeights(0.0f, inCombat ? 1.0f : 0.0f);
+        // 상체 조준 리그(m_aimRig)를 함께 올려도 되는 것은 지금 그 리그의 Spine IK 제약 weight가 0이기
+        // 때문입니다. 제약을 다시 켜려면 먼저 LookTarget을 멤버별로 나눠야 합니다. 지금은 씬에 하나뿐인
+        // 오브젝트를 셋이 공유해서, 켜는 순간 봇 상체가 플레이어 마우스를 따라 꺾이고 반대로 AI가 타겟을
+        // 옮기면 플레이어 상체까지 같이 꺾입니다.
+        SetRigWeight(inCombat ? 1.0f : 0.0f);
 
         // 상체 레이어는 조준만으로 올리지 않습니다. Base Layer의 조준 트리가 이미 자세를 갖고 있어
-        // 여기서 덮으면 웅크린 채 조준해도 서 있는 자세로 보입니다(기존 주석의 판단을 그대로 따릅니다).
-        SetWeaponLayerWeight(shooting ? 1.0f : 0.0f);
+        // 여기서 덮으면 웅크린 채 조준해도 서 있는 자세로 바뀝니다. 봇만 사격 중에 이 레이어를 올리던
+        // 것이 사격할 때 총 IK와 고개가 틀어져 보이던 원인입니다.
+        SetWeaponLayerWeight(0.0f);
 
         m_recoilLayerTarget = inCombat && shooting ? m_recoilAnimationWeight : 0.0f;
 
