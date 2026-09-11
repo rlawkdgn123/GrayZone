@@ -112717,6 +112717,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1211403690}
     m_Modifications:
+    - target: {fileID: 1792513739298649823, guid: 00d8ab193dc5e2c4d8c55337ba2bb91f, type: 3}
+      propertyPath: m_Data.m_SourceObjects.m_Item0.transform
+      value: 
+      objectReference: {fileID: 280561153}
     - target: {fileID: 1902355885057618189, guid: 00d8ab193dc5e2c4d8c55337ba2bb91f, type: 3}
       propertyPath: m_Data.m_Target
       value: 
@@ -113088,6 +113092,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChungSol
       objectReference: {fileID: 0}
+    - target: {fileID: 7515163435179738423, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
+      propertyPath: m_Data.m_SourceObjects.m_Item0.transform
+      value: 
+      objectReference: {fileID: 280561153}
     - target: {fileID: 8042323803606219392, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 139.2
@@ -116757,6 +116765,10 @@ PrefabInstance:
       propertyPath: m_Data.m_Target
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7444775839026427950, guid: d1cc3c8e7eaaee646ada25510fece90b, type: 3}
+      propertyPath: m_Data.m_SourceObjects.m_Item0.transform
+      value: 
+      objectReference: {fileID: 280561153}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
