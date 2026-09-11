@@ -2773,6 +2773,30 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
             m_animator = GetComponent<Animator>();
         }
 
+        // 재장전 중에는 재장전 비주얼이 전투 자세보다 우선입니다. 재장전 모션은 상체 레이어에 있는데
+        // 이 함수는 AI가 매 프레임 부르므로, 거르지 않으면 전환 직후부터 상체 레이어를 0으로 눌러
+        // 재장전 모션이 통째로 보이지 않습니다. 조작 멤버 쪽에서 같은 이유로
+        // <see cref="ForceStopAim(bool)"/>가 재장전 중에만 상체 레이어를 유지하는 것과 같은 처리입니다.
+        //
+        // 리그는 <see cref="BeginReload"/>와 같은 조합을 씁니다. 허리는 계속 조준 방향을 보고, 손만
+        // 풀어 탄창을 다루게 합니다. 손까지 총 그립에 붙여 두면 탄창 교체 동작이 그립에 묶여 깨집니다.
+        if (m_controller != null && m_controller.IsReload
+            && m_weaponController != null && m_weaponController.IsReloading)
+        {
+            m_inCombatStance = false;
+            SetRigWeights(1.0f, 0.0f);
+            SetWeaponLayerWeight(1.0f);
+            m_recoilLayerTarget = 0.0f;
+
+            if (m_animator != null)
+            {
+                m_animator.SetBool(AnimIDShoot, false);
+            }
+
+            UpdateStanceWeights();
+            return;
+        }
+
         m_inCombatStance = inCombat;
 
         // 애니메이션에 관한 한 봇은 조작 멤버와 같아야 합니다. 그래서 아래 두 줄은
