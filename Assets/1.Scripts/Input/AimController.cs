@@ -2604,6 +2604,27 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
     {
         m_rigWeightTarget = weight;
         m_handRigWeightTarget = weight;
+        SnapStanceWeightsIfNotBlending();
+    }
+
+    /// <summary>
+    /// 가중치를 매 프레임 보간할 수 없는 상태이면 즉시 목표로 맞춥니다.
+    /// </summary>
+    /// <remarks>
+    /// 스쿼드 전환으로 조작권을 잃으면 이 컴포넌트가 꺼지고 <see cref="UpdateStanceWeights"/>가 멈춥니다.
+    /// 그 뒤에 목표만 바뀌면 실제 가중치는 그 자리에 얼어붙습니다. 재장전 도중 전환한 대원이 장전을 끝내도
+    /// 상체 레이어가 중간값(실측 0.25)으로 남아 자세가 어색해지던 원인이 이것입니다.
+    /// 보간할 수 없을 때는 부드러움을 포기하고 즉시 반영하는 편이 맞습니다. 어차피 화면 밖 대원이거나
+    /// 조작하지 않는 대원이라 끊김이 보이지 않습니다.
+    /// </remarks>
+    private void SnapStanceWeightsIfNotBlending()
+    {
+        if (isActiveAndEnabled)
+        {
+            return;
+        }
+
+        SnapStanceWeights();
     }
 
     /// <summary>
@@ -2618,6 +2639,7 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
     {
         m_rigWeightTarget = aimWeight;
         m_handRigWeightTarget = handWeight;
+        SnapStanceWeightsIfNotBlending();
     }
 
     /// <summary>
@@ -2627,6 +2649,7 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
     private void SetWeaponLayerWeight(float weight)
     {
         m_weaponLayerTarget = weight;
+        SnapStanceWeightsIfNotBlending();
     }
 
     /// <summary>
