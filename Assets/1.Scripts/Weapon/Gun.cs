@@ -462,6 +462,18 @@ public class Gun : MonoBehaviour, IBalancePostProcess, ISharedBalanceReceiver
     /// <remarks>조준선 히트마커/킬 표시가 구독합니다.</remarks>
     public event System.Action<CombatDamage.HitFeedback> OnHitFeedback;
 
+    /// <summary>
+    /// 재장전이 완료돼 탄약이 채워졌을 때 발생합니다.
+    /// </summary>
+    /// <remarks>
+    /// 재장전 종료를 알리는 정규 경로는 재장전 클립의 애니메이션 이벤트(<see cref="AimController.Reload"/>)입니다.
+    /// 다만 애니메이션 이벤트는 꺼진 컴포넌트에는 오지 않습니다. 장전 도중 다른 대원으로 전환하면
+    /// <see cref="SquadMemberController"/>가 그 대원의 <see cref="AimController"/>를 끄므로 이벤트가 유실되고,
+    /// 애니메이터의 <c>IsReload</c>가 내려가지 않아 재장전 스테이트에서 영영 빠져나오지 못합니다.
+    /// 탄약 충전을 실제로 확정하는 것은 이쪽 타이머이므로, 그 시점을 알려 비주얼 정리의 대체 경로를 둡니다.
+    /// </remarks>
+    public event System.Action OnReloadCompleted;
+
     /// <summary>현재 재장전 중인지 여부입니다.</summary>
     public bool IsReloading => m_isReloading;
 
@@ -1635,6 +1647,7 @@ public class Gun : MonoBehaviour, IBalancePostProcess, ISharedBalanceReceiver
         m_currentBullet = m_maxBullet;
         m_isReloading = false;
         UpdateBulletUI();
+        OnReloadCompleted?.Invoke();
     }
 
     /// <summary>

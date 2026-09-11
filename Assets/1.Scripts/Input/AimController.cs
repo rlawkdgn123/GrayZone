@@ -862,6 +862,7 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
         if (m_weaponController != null)
         {
             m_weaponController.OnHitFeedback += OnWeaponHitFeedback;
+            m_weaponController.OnReloadCompleted += OnWeaponReloadCompleted;
         }
     }
 
@@ -873,7 +874,30 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
         if (m_weaponController != null)
         {
             m_weaponController.OnHitFeedback -= OnWeaponHitFeedback;
+            m_weaponController.OnReloadCompleted -= OnWeaponReloadCompleted;
         }
+    }
+
+    /// <summary>
+    /// 무기 쪽 재장전 타이머가 끝났을 때 재장전 비주얼 상태를 대신 정리합니다.
+    /// </summary>
+    /// <remarks>
+    /// 직접 조작 중이면 재장전 클립의 애니메이션 이벤트(<see cref="Reload"/>)가 정리를 맡으므로 여기서는
+    /// 아무것도 하지 않습니다. 이 경로는 장전 도중 다른 대원으로 전환해 이 컴포넌트가 꺼진 경우만을 위한
+    /// 것입니다. 꺼진 컴포넌트에는 애니메이션 이벤트가 오지 않아 <c>IsReload</c>가 내려가지 않고,
+    /// 재장전 스테이트의 이탈 조건이 <c>IfNot IsReload</c>라 그 대원은 재장전 자세에서 빠져나오지 못합니다.
+    /// C# 이벤트는 컴포넌트를 꺼도 끊기지 않으므로 이 경로는 그대로 살아 있습니다.
+    ///
+    /// 탄약은 <see cref="Gun.CompleteReload"/>가 이미 채운 뒤이므로 무기 쪽 완료 처리는 다시 하지 않습니다.
+    /// </remarks>
+    private void OnWeaponReloadCompleted()
+    {
+        if (isActiveAndEnabled || !m_hasRequiredReferences)
+        {
+            return;
+        }
+
+        FinishReloadVisualState(false);
     }
 
     /// <summary>
