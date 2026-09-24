@@ -69,7 +69,10 @@ public static class FacilitySaveDataMapper
             return null;
         }
 
-        return new FacilityRuntimeState(saveData.facilityId, saveData.isUnlocked, saveData.upgradeLevel);
+        return new FacilityRuntimeState(
+            saveData.facilityId,
+            saveData.isUnlocked,
+            saveData.upgradeLevel);
     }
 
     private static string ResolveFacilityId(FacilityDefinition definition)

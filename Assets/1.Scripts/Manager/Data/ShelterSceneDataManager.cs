@@ -62,6 +62,9 @@ public class ShelterSceneDataManager : MonoBehaviour
     /// <summary>현재 셸터 날짜</summary>
     public int CurrentDay => RuntimeData.CurrentDay;
 
+    /// <summary>현재 셸터 씬 작업본의 안내 진행 단계입니다.</summary>
+    public ShelterFlowState FlowState => RuntimeData.FlowState;
+
     /// <summary>현재 셸터 안정도</summary>
     public int ShelterStability => RuntimeData.ShelterStability;
 
@@ -272,6 +275,16 @@ public class ShelterSceneDataManager : MonoBehaviour
     public void SetCurrentDay(int day)
     {
         RuntimeData.SetCurrentDay(day);
+        NotifyShelterDataChanged();
+    }
+
+    /// <summary>현재 셸터 씬 작업본의 안내 진행 단계를 변경합니다.</summary>
+    public void SetFlowState(ShelterFlowState state)
+    {
+        if (RuntimeData.FlowState == state)
+            return;
+
+        RuntimeData.SetFlowState(state);
         NotifyShelterDataChanged();
     }
 

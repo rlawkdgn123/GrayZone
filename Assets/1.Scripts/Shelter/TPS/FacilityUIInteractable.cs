@@ -8,6 +8,8 @@ public class FacilityUIInteractable : MonoBehaviour, IInteractable
 {
     [SerializeField] private UIManager m_uiManager;
 
+    private FacilityInteractionPoint m_facilityInteractionPoint;
+
     /// <summary>시설 UI 열기 요청이 정상적으로 전달된 뒤 발생합니다.</summary>
     public event Action<FacilityUIInteractable> Interacted;
 
@@ -19,13 +21,20 @@ public class FacilityUIInteractable : MonoBehaviour, IInteractable
     /// </summary>
     /// <param name="interactor">상호작용을 시도한 오브젝트</param>
     /// <returns>상호작용 가능하면 <c>true</c></returns>
-    public bool CanInteract(GameObject interactor) => isActiveAndEnabled;
+    public bool CanInteract(GameObject interactor)
+    {
+        return isActiveAndEnabled
+            && (m_facilityInteractionPoint == null
+                || m_facilityInteractionPoint.InteractionEnabled);
+    }
 
     /// <summary>상호작용 프롬프트 텍스트</summary>
     public string GetPrompt() => "Facility";
 
     private void Awake()
     {
+        m_facilityInteractionPoint = GetComponent<FacilityInteractionPoint>();
+
         // 인스펙터에 지정하지 않았으면 씬에서 찾아 캐싱.
         if (m_uiManager == null)
             m_uiManager = FindFirstObjectByType<UIManager>();

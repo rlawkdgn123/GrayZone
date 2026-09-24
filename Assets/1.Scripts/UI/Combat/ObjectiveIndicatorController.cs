@@ -18,6 +18,9 @@ public sealed class ObjectiveIndicatorController : MonoBehaviour
     [Tooltip("목표가 화면 안에 있을 때 표시할 World Space UI 루트입니다.")]
     [SerializeField] private GameObject m_worldViewRoot;
 
+    [Tooltip("활성화하면 목표 흐름이 World Space UI의 표시 여부도 제어합니다.")]
+    [SerializeField] private bool m_manageWorldViewVisibility = true;
+
     [Tooltip("목표 방향 아이콘이 속한 Screen Space Canvas의 RectTransform입니다.")]
     [SerializeField] private RectTransform m_overlayCanvasRect;
 
@@ -113,7 +116,11 @@ public sealed class ObjectiveIndicatorController : MonoBehaviour
         bool showDirectionArrow = !isOnScreen
             || (wantsOnscreenMarker && m_onscreenMarker == null);
 
-        SetActive(m_worldViewRoot, showWorldView);
+        if (m_manageWorldViewVisibility)
+        {
+            SetActive(m_worldViewRoot, showWorldView);
+        }
+
         SetActive(m_offscreenImage.gameObject, showDirectionArrow);
 
         if (m_onscreenMarker != null)
@@ -140,7 +147,7 @@ public sealed class ObjectiveIndicatorController : MonoBehaviour
         }
 
         return m_target != null
-            && m_worldViewRoot != null
+            && (!m_manageWorldViewVisibility || m_worldViewRoot != null)
             && m_overlayCanvasRect != null
             && m_offscreenImage != null
             && m_worldCamera != null
@@ -257,7 +264,10 @@ public sealed class ObjectiveIndicatorController : MonoBehaviour
 
     private void HideViews()
     {
-        SetActive(m_worldViewRoot, false);
+        if (m_manageWorldViewVisibility)
+        {
+            SetActive(m_worldViewRoot, false);
+        }
 
         if (m_offscreenImage != null)
         {

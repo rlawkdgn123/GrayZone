@@ -38,6 +38,8 @@ public class SaveData
         public int shelterStability = 100;
         public bool foodShortagePenaltyActive;
         public bool fuelShortagePenaltyActive;
+        public bool shooter01;
+        public bool shooter02;
         public int totalFieldKillCount;
         public List<int> fieldKillHistory = new List<int>();
         /// <summary>schemaVersion 6 이하 저장 파일을 읽기 위한 레거시 수량 필드입니다.</summary>
@@ -57,6 +59,7 @@ public class SaveData
     public class ShelterSaveData
     {
         public int currentDay = 1;
+        public ShelterFlowState flowState = ShelterFlowState.NotStarted;
         /// <summary>schemaVersion 7 이상에서 사용하는 출전 캐릭터 런타임 ID 목록입니다.</summary>
         public List<string> battleSquadRuntimeIds = new List<string>();
         /// <summary>schemaVersion 6 이하 정의 ID 기반 출전 목록입니다.</summary>

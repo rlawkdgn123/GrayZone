@@ -53,6 +53,9 @@ public class PlayerInputController : MonoBehaviour
     [Tooltip("폭발탄 투척 모드가 활성화됐는지 여부입니다.")]
     [SerializeField] private bool m_throwMode;
 
+    /// <summary>투척물 선택 방향을 소비하기 전까지 누적합니다. 이전은 음수, 다음은 양수입니다.</summary>
+    private int m_throwSelectionDelta;
+
     [Tooltip("재장전 입력이 눌린 상태인지 여부입니다.")]
     [FormerlySerializedAs("reload")]
     [SerializeField] private bool m_reload;
@@ -122,6 +125,20 @@ public class PlayerInputController : MonoBehaviour
     /// <summary>투척 모드에서 좌클릭 입력이 눌린 상태입니다.</summary>
     public bool Throw => m_throwMode && m_shoot;
 
+    /// <summary>G 투척 모드에서 들어온 투척물 선택 방향을 한 번 읽고 비웁니다.</summary>
+    public int ConsumeThrowSelectionDelta()
+    {
+        if (!m_isInputEnabled || !m_throwMode)
+        {
+            m_throwSelectionDelta = 0;
+            return 0;
+        }
+
+        int delta = m_throwSelectionDelta;
+        m_throwSelectionDelta = 0;
+        return delta;
+    }
+
     /// <summary>재장전 입력 상태입니다.</summary>
     public bool Reload => m_reload;
 
@@ -142,7 +159,7 @@ public class PlayerInputController : MonoBehaviour
     {
         get
         {
-            if (!m_isInputEnabled)
+            if (!m_isInputEnabled || m_throwMode)
             {
                 return false;
             }
@@ -420,9 +437,32 @@ public class PlayerInputController : MonoBehaviour
         }
 
         m_throwMode = !m_throwMode;
+        m_throwSelectionDelta = 0;
 
         // 모드를 바꾸는 순간 누르고 있던 좌클릭이 다른 행동으로 넘어가지 않게 중립화합니다.
         m_shoot = false;
+        m_interact = false;
+        SuppressInteractUntilRelease();
+    }
+
+    /// <summary>
+    /// G 투척 모드에서 Q/E 또는 마우스 휠로 투척물을 선택하는 입력 액션 콜백입니다.
+    /// </summary>
+    /// <param name="value">음수이면 이전, 양수이면 다음 투척물을 선택합니다.</param>
+    public void OnThrowSelection(InputValue value)
+    {
+        if (!m_isInputEnabled || !m_throwMode)
+        {
+            return;
+        }
+
+        float selectionAxis = value.Get<float>();
+        if (Mathf.Abs(selectionAxis) <= 0.0001f)
+        {
+            return;
+        }
+
+        m_throwSelectionDelta += selectionAxis > 0.0f ? 1 : -1;
     }
 
     /// <summary>
@@ -471,8 +511,13 @@ public class PlayerInputController : MonoBehaviour
     /// <remarks>버튼 액션이라 누름/뗌 모두 호출되며, <c>isPressed</c>로 홀드 상태를 그대로 보관합니다.</remarks>
     public void OnInteraction(InputValue value)
     {
-        if (!m_isInputEnabled)
+        if (!m_isInputEnabled || m_throwMode)
         {
+            if (m_throwMode)
+            {
+                InteractInput(false);
+            }
+
             return;
         }
 
@@ -856,6 +901,7 @@ public class PlayerInputController : MonoBehaviour
         m_aim = false;
         m_shoot = false;
         m_throwMode = false;
+        m_throwSelectionDelta = 0;
         m_reload = false;
         m_crouch = false;
         m_interact = false;

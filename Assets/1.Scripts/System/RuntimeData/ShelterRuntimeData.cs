@@ -69,6 +69,7 @@ public sealed class ShelterRuntimeData
 
     [SerializeField] private int shelterStability = 100;
     [SerializeField] private int currentDay = 1;
+    [SerializeField] private ShelterFlowState flowState = ShelterFlowState.NotStarted;
     [SerializeField] private bool foodShortagePenaltyActive;
     [SerializeField] private bool fuelShortagePenaltyActive;
     [FormerlySerializedAs("battleSquadNpcDefinitionIds")]
@@ -87,6 +88,7 @@ public sealed class ShelterRuntimeData
     public int TotalOwnedCharacterCount => CharacterCount;
     public int CharacterCount => Characters.Count;
     public int CurrentDay => Mathf.Max(1, currentDay);
+    public ShelterFlowState FlowState => flowState;
     public bool FoodShortagePenaltyActive => foodShortagePenaltyActive;
     public bool FuelShortagePenaltyActive => fuelShortagePenaltyActive;
     public IReadOnlyList<string> FieldSquadRuntimeIds => fieldSquadRuntimeIds;
@@ -152,6 +154,7 @@ public sealed class ShelterRuntimeData
         {
             shelterStability = ShelterStability,
             currentDay = CurrentDay,
+            flowState = FlowState,
             foodShortagePenaltyActive = FoodShortagePenaltyActive,
             fuelShortagePenaltyActive = FuelShortagePenaltyActive,
             fieldSquadRuntimeIds = new List<string>(fieldSquadRuntimeIds),
@@ -173,6 +176,7 @@ public sealed class ShelterRuntimeData
         itemStorageEntries ??= new List<ItemStorageEntry>();
         shelterStability = source.ShelterStability;
         currentDay = source.CurrentDay;
+        flowState = source.FlowState;
         foodShortagePenaltyActive = source.FoodShortagePenaltyActive;
         fuelShortagePenaltyActive = source.FuelShortagePenaltyActive;
         fieldSquadRuntimeIds = new List<string>(source.fieldSquadRuntimeIds);
@@ -187,6 +191,8 @@ public sealed class ShelterRuntimeData
     public void SetShelterStability(int stability) => shelterStability = Mathf.Clamp(stability, 0, 100);
 
     public void SetCurrentDay(int day) => currentDay = Mathf.Max(1, day);
+
+    public void SetFlowState(ShelterFlowState state) => flowState = state;
 
     public void SetResourceShortagePenaltyState(bool foodActive, bool fuelActive)
     {
@@ -226,7 +232,10 @@ public sealed class ShelterRuntimeData
 
             state.EnsureValid();
             if (!string.IsNullOrWhiteSpace(state.facilityId))
-                facilityStates.Add(new FacilityRuntimeState(state.facilityId, state.isUnlocked, state.upgradeLevel));
+                facilityStates.Add(new FacilityRuntimeState(
+                    state.facilityId,
+                    state.isUnlocked,
+                    state.upgradeLevel));
         }
     }
 
@@ -485,7 +494,10 @@ public sealed class ShelterRuntimeData
             if (state == null)
                 continue;
             state.EnsureValid();
-            clone.Add(new FacilityRuntimeState(state.facilityId, state.isUnlocked, state.upgradeLevel));
+            clone.Add(new FacilityRuntimeState(
+                state.facilityId,
+                state.isUnlocked,
+                state.upgradeLevel));
         }
         return clone;
     }

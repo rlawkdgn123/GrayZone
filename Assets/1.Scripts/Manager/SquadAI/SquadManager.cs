@@ -268,6 +268,7 @@ public class SquadManager : MonoBehaviour
         AutoFindReferences();
         NormalizeMemberIndex();
         ApplyInitialMemberRolePresets();
+        RefreshCharacterCameraCollisionResponses();
     }
 
     private void OnDestroy()
@@ -711,6 +712,7 @@ public class SquadManager : MonoBehaviour
         if (index == m_playerSquadMemberIndex)
         {
             UpdateCameraTarget();
+            RefreshCharacterCameraCollisionResponses();
             RefreshPlayerSquadMemberWeaponUI();
             return;
         }
@@ -755,6 +757,7 @@ public class SquadManager : MonoBehaviour
         }
 
         UpdateCameraTarget();
+        RefreshCharacterCameraCollisionResponses();
         RefreshPlayerSquadMemberWeaponUI();
 
         if (useTransformSwap)
@@ -1526,6 +1529,47 @@ public class SquadManager : MonoBehaviour
     }
 
     /// <summary>
+    /// 현재 PlayerSquadMember의 카메라 충돌 반응만 활성화하고 나머지 멤버의 반응은 비활성화합니다.
+    /// </summary>
+    private void RefreshCharacterCameraCollisionResponses()
+    {
+        if (m_squadMembers == null)
+        {
+            return;
+        }
+
+        SquadMemberController playerMember = PlayerSquadMember;
+
+        for (int i = 0; i < m_squadMembers.Count; i++)
+        {
+            SquadMemberController member = m_squadMembers[i];
+            if (member == null || member == playerMember)
+            {
+                continue;
+            }
+
+            CharacterCameraCollisionResponse response =
+                member.GetComponent<CharacterCameraCollisionResponse>();
+            if (response != null)
+            {
+                response.enabled = false;
+            }
+        }
+
+        if (playerMember == null)
+        {
+            return;
+        }
+
+        CharacterCameraCollisionResponse playerResponse =
+            playerMember.GetComponent<CharacterCameraCollisionResponse>();
+        if (playerResponse != null)
+        {
+            playerResponse.enabled = true;
+        }
+    }
+
+    /// <summary>
     /// 지정한 멤버의 카메라 타겟을 follow/aim 카메라에 반영합니다.
     /// </summary>
     /// <param name="member">카메라가 따라갈 멤버입니다.</param>
@@ -1574,6 +1618,7 @@ public class SquadManager : MonoBehaviour
         NormalizeMemberIndex();
         SubscribeMemberDeathEvents();
         UpdateCameraTarget();
+        RefreshCharacterCameraCollisionResponses();
         RefreshPlayerSquadMemberWeaponUI();
     }
 

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -35,6 +35,8 @@ public class GameDataManager : MonoBehaviour
     [SerializeField] private List<CharacterSnapshotData> characters = new();
 
     [Header("Shelter")]
+    [Tooltip("셸터 씬이 마지막으로 동기화한 안내 진행 단계입니다.")]
+    [SerializeField] private ShelterFlowState shelterFlowState = ShelterFlowState.NotStarted;
     [Tooltip("현재 출전 대상으로 선택된 캐릭터 런타임 ID 목록입니다. 최대 3명입니다.")]
     [FormerlySerializedAs("battleSquadNpcDefinitionIds")]
     [FormerlySerializedAs("playableSquadDefinitionIds")]
@@ -44,6 +46,10 @@ public class GameDataManager : MonoBehaviour
     [Tooltip("시설별 해금 여부와 업그레이드 단계입니다.")]
     [SerializeField] private List<FacilityRuntimeState> facilityStates = new();
     [SerializeField] private ManufacturingRuntimeData manufacturing = new();
+
+    [Header("필드배치NPC변수")]
+    [SerializeField] private bool shooter01;
+    [SerializeField] private bool shooter02;
 
     [Header("Last Field Settlement")]
     [Tooltip("마지막으로 정산 반영이 완료된 필드 ID이며 중복 반영 방지 키로 사용합니다.")]
@@ -100,15 +106,32 @@ public class GameDataManager : MonoBehaviour
     /// <summary>현재 셸터 진행 일차입니다.</summary>
     public int CurrentDay => Mathf.Max(1, currentDay);
 
+    /// <summary>마지막 셸터 동기화 시점의 안내 진행 단계입니다.</summary>
+    public ShelterFlowState ShelterFlowState => shelterFlowState;
+
     public bool FoodShortagePenaltyActive => foodShortagePenaltyActive;
 
     public bool FuelShortagePenaltyActive => fuelShortagePenaltyActive;
+
+    public bool Shooter01 => shooter01;
+
+    public bool Shooter02 => shooter02;
 
     /// <summary>현재 씬의 ShelterSceneDataManager가 등록되어 있는지 여부입니다.</summary>
     public bool HasActiveShelterSceneDataManager => activeShelterSceneDataManager != null;
 
     /// <summary>현재 세션 또는 저장 데이터에 반영된 최근 필드 결과가 있는지 여부입니다.</summary>
     public bool HasLastFieldResult => !string.IsNullOrWhiteSpace(lastSettledFieldId);
+
+    public void SetShooter01Active(bool isActive)
+    {
+        shooter01 = isActive;
+    }
+
+    public void SetShooter02Active(bool isActive)
+    {
+        shooter02 = isActive;
+    }
 
     /// <summary>마지막으로 정산 반영이 완료된 필드 ID입니다.</summary>
     public string LastSettledFieldId => lastSettledFieldId ?? string.Empty;
@@ -192,6 +215,7 @@ public class GameDataManager : MonoBehaviour
         EnsureRuntimeState();
         ShelterRuntimeData packet = new ShelterRuntimeData();
         packet.SetShelterStability(shelterStability);
+        packet.SetFlowState(shelterFlowState);
         packet.SetResourceShortagePenaltyState(
             foodShortagePenaltyActive,
             fuelShortagePenaltyActive);
@@ -234,6 +258,7 @@ public class GameDataManager : MonoBehaviour
         packet.EnsureRuntimeContainers();
         shelterStability = packet.ShelterStability;
         currentDay = packet.CurrentDay;
+        shelterFlowState = packet.FlowState;
         foodShortagePenaltyActive = packet.FoodShortagePenaltyActive;
         fuelShortagePenaltyActive = packet.FuelShortagePenaltyActive;
         playableSquadRuntimeIds = new List<string>(packet.FieldSquadRuntimeIds);
@@ -576,6 +601,8 @@ public class GameDataManager : MonoBehaviour
             shelterStability = ShelterStability,
             foodShortagePenaltyActive = FoodShortagePenaltyActive,
             fuelShortagePenaltyActive = FuelShortagePenaltyActive,
+            shooter01 = Shooter01,
+            shooter02 = Shooter02,
             totalFieldKillCount = TotalFieldKillCount,
             fieldKillHistory = new List<int>(fieldKillHistory),
             manufacturing = ManufacturingFacilitySaveDataMapper.FromRuntime(manufacturing)
@@ -609,6 +636,7 @@ public class GameDataManager : MonoBehaviour
         SaveData.ShelterSaveData saveData = new SaveData.ShelterSaveData
         {
             currentDay = CurrentDay,
+            flowState = ShelterFlowState,
             battleSquadRuntimeIds = new List<string>(playableSquadRuntimeIds)
         };
 
@@ -645,6 +673,8 @@ public class GameDataManager : MonoBehaviour
         shelterStability = Mathf.Clamp(saveData.shelterStability, 0, 100);
         foodShortagePenaltyActive = saveData.foodShortagePenaltyActive;
         fuelShortagePenaltyActive = saveData.fuelShortagePenaltyActive;
+        shooter01 = saveData.shooter01;
+        shooter02 = saveData.shooter02;
         totalFieldKillCount = Mathf.Max(0, saveData.totalFieldKillCount);
         fieldKillHistory = saveData.fieldKillHistory != null
             ? new List<int>(saveData.fieldKillHistory)
@@ -694,6 +724,7 @@ public class GameDataManager : MonoBehaviour
     private void ApplyShelterSaveData(SaveData.ShelterSaveData saveData)
     {
         currentDay = Mathf.Max(1, saveData.currentDay);
+        shelterFlowState = saveData.flowState;
         itemStorageEntries = new List<ItemStorageEntry>();
         IEnumerable<string> savedSquadIds = saveData.battleSquadRuntimeIds != null
             && saveData.battleSquadRuntimeIds.Count > 0
@@ -1115,7 +1146,10 @@ public class GameDataManager : MonoBehaviour
             state.EnsureValid();
             if (!string.IsNullOrWhiteSpace(state.facilityId) && facilityIds.Add(state.facilityId))
             {
-                clone.Add(new FacilityRuntimeState(state.facilityId, state.isUnlocked, state.upgradeLevel));
+                clone.Add(new FacilityRuntimeState(
+                    state.facilityId,
+                    state.isUnlocked,
+                    state.upgradeLevel));
             }
         }
 

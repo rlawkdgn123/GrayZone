@@ -35,6 +35,7 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
         public SkinnedMeshRenderer Renderer;
         public Material[] OriginalMaterials;
         public Material[] RuntimeMaterials;
+        public MaterialPropertyBlock OriginalPropertyBlock;
     }
 
     [Header("References")]
@@ -61,6 +62,12 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
     [Tooltip("기본 카메라 위치로 부드럽게 복귀하는 시간입니다.")]
     [SerializeField, Min(0.01f)] private float m_heightBlendOutDuration = 0.4f;
 
+    [Header("Collision Camera Safety")]
+    [Tooltip("충돌 중 카메라와 캐릭터 중심 사이에 확보할 최소 거리입니다.")]
+    [SerializeField, Min(0f)] private float m_minimumCameraClearance = 0.6f;
+    [Tooltip("충돌 중 근접한 캐릭터가 Near Clip Plane에 잘리지 않도록 사용할 값입니다.")]
+    [SerializeField, Min(0.01f)] private float m_collisionNearClipPlane = 0.1f;
+
     [Header("Character Dither")]
     [Tooltip("카메라가 가장 가까울 때 화면에 남길 디더 픽셀 비율입니다.")]
     [SerializeField, Range(0f, 1f)] private float m_minimumVisibility = 0.2f;
@@ -74,6 +81,7 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
     private readonly List<CameraRigState> m_rigStates = new List<CameraRigState>();
     private readonly List<RendererState> m_rendererStates = new List<RendererState>();
     private readonly List<Material> m_runtimeMaterials = new List<Material>();
+    private readonly RaycastHit[] m_cameraClearanceHits = new RaycastHit[16];
 
     private MaterialPropertyBlock m_propertyBlock;
     private Texture2D m_ditherMask;
@@ -83,6 +91,8 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
     private float m_collisionBlendVelocity;
     private float m_currentVisibility = 1f;
     private float m_lastCollisionTime = float.NegativeInfinity;
+    private float m_baseNearClipPlane;
+    private bool m_hasBaseNearClipPlane;
     private bool m_runtimeInitialized;
 
     public bool IsCollisionResponseActive { get; private set; }
@@ -119,6 +129,7 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
 
         InitializeRuntime();
         AssignRuntimeMaterials();
+        ApplyVisibility(m_currentVisibility);
         CinemachineCore.CameraUpdatedEvent.AddListener(OnCameraUpdated);
     }
 
@@ -130,7 +141,8 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
             return;
 
         RestoreCameraRigs();
-        RestoreOriginalMaterials();
+        RestoreCameraNearClipPlane();
+        RestoreOriginalRendererState();
         m_currentHeightOffset = 0f;
         m_collisionBlend = 0f;
         m_collisionBlendVelocity = 0f;
@@ -150,6 +162,8 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
         m_collisionReleaseDelay = Mathf.Max(0f, m_collisionReleaseDelay);
         m_heightBlendInDuration = Mathf.Max(0.01f, m_heightBlendInDuration);
         m_heightBlendOutDuration = Mathf.Max(0.01f, m_heightBlendOutDuration);
+        m_minimumCameraClearance = Mathf.Max(0f, m_minimumCameraClearance);
+        m_collisionNearClipPlane = Mathf.Max(0.01f, m_collisionNearClipPlane);
         m_minimumVisibility = Mathf.Clamp01(m_minimumVisibility);
         m_fullDitherDistance = Mathf.Max(0f, m_fullDitherDistance);
         m_ditherStartDistance = Mathf.Max(m_fullDitherDistance + 0.01f, m_ditherStartDistance);
@@ -179,6 +193,7 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
         float deltaTime = Time.deltaTime;
         UpdateCameraOffset(collisionActive, deltaTime);
         ApplyCameraOffset();
+        ApplyCameraSafety(activeRig, collisionActive);
 
         float desiredVisibility = collisionActive
             ? CalculateCollisionVisibility()
@@ -194,6 +209,7 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
             return;
 
         CacheReferences();
+        CacheCameraNearClipPlane();
         CacheCameraRigs();
         CreateDitherMask();
         CacheRendererMaterials();
@@ -244,6 +260,15 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
         }
     }
 
+    private void CacheCameraNearClipPlane()
+    {
+        if (m_outputCamera == null || m_hasBaseNearClipPlane)
+            return;
+
+        m_baseNearClipPlane = m_outputCamera.nearClipPlane;
+        m_hasBaseNearClipPlane = true;
+    }
+
     private void CacheRendererMaterials()
     {
         m_rendererStates.Clear();
@@ -260,6 +285,8 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
             SkinnedMeshRenderer targetRenderer = renderers[i];
             Material[] originalMaterials = targetRenderer.sharedMaterials;
             Material[] runtimeMaterials = new Material[originalMaterials.Length];
+            MaterialPropertyBlock originalPropertyBlock = new MaterialPropertyBlock();
+            targetRenderer.GetPropertyBlock(originalPropertyBlock);
 
             for (int materialIndex = 0; materialIndex < originalMaterials.Length; materialIndex++)
             {
@@ -271,7 +298,8 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
             {
                 Renderer = targetRenderer,
                 OriginalMaterials = originalMaterials,
-                RuntimeMaterials = runtimeMaterials
+                RuntimeMaterials = runtimeMaterials,
+                OriginalPropertyBlock = originalPropertyBlock
             });
         }
     }
@@ -449,6 +477,101 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
         }
     }
 
+    private void ApplyCameraSafety(
+        CinemachineThirdPersonFollow activeRig,
+        bool collisionActive)
+    {
+        UpdateCameraNearClipPlane(collisionActive);
+
+        if (!collisionActive || activeRig == null || m_outputCamera == null ||
+            m_minimumCameraClearance <= 0f)
+        {
+            return;
+        }
+
+        Vector3 characterCenter = m_characterController != null
+            ? m_characterController.bounds.center
+            : transform.position;
+        Vector3 cameraOffset = m_outputCamera.transform.position - characterCenter;
+        float currentDistance = cameraOffset.magnitude;
+        if (currentDistance >= m_minimumCameraClearance)
+            return;
+
+        Vector3 direction = currentDistance > 0.001f
+            ? cameraOffset / currentDistance
+            : -m_outputCamera.transform.forward;
+        float availableDistance = FindAvailableCameraDistance(
+            activeRig,
+            characterCenter,
+            direction
+        );
+
+        if (availableDistance <= currentDistance)
+            return;
+
+        m_outputCamera.transform.position =
+            characterCenter + direction * availableDistance;
+    }
+
+    private float FindAvailableCameraDistance(
+        CinemachineThirdPersonFollow activeRig,
+        Vector3 origin,
+        Vector3 direction)
+    {
+        CinemachineThirdPersonFollow.ObstacleSettings obstacleSettings =
+            activeRig.AvoidObstacles;
+        int hitCount = Physics.RaycastNonAlloc(
+            origin,
+            direction,
+            m_cameraClearanceHits,
+            m_minimumCameraClearance,
+            obstacleSettings.CollisionFilter,
+            QueryTriggerInteraction.Ignore
+        );
+        float availableDistance = m_minimumCameraClearance;
+
+        for (int i = 0; i < hitCount; i++)
+        {
+            RaycastHit hit = m_cameraClearanceHits[i];
+            if (hit.collider == null ||
+                hit.collider.transform == transform ||
+                hit.collider.transform.IsChildOf(transform))
+            {
+                continue;
+            }
+
+            if (!string.IsNullOrEmpty(obstacleSettings.IgnoreTag) &&
+                hit.collider.CompareTag(obstacleSettings.IgnoreTag))
+            {
+                continue;
+            }
+
+            float safeDistance = Mathf.Max(
+                0f,
+                hit.distance - obstacleSettings.CameraRadius
+            );
+            availableDistance = Mathf.Min(availableDistance, safeDistance);
+        }
+
+        return availableDistance;
+    }
+
+    private void UpdateCameraNearClipPlane(bool collisionActive)
+    {
+        if (m_outputCamera == null || !m_hasBaseNearClipPlane)
+            return;
+
+        m_outputCamera.nearClipPlane = collisionActive
+            ? Mathf.Min(m_baseNearClipPlane, m_collisionNearClipPlane)
+            : m_baseNearClipPlane;
+    }
+
+    private void RestoreCameraNearClipPlane()
+    {
+        if (m_outputCamera != null && m_hasBaseNearClipPlane)
+            m_outputCamera.nearClipPlane = m_baseNearClipPlane;
+    }
+
     private float CalculateCollisionVisibility()
     {
         if (m_outputCamera == null)
@@ -487,6 +610,7 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
 
         float clampedVisibility = Mathf.Clamp01(visibility);
         const float fadeRange = 1f;
+        const float fullyVisibleThreshold = 0.999f;
 
         for (int i = 0; i < m_rendererStates.Count; i++)
         {
@@ -494,19 +618,24 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
             if (targetRenderer == null)
                 continue;
 
-            float rendererDistance = Vector3.Distance(
-                m_outputCamera.transform.position,
-                targetRenderer.transform.position
-            );
+            float minFadeDistance = -fadeRange;
+            if (clampedVisibility < fullyVisibleThreshold)
+            {
+                Vector3 fadeOrigin = targetRenderer.rootBone != null
+                    ? targetRenderer.rootBone.position
+                    : targetRenderer.transform.position;
+                float rendererDistance = Vector3.Distance(
+                    m_outputCamera.transform.position,
+                    fadeOrigin
+                );
+                minFadeDistance = rendererDistance - clampedVisibility * fadeRange;
+            }
 
             m_propertyBlock.Clear();
             targetRenderer.GetPropertyBlock(m_propertyBlock);
             m_propertyBlock.SetFloat(NearFadeEnabledId, 1f);
             m_propertyBlock.SetFloat(MaxFadeDistanceId, fadeRange);
-            m_propertyBlock.SetFloat(
-                MinFadeDistanceId,
-                rendererDistance - clampedVisibility * fadeRange
-            );
+            m_propertyBlock.SetFloat(MinFadeDistanceId, minFadeDistance);
             m_propertyBlock.SetFloat(
                 ToonClippingLevelId,
                 clampedVisibility - 0.5f
@@ -535,13 +664,16 @@ public sealed class CharacterCameraCollisionResponse : MonoBehaviour
         }
     }
 
-    private void RestoreOriginalMaterials()
+    private void RestoreOriginalRendererState()
     {
         for (int i = 0; i < m_rendererStates.Count; i++)
         {
             RendererState state = m_rendererStates[i];
-            if (state.Renderer != null)
-                state.Renderer.sharedMaterials = state.OriginalMaterials;
+            if (state.Renderer == null)
+                continue;
+
+            state.Renderer.sharedMaterials = state.OriginalMaterials;
+            state.Renderer.SetPropertyBlock(state.OriginalPropertyBlock);
         }
     }
 

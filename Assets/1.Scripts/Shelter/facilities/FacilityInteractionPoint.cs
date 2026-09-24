@@ -9,15 +9,28 @@ public class FacilityInteractionPoint : MonoBehaviour
     [SerializeField] private FacilityInteractionType interactionType = FacilityInteractionType.None;
     [SerializeField] private GameObject facilityRoot;
 
+    private bool interactionEnabled = true;
+
     /// <summary>이 지점이 연결된 시설 UI 타입</summary>
     public FacilityInteractionType InteractionType => interactionType;
 
     /// <summary>시설 컴포넌트를 탐색할 기준 루트 비어 있으면 현재 오브젝트를 사용</summary>
     public GameObject FacilityRoot => facilityRoot != null ? facilityRoot : gameObject;
 
+    /// <summary>현재 이 시설 지점의 상호작용 허용 여부</summary>
+    public bool InteractionEnabled => interactionEnabled;
+
     private void Reset()
     {
         facilityRoot = gameObject;
+    }
+
+    /// <summary>
+    /// 진행 상태에 따라 이 시설 지점의 상호작용 허용 여부를 변경합니다.
+    /// </summary>
+    public void SetInteractionEnabled(bool enabled)
+    {
+        interactionEnabled = enabled;
     }
 
     /// <summary>

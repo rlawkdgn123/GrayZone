@@ -110,6 +110,7 @@ public sealed class NpcFacilityDialogueInteractable : MonoBehaviour, IInteractab
             && interactor != null
             && m_uiManager != null
             && m_facilityInteractionPoint != null
+            && m_facilityInteractionPoint.InteractionEnabled
             && !m_uiManager.HasOpenBlockingUI;
     }
 

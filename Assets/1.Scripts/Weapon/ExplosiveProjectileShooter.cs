@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
+using System.Collections.Generic;
 
 /// <summary>
 /// 플레이어의 투척 모드와 좌클릭 입력을 받아 폭발탄 경로를 표시하고 투척합니다.
@@ -32,14 +33,14 @@ public class ExplosiveProjectileShooter : MonoBehaviour
         [SerializeField] private float m_mainRingThicknessPixels = 2.0f;
 
         [Tooltip("중앙 표시 색상입니다.")]
-        [SerializeField] private Color m_mainColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        [SerializeField] private Color m_mainColor = new Color(1.0f, 1.0f, 1.0f, 0.27450982f);
 
         [Tooltip("중앙 표시 외곽선 두께입니다.")]
         [Min(0.0f)]
         [SerializeField] private float m_mainStrokeThicknessPixels = 1.0f;
 
         [Tooltip("중앙 표시 외곽선 색상입니다.")]
-        [SerializeField] private Color m_mainStrokeColor = Color.black;
+        [SerializeField] private Color m_mainStrokeColor = new Color(0.0f, 0.0f, 0.0f, 0.27450982f);
 
         [Tooltip("보조 표시 형태입니다.")]
         [SerializeField] private CrosshairController.SubShape m_subShape = CrosshairController.SubShape.RoundedCross;
@@ -69,14 +70,14 @@ public class ExplosiveProjectileShooter : MonoBehaviour
         [SerializeField] private float m_subRingThicknessPixels = 2.0f;
 
         [Tooltip("보조 표시 색상입니다.")]
-        [SerializeField] private Color m_subColor = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        [SerializeField] private Color m_subColor = new Color(1.0f, 1.0f, 1.0f, 0.27450982f);
 
         [Tooltip("보조 표시 외곽선 두께입니다.")]
         [Min(0.0f)]
         [SerializeField] private float m_subStrokeThicknessPixels = 1.0f;
 
         [Tooltip("보조 표시 외곽선 색상입니다.")]
-        [SerializeField] private Color m_subStrokeColor = Color.black;
+        [SerializeField] private Color m_subStrokeColor = new Color(0.0f, 0.0f, 0.0f, 0.27450982f);
 
         [Tooltip("Rounded Cross 모서리 반지름입니다.")]
         [Min(0.0f)]
@@ -132,8 +133,18 @@ public class ExplosiveProjectileShooter : MonoBehaviour
         }
     }
 
-    [Tooltip("투척할 ExplosiveProjectile Prefab입니다.")]
-    [SerializeField] private ExplosiveProjectile m_projectilePrefab;
+    [Tooltip("Q/E 또는 마우스 휠로 순환 선택할 ExplosiveProjectile Prefab 목록입니다.")]
+    [SerializeField] private List<ExplosiveProjectile> m_projectilePrefabs = new List<ExplosiveProjectile>();
+
+    [UnityEngine.Serialization.FormerlySerializedAs("m_projectilePrefab")]
+    [SerializeField, HideInInspector] private ExplosiveProjectile m_legacyProjectilePrefab;
+
+    [Tooltip("현재 선택된 투척물 목록 인덱스입니다.")]
+    [Min(0)]
+    [SerializeField] private int m_selectedProjectileIndex;
+
+    [Tooltip("G 투척 모드에서 현재 선택된 투척물 아이콘을 표시할 UI입니다. 비어 있으면 Scene에서 자동으로 찾습니다.")]
+    [SerializeField] private GrenadeSelectionUI m_grenadeSelectionUI;
 
     [Tooltip("G 투척 모드에서 수치 프리셋을 적용할 크로스헤어입니다. 비어 있으면 AimController 또는 Scene에서 자동으로 찾습니다.")]
     [SerializeField] private CrosshairController m_defaultCrosshair;
@@ -151,16 +162,16 @@ public class ExplosiveProjectileShooter : MonoBehaviour
 
     [Tooltip("수평 조준 시 투척 시작점보다 올라갈 기준 최고 높이입니다.")]
     [Min(0.0f)]
-    [SerializeField] private float m_arcHeight = 4.0f;
+    [SerializeField] private float m_arcHeight = 1.5f;
 
     [Tooltip("포물선을 아래로 휘게 하는 스크립트 가속도입니다. Rigidbody 중력은 사용하지 않습니다.")]
     [Min(0.01f)]
-    [SerializeField] private float m_downwardAcceleration = 9.81f;
+    [SerializeField] private float m_downwardAcceleration = 20.0f;
 
     [Tooltip("포물선의 거리와 높이는 유지하면서 실제 비행 속도만 조절합니다. 1은 기본 속도, 2는 두 배 속도입니다.")]
     [InspectorName("Throw Speed")]
     [Min(0.01f)]
-    [SerializeField] private float m_throwSpeedMultiplier = 1.0f;
+    [SerializeField] private float m_throwSpeedMultiplier = 1.25f;
 
     [Tooltip("LineRenderer로 미리 보여 줄 포물선의 최대 누적 길이입니다. 실제 폭탄 이동은 제한하지 않습니다.")]
     [Min(0.1f)]
@@ -214,9 +225,11 @@ public class ExplosiveProjectileShooter : MonoBehaviour
 
     private void Awake()
     {
+        MigrateLegacyProjectile();
         m_input = GetComponent<PlayerInputController>();
         m_aimController = GetComponent<AimController>();
         m_sourceCollider = GetComponent<Collider>();
+        ResolveGrenadeSelectionUI();
         CreateTrajectoryLine();
         ApplyCrosshairMode(m_input != null && m_input.ThrowMode);
     }
@@ -228,12 +241,15 @@ public class ExplosiveProjectileShooter : MonoBehaviour
 
         if (m_input == null || m_aimController == null || !throwModeActive)
         {
+            UpdateGrenadeSelectionUI(false);
             HideTrajectory();
             m_wasThrowModeActive = false;
             m_throwWasHeld = false;
             return;
         }
 
+        CycleProjectile(m_input.ConsumeThrowSelectionDelta());
+        UpdateGrenadeSelectionUI(true);
         bool throwHeld = m_input.Throw;
 
         if (m_input.Sprint)
@@ -270,6 +286,7 @@ public class ExplosiveProjectileShooter : MonoBehaviour
 
     private void OnDisable()
     {
+        UpdateGrenadeSelectionUI(false);
         ApplyCrosshairMode(false);
         m_crosshairModeInitialized = false;
         HideTrajectory();
@@ -282,6 +299,85 @@ public class ExplosiveProjectileShooter : MonoBehaviour
         if (m_runtimeLineMaterial != null)
         {
             Destroy(m_runtimeLineMaterial);
+        }
+    }
+
+    private void OnValidate()
+    {
+        MigrateLegacyProjectile();
+    }
+
+    private void MigrateLegacyProjectile()
+    {
+        if (m_projectilePrefabs == null)
+        {
+            m_projectilePrefabs = new List<ExplosiveProjectile>();
+        }
+
+        if (m_projectilePrefabs.Count == 0 && m_legacyProjectilePrefab != null)
+        {
+            m_projectilePrefabs.Add(m_legacyProjectilePrefab);
+            m_legacyProjectilePrefab = null;
+        }
+
+        m_selectedProjectileIndex = WrapIndex(m_selectedProjectileIndex, m_projectilePrefabs.Count);
+    }
+
+    private void CycleProjectile(int selectionDelta)
+    {
+        if (selectionDelta == 0 || m_projectilePrefabs == null || m_projectilePrefabs.Count == 0)
+        {
+            return;
+        }
+
+        m_selectedProjectileIndex = WrapIndex(
+            m_selectedProjectileIndex + selectionDelta,
+            m_projectilePrefabs.Count);
+    }
+
+    private ExplosiveProjectile GetSelectedProjectile()
+    {
+        if (m_projectilePrefabs == null || m_projectilePrefabs.Count == 0)
+        {
+            return m_legacyProjectilePrefab;
+        }
+
+        m_selectedProjectileIndex = WrapIndex(m_selectedProjectileIndex, m_projectilePrefabs.Count);
+        return m_projectilePrefabs[m_selectedProjectileIndex];
+    }
+
+    private int GetProjectileCollisionLayers(ExplosiveProjectile projectile)
+    {
+        int excludedLayers = projectile != null
+            ? projectile.ContactExplosionExcludeLayers.value
+            : 0;
+        return m_collisionLayers.value & ~excludedLayers;
+    }
+
+    private static int WrapIndex(int index, int count)
+    {
+        if (count <= 0)
+        {
+            return 0;
+        }
+
+        return (index % count + count) % count;
+    }
+
+    private void ResolveGrenadeSelectionUI()
+    {
+        if (m_grenadeSelectionUI == null)
+        {
+            m_grenadeSelectionUI = FindFirstObjectByType<GrenadeSelectionUI>(FindObjectsInactive.Include);
+        }
+    }
+
+    private void UpdateGrenadeSelectionUI(bool visible)
+    {
+        ResolveGrenadeSelectionUI();
+        if (m_grenadeSelectionUI != null)
+        {
+            m_grenadeSelectionUI.SetState(this, visible, GetSelectedProjectile());
         }
     }
 
@@ -401,8 +497,9 @@ public class ExplosiveProjectileShooter : MonoBehaviour
         float targetSegmentLength = previewDistance / segmentCount;
         float accumulatedDistance = 0.0f;
         float throwSpeedMultiplier = Mathf.Max(0.01f, m_throwSpeedMultiplier);
-        float trajectoryTimeLimit = m_projectilePrefab != null
-            ? Mathf.Max(0.0f, m_projectilePrefab.FuseTime) * throwSpeedMultiplier
+        ExplosiveProjectile selectedProjectile = GetSelectedProjectile();
+        float trajectoryTimeLimit = selectedProjectile != null
+            ? Mathf.Max(0.0f, selectedProjectile.FuseTime) * throwSpeedMultiplier
             : float.PositiveInfinity;
 
         if (trajectoryTimeLimit <= 0.0f)
@@ -499,7 +596,8 @@ public class ExplosiveProjectileShooter : MonoBehaviour
 
     private bool ThrowProjectile()
     {
-        if (m_projectilePrefab == null)
+        ExplosiveProjectile selectedProjectile = GetSelectedProjectile();
+        if (selectedProjectile == null)
         {
             Debug.LogWarning($"[{name}] 투척할 폭발 투사체 Prefab이 없습니다.", this);
             return false;
@@ -509,7 +607,7 @@ public class ExplosiveProjectileShooter : MonoBehaviour
             ? Quaternion.LookRotation(m_initialVelocity.normalized, Vector3.up)
             : transform.rotation;
 
-        ExplosiveProjectile projectile = Instantiate(m_projectilePrefab, m_throwStart, rotation);
+        ExplosiveProjectile projectile = Instantiate(selectedProjectile, m_throwStart, rotation);
         Collider[] projectileColliders = projectile.GetComponentsInChildren<Collider>(true);
         foreach (Collider projectileCollider in projectileColliders)
         {
@@ -534,7 +632,7 @@ public class ExplosiveProjectileShooter : MonoBehaviour
             m_plannedCollisionTime,
             m_plannedCollisionPosition,
             m_collisionRadius,
-            m_collisionLayers,
+            GetProjectileCollisionLayers(selectedProjectile),
             transform);
 
         return true;
@@ -557,7 +655,7 @@ public class ExplosiveProjectileShooter : MonoBehaviour
             movement / distance,
             m_previewHits,
             distance,
-            m_collisionLayers,
+            GetProjectileCollisionLayers(GetSelectedProjectile()),
             QueryTriggerInteraction.Ignore);
 
         float nearestDistance = float.PositiveInfinity;
@@ -628,14 +726,15 @@ public class ExplosiveProjectileShooter : MonoBehaviour
 
     private void DrawExplosionPreview()
     {
-        if (!m_hasExplosionPreview || m_projectilePrefab == null)
+        ExplosiveProjectile selectedProjectile = GetSelectedProjectile();
+        if (!m_hasExplosionPreview || selectedProjectile == null)
         {
             m_explosionPreviewLine.enabled = false;
             m_explosionPreviewLine.positionCount = 0;
             return;
         }
 
-        float radius = Mathf.Max(0.0f, m_projectilePrefab.ExplosionRadius);
+        float radius = Mathf.Max(0.0f, selectedProjectile.ExplosionRadius);
         if (radius <= 0.0f)
         {
             m_explosionPreviewLine.enabled = false;

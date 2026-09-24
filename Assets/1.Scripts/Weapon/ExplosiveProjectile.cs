@@ -30,7 +30,7 @@ public class ExplosiveProjectile : MonoBehaviour
     [Tooltip("폭발 피해 후보로 검색할 Collider Layer입니다.")]
     [SerializeField] private LayerMask m_damageTargetLayers;
 
-    [Tooltip("접촉해도 즉시 폭발하지 않을 상대 Layer입니다. 물리 충돌 자체는 유지됩니다.")]
+    [Tooltip("접촉 폭발과 투척 경로 충돌 판정에서 무시할 상대 Layer입니다.")]
     [SerializeField] private LayerMask m_contactExplosionExcludeLayers;
 
     private float m_elapsedTime;
@@ -42,6 +42,9 @@ public class ExplosiveProjectile : MonoBehaviour
 
     /// <summary>폭발 피해 원통의 수평 반지름입니다.</summary>
     public float ExplosionRadius => m_explosionRadius;
+
+    /// <summary>접촉 폭발과 투척 경로 충돌에서 무시할 Layer입니다.</summary>
+    public LayerMask ContactExplosionExcludeLayers => m_contactExplosionExcludeLayers;
 
     private void Reset()
     {

@@ -26,7 +26,10 @@ public sealed class FacilityRuntimeState
     /// <param name="facilityId">시설 고정 식별자</param>
     /// <param name="isUnlocked">초기 해금 여부</param>
     /// <param name="upgradeLevel">초기 업그레이드 레벨</param>
-    public FacilityRuntimeState(string facilityId, bool isUnlocked, int upgradeLevel = 0)
+    public FacilityRuntimeState(
+        string facilityId,
+        bool isUnlocked,
+        int upgradeLevel = 0)
     {
         this.facilityId = NormalizeFacilityId(facilityId);
         this.isUnlocked = isUnlocked;
