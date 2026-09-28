@@ -177,6 +177,47 @@ public static class HumanoidRagdollBuilder
             return false;
         }
 
+        return Build(root, animator, log);
+    }
+
+    /// <summary>
+    /// 지정한 Humanoid Animator의 골격에 래그돌을 구성합니다.
+    /// </summary>
+    /// <param name="root">래그돌 컨트롤러를 소유할 캐릭터 루트입니다.</param>
+    /// <param name="animator">래그돌을 구성할 모델의 Humanoid Animator입니다.</param>
+    /// <param name="log">진행 내역을 쌓을 로그입니다. null이면 기록하지 않습니다.</param>
+    /// <returns>대상과 필수 뼈가 유효하고 구성이 완료되면 true입니다.</returns>
+    /// <remarks>
+    /// 모델 교체 프리팹에는 구 모델과 새 모델의 Animator가 함께 남아 있을 수 있습니다.
+    /// 이 오버로드는 호출자가 적용 대상을 명시해 계층 검색 순서에 따라 구 리그가 선택되는 일을 막습니다.
+    /// 기존 <see cref="Build(GameObject, List{string})"/>는 호환성을 위해 자동 탐색을 유지합니다.
+    /// </remarks>
+    public static bool Build(GameObject root, Animator animator, List<string> log)
+    {
+        if (root == null)
+        {
+            Add(log, "대상이 비어 있습니다.");
+            return false;
+        }
+
+        if (animator == null)
+        {
+            Add(log, "적용할 Animator가 비어 있습니다.");
+            return false;
+        }
+
+        if (animator.transform != root.transform && !animator.transform.IsChildOf(root.transform))
+        {
+            Add(log, $"Animator '{animator.name}'가 대상 루트 '{root.name}'의 계층에 속하지 않습니다.");
+            return false;
+        }
+
+        if (animator.avatar == null || !animator.avatar.isHuman || !animator.avatar.isValid)
+        {
+            Add(log, $"Animator '{animator.name}'의 Avatar가 유효한 Humanoid가 아닙니다.");
+            return false;
+        }
+
         Add(log, $"Humanoid Animator: {animator.name} (Avatar: {animator.avatar.name})");
 
         Dictionary<HumanBodyBones, Transform> bones = CollectRequiredBones(animator, log);

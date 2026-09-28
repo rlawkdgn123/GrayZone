@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fd71bc7e5745fdad8bc746adc670b4, type: 3}
+  m_Name: EnemyBalance 1
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBalanceSO
+  m_enemyId: enemy.basic
+  m_maxHp: 200
+  m_wanderRadius: 8
+  m_wanderInterval: 3
+  m_wanderSpeed: 2
+  m_chaseSpeed: 6
+  m_rotationSpeed: 200
+  m_idleTypeMin: 0
+  m_idleTypeMax: 1
+  m_perceptionInterval: 0.25
+  m_sightRange: 12
+  m_sightAngle: 120
+  m_alertDuration: 0.5
+  m_loseSightDelay: 2
+  m_noiseHearingMultiplier: 1
+  m_noiseAwarenessThreshold: 1
+  m_noiseAwarenessDecayPerSecond: 0.15
+  m_noiseChaseSpeed: 2
+  m_noiseArriveDistance: 1.5
+  m_noiseSearchDuration: 8
+  m_noiseSearchRadius: 5
+  m_howlRadius: 25
+  m_howlBroadcastTime: 1.2
+  m_howlDuration: 3
+  m_targetReevaluateInterval: 1
+  m_targetSwitchPathDistanceDelta: 2
+  m_combatSearchDuration: 6
+  m_combatSearchRadius: 6
+  m_hitStunDuration: 3
+  m_hitStunCooldown: 0.2
+  m_staggerThreshold: 0.9
+  m_staggerDecayPerSecond: 0
+  m_attackRange: 1.8
+  m_attackStartAngle: 70
+  m_attackDirectionLockTime: 0.25
+  m_attackImpactTime: 0.45
+  m_attackRecoveryDuration: 0.75
+  m_attackDamage: 1
+  m_attackMaxTargets: 1

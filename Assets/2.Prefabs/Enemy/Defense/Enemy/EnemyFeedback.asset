@@ -15,6 +15,13 @@ MonoBehaviour:
   m_hitEffectPrefab: {fileID: 6724971032020575412, guid: e87601104e038e141954424b60b26c79, type: 3}
   m_hitEffectLifetime: 2
   m_hitSounds: []
+  m_hitEvent:
+    Guid:
+      Data1: -898582318
+      Data2: 1215035040
+      Data3: -2134666078
+      Data4: 328424578
+    Path: event:/Enemy/Howler/Hit
   m_bloodDecalPrefab: {fileID: 0}
   m_bloodDecalLifetime: 20
   m_idleSounds: []

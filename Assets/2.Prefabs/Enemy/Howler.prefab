@@ -2015,7 +2015,7 @@ MonoBehaviour:
   m_isDefenseEnemy: 0
   m_defenseDisposition: 0
   m_balanceSO: {fileID: 11400000, guid: 9199ae7a21bc4dc6a804e2275068cbd5, type: 2}
-  m_feedback: {fileID: 0}
+  m_feedback: {fileID: 11400000, guid: 0b0d847d0605c734885a718ca336bdc5, type: 2}
   wanderRadius: 8
   wanderInterval: 3
   wanderSpeed: 2
