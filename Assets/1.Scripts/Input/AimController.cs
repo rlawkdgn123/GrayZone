@@ -95,6 +95,15 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
     /// <summary>1배속 클립에서 재장전 완료 이벤트가 오는 시점(초)입니다. 아직 조회하지 않았으면 음수입니다.</summary>
     private float m_reloadEventTimeAtUnitSpeed = -1.0f;
 
+    /// <summary>연사 명중음이 겹치지 않도록 재사용하는 플레이어용 히트 확인음 인스턴스입니다.</summary>
+    private FMOD.Studio.EventInstance m_hitConfirmInstance;
+
+    /// <summary>히트 확인음 이벤트 누락 경고를 한 번만 출력했는지 여부입니다.</summary>
+    private bool m_loggedMissingHitConfirmEvent;
+
+    /// <summary>FMOD 히트 확인음 이벤트에서 일반 명중과 헤드샷을 구분하는 로컬 파라미터입니다.</summary>
+    private const string HitConfirmHeadshotParameter = "Headshot";
+
     /// <summary>
     /// 총을 드는 동안 사격을 막는 구간이 끝나는 시각(<see cref="Time.time"/> 기준)입니다.
     /// </summary>
@@ -445,6 +454,9 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
     [Tooltip("사격 사운드입니다. 실제 사격 사운드를 Gun가 처리한다면 비워둘 수 있습니다.")]
     [FormerlySerializedAs("shootingSound")]
     [SerializeField] private AudioClip m_shootingSound;
+
+    [Tooltip("직접 조작 중인 플레이어가 적을 맞혔을 때 재생할 2D FMOD 히트 확인음입니다.")]
+    [SerializeField] private FMODUnity.EventReference m_hitConfirmEvent;
 
     [Tooltip("재장전 애니메이션 이벤트에서 사용할 사운드 배열입니다. 0: 탄창 제거, 1: 탄창 삽입, 2: 재장전 완료.")]
     [FormerlySerializedAs("reloadSound")]
@@ -1056,6 +1068,13 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
             m_weaponController.OnHitFeedback -= OnWeaponHitFeedback;
             m_weaponController.OnReloadCompleted -= OnWeaponReloadCompleted;
         }
+
+        if (m_hitConfirmInstance.isValid())
+        {
+            m_hitConfirmInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
+            m_hitConfirmInstance.release();
+            m_hitConfirmInstance.clearHandle();
+        }
     }
 
     /// <summary>
@@ -1096,6 +1115,7 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
             return;
         }
 
+        PlayHitConfirmSound(feedback.Headshot);
         LogHitMarkerFeedback();
 
         if (m_crosshairController == null)
@@ -1109,6 +1129,42 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
         if (feedback.Killed)
         {
             m_crosshairController.ShowKill();
+        }
+    }
+
+    /// <summary>
+    /// 플레이어용 히트 확인음을 재생합니다. 같은 인스턴스를 다시 시작해 연사 중에도 소리가 겹쳐 커지지 않게 합니다.
+    /// </summary>
+    private void PlayHitConfirmSound(bool headshot)
+    {
+        if (m_hitConfirmEvent.IsNull)
+        {
+            return;
+        }
+
+        try
+        {
+            if (!m_hitConfirmInstance.isValid())
+            {
+                m_hitConfirmInstance = FMODUnity.RuntimeManager.CreateInstance(m_hitConfirmEvent);
+            }
+
+            m_hitConfirmInstance.setParameterByName(
+                HitConfirmHeadshotParameter,
+                headshot ? 1.0f : 0.0f);
+            m_hitConfirmInstance.start();
+        }
+        catch (FMODUnity.EventNotFoundException)
+        {
+            if (m_loggedMissingHitConfirmEvent)
+            {
+                return;
+            }
+
+            m_loggedMissingHitConfirmEvent = true;
+            Debug.LogWarning(
+                $"[AimController] FMOD 히트 확인음 이벤트를 찾지 못했습니다: {m_hitConfirmEvent.Path}",
+                this);
         }
     }
 

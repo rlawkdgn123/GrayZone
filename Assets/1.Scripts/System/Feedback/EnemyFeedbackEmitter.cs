@@ -33,6 +33,7 @@ public sealed class EnemyFeedbackEmitter : MonoBehaviour
     private int m_lastAttackIndex = -1;
     private int m_lastHitIndex = -1;
     private int m_lastDeathIndex = -1;
+    private bool m_loggedMissingFmodEvent;
 
     private void Awake()
     {
@@ -69,7 +70,10 @@ public sealed class EnemyFeedbackEmitter : MonoBehaviour
             effects.SpawnDecal(feedback.BloodDecalPrefab, point, normal, feedback.BloodDecalLifetime, hitTransform);
         }
 
-        PlayWorld(feedback.HitSounds, ref m_lastHitIndex, point, AudioPriorityClass.EnemyCritical);
+        if (!TryPlayFmodAt(feedback.HitEvent, point))
+        {
+            PlayWorld(feedback.HitSounds, ref m_lastHitIndex, point, AudioPriorityClass.EnemyCritical);
+        }
     }
 
     /// <summary>사망 위치에서 사망 사운드를 독립 one-shot으로 출력합니다.</summary>
@@ -135,6 +139,41 @@ public sealed class EnemyFeedbackEmitter : MonoBehaviour
             source.priority = AudioManager.ResolveUnityPriority(priorityClass);
             source.pitch = pitch;
             source.PlayOneShot(clip, m_volume);
+        }
+    }
+
+    /// <summary>피격 위치에 FMOD 3D one-shot을 재생합니다.</summary>
+    /// <returns>FMOD 이벤트를 시작했으면 <c>true</c>, AudioClip 폴백이 필요하면 <c>false</c>입니다.</returns>
+    private bool TryPlayFmodAt(FMODUnity.EventReference eventReference, Vector3 position)
+    {
+        if (eventReference.IsNull || !FMODUnity.RuntimeManager.IsInitialized)
+        {
+            return false;
+        }
+
+        try
+        {
+            FMOD.Studio.EventInstance instance = FMODUnity.RuntimeManager.CreateInstance(eventReference);
+            if (!instance.isValid())
+            {
+                return false;
+            }
+
+            instance.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(position));
+            instance.setVolume(m_volume);
+            instance.start();
+            instance.release();
+            return true;
+        }
+        catch (FMODUnity.EventNotFoundException exception)
+        {
+            if (!m_loggedMissingFmodEvent)
+            {
+                Debug.LogWarning($"[EnemyFeedbackEmitter] FMOD 이벤트를 찾지 못해 AudioClip으로 대체합니다: {exception.Message}", this);
+                m_loggedMissingFmodEvent = true;
+            }
+
+            return false;
         }
     }
 

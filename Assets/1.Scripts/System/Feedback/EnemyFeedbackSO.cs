@@ -25,6 +25,9 @@ public sealed class EnemyFeedbackSO : ScriptableObject, IFeedbackData
     [FeedbackReference(FeedbackReferenceKind.Audio, "피격 사운드 목록")]
     [SerializeField] private AudioClip[] m_hitSounds = Array.Empty<AudioClip>();
 
+    [Tooltip("감염체가 피격됐을 때 피격 위치에서 재생할 FMOD 이벤트입니다. 비어 있으면 위 AudioClip 목록을 사용합니다.")]
+    [SerializeField] private FMODUnity.EventReference m_hitEvent;
+
     [Tooltip("감염체 피격 지점 또는 주변 표면에 남길 혈흔 데칼 프리팹입니다.")]
     [FeedbackReference(FeedbackReferenceKind.Decal, "혈흔 데칼 프리팹")]
     [SerializeField] private GameObject m_bloodDecalPrefab;
@@ -62,6 +65,9 @@ public sealed class EnemyFeedbackSO : ScriptableObject, IFeedbackData
 
     /// <summary>피격 사운드 후보 목록입니다.</summary>
     public IReadOnlyList<AudioClip> HitSounds => m_hitSounds;
+
+    /// <summary>피격 위치에서 우선 재생할 FMOD 이벤트입니다.</summary>
+    public FMODUnity.EventReference HitEvent => m_hitEvent;
 
     /// <summary>혈흔 데칼 프리팹입니다.</summary>
     public GameObject BloodDecalPrefab => m_bloodDecalPrefab;

@@ -5550,6 +5550,13 @@ MonoBehaviour:
   m_backViewRotationSmoothTime: 0.03
   m_landingAudioClip: {fileID: 0}
   m_footstepAudioClips: []
+  m_footstepEvent:
+    Guid:
+      Data1: -1471864693
+      Data2: 1105330542
+      Data3: 1852975796
+      Data4: -899480
+    Path: event:/Character/Player/Footstep
   m_footstepAudioVolume: 0.5
   m_debugDrawGroundCheck: 1
 --- !u!114 &3705982125215987319
@@ -5816,6 +5823,13 @@ MonoBehaviour:
   m_stanceBlendDuration: 0.15
   m_airActionLayerRiseDuration: 0.06
   m_shootingSound: {fileID: 0}
+  m_hitConfirmEvent:
+    Guid:
+      Data1: 185394532
+      Data2: 1153484547
+      Data3: -378172019
+      Data4: 77413335
+    Path: event:/UI/Combat/HitConfirm
   m_reloadSounds: []
   m_drawHitscanDebugRay: 1
   m_drawAimTraceLine: 1
@@ -9363,6 +9377,27 @@ MonoBehaviour:
   m_shotSounds: []
   m_dryFireSounds: []
   m_reloadSounds: []
+  m_shotEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path:
+  m_dryFireEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path:
+  m_reloadEvent:
+    Guid:
+      Data1: 0
+      Data2: 0
+      Data3: 0
+      Data4: 0
+    Path:
   m_muzzleEffectPrefab: {fileID: 0}
   m_muzzleEffectLifetime: 2
   m_tracerEffectPrefab: {fileID: 0}

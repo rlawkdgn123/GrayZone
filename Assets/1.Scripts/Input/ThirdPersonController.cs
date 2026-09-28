@@ -404,12 +404,18 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
     [FormerlySerializedAs("FootstepAudioClips")]
     [SerializeField] private AudioClip[] m_footstepAudioClips;
 
+    [Tooltip("걸음 애니메이션 이벤트에서 재생할 FMOD 발소리 이벤트입니다. 지정하면 AudioClip 목록보다 우선합니다.")]
+    [SerializeField] private FMODUnity.EventReference m_footstepEvent;
+
     [Tooltip("발소리와 착지음의 재생 음량입니다.")]
     [Range(0, 1)]
     [FormerlySerializedAs("FootstepAudioVolume")]
     [BalanceField]
     [Clamp(Min = 0, Max = 1)]
     [SerializeField] private float m_footstepAudioVolume = 0.5f;
+
+    /// <summary>누락된 FMOD 발소리 이벤트 경고가 반복 출력되지 않게 합니다.</summary>
+    private bool m_loggedMissingFootstepFmodEvent;
 
     [Foldout("Debug")]
     [Tooltip("이 캐릭터를 선택했을 때 접지 판정 구를 Scene 뷰에 표시합니다. 접지 중이면 초록, 아니면 빨강입니다.")]
@@ -2795,18 +2801,59 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
     }
 
     /// <summary>
-    /// 발걸음 애니메이션 이벤트에서 임의의 발소리 클립을 재생합니다.
+    /// 발걸음 애니메이션 이벤트에서 FMOD 발소리를 우선 재생합니다.
     /// </summary>
     /// <param name="animationEvent">애니메이션 이벤트 정보입니다.</param>
     private void OnFootstep(AnimationEvent animationEvent)
     {
-        if (animationEvent.animatorClipInfo.weight > 0.5f)
+        if (animationEvent.animatorClipInfo.weight <= 0.5f)
         {
-            if (m_footstepAudioClips != null && m_footstepAudioClips.Length > 0)
+            return;
+        }
+
+        if (TryPlayFootstepFmod())
+        {
+            return;
+        }
+
+        if (m_footstepAudioClips != null && m_footstepAudioClips.Length > 0)
+        {
+            int index = Random.Range(0, m_footstepAudioClips.Length);
+            AudioSource.PlayClipAtPoint(m_footstepAudioClips[index], transform.TransformPoint(m_controller.center), m_footstepAudioVolume);
+        }
+    }
+
+    /// <summary>현재 캐릭터 위치에 FMOD 발소리 one-shot을 재생합니다.</summary>
+    private bool TryPlayFootstepFmod()
+    {
+        if (m_footstepEvent.IsNull || !FMODUnity.RuntimeManager.IsInitialized)
+        {
+            return false;
+        }
+
+        try
+        {
+            FMOD.Studio.EventInstance instance = FMODUnity.RuntimeManager.CreateInstance(m_footstepEvent);
+            if (!instance.isValid())
             {
-                int index = Random.Range(0, m_footstepAudioClips.Length);
-                AudioSource.PlayClipAtPoint(m_footstepAudioClips[index], transform.TransformPoint(m_controller.center), m_footstepAudioVolume);
+                return false;
             }
+
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(instance, gameObject);
+            instance.setVolume(m_footstepAudioVolume);
+            instance.start();
+            instance.release();
+            return true;
+        }
+        catch (FMODUnity.EventNotFoundException exception)
+        {
+            if (!m_loggedMissingFootstepFmodEvent)
+            {
+                Debug.LogWarning($"[ThirdPersonController] FMOD 발소리 이벤트를 찾지 못해 AudioClip으로 대체합니다: {exception.Message}", this);
+                m_loggedMissingFootstepFmodEvent = true;
+            }
+
+            return false;
         }
     }
 

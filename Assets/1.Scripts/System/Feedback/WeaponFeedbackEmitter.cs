@@ -56,6 +56,18 @@ public sealed class WeaponFeedbackEmitter : MonoBehaviour, ISharedFeedbackReceiv
     [FeedbackField]
     [SerializeField] private AudioClip[] m_reloadSounds = System.Array.Empty<AudioClip>();
 
+    [Tooltip("사격할 때 재생할 FMOD 이벤트입니다. 지정하면 AudioClip 목록보다 우선합니다.")]
+    [FeedbackField]
+    [SerializeField] private FMODUnity.EventReference m_shotEvent;
+
+    [Tooltip("탄약이 없거나 사격이 막혔을 때 재생할 FMOD 이벤트입니다. 지정하면 AudioClip 목록보다 우선합니다.")]
+    [FeedbackField]
+    [SerializeField] private FMODUnity.EventReference m_dryFireEvent;
+
+    [Tooltip("재장전할 때 재생할 FMOD 이벤트입니다. 지정하면 AudioClip 목록보다 우선합니다.")]
+    [FeedbackField]
+    [SerializeField] private FMODUnity.EventReference m_reloadEvent;
+
     [Tooltip("총구 소켓에서 재생하거나 생성할 머즐 이펙트 프리팹입니다.")]
     [FeedbackField]
     [SerializeField] private GameObject m_muzzleEffectPrefab;
@@ -97,6 +109,7 @@ public sealed class WeaponFeedbackEmitter : MonoBehaviour, ISharedFeedbackReceiv
     private int m_lastShotIndex = -1;
     private int m_lastDryFireIndex = -1;
     private int m_lastReloadIndex = -1;
+    private bool m_loggedMissingFmodEvent;
     private PersonalEffectPool m_personalEffectPool;
 
     /// <summary>이 무기를 든 스쿼드 멤버입니다. 조작 주체 판정의 정본 소유자입니다.</summary>
@@ -120,7 +133,10 @@ public sealed class WeaponFeedbackEmitter : MonoBehaviour, ISharedFeedbackReceiv
     /// 수명 값만 있고 클립·프리팹이 전부 비어 있으면 재생할 것이 없으므로 없는 것으로 봅니다.
     /// </remarks>
     public bool HasFeedback =>
-        HasAny(m_shotSounds)
+        HasEvent(m_shotEvent)
+        || HasEvent(m_dryFireEvent)
+        || HasEvent(m_reloadEvent)
+        || HasAny(m_shotSounds)
         || HasAny(m_dryFireSounds)
         || HasAny(m_reloadSounds)
         || m_muzzleEffectPrefab != null
@@ -203,7 +219,7 @@ public sealed class WeaponFeedbackEmitter : MonoBehaviour, ISharedFeedbackReceiv
         Vector3 tracerEnd,
         bool playTracer = true)
     {
-        PlayLocal(m_shotSounds, ref m_lastShotIndex);
+        PlayLocal(m_shotEvent, m_shotSounds, ref m_lastShotIndex);
 
         Vector3 tracerDelta = tracerEnd - tracerStart;
         bool hasShotDirection = tracerDelta.sqrMagnitude > 0.0001f;
@@ -293,13 +309,19 @@ public sealed class WeaponFeedbackEmitter : MonoBehaviour, ISharedFeedbackReceiv
     /// <summary>사격이 탄약 부족 등으로 막힌 순간의 드라이 사운드를 출력합니다.</summary>
     public void PlayDryFire()
     {
-        PlayLocal(m_dryFireSounds, ref m_lastDryFireIndex);
+        PlayLocal(m_dryFireEvent, m_dryFireSounds, ref m_lastDryFireIndex);
     }
 
     /// <summary>재장전 시작 사운드를 출력합니다.</summary>
     public void PlayReload()
     {
-        PlayLocal(m_reloadSounds, ref m_lastReloadIndex);
+        PlayLocal(m_reloadEvent, m_reloadSounds, ref m_lastReloadIndex);
+    }
+
+    /// <summary>FMOD 이벤트 참조가 실제 이벤트를 가리키는지 확인합니다.</summary>
+    private static bool HasEvent(FMODUnity.EventReference eventReference)
+    {
+        return !eventReference.IsNull;
     }
 
     /// <summary>후보 목록이 실제로 재생할 클립을 가지고 있는지 확인합니다.</summary>
@@ -323,8 +345,17 @@ public sealed class WeaponFeedbackEmitter : MonoBehaviour, ISharedFeedbackReceiv
         return false;
     }
 
-    private void PlayLocal(IReadOnlyList<AudioClip> clips, ref int lastIndex)
+    /// <summary>FMOD 이벤트를 우선 재생하고, 사용할 수 없으면 기존 AudioClip 경로로 복귀합니다.</summary>
+    private void PlayLocal(
+        FMODUnity.EventReference eventReference,
+        IReadOnlyList<AudioClip> clips,
+        ref int lastIndex)
     {
+        if (TryPlayFmod(eventReference))
+        {
+            return;
+        }
+
         AudioSource source = EnsureAudioSource();
         if (source == null || !FeedbackPlaybackUtility.TryPickClip(clips, ref lastIndex, out AudioClip clip))
         {
@@ -334,6 +365,41 @@ public sealed class WeaponFeedbackEmitter : MonoBehaviour, ISharedFeedbackReceiv
         source.priority = AudioManager.ResolveUnityPriority(ResolveCombatPriorityClass());
         source.pitch = 1.0f + Random.Range(-m_pitchVariation, m_pitchVariation);
         source.PlayOneShot(clip, m_volume);
+    }
+
+    /// <summary>현재 무기 위치에 FMOD one-shot을 붙여 재생합니다.</summary>
+    private bool TryPlayFmod(FMODUnity.EventReference eventReference)
+    {
+        if (eventReference.IsNull || !FMODUnity.RuntimeManager.IsInitialized)
+        {
+            return false;
+        }
+
+        try
+        {
+            FMOD.Studio.EventInstance instance = FMODUnity.RuntimeManager.CreateInstance(eventReference);
+            if (!instance.isValid())
+            {
+                return false;
+            }
+
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(instance, gameObject);
+            instance.setVolume(m_volume);
+            instance.setPitch(1.0f + Random.Range(-m_pitchVariation, m_pitchVariation));
+            instance.start();
+            instance.release();
+            return true;
+        }
+        catch (FMODUnity.EventNotFoundException exception)
+        {
+            if (!m_loggedMissingFmodEvent)
+            {
+                Debug.LogWarning($"[WeaponFeedbackEmitter] FMOD 이벤트를 찾지 못해 AudioClip으로 대체합니다: {exception.Message}", this);
+                m_loggedMissingFmodEvent = true;
+            }
+
+            return false;
+        }
     }
 
     /// <summary>
