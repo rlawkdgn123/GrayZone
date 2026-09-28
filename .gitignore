@@ -108,3 +108,8 @@ Packages/unity-cli/
 # unity-cli 스크린샷 출력. `unity-cli screenshot`의 기본 출력 위치라 검증할 때마다 쌓이고,
 # 코드/에셋과 무관한 사람별 산출물이다. 참조하는 에셋도 빌드 대상도 아니다.
 /Screenshots
+
+# FMOD Studio project and Unity integration are maintained in SVN r291.
+/FMODProject/
+/Assets/Plugins/
+/Assets/Plugins.meta
