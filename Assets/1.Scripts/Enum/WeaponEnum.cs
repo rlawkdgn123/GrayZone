@@ -56,6 +56,22 @@ public enum ReloadMode
     IndividualRounds,
 }
 
+/// <summary>
+/// 플레이어 입력을 한 발의 사격 요청으로 해석하는 방식입니다.
+/// </summary>
+/// <remarks>
+/// 기존 총기 프리팹에 직렬화 값이 없어도 현재 동작을 유지하도록 완전자동을 0으로 둡니다.
+/// 실제 발사 간격과 재사격 가능 여부는 이 값과 별개로 Gun의 Shoot Delay가 계속 제한합니다.
+/// </remarks>
+public enum GunFireMode
+{
+    /// <summary>발사 입력을 누르고 있는 동안 Shoot Delay 간격으로 계속 사격합니다.</summary>
+    FullAuto = 0,
+
+    /// <summary>발사 입력을 새로 누른 순간에 한 발만 사격합니다.</summary>
+    SemiAuto = 1,
+}
+
 // 아래 두 enum은 Gun(런타임)와 밸런스 SO가 같은 타입을 공유하기 위해
 // 각 클래스 중첩 정의에서 이곳으로 옮겼습니다. 두 곳에 따로 정의하면 멤버 이름이
 // 어긋났을 때 BindManager의 이름 기반 변환이 조용히 실패합니다.

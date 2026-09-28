@@ -32,6 +32,9 @@ public sealed class GunBalanceSO : ScriptableObject, IBalanceTableData
     [FormerlySerializedAs("m_shootDelay")]
     [SerializeField] private float Gun_m_shootDelay = 0.12f;
 
+    [Tooltip("발사 입력 방식입니다. Full Auto는 홀드 연사, Semi Auto는 클릭 한 번에 한 발만 발사합니다.")]
+    [SerializeField] private GunFireMode Gun_m_fireMode = GunFireMode.FullAuto;
+
     [Tooltip("재장전에 걸리는 시간(초)입니다. 이 값이 정본이며 탄약 충전·조준선 게이지·재장전 애니메이션 배속이 모두 여기에 맞춰집니다. 애니메이션은 완료 이벤트가 이 시간에 오도록 자동으로 배속됩니다(예: 1배속 클립이 2.67초면 1.33을 넣으면 2배속). (0 이상)")]
     [FormerlySerializedAs("m_reloadTime")]
     [SerializeField] private float Gun_m_reloadTime = 1.5f;

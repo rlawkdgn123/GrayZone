@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 495c9ece0bf94cb5a87a3b0bf6a94479, type: 3}
+  m_Name: DMR1WeaponBalance
+  m_EditorClassIdentifier: Assembly-CSharp::GunBalanceSO
+  Gun_m_maxBullet: 20
+  Gun_m_shootDelay: 0.15
+  Gun_m_fireMode: 1
+  Gun_m_reloadTime: 1.3335
+  Gun_m_hitscanDamage: 7
+  Gun_m_allowHeadshot: 1
+  Gun_m_headshotDamageMultiplier: 2
+  Gun_m_hitscanRange: 100
+  Gun_m_knockbackImpulse: 0
+  Gun_m_hipfireMinSpread: 1
+  Gun_m_hipfireMaxSpread: 3
+  Gun_m_airborneExtraSpread: 2
+  Gun_m_hipfireMinSpreadShotCount: 0
+  Gun_m_hipfireSpreadIncreasePerShot: 0.25
+  Gun_m_hipfireSpreadRecoveryPerSecond: 8
+  Gun_m_hipfireSpreadRecoveryDelay: 0.15
+  Gun_m_adsMinSpread: 0
+  Gun_m_adsMaxSpread: 1
+  Gun_m_adsMinSpreadShotCount: 0
+  Gun_m_adsSpreadIncreasePerShot: 0.125
+  Gun_m_adsSpreadRecoveryPerSecond: 8
+  Gun_m_adsSpreadRecoveryDelay: 0.15
+  Gun_m_spreadDistribution: 1
+  Gun_m_spreadConcentration: 3
+  Gun_m_shotNoiseLevel: 1
+  Gun_m_shotNoiseRange: 40
+  Gun_m_recoilPitchKick: 0.6
+  Gun_m_recoilYawKick: 0.2
+  Gun_m_yawKickPattern: 0
+  Gun_m_recoilRoll: 1
+  Gun_m_rollKickPattern: 0
+  Gun_m_recoilFovPunch: 1.5
+  Gun_m_recoilFovPunchAds: 1.5
+  Gun_m_damageFalloff:
+    m_mode: 1
+    m_trackMinDistance: 5
+    m_trackMaxDistance: 80
+    m_steps:
+    - m_maxDistance: 30
+      m_damageMultiplier: 1
+      m_flatDamage: 3
+    - m_maxDistance: 60
+      m_damageMultiplier: 0.7
+      m_flatDamage: 2
+    - m_maxDistance: 100
+      m_damageMultiplier: 0.4
+      m_flatDamage: 1
+  Gun_m_penetration:
+    m_unlimited: 0
+    m_maxPenetrations: 3
+    m_mode: 0
+    m_steps: []
+  m_weaponId: weapon.dmr.01
+  m_weaponType: 4
+  m_weaponName: DMR 1
+  m_stoppingPower: 0.5

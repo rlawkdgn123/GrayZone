@@ -440,6 +440,7 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
     private bool m_combatShotPending;
     private bool m_fireRequested;
     private readonly System.Collections.Generic.List<Gun.HitscanShotInfo> m_firedPelletBuffer = new(8);
+    private bool m_wasShootPressed;
 
     /// <summary>
     [Tooltip("전투 자세 진입/이탈 시 상체 레이어와 IK 리그 weight가 오르내리는 데 걸리는 시간입니다. 0이면 즉시 바뀝니다.")]
@@ -1350,6 +1351,7 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
         m_muzzleAlignmentOffset = Quaternion.identity;
         m_combatShotPending = false;
         m_fireRequested = false;
+        m_wasShootPressed = false;
     }
 
     /// <summary>
@@ -1366,16 +1368,23 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
     /// </remarks>
     private void UpdatePlayerControlledFrame()
     {
+        // 반자동은 눌림 에지를 한 번만 소비합니다. 전투 자세 밖에서 버튼을 놓은 경우에도 다음 클릭을
+        // 새 입력으로 받을 수 있도록 릴리스 상태는 플레이어 입력 프레임 전체에서 추적합니다.
+        if (m_input == null || !m_input.Shoot)
+        {
+            m_wasShootPressed = false;
+        }
+
         // Gun은 입력 소유자가 아니므로, 조준 컨트롤러가 홀드 여부를 전달해 실제 탄퍼짐/크로스헤어 회복도
         // 논리 반동과 같은 입력 기준으로 멈춥니다.
         if (m_weaponController != null)
         {
-            m_weaponController.SetSpreadRecoveryBlockedByHeldFireInput(m_input != null && m_input.Shoot);
+            m_weaponController.SetSpreadRecoveryBlockedByHeldFireInput(IsContinuousFireHeld);
         }
 
         if (m_crosshairController != null && !UsesWeaponMaxSpreadCrosshair)
         {
-            m_crosshairController.SetShotRecoilPulseHoldByFireInput(m_input != null && m_input.Shoot);
+            m_crosshairController.SetShotRecoilPulseHoldByFireInput(IsContinuousFireHeld);
         }
 
         UpdateStanceArbitration();
@@ -2833,7 +2842,14 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
             return;
         }
 
-        if (shootPressed)
+        bool shouldRequestShot = shootPressed
+            && (m_weaponController == null
+                || m_weaponController.FireMode == GunFireMode.FullAuto
+                || !m_wasShootPressed);
+
+        m_wasShootPressed = shootPressed;
+
+        if (shouldRequestShot)
         {
             m_animator.SetBool(AnimIDShoot, true);
 
@@ -2844,6 +2860,18 @@ public class AimController : MonoBehaviour, ISharedBalanceReceiver
 
         m_animator.SetBool(AnimIDShoot, false);
     }
+
+    /// <summary>
+    /// 홀드 입력 자체가 연속 사격을 뜻하는 총기인지 확인합니다.
+    /// </summary>
+    /// <remarks>
+    /// 반자동은 첫 클릭 한 번만 소비하므로 버튼을 계속 누르고 있어도 탄퍼짐과 조준선 반동 회복을
+    /// 막지 않습니다. 실제 사격 직후의 회복 지연은 Gun이 마지막 사격 시각으로 별도 처리합니다.
+    /// </remarks>
+    private bool IsContinuousFireHeld => m_input != null
+        && m_input.Shoot
+        && m_weaponController != null
+        && m_weaponController.FireMode == GunFireMode.FullAuto;
 
     /// <summary>
     /// 상체를 따로 쓰는 행동이 시작되면 진행 중인 재장전을 접습니다.

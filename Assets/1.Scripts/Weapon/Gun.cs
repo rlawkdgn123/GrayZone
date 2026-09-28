@@ -108,6 +108,10 @@ public class Gun : MonoBehaviour, IBalancePostProcess, ISharedBalanceReceiver
     [Clamp(Min = 0)]
     [SerializeField] private float m_shootDelay = 0.12f;
 
+    [Tooltip("발사 입력 방식입니다. Full Auto는 홀드 연사, Semi Auto는 클릭 한 번에 한 발만 발사합니다.")]
+    [BalanceField]
+    [SerializeField] private GunFireMode m_fireMode = GunFireMode.FullAuto;
+
     [Tooltip("재장전에 걸리는 시간(초)입니다. 이 값이 정본이며 탄약 충전·조준선 게이지·재장전 애니메이션 배속이 모두 여기에 맞춰집니다. 애니메이션은 완료 이벤트가 이 시간에 오도록 자동으로 배속됩니다(예: 1배속 클립이 2.67초면 1.33을 넣으면 2배속). 줄이면 빨라지고 늘리면 느려집니다.")]
     [FormerlySerializedAs("reloadTime")]
     [BalanceField]
@@ -666,6 +670,9 @@ public class Gun : MonoBehaviour, IBalancePostProcess, ISharedBalanceReceiver
     public float ShootDelay => m_weaponType == WeaponType.Shotgun
         ? m_shootDelay / m_actionSpeedMultiplier
         : m_shootDelay;
+
+    /// <summary>이 총기의 플레이어 발사 입력 방식입니다.</summary>
+    public GunFireMode FireMode => m_fireMode;
 
     /// <summary>재장전 시간입니다.</summary>
     public float ReloadTime => m_reloadTime / m_actionSpeedMultiplier;
