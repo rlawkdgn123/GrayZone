@@ -15,7 +15,7 @@ public static class EnemyMeleeWiring
     {
         "Assets/2.Prefabs/Enemy/Howler.prefab",
         "Assets/2.Prefabs/Enemy/Defense/Enemy/Scratcher(Defense_Player).prefab",
-        "Assets/2.Prefabs/Enemy/Defense/Enemy/Stalker(Defense_Player).prefab",
+        "Assets/2.Prefabs/Enemy/Defense/Enemy/Stalker(Defense_Run_Player).prefab",
         "Assets/2.Prefabs/Enemy/Defense/Enemy/Bloater(Defense_Player).prefab",
         "Assets/2.Prefabs/Enemy/Defense/Enemy/Crusher(Defense_Run_Player).prefab",
         "Assets/2.Prefabs/Enemy/Defense/Enemy/Howler(Defense_Player).prefab",

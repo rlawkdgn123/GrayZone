@@ -9,7 +9,7 @@ using UnityEngine;
 public sealed class EnemyCombatColliderSetupWindow : EditorWindow
 {
     private const string DefaultTargetPath =
-        "Assets/2.Prefabs/Enemy/Defense/Howler/Howler(Defense_Player) 2.prefab";
+        "Assets/2.Prefabs/Enemy/Defense/Enemy/Howler(Defense_Player).prefab";
 
     [SerializeField] private GameObject m_targetPrefab;
     [SerializeField] private EnemyCombatColliderBuildOptions m_options = new EnemyCombatColliderBuildOptions();

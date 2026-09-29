@@ -12,14 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 955f9fda05926434d9cca2f76e7a3486, type: 3}
   m_Name: EnemyDefenseSO_Howler_Player
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawnEntrySO
-  m_enemyPrefab: {fileID: 2990036820463330610, guid: eda57c1f100ad23449048090ceed8a7f, type: 3}
-  m_spawnCount: 8
+  m_enemyPrefab: {fileID: 2990036820463330610, guid: b0cb5e7cab253ab409f9242fb9a7212c, type: 3}
+  m_spawnCount: 5
+  m_randomDuration: 0
   m_productionInterval: 20
+  m_productionIntervalMin: 3
+  m_productionIntervalMax: 7
   m_initialSpawnDelay: 5
   m_maxCapacity: 25
   m_walkSpeedMin: 3.2
   m_walkSpeedMax: 3.2
   m_runSpeedMin: 4.5
   m_runSpeedMax: 7
-  m_alwaysRun: 0
-  m_defenseDisposition: 0
+  m_prioritizeWaypointsForPlayerFirst: 1
