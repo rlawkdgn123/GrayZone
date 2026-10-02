@@ -20,6 +20,9 @@ using UnityEngine.InputSystem;
 #endif
 public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
 {
+    private const string FootwearFmodParameter = "Footwear";
+    private const string SurfaceFmodParameter = "Surface";
+
     [Tooltip("이 플레이어에 적용할 공용 밸런스 SO입니다. 비어 있으면 Inspector 값을 그대로 씁니다.")]
     [SerializeField] private PlayerCommonBalanceSO m_balanceSO;
 
@@ -404,8 +407,20 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
     [FormerlySerializedAs("FootstepAudioClips")]
     [SerializeField] private AudioClip[] m_footstepAudioClips;
 
-    [Tooltip("걸음 애니메이션 이벤트에서 재생할 FMOD 발소리 이벤트입니다. 지정하면 AudioClip 목록보다 우선합니다.")]
+    [Tooltip("웅크린 걸음 애니메이션 이벤트에서 재생할 FMOD 발소리 이벤트입니다. 지정하면 AudioClip 목록보다 우선합니다.")]
     [SerializeField] private FMODUnity.EventReference m_footstepEvent;
+
+    [Tooltip("서 있는 기본 이동과 전력질주 애니메이션 이벤트에서 재생할 FMOD 달리기 발소리 이벤트입니다.")]
+    [SerializeField] private FMODUnity.EventReference m_runFootstepEvent;
+
+    [Tooltip("점프가 실제로 시작되는 순간 재생할 FMOD 도약 효과음 이벤트입니다.")]
+    [SerializeField] private FMODUnity.EventReference m_jumpEvent;
+
+    [Tooltip("캐릭터가 실제 지면에 닿는 순간 재생할 FMOD 착지 효과음 이벤트입니다.")]
+    [SerializeField] private FMODUnity.EventReference m_landEvent;
+
+    [Tooltip("이 캐릭터가 착용한 신발 종류입니다. FMOD Footwear 파라미터에 전달됩니다.")]
+    [SerializeField] private FootwearType m_footwearType = FootwearType.Unknown;
 
     [Tooltip("발소리와 착지음의 재생 음량입니다.")]
     [Range(0, 1)]
@@ -414,8 +429,11 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
     [Clamp(Min = 0, Max = 1)]
     [SerializeField] private float m_footstepAudioVolume = 0.5f;
 
-    /// <summary>누락된 FMOD 발소리 이벤트 경고가 반복 출력되지 않게 합니다.</summary>
-    private bool m_loggedMissingFootstepFmodEvent;
+    /// <summary>누락된 FMOD 이동 효과음 이벤트 경고가 반복 출력되지 않게 합니다.</summary>
+    private bool m_loggedMissingMovementFmodEvent;
+
+    /// <summary>현재 지면 접촉에서 착지음을 이미 재생했는지 여부입니다.</summary>
+    private bool m_landingSoundPlayedForCurrentGroundContact = true;
 
     [Foldout("Debug")]
     [Tooltip("이 캐릭터를 선택했을 때 접지 판정 구를 Scene 뷰에 표시합니다. 접지 중이면 초록, 아니면 빨강입니다.")]
@@ -751,6 +769,8 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
     public AudioClip LandingAudioClip => m_landingAudioClip;
     /// <summary>발걸음 애니메이션 이벤트에서 임의 선택할 오디오 클립 배열입니다.</summary>
     public AudioClip[] FootstepAudioClips => m_footstepAudioClips;
+    /// <summary>현재 캐릭터가 착용한 신발 종류입니다.</summary>
+    public FootwearType Footwear => m_footwearType;
     /// <summary>발걸음과 착지 효과음 재생 볼륨입니다.</summary>
     public float FootstepAudioVolume => m_footstepAudioVolume;
 
@@ -1234,6 +1254,11 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
     /// <param name="value">새로 적용할 값입니다.</param>
     public void SetFootstepAudioClips(AudioClip[] value) => m_footstepAudioClips = value;
     /// <summary>
+    /// 캐릭터가 착용한 신발 종류를 설정합니다.
+    /// </summary>
+    /// <param name="value">새로 적용할 신발 종류입니다.</param>
+    public void SetFootwearType(FootwearType value) => m_footwearType = value;
+    /// <summary>
     /// 효과음 볼륨을 설정합니다. 0에서 1 사이로 보정합니다.
     /// </summary>
     /// <param name="value">새로 적용할 값입니다.</param>
@@ -1560,7 +1585,19 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
         // 읽어, 착지하는 프레임에 IsGrounded와 IsFreeFall이 한 프레임 동안 함께 켜집니다.
         // 그 한 프레임 때문에 착지 직후 재점프가 도약 동작을 건너뛰고 낙하 상태로 새는 일이 있었습니다.
         GroundedCheck();
+
+        if (!m_grounded)
+        {
+            m_landingSoundPlayedForCurrentGroundContact = false;
+        }
+
         bool landedThisFrame = m_grounded && !m_wasGrounded;
+
+        if (landedThisFrame)
+        {
+            PlayLandingSound();
+        }
+
         JumpAndGravity();
         // 캡슐 높이를 이동보다 먼저 맞춥니다. 이동 뒤에 바꾸면 이번 프레임 충돌 판정과 높이가 한 프레임 어긋납니다.
         UpdateCrouch();
@@ -2723,7 +2760,9 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
 
             if (m_input.jump && m_jumpTimeoutDelta <= 0.0f)
             {
+                SurfaceMaterialType takeoffSurface = ResolveFootstepSurface();
                 m_verticalVelocity = Mathf.Sqrt(m_jumpHeight * -2f * m_gravity);
+                TryPlaySurfaceFmod(m_jumpEvent, takeoffSurface);
 
                 // 점프하면 앉기를 풉니다. 몸을 띄우는 동작이라 웅크린 자세가 그대로 남을 수 없습니다.
                 // 입력을 내려 두므로 공중에서 다시 누르면 착지 웅크림은 그대로 성립합니다
@@ -2823,23 +2862,39 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
         }
     }
 
-    /// <summary>현재 캐릭터 위치에 FMOD 발소리 one-shot을 재생합니다.</summary>
+    /// <summary>현재 자세에 맞는 FMOD 발소리 one-shot을 재생합니다.</summary>
     private bool TryPlayFootstepFmod()
     {
-        if (m_footstepEvent.IsNull || !FMODUnity.RuntimeManager.IsInitialized)
+        FMODUnity.EventReference selectedEvent = IsCrouchActive
+            ? m_footstepEvent
+            : m_runFootstepEvent;
+
+        return TryPlaySurfaceFmod(selectedEvent, ResolveFootstepSurface());
+    }
+
+    /// <summary>지정한 FMOD 이벤트에 현재 신발과 표면을 전달해 one-shot으로 재생합니다.</summary>
+    /// <param name="eventReference">재생할 FMOD 이벤트입니다.</param>
+    /// <param name="surfaceType">이 동작이 발생한 표면 재질입니다.</param>
+    private bool TryPlaySurfaceFmod(
+        FMODUnity.EventReference eventReference,
+        SurfaceMaterialType surfaceType)
+    {
+        if (eventReference.IsNull || !FMODUnity.RuntimeManager.IsInitialized)
         {
             return false;
         }
 
         try
         {
-            FMOD.Studio.EventInstance instance = FMODUnity.RuntimeManager.CreateInstance(m_footstepEvent);
+            FMOD.Studio.EventInstance instance = FMODUnity.RuntimeManager.CreateInstance(eventReference);
             if (!instance.isValid())
             {
                 return false;
             }
 
             FMODUnity.RuntimeManager.AttachInstanceToGameObject(instance, gameObject);
+            instance.setParameterByNameWithLabel(FootwearFmodParameter, m_footwearType.ToString());
+            instance.setParameterByNameWithLabel(SurfaceFmodParameter, surfaceType.ToString());
             instance.setVolume(m_footstepAudioVolume);
             instance.start();
             instance.release();
@@ -2847,14 +2902,39 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
         }
         catch (FMODUnity.EventNotFoundException exception)
         {
-            if (!m_loggedMissingFootstepFmodEvent)
+            if (!m_loggedMissingMovementFmodEvent)
             {
-                Debug.LogWarning($"[ThirdPersonController] FMOD 발소리 이벤트를 찾지 못해 AudioClip으로 대체합니다: {exception.Message}", this);
-                m_loggedMissingFootstepFmodEvent = true;
+                Debug.LogWarning($"[ThirdPersonController] FMOD 이동 효과음 이벤트를 찾지 못했습니다: {exception.Message}", this);
+                m_loggedMissingMovementFmodEvent = true;
             }
 
             return false;
         }
+    }
+
+    /// <summary>캐릭터 중심 아래에서 현재 발밑 표면 재질을 찾습니다.</summary>
+    /// <returns>표면 태그를 찾지 못하면 <see cref="SurfaceMaterialType.Unknown"/>입니다.</returns>
+    private SurfaceMaterialType ResolveFootstepSurface()
+    {
+        Vector3 groundedCenter = new Vector3(
+            transform.position.x,
+            transform.position.y - m_groundedOffset,
+            transform.position.z);
+        Vector3 origin = groundedCenter + Vector3.up * (m_groundedRadius + 0.1f);
+        float distance = m_groundedRadius * 2.0f + 0.2f;
+
+        if (!Physics.Raycast(
+                origin,
+                Vector3.down,
+                out RaycastHit hit,
+                distance,
+                m_groundLayers,
+                QueryTriggerInteraction.Ignore))
+        {
+            return SurfaceMaterialType.Unknown;
+        }
+
+        return SurfaceMaterialTag.Resolve(hit.collider);
     }
 
     /// <summary>
@@ -2863,9 +2943,33 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
     /// <param name="animationEvent">애니메이션 이벤트 정보입니다.</param>
     private void OnLand(AnimationEvent animationEvent)
     {
-        if (animationEvent.animatorClipInfo.weight > 0.5f && m_landingAudioClip != null)
+        if (animationEvent.animatorClipInfo.weight > 0.5f && m_grounded)
         {
-            AudioSource.PlayClipAtPoint(m_landingAudioClip, transform.TransformPoint(m_controller.center), m_footstepAudioVolume);
+            PlayLandingSound();
+        }
+    }
+
+    /// <summary>한 번의 지면 접촉마다 FMOD 착지음 또는 기존 AudioClip을 한 번만 재생합니다.</summary>
+    private void PlayLandingSound()
+    {
+        if (m_landingSoundPlayedForCurrentGroundContact)
+        {
+            return;
+        }
+
+        m_landingSoundPlayedForCurrentGroundContact = true;
+
+        if (TryPlaySurfaceFmod(m_landEvent, ResolveFootstepSurface()))
+        {
+            return;
+        }
+
+        if (m_landingAudioClip != null)
+        {
+            AudioSource.PlayClipAtPoint(
+                m_landingAudioClip,
+                transform.TransformPoint(m_controller.center),
+                m_footstepAudioVolume);
         }
     }
 

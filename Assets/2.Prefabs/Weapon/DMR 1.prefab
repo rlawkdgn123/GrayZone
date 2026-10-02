@@ -240,7 +240,7 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier: Assembly-CSharp::SOBinder
   m_sharedBalance: {fileID: 0}
-  m_sharedFeedback: {fileID: 11400000, guid: 9edf4caf82efa9145971cfbae61b5ebe, type: 2}
+  m_sharedFeedback: {fileID: 11400000, guid: 5e58f499b97f44268924fbba014e0644, type: 2}
   m_includeChildren: 1
   m_logResult: 0
 --- !u!114 &300000000000000002

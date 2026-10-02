@@ -73,6 +73,7 @@ public sealed class NoiseOcclusionSO : ScriptableObject, IBalanceTableData
                 return Mathf.Clamp01(m_concreteOcclusion);
 
             case SurfaceMaterialType.Stone:
+            case SurfaceMaterialType.CeramicTile:
                 return Mathf.Clamp01(m_stoneOcclusion);
 
             case SurfaceMaterialType.Metal:

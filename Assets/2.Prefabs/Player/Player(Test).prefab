@@ -5557,6 +5557,27 @@ MonoBehaviour:
       Data3: 1852975796
       Data4: -899480
     Path: event:/Character/Player/Footstep
+  m_runFootstepEvent:
+    Guid:
+      Data1: 369238490
+      Data2: 1253310163
+      Data3: 1611176851
+      Data4: -1545495306
+    Path: event:/Character/Player/Footstep_Run
+  m_jumpEvent:
+    Guid:
+      Data1: -2071259842
+      Data2: 1082616876
+      Data3: -757713508
+      Data4: 553122380
+    Path: event:/Character/Player/Jump
+  m_landEvent:
+    Guid:
+      Data1: -1186364325
+      Data2: 1336619655
+      Data3: -1116036735
+      Data4: 945229834
+    Path: event:/Character/Player/Land
   m_footstepAudioVolume: 0.5
   m_debugDrawGroundCheck: 1
 --- !u!114 &3705982125215987319

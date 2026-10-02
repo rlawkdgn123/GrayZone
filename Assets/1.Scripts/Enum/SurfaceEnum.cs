@@ -34,4 +34,19 @@ public enum SurfaceMaterialType
 
     /// <summary>목재입니다.</summary>
     Wood = 40,
+
+    /// <summary>흙바닥입니다.</summary>
+    Dirt = 50,
+
+    /// <summary>금속 관람석입니다.</summary>
+    MetalBleacher = 60,
+
+    /// <summary>금속 캣워크입니다.</summary>
+    MetalCatwalk = 70,
+
+    /// <summary>밟을 수 있는 금속 환기 구조물입니다.</summary>
+    MetalVent = 80,
+
+    /// <summary>세라믹 타일 바닥입니다.</summary>
+    CeramicTile = 90,
 }
