@@ -880,6 +880,7 @@ MonoBehaviour:
   m_cooldownDuration: 30
   m_balanceSO: {fileID: 11400000, guid: cfaac2fc63393ba4681c0fdc5cdf341d, type: 2}
   m_hasteEffect: {fileID: 11400000, guid: ae44c5608b49eb541bc5ce78a50c8069, type: 2}
+  m_activationVisual: {fileID: 11400000, guid: 2c481d1df5f14a4bb340419018d5f1ea, type: 2}
 --- !u!114 &7371586435218308901
 MonoBehaviour:
   m_ObjectHideFlags: 0
