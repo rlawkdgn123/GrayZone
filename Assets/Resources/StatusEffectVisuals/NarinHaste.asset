@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c6a79edfe6adb74db91a3950ead6b38, type: 3}
   m_Name: NarinHaste
   m_EditorClassIdentifier: Assembly-CSharp::StatusEffectVisualSO
-  m_prefab: {fileID: 7764844790854446387, guid: 85b6a00434199014ab4c1aef3fd6f0ae, type: 3}
-  m_localPosition: {x: 0, y: 0, z: 0}
+  m_prefab: {fileID: 1543999481104292, guid: c2466984ed7a2e147a104cacc1deb111, type: 3}
+  m_localPosition: {x: 0, y: 0.2, z: 0}
   m_localEulerAngles: {x: 0, y: 0, z: 0}
-  m_localScaleMultiplier: {x: 1, y: 1, z: 1}
+  m_localScaleMultiplier: {x: 0.8, y: 0.8, z: 0.8}
   m_oneShotLifetime: 1
   m_restartOnStatusRefresh: 0
   m_applyModelTint: 0
