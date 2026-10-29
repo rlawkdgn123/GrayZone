@@ -124574,7 +124574,7 @@ MonoBehaviour:
     m_Root: {fileID: 1302280725}
     m_Mid: {fileID: 1076193627}
     m_Tip: {fileID: 1957847580876151967}
-    m_Target: {fileID: 0}
+    m_Target: {fileID: 1957847580876151968}
     m_Hint: {fileID: 28740814}
     m_TargetPositionWeight: 1
     m_TargetRotationWeight: 1
@@ -125954,6 +125954,7 @@ MonoBehaviour:
   m_defenseManager: {fileID: 834420328}
   m_playOnStart: 1
   m_onlyFirstDefenseRound: 1
+  m_pauseTimeWhileRunning: 0
   m_pages:
   - m_title: 
     m_body: "\uC774 \uAC8C\uC784\uC758 \uBAA9\uD45C\uB294 \uC815\uD574\uC9C4 \uC2DC\uAC04\uB3D9\uC548
@@ -133793,6 +133794,7 @@ MonoBehaviour:
   shelterDataManager: {fileID: 1713639377}
   characterManager: {fileID: 766322780}
   levelVisuals: {fileID: 243626151}
+  m_upgradeTable: {fileID: 0}
   upgradeCosts:
   - entries:
     - resourceId: 
@@ -156468,7 +156470,7 @@ Transform:
   m_Children:
   - {fileID: 725392188}
   - {fileID: 28740814}
-  m_Father: {fileID: 815136879}
+  m_Father: {fileID: 1091735191}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &646638370
 PrefabInstance:
@@ -203923,11 +203925,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1031027935, guid: edc78b4c8cbe0ab4092b9073f79e1940, type: 3}
   m_PrefabInstance: {fileID: 814867506}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &815136879 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6344252272115544750, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
-  m_PrefabInstance: {fileID: 1957847580876151966}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &815601628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207887,6 +207884,7 @@ MonoBehaviour:
   m_worldCamera: {fileID: 961739752}
   m_distanceOrigin: {fileID: 1155638157}
   m_hideArrowDistance: 15
+  m_showOffscreenArrow: 1
   m_occlusionMask:
     serializedVersion: 2
     m_Bits: 3221618889
@@ -208529,6 +208527,7 @@ MonoBehaviour:
   m_clearingOffscreenDespawnDelay: 40
   m_clearingForceEndDelay: 60
   m_emptySpaceHoldStartDuration: 3
+  m_beginWithMaintenance: 0
   m_startPromptOverlay: {fileID: 520775387}
   m_startPromptTitle: 
   m_startPromptBody: "\uBAA8\uB4E0 \uC815\uBE44\uB97C \uB9C8\uCE58\uC168\uC73C\uBA74       
@@ -291876,6 +291875,7 @@ MonoBehaviour:
   m_descentDownwardAcceleration: 16
   m_throwSpeedMultiplier: 1.15
   m_showTrajectoryLine: 0
+  m_outOfProjectileMessage: "\uD22C\uCC99\uBB3C\uC774 \uBD80\uC871\uD569\uB2C8\uB2E4!"
   m_trajectoryPreviewDistance: 20
   m_throwCooldown: 1
   m_throwReleaseDelay: 0.23
@@ -302407,6 +302407,7 @@ MonoBehaviour:
   m_descentDownwardAcceleration: 16
   m_throwSpeedMultiplier: 1.15
   m_showTrajectoryLine: 0
+  m_outOfProjectileMessage: "\uD22C\uCC99\uBB3C\uC774 \uBD80\uC871\uD569\uB2C8\uB2E4!"
   m_trajectoryPreviewDistance: 20
   m_throwCooldown: 1
   m_throwReleaseDelay: 0.23
@@ -360920,7 +360921,7 @@ MonoBehaviour:
     m_Root: {fileID: 645690347}
     m_Mid: {fileID: 1365492822}
     m_Tip: {fileID: 1229223507}
-    m_Target: {fileID: 0}
+    m_Target: {fileID: 1957847580876151969}
     m_Hint: {fileID: 725392188}
     m_TargetPositionWeight: 1
     m_TargetRotationWeight: 1
@@ -399330,6 +399331,7 @@ MonoBehaviour:
   roomId: medical_room
   characterManager: {fileID: 766322780}
   levelVisuals: {fileID: 1851238355}
+  m_upgradeTable: {fileID: 0}
   upgradeCosts:
   - entries:
     - resourceId: 
@@ -437319,7 +437321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.Rig
   m_Weight: 1
   m_Effectors:
-  - m_Transform: {fileID: 0}
+  - m_Transform: {fileID: 1957847580876151969}
     m_Style:
       shape: {fileID: 4300000, guid: 687b70eb9c49243639f9379f6965034f, type: 2}
       color: {r: 1, g: 0, b: 0, a: 0.5}
@@ -437335,7 +437337,7 @@ MonoBehaviour:
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0}
     m_Visible: 1
-  - m_Transform: {fileID: 0}
+  - m_Transform: {fileID: 1957847580876151968}
     m_Style:
       shape: {fileID: 4300000, guid: 687b70eb9c49243639f9379f6965034f, type: 2}
       color: {r: 1, g: 0, b: 0, a: 0.5}
@@ -513313,7 +513315,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Animation.Rigging::UnityEngine.Animations.Rigging.MultiAimConstraint
   m_Weight: 1
   m_Data:
-    m_ConstrainedObject: {fileID: 815136879}
+    m_ConstrainedObject: {fileID: 1957847580876151970}
     m_SourceObjects:
       m_Length: 1
       m_Item0:
@@ -768306,15 +768308,15 @@ PrefabInstance:
     - {fileID: 1990153729766168357, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
     - {fileID: 1277947613575499311, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8042323803606219392, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 646071745}
     - targetCorrespondingSourceObject: {fileID: 3891564518272328598, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1695705839}
     - targetCorrespondingSourceObject: {fileID: 3891564518272328598, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 734334376}
-    - targetCorrespondingSourceObject: {fileID: 6344252272115544750, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 646071745}
     - targetCorrespondingSourceObject: {fileID: 4180792234189443129, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
       insertIndex: 0
       addedObject: {fileID: 173937474}
@@ -768326,6 +768328,21 @@ PrefabInstance:
 --- !u!4 &1957847580876151967 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4180792234189443129, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
+  m_PrefabInstance: {fileID: 1957847580876151966}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1957847580876151968 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8601148063336357224, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
+  m_PrefabInstance: {fileID: 1957847580876151966}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1957847580876151969 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 9164318922165192426, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
+  m_PrefabInstance: {fileID: 1957847580876151966}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1957847580876151970 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6753242022136857877, guid: 8583a50ea56b37b48947ebb47367b9c1, type: 3}
   m_PrefabInstance: {fileID: 1957847580876151966}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1958286772109879718
@@ -1113352,6 +1113369,7 @@ MonoBehaviour:
   m_descentDownwardAcceleration: 16
   m_throwSpeedMultiplier: 1.15
   m_showTrajectoryLine: 0
+  m_outOfProjectileMessage: "\uD22C\uCC99\uBB3C\uC774 \uBD80\uC871\uD569\uB2C8\uB2E4!"
   m_trajectoryPreviewDistance: 20
   m_throwCooldown: 1
   m_throwReleaseDelay: 0.23
