@@ -97,6 +97,9 @@ public sealed class NpcFacilityDialogueInteractable : MonoBehaviour, IInteractab
         // 비활성화 중 남은 코루틴, 대화창, 입력 잠금 정리
         StopActiveRoutines();
         HideDialogue();
+        if (m_dialogueActive && m_uiManager != null)
+            m_uiManager.SetDialogueOpen(false);
+        m_dialogueActive = false;
         m_dialogueOpenedFrame = -1;
 
         if (m_uiManager == null || !m_uiManager.HasOpenBlockingUI)
@@ -137,6 +140,7 @@ public sealed class NpcFacilityDialogueInteractable : MonoBehaviour, IInteractab
         m_dialogueActive = true;
         m_dialogueOpenedFrame = Time.frameCount;
         m_uiManager.HideInteraction();
+        m_uiManager.SetDialogueOpen(true);
         SetPlayerControlLocked(true);
         BeginTurning(interactor.transform);
         ShowDialogue();
@@ -225,6 +229,8 @@ public sealed class NpcFacilityDialogueInteractable : MonoBehaviour, IInteractab
 
         m_dialogueText.maxVisibleCharacters = int.MaxValue;
         HideDialogue();
+        // 시설 UI가 이미 열린 뒤 해제하므로 HUD 숨김 상태가 끊기지 않음
+        m_uiManager.SetDialogueOpen(false);
         m_dialogueActive = false;
         m_dialogueOpenedFrame = -1;
         return true;

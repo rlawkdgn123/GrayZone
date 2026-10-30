@@ -22,3 +22,6 @@ MonoBehaviour:
   - m_resourceId: trap_material
     m_displayName: "\uD568\uC815 \uC7AC\uB8CC"
     m_icon: {fileID: 21300000, guid: cf0d974c824e16343b34e5a808ac6a55, type: 3}
+  - m_resourceId: trap_upgrade_material
+    m_displayName: "\uD568\uC815 \uC5C5\uADF8\uB808\uC774\uB4DC \uC7AC\uB8CC"
+    m_icon: {fileID: 0}

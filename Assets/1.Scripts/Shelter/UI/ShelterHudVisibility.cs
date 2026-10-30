@@ -37,21 +37,22 @@ public class ShelterHudVisibility : MonoBehaviour
         if (uiManager == null)
             return;
 
-        uiManager.ActiveUIChanged += HandleActiveUIChanged;
-        HandleActiveUIChanged(uiManager.ActiveUI);
+        uiManager.HudSuppressionChanged += HandleHudSuppressionChanged;
+        HandleHudSuppressionChanged(uiManager.IsHudSuppressed);
     }
 
     private void OnDisable()
     {
         if (uiManager != null)
-            uiManager.ActiveUIChanged -= HandleActiveUIChanged;
+            uiManager.HudSuppressionChanged -= HandleHudSuppressionChanged;
 
         SetHudVisible(true);
     }
 
-    private void HandleActiveUIChanged(ShelterUIType activeUI)
+    // 차단형 UI가 열려 있거나 NPC 상호작용 대사가 표시 중이면 숨김
+    private void HandleHudSuppressionChanged(bool suppressed)
     {
-        SetHudVisible(activeUI == ShelterUIType.None);
+        SetHudVisible(!suppressed);
     }
 
     private void SetHudVisible(bool visible)

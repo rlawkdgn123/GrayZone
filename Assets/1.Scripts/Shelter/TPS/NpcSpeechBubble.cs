@@ -9,7 +9,11 @@ public sealed class NpcSpeechBubble : MonoBehaviour
     private const int MinimumLineCount = 2;
 
     [Header("Lines")]
-    [Tooltip("말풍선에 표시할 대사 목록 (최소 2개)")]
+    [Tooltip("방어전 클리어 횟수별 대사 표 (NpcSpeechLine 시트). 비우면 기본 대사 사용")]
+    [SerializeField] private NpcSpeechTableSO m_speechTable;
+    [Tooltip("대사 표에서 이 NPC의 대사를 찾을 ID (시트의 NpcId)")]
+    [SerializeField] private string m_npcId;
+    [Tooltip("기본 대사 목록 (최소 2개). 대사 표에 맞는 대사가 없을 때 사용")]
     [TextArea(1, 3)]
     [SerializeField] private string[] m_lines = { "안녕하세요.", "오늘도 무사하길." };
     [Tooltip("체크 시 무작위 순서 (같은 대사 연속 방지), 해제 시 순서대로 반복")]
@@ -53,7 +57,7 @@ public sealed class NpcSpeechBubble : MonoBehaviour
     [SerializeField] private UIManager m_uiManager;
 
     [Header("Distance")]
-    [Tooltip("말풍선이 보이는 동안 숨기고, 말풍선이 꺼지면 다시 보여줄 월드 아이콘")]
+    [Tooltip("표시 거리 안에서는 비활성화, 표시 거리 밖에서는 활성화할 월드 아이콘")]
     [SerializeField] private GameObject m_worldIcon;
     [Tooltip("거리 기준 대상. 비우면 PlayerMove 자동 탐색")]
     [SerializeField] private Transform m_distanceTarget;
@@ -65,14 +69,15 @@ public sealed class NpcSpeechBubble : MonoBehaviour
     [SerializeField] private float m_hideMargin = 1f;
 
     private Coroutine m_loopRoutine;
+    private string[] m_activeLines;
     private int m_lineIndex = -1;
     private bool m_playRequested;
     private bool m_inRange;
 
     public bool IsPlaying => m_loopRoutine != null;
 
-    // UIManager에 차단형 UI가 열려 있으면 말풍선 억제
-    private bool IsSuppressed => m_uiManager != null && m_uiManager.ActiveUI != ShelterUIType.None;
+    // 차단형 UI가 열려 있거나 NPC 상호작용 대사가 표시 중이면 말풍선 억제
+    private bool IsSuppressed => m_uiManager != null && m_uiManager.IsHudSuppressed;
 
     // 차단형 UI가 없고 대상이 표시 거리 안에 있을 때만 말풍선 재생
     private bool CanSpeak => !IsSuppressed && m_inRange;
@@ -93,6 +98,11 @@ public sealed class NpcSpeechBubble : MonoBehaviour
         {
             Debug.LogWarning($"[NpcSpeechBubble] {name}: 대사는 최소 {MinimumLineCount}개 이상 등록해야 합니다.", this);
         }
+
+        if (m_speechTable != null && string.IsNullOrWhiteSpace(m_npcId))
+        {
+            Debug.LogWarning($"[NpcSpeechBubble] {name}: 대사 표를 쓰려면 NPC ID를 지정해야 합니다.", this);
+        }
     }
 
     private void Awake()
@@ -110,12 +120,13 @@ public sealed class NpcSpeechBubble : MonoBehaviour
 
         if (m_uiManager != null)
         {
-            m_uiManager.ActiveUIChanged += HandleActiveUIChanged;
+            m_uiManager.HudSuppressionChanged += HandleHudSuppressionChanged;
         }
 
         // 첫 프레임부터 말풍선 재생 여부가 거리와 맞도록 초기 판정
         m_inRange = false;
         m_inRange = EvaluateInRange();
+        SetWorldIconVisible(!m_inRange);
 
         if (m_playOnEnable)
         {
@@ -127,10 +138,11 @@ public sealed class NpcSpeechBubble : MonoBehaviour
     {
         if (m_uiManager != null)
         {
-            m_uiManager.ActiveUIChanged -= HandleActiveUIChanged;
+            m_uiManager.HudSuppressionChanged -= HandleHudSuppressionChanged;
         }
 
         Stop();
+        SetWorldIconVisible(true);
     }
 
     private void Update()
@@ -142,6 +154,7 @@ public sealed class NpcSpeechBubble : MonoBehaviour
         }
 
         m_inRange = inRange;
+        SetWorldIconVisible(!m_inRange);
 
         if (!m_inRange)
         {
@@ -188,9 +201,9 @@ public sealed class NpcSpeechBubble : MonoBehaviour
         StopLoop();
     }
 
-    private void HandleActiveUIChanged(ShelterUIType activeUI)
+    private void HandleHudSuppressionChanged(bool suppressed)
     {
-        if (activeUI != ShelterUIType.None)
+        if (suppressed)
         {
             StopLoop();
         }
@@ -227,12 +240,33 @@ public sealed class NpcSpeechBubble : MonoBehaviour
 
     private void StartLoop()
     {
-        if (m_text == null || m_lines == null || m_lines.Length == 0)
+        // 클리어 횟수는 귀환 정산 때만 바뀌므로 루프 시작 시점에 대사 묶음 확정
+        string[] lines = ResolveLines();
+        if (lines != m_activeLines)
+        {
+            m_activeLines = lines;
+            m_lineIndex = -1;
+        }
+
+        if (m_text == null || m_activeLines == null || m_activeLines.Length == 0)
         {
             return;
         }
 
         m_loopRoutine = StartCoroutine(SpeechLoop());
+    }
+
+    // 대사 표에서 방어전 클리어 횟수에 맞는 대사 선택. 없으면 기본 대사
+    private string[] ResolveLines()
+    {
+        if (m_speechTable == null || string.IsNullOrWhiteSpace(m_npcId))
+        {
+            return m_lines;
+        }
+
+        GameDataManager gameData = GameDataManager.Instance;
+        int clearCount = gameData != null ? gameData.DefenseClearCount : 0;
+        return m_speechTable.TryGetLines(m_npcId.Trim(), clearCount, out string[] lines) ? lines : m_lines;
     }
 
     private void StopLoop()
@@ -304,7 +338,7 @@ public sealed class NpcSpeechBubble : MonoBehaviour
 
     private string NextLine()
     {
-        int count = m_lines.Length;
+        int count = m_activeLines.Length;
         if (count == 1)
         {
             m_lineIndex = 0;
@@ -325,7 +359,7 @@ public sealed class NpcSpeechBubble : MonoBehaviour
             m_lineIndex = (m_lineIndex + 1) % count;
         }
 
-        return m_lines[m_lineIndex];
+        return m_activeLines[m_lineIndex];
     }
 
     private IEnumerator Fade(float from, float to)
@@ -359,11 +393,14 @@ public sealed class NpcSpeechBubble : MonoBehaviour
         {
             m_bubbleRoot.gameObject.SetActive(visible);
         }
+    }
 
-        // 말풍선과 월드 아이콘은 동시에 보이지 않도록 반대로 토글
-        if (m_worldIcon != null && m_worldIcon.activeSelf == visible)
+    // 월드 아이콘은 말풍선 페이드와 무관하게 거리 판정으로만 토글
+    private void SetWorldIconVisible(bool visible)
+    {
+        if (m_worldIcon != null && m_worldIcon.activeSelf != visible)
         {
-            m_worldIcon.SetActive(!visible);
+            m_worldIcon.SetActive(visible);
         }
     }
 }

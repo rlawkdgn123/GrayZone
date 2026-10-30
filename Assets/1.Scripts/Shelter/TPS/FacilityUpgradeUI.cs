@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using TMPro;
 
@@ -7,27 +8,40 @@ using TMPro;
 /// </summary>
 /// <remarks>
 /// 특정 시설을 알지 않고 <see cref="Open"/>에 받은 facilityId로 <see cref="FacilityManager"/>에서 데이터를 pull합니다.
-/// (시설 이름·제공 기능·업그레이드 실행은 FacilityManager, 보유 자원 조회는 StorageFacility 경유)
+/// (시설 이름·효과 문구·비용·업그레이드 실행은 FacilityManager, 보유 자원 조회는 StorageFacility 경유)
+/// <para>
+/// 구성은 "시설 이름 Lv.현재 → 다음 / 효과" 한 줄, "자원 아이콘 수량 + 질문" 한 줄, 안 한다·한다 버튼입니다.
+/// 효과 문구와 비용은 시설의 업그레이드 표(<see cref="FacilityUpgradeTableSO"/>)에서 옵니다.
+/// </para>
 /// </remarks>
 public class FacilityUpgradeUI : MonoBehaviour
 {
-    [Header("Header")]
+    [Header("Upgrade Effect")]
     [SerializeField] private TMP_Text m_nameText;
-    [SerializeField] private TMP_Text m_levelText; // "Lv.1 → Lv.2" (선택)
+    [Tooltip("현재 레벨입니다. 최대 레벨이면 MAX로 표시합니다.")]
+    [FormerlySerializedAs("m_levelText")]
+    [SerializeField] private TMP_Text m_currentLevelText;
+    [SerializeField] private TMP_Text m_arrowText;
+    [SerializeField] private TMP_Text m_nextLevelText;
+    [Tooltip("다음 레벨의 업그레이드 효과 문구입니다(시설 업그레이드 표의 Effect).")]
+    [SerializeField] private TMP_Text m_effectText;
 
-    [Header("Feature List (제공하는 기능)")]
-    [SerializeField] private Transform m_featureRoot;
-    [SerializeField] private LabelValueRow m_featureRowPrefab;
-
-    //ToDo : 제공하는 기능, 코스트는 기획안에 따라 프리팹/스크립트 변경이 필요함
-    [Header("Cost List")]
-    [SerializeField] private Transform m_costRoot;
-    [SerializeField] private LabelValueRow m_costRowPrefab;
+    [Header("Cost")]
+    [Tooltip("자원 아이콘·수량·질문 줄의 루트입니다. 최대 레벨이면 숨깁니다.")]
+    [SerializeField] private GameObject m_costLineRoot;
+    [SerializeField] private TMP_Text m_costText;
+    [Tooltip("자원 수량 표기입니다. {0}에 업그레이드 표의 Amount가 들어갑니다. 자원 이름은 고정 문구로 둡니다.")]
+    [SerializeField] private string m_costFormat = "자원 {0}";
+    [SerializeField] private TMP_Text m_questionText;
+    [Tooltip("{0}에 시설 이름이 들어갑니다.")]
+    [SerializeField] private string m_questionFormat = "을 사용하여 {0}을 업그레이드 하시겠어요?";
     [SerializeField] private Color m_enoughColor = Color.white;
     [SerializeField] private Color m_lackColor = Color.red;
 
     [Header("Buttons / Notice")]
+    [Tooltip("한다 버튼입니다. 업그레이드할 수 있을 때만 누를 수 있습니다.")]
     [SerializeField] private Button m_upgradeButton;
+    [Tooltip("안 한다 버튼입니다. 창을 닫습니다.")]
     [SerializeField] private Button m_closeButton;
     [Tooltip("시설 UI의 돌아가기 표시와 같은 위치에서 업그레이드 창을 닫는 투명 버튼입니다.")]
     [SerializeField] private Button m_backButton;
@@ -35,8 +49,8 @@ public class FacilityUpgradeUI : MonoBehaviour
     [SerializeField] private RectTransform m_medicalBackReference;
     [Tooltip("제조실 화면에 보이는 돌아가기 버튼의 실제 영역입니다.")]
     [SerializeField] private RectTransform m_manufacturingBackReference;
-    [SerializeField] private GameObject m_insufficientNotice; // 자원 부족 알림
-    [SerializeField] private GameObject m_maxLevelNotice;      // 최대 레벨 알림
+    [Tooltip("최대 레벨일 때 자원·질문 줄 대신 표시합니다.")]
+    [SerializeField] private GameObject m_maxLevelNotice;
 
     [Header("Cutscene")]
     [Tooltip("비어 있으면 씬에서 찾습니다. 시설에 업그레이드 연출이 있으면 연출을 통해 업그레이드합니다.")]
@@ -96,47 +110,47 @@ public class FacilityUpgradeUI : MonoBehaviour
         int level = fm.GetUpgradeLevel(m_facilityId);
         bool canUpgrade = fm.CanUpgrade(m_facilityId);   // 해금·최대레벨·비자원 조건
         bool canAfford = fm.CanAffordUpgrade(m_facilityId); // + 자원까지
+        bool isMaxLevel = state != null && state.IsUnlocked && !canUpgrade; // 해금됐는데 더 못 올림 = 최대
+        string facilityName = state?.Definition != null ? state.Definition.FacilityName : m_facilityId;
 
-        // 이름 / 레벨 표기
-        if (m_nameText != null)
-            m_nameText.text = state?.Definition != null ? state.Definition.FacilityName : m_facilityId;
-        if (m_levelText != null)
-            m_levelText.text = canUpgrade ? $"Lv.{level + 1} → Lv.{level + 2}" : $"Lv.{level + 1}";
+        // 이름 / 레벨 / 효과
+        SetText(m_nameText, facilityName);
+        SetText(m_currentLevelText, isMaxLevel ? "Lv. MAX" : $"Lv. {level + 1}");
+        SetText(m_nextLevelText, isMaxLevel ? string.Empty : (level + 2).ToString());
+        SetActive(m_arrowText, !isMaxLevel);
+        SetActive(m_nextLevelText, !isMaxLevel);
+        SetText(m_effectText, isMaxLevel ? string.Empty : fm.GetUpgradeEffectText(m_facilityId));
 
-        // 제공하는 기능 (리스트 길이만큼 생성)
-        ClearChildren(m_featureRoot);
-        if (m_featureRoot != null && m_featureRowPrefab != null)
-        {
-            foreach (FacilityFeatureLine line in fm.GetUpgradeFeatureLines(m_facilityId))
-                Instantiate(m_featureRowPrefab, m_featureRoot).Set(line.Label, line.Value, m_enoughColor);
-        }
+        // 비용 (표의 자원 한 종류 기준, 보유량이 모자라면 lack 색)
+        SetActive(m_costLineRoot, !isMaxLevel);
+        if (m_maxLevelNotice != null)
+            m_maxLevelNotice.SetActive(isMaxLevel);
+        RefreshCost(fm.GetUpgradeCost(m_facilityId), facilityName);
 
-        // 비용 (줄마다 보유 vs 요구 비교, 부족=lack 색)
-        ClearChildren(m_costRoot);
-        StorageFacility storage = ShelterSceneDataManager.Instance?.Storage;
-        if (m_costRoot != null && m_costRowPrefab != null)
-        {
-            foreach (ResourceCost c in fm.GetUpgradeCost(m_facilityId).Costs)
-            {
-                int owned = storage != null
-                    ? storage.GetResourceAmount(c.ResourceId)
-                    : 0;
-                bool enough = owned >= c.Amount;
-                Instantiate(m_costRowPrefab, m_costRoot)
-                    .Set(
-                        c.ResourceId,
-                        $"{owned}/{c.Amount}",
-                        enough ? m_enoughColor : m_lackColor);
-            }
-        }
-
-        // 버튼 / 알림
+        // 버튼
         if (m_upgradeButton != null)
             m_upgradeButton.interactable = canAfford;
-        if (m_insufficientNotice != null)
-            m_insufficientNotice.SetActive(canUpgrade && !canAfford); // 올릴 순 있는데 자원만 부족
-        if (m_maxLevelNotice != null)
-            m_maxLevelNotice.SetActive(state != null && state.IsUnlocked && !canUpgrade); // 해금됐는데 더 못 올림 = 최대
+    }
+
+    private void RefreshCost(CostBundle cost, string facilityName)
+    {
+        SetText(m_questionText, string.Format(m_questionFormat ?? string.Empty, facilityName));
+
+        if (cost.IsFree)
+        {
+            SetText(m_costText, string.Empty);
+            return;
+        }
+
+        // 자원 이름·아이콘은 씬에 고정하고, 수량만 업그레이드 표 값을 씁니다.
+        ResourceCost first = cost.Costs[0];
+        StorageFacility storage = ShelterSceneDataManager.Instance?.Storage;
+        int owned = storage != null ? storage.GetResourceAmount(first.ResourceId) : 0;
+        if (m_costText != null)
+        {
+            m_costText.text = string.Format(m_costFormat ?? "{0}", first.Amount);
+            m_costText.color = owned >= first.Amount ? m_enoughColor : m_lackColor;
+        }
     }
 
     private void OnUpgradeClicked()
@@ -194,12 +208,21 @@ public class FacilityUpgradeUI : MonoBehaviour
             : m_manufacturingBackReference;
     }
 
-    private static void ClearChildren(Transform root)
+    private static void SetText(TMP_Text text, string value)
     {
-        if (root == null)
-            return;
+        if (text != null)
+            text.text = value;
+    }
 
-        for (int i = root.childCount - 1; i >= 0; i--)
-            Destroy(root.GetChild(i).gameObject);
+    private static void SetActive(Component component, bool active)
+    {
+        if (component != null && component.gameObject.activeSelf != active)
+            component.gameObject.SetActive(active);
+    }
+
+    private static void SetActive(GameObject target, bool active)
+    {
+        if (target != null && target.activeSelf != active)
+            target.SetActive(active);
     }
 }

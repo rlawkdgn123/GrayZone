@@ -48,6 +48,7 @@ public sealed class ShelterItemListHud : MonoBehaviour
         new Slot { Source = SlotSource.Resource, Id = ResourceIds.CraftingMaterial },
         new Slot { Source = SlotSource.Resource, Id = ResourceIds.UpgradeMaterial },
         new Slot { Source = SlotSource.Resource, Id = ResourceIds.TrapMaterial },
+        new Slot { Source = SlotSource.Resource, Id = ResourceIds.TrapUpgradeMaterial },
         new Slot { Source = SlotSource.Item, Id = "Potion_01" },
         new Slot { Source = SlotSource.Item, Id = "Grenade_01" },
         new Slot { Source = SlotSource.Item, Id = "Firebomb_01" }

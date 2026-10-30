@@ -182,7 +182,8 @@ public class CrosshairDebugInspector : MonoBehaviour
 
     private void Update()
     {
-        if (!m_inspectorEnabled || !GameDevMode.DebugFeaturesEnabled)
+        // ShelterScene_Jung에서는 조준선 인스펙터를 열지 않음
+        if (!m_inspectorEnabled || !GameDevMode.DebugFeaturesEnabled || ShelterClearCountDebugToggle.IsTargetSceneActive)
         {
             if (m_open)
             {

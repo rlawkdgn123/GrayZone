@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 /// <summary>
 /// 셸터 시설이 해금·업그레이드 흐름에 참여하기 위해 구현하는 계약입니다.
 /// </summary>
@@ -42,11 +40,11 @@ public interface IFacilityUpgradeable
     /// <remarks>선행 시설·일차·플래그 같은 조건을 위한 확장 자리(seam)입니다.</remarks>
     bool AreUpgradeRequirementsMet(int currentLevel);
 
-    /// <summary>다음 단계가 제공하는 기능을 표시용 줄 목록으로 돌려줍니다.</summary>
+    /// <summary>다음 단계의 업그레이드 효과 문구를 돌려줍니다.</summary>
     /// <param name="currentLevel">기준이 되는 현재 단계입니다.</param>
-    /// <returns>표시할 줄 목록입니다. 최대 단계이면 빈 목록입니다.</returns>
-    /// <remarks>표시 전용이며 로직에 영향을 주지 않습니다.</remarks>
-    IReadOnlyList<FacilityFeatureLine> GetUpgradeFeatureLines(int currentLevel);
+    /// <returns>표시할 효과 문구입니다. 최대 단계이거나 문구가 없으면 빈 문자열입니다.</returns>
+    /// <remarks>표시 전용이며 로직에 영향을 주지 않습니다. 문구는 시설의 업그레이드 표(<see cref="FacilityUpgradeTableSO"/>)가 정본입니다.</remarks>
+    string GetUpgradeEffectText(int currentLevel);
 }
 
 /// <summary>연료 부족으로 효율 저하가 적용되는 시설의 런타임 계약입니다.</summary>

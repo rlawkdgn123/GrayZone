@@ -25,6 +25,8 @@ MonoBehaviour:
     amount: 50
   - resourceId: trap_material
     amount: 100
+  - resourceId: trap_upgrade_material
+    amount: 20
   startingCharacterDefinitions:
   - {fileID: 11400000, guid: 2500c3745cea5654a838c007ba8ebfeb, type: 2}
   - {fileID: 11400000, guid: 6ebffd95315760a44ae6b35e6f84bf68, type: 2}

@@ -1,0 +1,15 @@
+﻿NpcId,MinClearCount,Line,#Memo
+# NpcId = NpcSpeechBubble의 NPC ID / MinClearCount 0 = 1차 방어전 이전 / 1 = 2차 방어전 이전(1차 클리어 후) / 한 줄 12자(공백 포함)를 넘으면 띄어쓰기에서 \n,,,
+Manufacturing,0,곧 변이체가 몰려올 테니\n필요한 제작 아이템은 든든히 챙겨 가.,
+Manufacturing,0,준비가 되면 정문 앞의\n경비 담당자에게 가면돼.,
+Manufacturing,1,이번에 막아냈다고\n준비를 멈출 순 없지.,
+Manufacturing,1,다음 전투에 쓸 제작\n아이템이 부족하면 모아온\n 자원으로 마련해가.,
+Medical,0,어디 불편한 곳이 있는거야?,NPC_01 (의료실)
+Medical,0,강화 인간이더라도 전투\n끝나고 몸 상태\n확인하는 걸 잊지 마.,
+Medical,1,무사히 돌아왔구나.,
+Medical,1,다음 전투 전에 대원들\n몸 상태부터 확인해줘.,
+Scramble,0,필요한 건 다 챙겼어?\n강화 인간이라도 준비가\n허술하면 위험해.,
+Scramble,0,문제없다면 출격해 줘.\n회색 안개가 행운을 가져다주길.,
+Scramble,1,이번 공격은 넘겼지만\n방심하진 마.,
+Scramble,1,부족한 제작 아이템이나\n치료가 필요한 대원이\n없는지 살펴봐.,
+Scramble,1,정비를 마쳤다면 나가도 좋아.\n 이번에도 무사히 돌아와.,

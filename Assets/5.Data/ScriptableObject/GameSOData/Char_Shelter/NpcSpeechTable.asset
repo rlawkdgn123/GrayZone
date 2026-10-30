@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ce9103e12465a14d85590d76f360068, type: 3}
+  m_Name: NpcSpeechTable
+  m_EditorClassIdentifier: Assembly-CSharp::NpcSpeechTableSO
+  m_lines:
+  - NpcId: Manufacturing
+    MinClearCount: 0
+    Line: "\uACE7 \uBCC0\uC774\uCCB4\uAC00 \uBAB0\uB824\uC62C \uD14C\uB2C8\n\uD544\uC694\uD55C
+      \uC81C\uC791 \uC544\uC774\uD15C\uC740 \uB4E0\uB4E0\uD788 \uCC59\uACA8 \uAC00."
+  - NpcId: Manufacturing
+    MinClearCount: 0
+    Line: "\uC900\uBE44\uAC00 \uB418\uBA74 \uC815\uBB38 \uC55E\uC758\n\uACBD\uBE44
+      \uB2F4\uB2F9\uC790\uC5D0\uAC8C \uAC00\uBA74\uB3FC."
+  - NpcId: Manufacturing
+    MinClearCount: 1
+    Line: "\uC774\uBC88\uC5D0 \uB9C9\uC544\uB0C8\uB2E4\uACE0\n\uC900\uBE44\uB97C
+      \uBA48\uCD9C \uC21C \uC5C6\uC9C0."
+  - NpcId: Manufacturing
+    MinClearCount: 1
+    Line: "\uB2E4\uC74C \uC804\uD22C\uC5D0 \uC4F8 \uC81C\uC791\n\uC544\uC774\uD15C\uC774
+      \uBD80\uC871\uD558\uBA74 \uBAA8\uC544\uC628\n \uC790\uC6D0\uC73C\uB85C \uB9C8\uB828\uD574\uAC00."
+  - NpcId: Medical
+    MinClearCount: 0
+    Line: "\uC5B4\uB514 \uBD88\uD3B8\uD55C \uACF3\uC774 \uC788\uB294\uAC70\uC57C?"
+  - NpcId: Medical
+    MinClearCount: 0
+    Line: "\uAC15\uD654 \uC778\uAC04\uC774\uB354\uB77C\uB3C4 \uC804\uD22C\n\uB05D\uB098\uACE0
+      \uBAB8 \uC0C1\uD0DC\n\uD655\uC778\uD558\uB294 \uAC78 \uC78A\uC9C0 \uB9C8."
+  - NpcId: Medical
+    MinClearCount: 1
+    Line: "\uBB34\uC0AC\uD788 \uB3CC\uC544\uC654\uAD6C\uB098."
+  - NpcId: Medical
+    MinClearCount: 1
+    Line: "\uB2E4\uC74C \uC804\uD22C \uC804\uC5D0 \uB300\uC6D0\uB4E4\n\uBAB8 \uC0C1\uD0DC\uBD80\uD130
+      \uD655\uC778\uD574\uC918."
+  - NpcId: Scramble
+    MinClearCount: 0
+    Line: "\uD544\uC694\uD55C \uAC74 \uB2E4 \uCC59\uACBC\uC5B4?\n\uAC15\uD654 \uC778\uAC04\uC774\uB77C\uB3C4
+      \uC900\uBE44\uAC00\n\uD5C8\uC220\uD558\uBA74 \uC704\uD5D8\uD574."
+  - NpcId: Scramble
+    MinClearCount: 0
+    Line: "\uBB38\uC81C\uC5C6\uB2E4\uBA74 \uCD9C\uACA9\uD574 \uC918.\n\uD68C\uC0C9
+      \uC548\uAC1C\uAC00 \uD589\uC6B4\uC744 \uAC00\uC838\uB2E4\uC8FC\uAE38."
+  - NpcId: Scramble
+    MinClearCount: 1
+    Line: "\uC774\uBC88 \uACF5\uACA9\uC740 \uB118\uACBC\uC9C0\uB9CC\n\uBC29\uC2EC\uD558\uC9C4
+      \uB9C8."
+  - NpcId: Scramble
+    MinClearCount: 1
+    Line: "\uBD80\uC871\uD55C \uC81C\uC791 \uC544\uC774\uD15C\uC774\uB098\n\uCE58\uB8CC\uAC00
+      \uD544\uC694\uD55C \uB300\uC6D0\uC774\n\uC5C6\uB294\uC9C0 \uC0B4\uD3B4\uBD10."
+  - NpcId: Scramble
+    MinClearCount: 1
+    Line: "\uC815\uBE44\uB97C \uB9C8\uCCE4\uB2E4\uBA74 \uB098\uAC00\uB3C4 \uC88B\uC544.\n
+      \uC774\uBC88\uC5D0\uB3C4 \uBB34\uC0AC\uD788 \uB3CC\uC544\uC640."

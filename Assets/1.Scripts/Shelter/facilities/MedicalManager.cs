@@ -864,25 +864,6 @@ public class MedicalManager : MonoBehaviour, IFacilityUpgradeable, IFuelShortage
             : string.Empty;
     }
 
-    // 다음 레벨이 제공하는 기능 표시 줄들. 값이 바뀌는 항목만 노출(shown=actual — 슬롯 함수에서 파생).
-    public System.Collections.Generic.IReadOnlyList<FacilityFeatureLine> GetUpgradeFeatureLines(int currentLevel)
-    {
-        var lines = new System.Collections.Generic.List<FacilityFeatureLine>();
-        int next = currentLevel + 1;
-        if (next > MaxLevelIndex)
-            return lines;
-
-        if (PatientSlotsForLevel(next) != PatientSlotsForLevel(currentLevel))
-            lines.Add(new FacilityFeatureLine("환자 슬롯",
-                $"{PatientSlotsForLevel(currentLevel)} → {PatientSlotsForLevel(next)}"));
-
-        if (HelperSlotsForLevel(next) != HelperSlotsForLevel(currentLevel))
-            lines.Add(new FacilityFeatureLine("헬퍼 슬롯",
-                $"{HelperSlotsForLevel(currentLevel)} → {HelperSlotsForLevel(next)}"));
-
-        return lines;
-    }
-
     private void NotifyPatientSlotsChanged()
     {
         RefreshPatientStatuses();

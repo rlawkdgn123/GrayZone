@@ -67,6 +67,8 @@ public class UIManager : MonoBehaviour
     private GameObject m_currentInteractionTarget;
     private ShelterUIType m_activeUI = ShelterUIType.None;
     private ShelterUIType m_returnUIAfterFacilityUpgrade = ShelterUIType.None;
+    private bool m_dialogueOpen;
+    private bool m_hudSuppressed;
 
     /// <summary>현재 상호작용 프롬프트가 가리키는 대상 오브젝트</summary>
     public GameObject CurrentInteractionTarget => m_currentInteractionTarget;
@@ -77,8 +79,17 @@ public class UIManager : MonoBehaviour
     /// <summary>플레이어 조작을 막아야 하는 UI가 열려 있는지 여부</summary>
     public bool HasOpenBlockingUI => m_activeUI != ShelterUIType.None;
 
+    /// <summary>
+    /// HUD(미니맵, 아이템 목록, NPC 말풍선 등)를 숨겨야 하는지 여부.
+    /// 차단형 UI가 열려 있거나 NPC 상호작용 대사가 표시 중이면 <c>true</c>
+    /// </summary>
+    public bool IsHudSuppressed => m_hudSuppressed;
+
     /// <summary>활성 UI 종류가 변경될 때 발생</summary>
     public event Action<ShelterUIType> ActiveUIChanged;
+
+    /// <summary><see cref="IsHudSuppressed"/> 값이 바뀔 때 발생</summary>
+    public event Action<bool> HudSuppressionChanged;
 
     private void Awake()
     {
@@ -189,7 +200,22 @@ public class UIManager : MonoBehaviour
             m_inventoryUI.Closed -= HandleInventoryUIClosed;
 
         m_returnUIAfterFacilityUpgrade = ShelterUIType.None;
+        m_dialogueOpen = false;
         SetActiveUI(ShelterUIType.None);
+        RefreshHudSuppression();
+    }
+
+    /// <summary>
+    /// NPC 상호작용 대사 표시 여부를 알림. 대사가 뜨는 시점부터 HUD를 숨기는 데 사용
+    /// </summary>
+    /// <param name="open">대사 표시 중이면 <c>true</c></param>
+    public void SetDialogueOpen(bool open)
+    {
+        if (m_dialogueOpen == open)
+            return;
+
+        m_dialogueOpen = open;
+        RefreshHudSuppression();
     }
 
     /// <summary>
@@ -711,5 +737,17 @@ public class UIManager : MonoBehaviour
 
         m_activeUI = activeUI;
         ActiveUIChanged?.Invoke(m_activeUI);
+        RefreshHudSuppression();
+    }
+
+    // 대사 → 시설 UI 전환처럼 숨김 상태가 이어지는 경우 이벤트를 보내지 않아 깜빡임 방지
+    private void RefreshHudSuppression()
+    {
+        bool suppressed = m_activeUI != ShelterUIType.None || m_dialogueOpen;
+        if (m_hudSuppressed == suppressed)
+            return;
+
+        m_hudSuppressed = suppressed;
+        HudSuppressionChanged?.Invoke(m_hudSuppressed);
     }
 }

@@ -1,0 +1,13 @@
+﻿FacilityId,Stage,Condition,MinClearCount,Line,#Memo
+# FacilityId = FacilityStageDialogue의 시설 ID (Manufacturing / Medical / Scramble) / Stage = Menu(처음 메뉴) · Main(시설 고유 기능: 제조=제작 · 의료=진료 · Scramble=출격 확인) · Upgrade(업그레이드) / Condition = 비우면 기본 대사 · 시설별 상황 값(Medical: AllSlotsLocked · NoCandidates · HasCandidates) · 상황 대사가 없으면 기본 대사 사용 / MinClearCount 0 = 1차 방어전 이전 · 1 = 1차 클리어 후 / 같은 묶음에 여러 줄이면 그중 하나 표시 / 줄바꿈은 \n,,,,,
+Manufacturing,Menu,,0,출격에 쓸 제작 아이템부터 살펴볼까? 제조실 업그레이드도 할 수 있어.,예시 대사 - 기획 확정 필요
+Manufacturing,Main,,0,필요한 제작 아이템을 골라 봐. 가지고 있는 재료로 구매할 수 있어.,예시 대사
+Manufacturing,Upgrade,,0,제조실을 업그레이드하면 다음 전투를 준비할 때도 도움이 될 거야.,예시 대사
+Medical,Menu,,0,대원들 상태부터 살펴볼래? 아니면 의료실 업그레이드를 할 거야?,기존 Menu/Talk 문구
+Medical,Main,HasCandidates,0,대원을 치료 슬롯에 배치하고 진료를 시작해 줘. 내가 잘 돌볼게.,예시 대사 - 치료할 대상이 있을 때
+Medical,Main,NoCandidates,0,지금은 치료가 필요한 대원이 없네. 전투 후엔 몸 상태를 꼭 확인해 줘.,예시 대사 - 치료할 대상이 없을 때
+Medical,Main,AllSlotsLocked,0,지금은 쓸 수 있는 치료 슬롯이 없어. 대원들이 무리하지 않게 살펴봐 줘.,예시 대사 - 쓸 수 있는 슬롯이 없을 때
+Medical,Upgrade,,0,다친 대원을 더 돌볼 수 있도록 의료실을 업그레이드해 줄래?,예시 대사
+Scramble,Menu,,0,전투 업그레이드를 할지 바로 출격할지 정해 줘.,예시 대사
+Scramble,Main,,0,우리의 보금자리가 무너지지 않게 부탁해. 그리고 꼭 무사히 돌아와.,예시 대사
+Scramble,Upgrade,,0,함정을 선택해서 재료를 지급하면 방어선을 강화할 수 있어. 강화할 항목을 골라 줘.,예시 대사

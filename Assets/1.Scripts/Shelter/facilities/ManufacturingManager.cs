@@ -262,43 +262,6 @@ public sealed class ManufacturingManager : MonoBehaviour, IFacilityUpgradeable, 
             : string.Empty;
     }
 
-    public IReadOnlyList<FacilityFeatureLine> GetUpgradeFeatureLines(int currentLevel)
-    {
-        List<FacilityFeatureLine> lines = new();
-        int nextLevel = currentLevel + 1;
-        if (nextLevel > MaxLevelIndex)
-            return lines;
-
-        int currentCraftingSlots = CraftingSlotsForLevel(currentLevel);
-        int nextCraftingSlots = CraftingSlotsForLevel(nextLevel);
-        if (currentCraftingSlots != nextCraftingSlots)
-        {
-            lines.Add(new FacilityFeatureLine(
-                "제조 슬롯",
-                $"{currentCraftingSlots} → {nextCraftingSlots}"));
-        }
-
-        int currentHelperSlots = HelperSlotsForLevel(currentLevel);
-        int nextHelperSlots = HelperSlotsForLevel(nextLevel);
-        if (currentHelperSlots != nextHelperSlots)
-        {
-            lines.Add(new FacilityFeatureLine(
-                "헬퍼 슬롯",
-                $"{currentHelperSlots} → {nextHelperSlots}"));
-        }
-
-        int currentLevelBonus = LevelProductivityBonus(currentLevel);
-        int nextLevelBonus = LevelProductivityBonus(nextLevel);
-        if (currentLevelBonus != nextLevelBonus)
-        {
-            lines.Add(new FacilityFeatureLine(
-                "기본 제작력",
-                $"{baseProductivity + currentLevelBonus} → {baseProductivity + nextLevelBonus}"));
-        }
-
-        return lines;
-    }
-
     /// <summary>고정된 단일 제조 슬롯인지 반환합니다.</summary>
     public bool IsCraftingSlotUnlocked(int slotIndex)
     {

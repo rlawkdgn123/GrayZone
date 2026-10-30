@@ -10,12 +10,14 @@ public static class ResourceIds
     public const string UpgradeMaterial = "upgrade_material";
     public const string CraftingMaterial = "crafting_material";
     public const string TrapMaterial = "trap_material";
+    public const string TrapUpgradeMaterial = "trap_upgrade_material";
 
     private static readonly string[] s_all =
     {
         UpgradeMaterial,
         CraftingMaterial,
-        TrapMaterial
+        TrapMaterial,
+        TrapUpgradeMaterial
     };
 
     public static IReadOnlyList<string> All => s_all;

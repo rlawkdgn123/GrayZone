@@ -211,17 +211,17 @@ public class FacilityManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 다음 레벨이 제공하는 기능 표시 줄들을 반환한다(표시 전용).
+    /// 다음 레벨의 업그레이드 효과 문구를 반환한다(표시 전용).
     /// </summary>
     /// <param name="facilityId">조회할 시설 ID</param>
-    /// <returns>시설이 등록돼 있으면 해당 기능 줄들, 없거나 최대 레벨이면 빈 리스트</returns>
-    public IReadOnlyList<FacilityFeatureLine> GetUpgradeFeatureLines(string facilityId)
+    /// <returns>시설이 등록돼 있으면 해당 효과 문구, 없거나 최대 레벨이면 빈 문자열</returns>
+    public string GetUpgradeEffectText(string facilityId)
     {
         FacilityState state = GetState(facilityId);
         if (state == null || !m_facilities.TryGetValue(facilityId, out IFacilityUpgradeable facility))
-            return System.Array.Empty<FacilityFeatureLine>();
+            return string.Empty;
 
-        return facility.GetUpgradeFeatureLines(state.UpgradeLevel);
+        return facility.GetUpgradeEffectText(state.UpgradeLevel);
     }
 
     /// <summary>

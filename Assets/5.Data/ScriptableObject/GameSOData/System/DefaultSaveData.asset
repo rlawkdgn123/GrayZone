@@ -12,24 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31c050d47ff9a214ea058e6d1cbcf939, type: 3}
   m_Name: DefaultSaveData
   m_EditorClassIdentifier: Assembly-CSharp::DefaultSaveData
-  profileId: default
-  slotType: 1
-  startStageId: 
-  shelterStability: 100
+  shelterCheckpointId: 0
+  trapUpgradeLevel: 0
+  spikeUpgradeLevel: 0
+  explosiveUpgradeLevel: 0
+  shooterUpgradeLevel: 0
+  wireUpgradeLevel: 0
   startingResources:
-  - resourceId: 
-    amount: 0
-  - resourceId: 
-    amount: 0
-  - resourceId: 
-    amount: 0
-  - resourceId: 
-    amount: 0
+  - resourceId: upgrade_material
+    amount: 20
+  - resourceId: crafting_material
+    amount: 50
+  - resourceId: trap_material
+    amount: 100
+  - resourceId: trap_upgrade_material
+    amount: 20
   startingCharacterDefinitions:
   - {fileID: 11400000, guid: 2500c3745cea5654a838c007ba8ebfeb, type: 2}
   - {fileID: 11400000, guid: 6ebffd95315760a44ae6b35e6f84bf68, type: 2}
   - {fileID: 11400000, guid: 5a8c15051019b3a469542db2111b6d61, type: 2}
-  startDay: 1
-  startingFacilityDefinitions:
-  - {fileID: 11400000, guid: 12f3c95d489297e48b09fdc259a043af, type: 2}
-  - {fileID: 11400000, guid: 29533db53b6299e46a3d4e83f7fea8be, type: 2}

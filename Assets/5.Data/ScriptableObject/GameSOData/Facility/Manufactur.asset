@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Manufactur
   m_EditorClassIdentifier: Assembly-CSharp::FacilityDefinition
   m_facilityId: manufacturing_center
-  m_facilityName: ManufacturCenter
+  m_facilityName: "\uC81C\uC791\uC2DC\uC124"
   m_unlockedByDefault: 1
   m_unlockCost: []

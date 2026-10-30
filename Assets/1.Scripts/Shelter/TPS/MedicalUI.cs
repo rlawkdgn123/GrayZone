@@ -5,9 +5,25 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
+/// 의료시설 UI 안의 상황. 대사 표(FacilityStageLine 시트)의 Condition 열 값과 이름이 같습니다.
+/// </summary>
+/// <remarks>둘 이상 해당하면 위에 있는 값이 우선합니다.</remarks>
+public enum MedicalCondition
+{
+    /// <summary>해금되고 이번 주기에 아직 쓰지 않은 환자 슬롯이 하나도 없음</summary>
+    AllSlotsLocked,
+
+    /// <summary>치료할 후보 캐릭터가 없음</summary>
+    NoCandidates,
+
+    /// <summary>치료할 후보 캐릭터가 있음</summary>
+    HasCandidates
+}
+
+/// <summary>
 /// 의료시설 UI의 치료 후보, 환자 슬롯, 일괄 치료 흐름을 조정합니다.
 /// </summary>
-public class MedicalUI : MonoBehaviour
+public class MedicalUI : MonoBehaviour, IFacilityStageSource
 {
     [Header("Root")]
     [SerializeField] private GameObject m_root;
@@ -39,10 +55,17 @@ public class MedicalUI : MonoBehaviour
     private CharacterManager m_boundCharacterManager;
     private bool m_isOpening;
     private bool m_isOpen;
+    private FacilityUIStage m_stage = FacilityUIStage.None;
+    private MedicalCondition m_condition = MedicalCondition.HasCandidates;
+    private FacilityDialogueContext m_publishedContext = FacilityDialogueContext.None;
 
     public bool IsOpen => m_isOpen;
+    public FacilityDialogueContext CurrentContext => m_stage == FacilityUIStage.None
+        ? FacilityDialogueContext.None
+        : new FacilityDialogueContext(m_stage, m_condition.ToString());
 
     public event Action Closed;
+    public event Action<FacilityDialogueContext> ContextChanged;
 
     private void Awake()
     {
@@ -120,8 +143,9 @@ public class MedicalUI : MonoBehaviour
         BindHealButton();
         BindNavigationButtons();
         m_currentManager?.RestoreRuntimeState();
-        ShowMenu();
+        // 상황을 먼저 계산해 두어 Menu 단계 알림이 한 번만 나가도록 Refresh를 앞에 둠
         Refresh();
+        ShowMenu();
     }
 
     /// <summary>
@@ -134,9 +158,14 @@ public class MedicalUI : MonoBehaviour
             return;
 
         if (visible)
+        {
             ShowMenu();
+        }
         else
+        {
             SetViewState(menu: false, treatment: false);
+            SetStage(FacilityUIStage.Upgrade);
+        }
     }
 
     public void Close()
@@ -159,6 +188,38 @@ public class MedicalUI : MonoBehaviour
             m_healButton.interactable = m_currentManager != null
                 && m_currentManager.CurrentPatientCount > 0;
         }
+
+        m_condition = EvaluateCondition();
+        PublishContext();
+    }
+
+    // 상황 판단은 이 함수 한 곳에서만. 우선순위: 슬롯 잠김 > 대상 없음 > 대상 있음
+    private MedicalCondition EvaluateCondition()
+    {
+        if (!HasUsablePatientSlot())
+            return MedicalCondition.AllSlotsLocked;
+
+        if (m_treatmentCandidates.Count == 0)
+            return MedicalCondition.NoCandidates;
+
+        return MedicalCondition.HasCandidates;
+    }
+
+    private bool HasUsablePatientSlot()
+    {
+        if (m_currentManager == null || m_patientSlots == null)
+            return false;
+
+        for (int i = 0; i < m_patientSlots.Length; i++)
+        {
+            if (m_currentManager.IsPatientSlotUnlocked(i)
+                && m_currentManager.IsPatientSlotAvailable(i))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void CacheChildViews()
@@ -197,6 +258,7 @@ public class MedicalUI : MonoBehaviour
     private void HandleTreatmentMenuClicked()
     {
         SetViewState(menu: false, treatment: true);
+        SetStage(FacilityUIStage.Main);
         Refresh();
     }
 
@@ -219,6 +281,7 @@ public class MedicalUI : MonoBehaviour
     {
         // Menu가 없는 기존 구성에서는 진료 화면을 그대로 보여줍니다.
         SetViewState(menu: m_menuRoot != null, treatment: m_menuRoot == null);
+        SetStage(m_menuRoot != null ? FacilityUIStage.Menu : FacilityUIStage.Main);
     }
 
     private void SetViewState(bool menu, bool treatment)
@@ -407,6 +470,26 @@ public class MedicalUI : MonoBehaviour
 
         m_isOpen = isOpen;
         if (!m_isOpen)
+        {
+            SetStage(FacilityUIStage.None);
             Closed?.Invoke();
+        }
+    }
+
+    private void SetStage(FacilityUIStage stage)
+    {
+        m_stage = stage;
+        PublishContext();
+    }
+
+    // Refresh는 클릭마다 불리므로 단계나 상황이 실제로 바뀐 경우에만 알림
+    private void PublishContext()
+    {
+        FacilityDialogueContext context = CurrentContext;
+        if (context.Equals(m_publishedContext))
+            return;
+
+        m_publishedContext = context;
+        ContextChanged?.Invoke(context);
     }
 }

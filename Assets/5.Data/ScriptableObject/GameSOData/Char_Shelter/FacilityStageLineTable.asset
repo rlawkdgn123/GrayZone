@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b09f3e708548c4c834d46932dc7f1a, type: 3}
+  m_Name: FacilityStageLineTable
+  m_EditorClassIdentifier: Assembly-CSharp::FacilityStageLineTableSO
+  m_lines:
+  - FacilityId: Manufacturing
+    Stage: 1
+    Condition: 
+    MinClearCount: 0
+    Line: "\uCD9C\uACA9\uC5D0 \uC4F8 \uC81C\uC791 \uC544\uC774\uD15C\uBD80\uD130
+      \uC0B4\uD3B4\uBCFC\uAE4C? \uC81C\uC870\uC2E4 \uC5C5\uADF8\uB808\uC774\uB4DC\uB3C4
+      \uD560 \uC218 \uC788\uC5B4."
+  - FacilityId: Manufacturing
+    Stage: 2
+    Condition: 
+    MinClearCount: 0
+    Line: "\uD544\uC694\uD55C \uC81C\uC791 \uC544\uC774\uD15C\uC744 \uACE8\uB77C
+      \uBD10. \uAC00\uC9C0\uACE0 \uC788\uB294 \uC7AC\uB8CC\uB85C \uAD6C\uB9E4\uD560
+      \uC218 \uC788\uC5B4."
+  - FacilityId: Manufacturing
+    Stage: 3
+    Condition: 
+    MinClearCount: 0
+    Line: "\uC81C\uC870\uC2E4\uC744 \uC5C5\uADF8\uB808\uC774\uB4DC\uD558\uBA74 \uB2E4\uC74C
+      \uC804\uD22C\uB97C \uC900\uBE44\uD560 \uB54C\uB3C4 \uB3C4\uC6C0\uC774 \uB420
+      \uAC70\uC57C."
+  - FacilityId: Medical
+    Stage: 1
+    Condition: 
+    MinClearCount: 0
+    Line: "\uB300\uC6D0\uB4E4 \uC0C1\uD0DC\uBD80\uD130 \uC0B4\uD3B4\uBCFC\uB798?
+      \uC544\uB2C8\uBA74 \uC758\uB8CC\uC2E4 \uC5C5\uADF8\uB808\uC774\uB4DC\uB97C
+      \uD560 \uAC70\uC57C?"
+  - FacilityId: Medical
+    Stage: 2
+    Condition: HasCandidates
+    MinClearCount: 0
+    Line: "\uB300\uC6D0\uC744 \uCE58\uB8CC \uC2AC\uB86F\uC5D0 \uBC30\uCE58\uD558\uACE0
+      \uC9C4\uB8CC\uB97C \uC2DC\uC791\uD574 \uC918. \uB0B4\uAC00 \uC798 \uB3CC\uBCFC\uAC8C."
+  - FacilityId: Medical
+    Stage: 2
+    Condition: NoCandidates
+    MinClearCount: 0
+    Line: "\uC9C0\uAE08\uC740 \uCE58\uB8CC\uAC00 \uD544\uC694\uD55C \uB300\uC6D0\uC774
+      \uC5C6\uB124. \uC804\uD22C \uD6C4\uC5D4 \uBAB8 \uC0C1\uD0DC\uB97C \uAF2D \uD655\uC778\uD574
+      \uC918."
+  - FacilityId: Medical
+    Stage: 2
+    Condition: AllSlotsLocked
+    MinClearCount: 0
+    Line: "\uC9C0\uAE08\uC740 \uC4F8 \uC218 \uC788\uB294 \uCE58\uB8CC \uC2AC\uB86F\uC774
+      \uC5C6\uC5B4. \uB300\uC6D0\uB4E4\uC774 \uBB34\uB9AC\uD558\uC9C0 \uC54A\uAC8C
+      \uC0B4\uD3B4\uBD10 \uC918."
+  - FacilityId: Medical
+    Stage: 3
+    Condition: 
+    MinClearCount: 0
+    Line: "\uB2E4\uCE5C \uB300\uC6D0\uC744 \uB354 \uB3CC\uBCFC \uC218 \uC788\uB3C4\uB85D
+      \uC758\uB8CC\uC2E4\uC744 \uC5C5\uADF8\uB808\uC774\uB4DC\uD574 \uC904\uB798?"
+  - FacilityId: Scramble
+    Stage: 1
+    Condition: 
+    MinClearCount: 0
+    Line: "\uC804\uD22C \uC5C5\uADF8\uB808\uC774\uB4DC\uB97C \uD560\uC9C0 \uBC14\uB85C
+      \uCD9C\uACA9\uD560\uC9C0 \uC815\uD574 \uC918."
+  - FacilityId: Scramble
+    Stage: 2
+    Condition: 
+    MinClearCount: 0
+    Line: "\uC6B0\uB9AC\uC758 \uBCF4\uAE08\uC790\uB9AC\uAC00 \uBB34\uB108\uC9C0\uC9C0
+      \uC54A\uAC8C \uBD80\uD0C1\uD574. \uADF8\uB9AC\uACE0 \uAF2D \uBB34\uC0AC\uD788
+      \uB3CC\uC544\uC640."
+  - FacilityId: Scramble
+    Stage: 3
+    Condition: 
+    MinClearCount: 0
+    Line: "\uD568\uC815\uC744 \uC120\uD0DD\uD574\uC11C \uC7AC\uB8CC\uB97C \uC9C0\uAE09\uD558\uBA74
+      \uBC29\uC5B4\uC120\uC744 \uAC15\uD654\uD560 \uC218 \uC788\uC5B4. \uAC15\uD654\uD560
+      \uD56D\uBAA9\uC744 \uACE8\uB77C \uC918."

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 제조 시설 UI를 열고 제조 슬롯, 레시피 선택, 헬퍼 UI를 매니저 상태로 투영합니다.
 /// </summary>
-public sealed class ManufacturingUI : MonoBehaviour
+public sealed class ManufacturingUI : MonoBehaviour, IFacilityStageSource
 {
     [Header("Root")]
     [SerializeField] private GameObject m_root;
@@ -39,9 +39,12 @@ public sealed class ManufacturingUI : MonoBehaviour
     private bool m_isUpgradeViewOpen;
     private bool m_isOpening;
     private bool m_isOpen;
+    private FacilityUIStage m_stage = FacilityUIStage.None;
 
     public bool IsOpen => m_isOpen;
+    public FacilityDialogueContext CurrentContext => new FacilityDialogueContext(m_stage);
     public event Action Closed;
+    public event Action<FacilityDialogueContext> ContextChanged;
 
     private void Awake()
     {
@@ -104,6 +107,7 @@ public sealed class ManufacturingUI : MonoBehaviour
         {
             SetUpgradeViewOpen(false);
             SetMenuActive(true);
+            SetStage(FacilityUIStage.Menu);
             return true;
         }
 
@@ -136,8 +140,13 @@ public sealed class ManufacturingUI : MonoBehaviour
             CloseCreateView();
             m_isClosing = false;
             SetMenuActive(true);
+            SetStage(FacilityUIStage.Menu);
         }
-        else if (m_createView == null || !m_createView.Open(0))
+        else if (m_createView != null && m_createView.Open(0))
+        {
+            SetStage(FacilityUIStage.Main);
+        }
+        else
         {
             SetNotice("제작 화면을 열 수 없습니다.");
             Close();
@@ -180,11 +189,13 @@ public sealed class ManufacturingUI : MonoBehaviour
         if (!visible)
         {
             SetMenuActive(false);
+            SetStage(FacilityUIStage.Upgrade);
             return;
         }
 
         SetUpgradeViewOpen(false);
         SetMenuActive(true);
+        SetStage(FacilityUIStage.Menu);
     }
 
     private void HandleCreateRequested(ManufacturingCreateRequest request)
@@ -255,9 +266,14 @@ public sealed class ManufacturingUI : MonoBehaviour
             return;
 
         if (m_menuRoot != null)
+        {
             SetMenuActive(true);
+            SetStage(FacilityUIStage.Menu);
+        }
         else
+        {
             Close();
+        }
     }
 
     private void HandleCreateButtonClicked()
@@ -268,7 +284,10 @@ public sealed class ManufacturingUI : MonoBehaviour
         ClearNotice();
         SetMenuActive(false);
         if (m_createView != null && m_createView.Open(0))
+        {
+            SetStage(FacilityUIStage.Main);
             return;
+        }
 
         SetMenuActive(true);
         SetNotice("제작 화면을 열 수 없습니다.");
@@ -283,6 +302,7 @@ public sealed class ManufacturingUI : MonoBehaviour
         // 업그레이드 UI가 닫히면 SetMenuVisible(true)에서 다시 Menu로 돌아갑니다.
         ClearNotice();
         SetUpgradeViewOpen(true);
+        SetStage(FacilityUIStage.Upgrade);
 
         if (m_upgradeAction != null)
         {
@@ -506,6 +526,18 @@ public sealed class ManufacturingUI : MonoBehaviour
 
         m_isOpen = isOpen;
         if (!m_isOpen)
+        {
+            SetStage(FacilityUIStage.None);
             Closed?.Invoke();
+        }
+    }
+
+    private void SetStage(FacilityUIStage stage)
+    {
+        if (m_stage == stage)
+            return;
+
+        m_stage = stage;
+        ContextChanged?.Invoke(CurrentContext);
     }
 }

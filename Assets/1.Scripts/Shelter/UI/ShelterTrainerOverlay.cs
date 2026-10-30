@@ -692,6 +692,10 @@ public sealed class ShelterTrainerOverlay : MonoBehaviour
 
     private static bool WasTogglePressed()
     {
+        // ShelterScene_Jung에서는 F12를 클리어 횟수 토글이 사용
+        if (ShelterClearCountDebugToggle.IsTargetSceneActive)
+            return false;
+
 #if ENABLE_INPUT_SYSTEM
         return Keyboard.current != null
             && Keyboard.current.f12Key.wasPressedThisFrame;

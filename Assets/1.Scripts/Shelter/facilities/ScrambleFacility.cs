@@ -26,8 +26,9 @@ public sealed class ScrambleFacility : MonoBehaviour
     [Variants(
         ResourceIds.UpgradeMaterial,
         ResourceIds.CraftingMaterial,
-        ResourceIds.TrapMaterial)]
-    [SerializeField] private string m_upgradeResourceId = ResourceIds.UpgradeMaterial;
+        ResourceIds.TrapMaterial,
+        ResourceIds.TrapUpgradeMaterial)]
+    [SerializeField] private string m_upgradeResourceId = ResourceIds.TrapUpgradeMaterial;
 
     [Header("Upgrade Table")]
     [Tooltip("레벨별 비용과 Info 문구 표입니다. 연결하면 아래 단일 비용·최대 레벨 대신 이 표를 씁니다. 해당 타입 배열이 비어 있으면 아래 값을 씁니다.")]

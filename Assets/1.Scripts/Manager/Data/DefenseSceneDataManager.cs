@@ -25,7 +25,8 @@ public sealed class DefenseSceneDataManager : CombatSceneDataManager
         [Variants(
             ResourceIds.UpgradeMaterial,
             ResourceIds.CraftingMaterial,
-            ResourceIds.TrapMaterial)]
+            ResourceIds.TrapMaterial,
+            ResourceIds.TrapUpgradeMaterial)]
         public string ResourceId;
 
         [Tooltip("지급할 수량입니다. 0이면 지급하지 않습니다.")]

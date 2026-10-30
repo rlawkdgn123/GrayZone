@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /// Scramble 시설 버튼 입력을 시설 로직에 전달하고 업그레이드 상태와 비용을 표시합니다.
 /// </summary>
 [DisallowMultipleComponent]
-public sealed class ScrambleFacilityUI : MonoBehaviour
+public sealed class ScrambleFacilityUI : MonoBehaviour, IFacilityStageSource
 {
     [Serializable]
     private sealed class UpgradeRowView
@@ -99,7 +99,12 @@ public sealed class ScrambleFacilityUI : MonoBehaviour
     [SerializeField] private RectTransform m_selectFrame;
     [SerializeField] private TMP_Text m_detailNameText;
     [SerializeField] private Image m_detailIconImage;
-    [SerializeField] private TMP_Text m_detailCurrentLevelText;
+    [Tooltip("Detail/Level/LvInfo. \"Lv\" 라벨은 씬에 고정해 두고, 현재 레벨 숫자만 여기에 표시합니다. 최대 레벨이면 꺼집니다.")]
+    [SerializeField] private TMP_Text m_detailCurrentLevelValueText;
+    [Tooltip("Detail/Level/Lv. 최대 레벨이면 화살표/다음 레벨과 함께 꺼집니다.")]
+    [SerializeField] private TMP_Text m_detailLevelLabelText;
+    [Tooltip("Detail/Level/LvMax. 최대 레벨일 때만 켜집니다.")]
+    [SerializeField] private GameObject m_detailMaxLevelObject;
     [SerializeField] private TMP_Text m_detailArrowText;
     [SerializeField] private TMP_Text m_detailNextLevelText;
     [Tooltip("선택한 업그레이드의 ScrambleUpgradeLevel 시트 Info 문구를 표시합니다. 다음 레벨 효과를, 최대 레벨이면 현재 레벨 효과를 보여 줍니다.")]
@@ -120,9 +125,12 @@ public sealed class ScrambleFacilityUI : MonoBehaviour
 
     private ScrambleUpgradeType m_selectedType;
     private StorageFacility m_boundStorage;
+    private FacilityUIStage m_stage = FacilityUIStage.None;
 
     public bool IsOpen => gameObject.activeSelf;
+    public FacilityDialogueContext CurrentContext => new FacilityDialogueContext(m_stage);
     public event Action Closed;
+    public event Action<FacilityDialogueContext> ContextChanged;
 
     private bool UsesSelection => m_upgradeConfirmButton != null;
 
@@ -153,6 +161,7 @@ public sealed class ScrambleFacilityUI : MonoBehaviour
     private void OnDisable()
     {
         Unbind();
+        SetStage(FacilityUIStage.None);
     }
 
     public void Open(ScrambleFacility facility)
@@ -181,8 +190,10 @@ public sealed class ScrambleFacilityUI : MonoBehaviour
     {
         bool wasOpen = gameObject.activeSelf;
         ClearNotice();
-        ShowMenu();
+        // 닫는 중에는 Menu 단계를 알리지 않고 화면만 초기 상태로 되돌림
+        ResetToMenuView();
         gameObject.SetActive(false);
+        SetStage(FacilityUIStage.None);
 
         if (wasOpen)
             Closed?.Invoke();
@@ -280,10 +291,11 @@ public sealed class ScrambleFacilityUI : MonoBehaviour
             m_detailIconImage.enabled = m_detailIconImage.sprite != null;
         }
 
-        SetText(
-            m_detailCurrentLevelText,
-            isMaxLevel ? "<size=36>Lv.</size> MAX" : $"<size=36>Lv.</size> {currentLevel}");
+        SetText(m_detailCurrentLevelValueText, currentLevel.ToString());
         SetText(m_detailNextLevelText, isMaxLevel ? string.Empty : (currentLevel + 1).ToString());
+        SetActive(m_detailLevelLabelText, !isMaxLevel);
+        SetActive(m_detailCurrentLevelValueText, !isMaxLevel);
+        SetActive(m_detailMaxLevelObject, isMaxLevel);
         SetActive(m_detailArrowText, !isMaxLevel);
         SetActive(m_detailNextLevelText, !isMaxLevel);
         SetText(
@@ -371,6 +383,7 @@ public sealed class ScrambleFacilityUI : MonoBehaviour
     {
         ClearNotice();
         SetViewState(menu: false, upgrade: true, sortieConfirm: false);
+        SetStage(FacilityUIStage.Upgrade);
         Refresh();
     }
 
@@ -378,6 +391,7 @@ public sealed class ScrambleFacilityUI : MonoBehaviour
     {
         ClearNotice();
         SetViewState(menu: false, upgrade: false, sortieConfirm: true);
+        SetStage(FacilityUIStage.Main);
     }
 
     private void HandleSortieConfirmClicked()
@@ -409,6 +423,12 @@ public sealed class ScrambleFacilityUI : MonoBehaviour
 
     private void ShowMenu()
     {
+        ResetToMenuView();
+        SetStage(m_menuRoot != null ? FacilityUIStage.Menu : FacilityUIStage.Upgrade);
+    }
+
+    private void ResetToMenuView()
+    {
         // Menu가 없는 기존 구성에서는 업그레이드 화면을 그대로 보여줍니다.
         if (m_menuRoot == null)
         {
@@ -417,6 +437,15 @@ public sealed class ScrambleFacilityUI : MonoBehaviour
         }
 
         SetViewState(menu: true, upgrade: false, sortieConfirm: false);
+    }
+
+    private void SetStage(FacilityUIStage stage)
+    {
+        if (m_stage == stage)
+            return;
+
+        m_stage = stage;
+        ContextChanged?.Invoke(CurrentContext);
     }
 
     private void SetViewState(bool menu, bool upgrade, bool sortieConfirm)
@@ -565,7 +594,10 @@ public sealed class ScrambleFacilityUI : MonoBehaviour
         m_selectFrame ??= content.Find("SelectFrame") as RectTransform;
         m_detailNameText ??= content.Find("Detail/Name")?.GetComponent<TMP_Text>();
         m_detailIconImage ??= content.Find("Detail/Icon")?.GetComponent<Image>();
-        m_detailCurrentLevelText ??= content.Find("Detail/Level/Lv")?.GetComponent<TMP_Text>();
+        m_detailCurrentLevelValueText ??= content.Find("Detail/Level/LvInfo")?.GetComponent<TMP_Text>();
+        m_detailLevelLabelText ??= content.Find("Detail/Level/Lv")?.GetComponent<TMP_Text>();
+        if (m_detailMaxLevelObject == null)
+            m_detailMaxLevelObject = content.Find("Detail/Level/LvMax")?.gameObject;
         m_detailArrowText ??= content.Find("Detail/Level/Arrow")?.GetComponent<TMP_Text>();
         m_detailNextLevelText ??= content.Find("Detail/Level/Next")?.GetComponent<TMP_Text>();
         if (m_detailLevelInfoText == null)
