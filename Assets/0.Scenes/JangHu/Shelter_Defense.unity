@@ -367177,7 +367177,7 @@ MonoBehaviour:
   m_health: {fileID: 1611825377}
   m_costResourceId: crafting_material
   m_costAmount: 1
-  m_costIcon: {fileID: 21300000, guid: ece74b111b37c3d4b809c5de1ce772ab, type: 3}
+  m_costIcon: {fileID: 21300000, guid: 86bb574535343a145a3d083afa0a61cd, type: 3}
   m_holdDuration: 2
   m_repairRatio: 0.1
   m_repeatWhileHeld: 1
