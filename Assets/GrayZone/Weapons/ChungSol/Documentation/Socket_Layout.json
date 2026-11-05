@@ -1,0 +1,173 @@
+{
+    "status": "PASS",
+    "unity": "6000.3.17f1",
+    "shader": "Universal Render Pipeline/Lit",
+    "triangles": 13716,
+    "vertices": 13573,
+    "renderers": 1,
+    "materialSlots": 1,
+    "monoBehaviours": 0,
+    "boundsSize": {
+        "x": 0.05000000074505806,
+        "y": 0.13506697118282319,
+        "z": 0.6828312277793884
+    },
+    "boundsCenter": {
+        "x": 0.0,
+        "y": 0.033700138330459598,
+        "z": 0.07584697008132935
+    },
+    "legacyRightAxis": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "unitScale": true,
+    "identityRoot": true,
+    "identityVisual": true,
+    "uvPreserved": true,
+    "maxPositionError": 2.986047320518992e-8,
+    "maxNormalAngle": 0.01978234015405178,
+    "markerPositionError": 0.0,
+    "sockets": [
+        {
+            "name": "Socket_Mount",
+            "purpose": "Attachment origin; matches the existing review weapon mount frame",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "forward": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 1.0
+            },
+            "up": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "name": "Socket_Grip_R",
+            "purpose": "Existing right-hand grip reference; wrist rotation calibration is separate",
+            "position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "forward": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 1.0
+            },
+            "up": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "name": "Socket_Grip_L",
+            "purpose": "Existing support-hand contact reference; not a directly calibrated IK wrist target",
+            "position": {
+                "x": 0.0,
+                "y": 0.022210469469428064,
+                "z": 0.23173528909683228
+            },
+            "forward": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 1.0
+            },
+            "up": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        },
+        {
+            "name": "Socket_ShellInsert",
+            "purpose": "Existing shell insertion center; local +Z points inward",
+            "position": {
+                "x": -0.024000000208616258,
+                "y": 0.06749999523162842,
+                "z": 0.06800000369548798
+            },
+            "forward": {
+                "x": 1.0000001192092896,
+                "y": 0.0,
+                "z": -1.1920928955078126e-7
+            },
+            "up": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.7071068286895752,
+                "z": 0.0,
+                "w": 0.7071068286895752
+            }
+        },
+        {
+            "name": "Socket_Muzzle",
+            "purpose": "Center of muzzle front plane; local +Z points forward for VFX",
+            "position": {
+                "x": 0.0,
+                "y": 0.06025117635726929,
+                "z": 0.41726258397102358
+            },
+            "forward": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 1.0
+            },
+            "up": {
+                "x": 0.0,
+                "y": 1.0,
+                "z": 0.0
+            },
+            "rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0,
+                "w": 1.0
+            }
+        }
+    ],
+    "ownDependencies": [
+        "Assets/GrayZone/Weapons/ChungSol/Textures/T_ChungSol_Normal.png",
+        "Assets/GrayZone/Weapons/ChungSol/Textures/T_ChungSol_MetalSmooth.png",
+        "Assets/GrayZone/Weapons/ChungSol/Materials/M_ChungSol_Charcoal.mat",
+        "Assets/GrayZone/Weapons/ChungSol/Textures/T_ChungSol_BaseColor.png",
+        "Assets/GrayZone/Weapons/ChungSol/Meshes/SM_ChungSol_Shotgun.asset",
+        "Assets/GrayZone/Weapons/ChungSol/Prefabs/PF_ChungSol_Shotgun.prefab"
+    ],
+    "packageDependencies": [
+        "Packages/com.unity.render-pipelines.universal/Editor/AssetVersion.cs",
+        "Packages/com.unity.render-pipelines.universal/Shaders/Lit.shader"
+    ],
+    "unexpectedDependencies": [],
+    "note": "Runtime mesh asset bakes the same v43 import alignment used by the review mount. +Z forward / +Y up / meters. Root is the existing right-hand grip origin. Grip sockets are position references, not calibrated wrist rotations. No gameplay, collider, animation, character, RealToon or MagicaCloth dependency."
+}
