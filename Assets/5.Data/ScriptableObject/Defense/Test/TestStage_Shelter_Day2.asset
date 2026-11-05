@@ -14,6 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DefenseStageSO
   m_totalWaveCount: 3
   m_maxActiveEnemies: 75
+  m_waveClearTrapMaterialRewards:
+  - 60
+  - 75
+  - 0
   m_routes:
   - m_routeId: Bridge
     m_waves:

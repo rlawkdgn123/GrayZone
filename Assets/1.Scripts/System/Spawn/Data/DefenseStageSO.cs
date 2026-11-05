@@ -45,6 +45,10 @@ public sealed class DefenseStageSO : ScriptableObject
     [Min(0)]
     [SerializeField] private int m_maxActiveEnemies;
 
+    [Header("Wave Clear Rewards")]
+    [Tooltip("웨이브별 클리어 시 즉시 지급할 함정 재료 수량입니다. 첫 칸이 1웨이브입니다. 빈 칸이나 0은 지급하지 않습니다.")]
+    [SerializeField] private List<int> m_waveClearTrapMaterialRewards = new List<int>();
+
     [Header("Routes")]
     [Tooltip("공격로별 웨이브 SO 목록입니다. 같은 공격로 이름을 두 번 넣지 않습니다.")]
     [SerializeField] private List<Route> m_routes = new List<Route>();
@@ -54,6 +58,18 @@ public sealed class DefenseStageSO : ScriptableObject
 
     /// <summary>이 일차의 생존 적 상한입니다. 0이면 DefenseManager 기본값을 사용합니다.</summary>
     public int MaxActiveEnemies => Mathf.Max(0, m_maxActiveEnemies);
+
+    /// <summary>지정한 웨이브를 클리어했을 때 즉시 지급할 함정 재료 수량입니다.</summary>
+    /// <param name="waveIndex">0부터 시작하는 웨이브 순번입니다.</param>
+    public int GetWaveClearTrapMaterialReward(int waveIndex)
+    {
+        if (waveIndex < 0 || m_waveClearTrapMaterialRewards == null || waveIndex >= m_waveClearTrapMaterialRewards.Count)
+        {
+            return 0;
+        }
+
+        return Mathf.Max(0, m_waveClearTrapMaterialRewards[waveIndex]);
+    }
 
     /// <summary>공격로 목록입니다.</summary>
     public IReadOnlyList<Route> Routes => m_routes;
@@ -183,5 +199,16 @@ public sealed class DefenseStageSO : ScriptableObject
     {
         m_totalWaveCount = Mathf.Max(1, m_totalWaveCount);
         m_maxActiveEnemies = Mathf.Max(0, m_maxActiveEnemies);
+
+        if (m_waveClearTrapMaterialRewards == null)
+        {
+            m_waveClearTrapMaterialRewards = new List<int>();
+            return;
+        }
+
+        for (int i = 0; i < m_waveClearTrapMaterialRewards.Count; i++)
+        {
+            m_waveClearTrapMaterialRewards[i] = Mathf.Max(0, m_waveClearTrapMaterialRewards[i]);
+        }
     }
 }

@@ -270,6 +270,10 @@ public sealed class DefenseManager : CombatSceneManager
     /// <summary>현재 실행 중인 웨이브 번호입니다. 첫 웨이브는 1입니다.</summary>
     private int m_currentWave;
 
+    /// <summary>함정 재료 클리어 보상을 마지막으로 지급한 웨이브 번호입니다.</summary>
+    /// <remarks>정리 완료가 디버그 경로로 중복 호출되어도 같은 웨이브 보상을 두 번 주지 않기 위해 씁니다.</remarks>
+    private int m_lastRewardedWave;
+
 
     /// <summary>Defense 게임이 시작되었는지 여부입니다.</summary>
     public bool IsGameStarted => m_isGameStarted;
@@ -377,6 +381,7 @@ public sealed class DefenseManager : CombatSceneManager
         m_restTimer = 0.0f;
         m_emptySpaceHoldStartTimer = 0.0f;
         m_currentWave = 0;
+        m_lastRewardedWave = 0;
         RefreshTimerText();
         HideWaveStartMessage();
     }
@@ -501,6 +506,7 @@ public sealed class DefenseManager : CombatSceneManager
         m_isVictoryReady = false;
         m_emptySpaceHoldStartTimer = 0.0f;
         m_currentWave = 0;
+        m_lastRewardedWave = 0;
         SetReturnPointActive(false);
         // 재시작이면 앞 판의 웨이브 기록을 비우고 다시 시작합니다.
         ResolveDefenseSceneDataManager()?.ConfigureWaves(TotalWaveCount);
@@ -538,6 +544,7 @@ public sealed class DefenseManager : CombatSceneManager
         m_restTimer = 0.0f;
         m_emptySpaceHoldStartTimer = 0.0f;
         m_currentWave = 0;
+        m_lastRewardedWave = 0;
         SetReturnPointActive(false);
         EndStageCombat();
         RefreshTimerText();
@@ -867,6 +874,7 @@ public sealed class DefenseManager : CombatSceneManager
     private void FinishClearing()
     {
         m_isClearing = false;
+        GrantCurrentWaveClearReward();
         if (m_currentWave >= TotalWaveCount)
         {
             if (!BeginVictory())
@@ -878,6 +886,52 @@ public sealed class DefenseManager : CombatSceneManager
         }
 
         BeginRest();
+    }
+
+    /// <summary>현재 웨이브의 잔존 적을 모두 정리했을 때 함정 재료 클리어 보상을 한 번 지급합니다.</summary>
+    /// <remarks>
+    /// 즉시 보관소에 더하므로 다음 정비 구간에서 바로 함정 설치에 쓸 수 있습니다.
+    /// 마지막 웨이브도 같은 규칙으로 지급하며, 방어전 전체 승리 보상은 DefenseSceneDataManager가 별도로 기록합니다.
+    /// </remarks>
+    private void GrantCurrentWaveClearReward()
+    {
+        if (m_currentWave <= 0 || m_currentWave <= m_lastRewardedWave)
+        {
+            return;
+        }
+
+        // 보상이 0이거나 지급에 실패해도 이 웨이브의 정리 완료는 한 번만 처리합니다.
+        m_lastRewardedWave = m_currentWave;
+
+        int amount = m_activeStage != null
+            ? m_activeStage.GetWaveClearTrapMaterialReward(m_currentWave - 1)
+            : 0;
+        if (amount <= 0)
+        {
+            return;
+        }
+
+        StorageFacility storage = ShelterSceneDataManager.Instance?.Storage;
+        if (storage == null)
+        {
+            Debug.LogWarning(
+                $"[DefenseManager] {m_currentWave}웨이브 클리어 보상(함정 재료 {amount})을 지급할 보관소를 찾지 못했습니다.",
+                this);
+            return;
+        }
+
+        if (!storage.TryAddResource(ResourceIds.TrapMaterial, amount))
+        {
+            Debug.LogWarning(
+                $"[DefenseManager] {m_currentWave}웨이브 클리어 보상(함정 재료 {amount}) 지급에 실패했습니다.",
+                this);
+            return;
+        }
+
+        Debug.Log(
+            $"[DefenseManager] {m_currentWave}웨이브 클리어: 함정 재료 {amount}개를 지급했습니다. " +
+            $"현재 {storage.GetResourceAmount(ResourceIds.TrapMaterial)}개입니다.",
+            this);
     }
 
     /// <summary>남은 적을 정리한 뒤 휴식 구간을 시작합니다.</summary>
