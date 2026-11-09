@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using VInspector;
 
 /// <summary>
@@ -87,8 +88,28 @@ public sealed class TutorialFlowDirector : MonoBehaviour
     /// <summary>줄이 바뀔 때 (묶음 번호, 줄 번호)로 발생합니다.</summary>
     public event Action<int, int> OnLineChanged;
 
-    /// <summary>마지막 줄까지 마쳐 튜토리얼이 끝났을 때 발생합니다. <see cref="End"/>로 끝낼 때는 발생하지 않습니다.</summary>
+    /// <summary>
+    /// 마지막 줄까지 마치거나 <see cref="Skip"/>으로 건너뛰어 튜토리얼이 끝났을 때 발생합니다. <see cref="End"/>로 끝낼 때는 발생하지 않습니다.
+    /// </summary>
     public event Action OnCompleted;
+
+    /// <summary>튜토리얼을 건너뛰는 키입니다. 진행할 튜토리얼이 없으면 <see cref="Key.None"/>입니다.</summary>
+    public Key SkipKey => m_sequence != null ? m_sequence.SkipKey : Key.None;
+
+    /// <summary>
+    /// 남은 챕터를 모두 건너뛰고 튜토리얼을 마칩니다. 대사, 창, 마커, 멈춘 시간, 막아 둔 조작을 모두 되돌리고 <see cref="OnCompleted"/>를 보냅니다.
+    /// </summary>
+    /// <remarks>마친 것과 같게 알리는 이유는, 튜토리얼이 끝나기를 기다리는 쪽(전투 시작 등)이 건너뛴 경우에도 이어서 진행해야 해서입니다.</remarks>
+    public void Skip()
+    {
+        if (!IsRunning)
+        {
+            return;
+        }
+
+        End();
+        OnCompleted?.Invoke();
+    }
 
     /// <summary>처음부터 튜토리얼을 시작합니다. 줄이 하나도 없으면 아무것도 하지 않습니다.</summary>
     public void Begin()
@@ -161,6 +182,12 @@ public sealed class TutorialFlowDirector : MonoBehaviour
             return;
         }
 
+        if (WasSkipPressed())
+        {
+            Skip();
+            return;
+        }
+
         // 분대원이 늦게 준비되면 처음 건 잠금이 닿지 않을 수 있어 매 프레임 맞춥니다. 값이 같으면 아무것도 하지 않습니다.
         PlayerInputController.SetInputLock(m_sequence.Steps[m_stepIndex].LockedInputs);
 
@@ -186,6 +213,13 @@ public sealed class TutorialFlowDirector : MonoBehaviour
     }
 
     private TutorialStep CurrentStep => m_sequence.Steps[m_stepIndex];
+
+    private bool WasSkipPressed()
+    {
+        Key key = SkipKey;
+        Keyboard keyboard = Keyboard.current;
+        return key != Key.None && keyboard != null && keyboard[key].wasPressedThisFrame;
+    }
 
     private TutorialLine CurrentLine => CurrentStep.Lines[m_lineIndex];
 
