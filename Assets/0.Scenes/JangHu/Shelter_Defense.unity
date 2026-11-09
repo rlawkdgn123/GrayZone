@@ -3949,6 +3949,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 4.642
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (25)
@@ -5380,9 +5384,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 63.864
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: be752afd9f269274e9a62efd2f62d45b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 8ec06e700684e6e45b0319398fa0d00a, type: 2}
     - target: {fileID: 919132149155446097, guid: be752afd9f269274e9a62efd2f62d45b, type: 3}
       propertyPath: m_Name
       value: BurntOut_Car2 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: be752afd9f269274e9a62efd2f62d45b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7144,7 +7156,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9a0faefc0deccb44981f6874d8107c21, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: a1211183cd09c104c8020b3571c66436, type: 2}
+      objectReference: {fileID: 2100000, guid: 715365c2230229d4493cddcd7d22bdf0, type: 2}
     - target: {fileID: 919132149155446097, guid: 9a0faefc0deccb44981f6874d8107c21, type: 3}
       propertyPath: m_Name
       value: BurntOut_Car1
@@ -10781,6 +10793,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (13)
@@ -21779,11 +21795,11 @@ Transform:
   m_GameObject: {fileID: 94939572}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7112993, z: -0, w: 0.7028893}
-  m_LocalPosition: {x: 61.5, y: 224.2, z: 275.6}
+  m_LocalPosition: {x: 61.5, y: 24.199997, z: 275.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &94939574
 MonoBehaviour:
@@ -25078,6 +25094,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (10)
@@ -29226,6 +29246,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (2)
@@ -33566,6 +33590,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_03 (1)
@@ -33676,6 +33704,70 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1030994384, guid: abc00000000001728029006733837344, type: 3}
   m_PrefabInstance: {fileID: 145707877}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &145747069
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 145747071}
+  - component: {fileID: 145747070}
+  m_Layer: 0
+  m_Name: ObjectivePathArrow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &145747070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145747069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e8e8d8cea19d8b4a9ae62c24540b9eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectivePathArrow
+  m_target: {fileID: 1611825375}
+  m_targetOffset: {x: 0, y: 0, z: 0}
+  m_visibleOnStart: 1
+  m_originOverride: {fileID: 0}
+  m_arrowVisual: {fileID: 0}
+  m_ringRadius: 0.8
+  m_heightOffset: 0.05
+  m_turnSpeed: 540
+  m_hideDistance: 3
+  m_agentTypeName: PathGuide
+  m_lookAheadDistance: 2.5
+  m_repathInterval: 0.25
+  m_sampleRadius: 2
+  m_allowPartialPath: 1
+  m_drawPathLine: 1
+  m_pathLineColor: {r: 1, g: 0, b: 0, a: 1}
+  m_pathLineWidth: 0.12
+  m_pathLineHeight: 0.1
+  m_groundSampleSpacing: 0.5
+  m_groundSnapRadius: 1
+--- !u!4 &145747071
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 145747069}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &145798906
 GameObject:
   m_ObjectHideFlags: 0
@@ -37630,6 +37722,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.001
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (14)
@@ -39199,6 +39295,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 177322357}
+  - component: {fileID: 177322358}
   m_Layer: 0
   m_Name: Structure7
   m_TagString: Untagged
@@ -39271,6 +39368,26 @@ Transform:
   - {fileID: 1840903184}
   m_Father: {fileID: 2115891893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &177322358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 177322356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: 0e279274
 --- !u!1001 &177612886
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -40421,6 +40538,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 1.137
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (10)
@@ -41735,6 +41856,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_04_08
@@ -45424,6 +45549,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.018
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (24)
@@ -45544,6 +45673,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_09
@@ -45775,6 +45908,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (14)
@@ -49067,6 +49204,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_08
@@ -49257,6 +49398,9 @@ MonoBehaviour:
   m_buildCostResourceId: upgrade_material
   m_buildCostAmount: 0
   m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0
   m_displayName: 
   m_description: 
@@ -54491,6 +54635,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (28)
@@ -55555,6 +55703,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.579
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c00d2faf0c92ed346ac4203a96dba043, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2069e1f9bc50c6c428a53daa14901d37, type: 2}
     - target: {fileID: 919132149155446097, guid: c00d2faf0c92ed346ac4203a96dba043, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall3 (1)
@@ -56875,6 +57027,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_05 (6)
@@ -61257,7 +61413,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -63995,6 +64154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 288777616}
+  - component: {fileID: 288777617}
   m_Layer: 0
   m_Name: Structure3
   m_TagString: Untagged
@@ -64046,6 +64206,26 @@ Transform:
   - {fileID: 1886089766}
   m_Father: {fileID: 2115891893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &288777617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288777615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: 0e279274
 --- !u!1001 &288853985
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -66117,11 +66297,11 @@ Transform:
   m_GameObject: {fileID: 297911819}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7035333, z: -0, w: 0.7106623}
-  m_LocalPosition: {x: 72, y: 173.9, z: 154}
+  m_LocalPosition: {x: 72, y: -26.100006, z: 154}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &297911821
 MonoBehaviour:
@@ -72901,6 +73081,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 322683280}
+  - component: {fileID: 322683281}
   m_Layer: 0
   m_Name: Road_Approach_Fences
   m_TagString: Untagged
@@ -72928,6 +73109,73 @@ Transform:
   - {fileID: 1873639913}
   m_Father: {fileID: 199624263}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &322683281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322683279}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779c846c43ce54346a8661808926225e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OcclusionCutoutTarget
+--- !u!1 &323192817
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 323192818}
+  - component: {fileID: 323192819}
+  m_Layer: 5
+  m_Name: GameplayPauseMenu (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &323192818
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323192817}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 396170777}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 672, y: 354.83334}
+  m_SizeDelta: {x: 1344, y: 709.6667}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &323192819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323192817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26465d3a460647449a0759b09343a4bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameplayPauseMenuController
+  m_regularFont: {fileID: 11400000, guid: bf8aeade3619e8744aae78c1609fa80c, type: 2}
+  m_boldFont: {fileID: 11400000, guid: bc77ed116053d1142821833a97b0e3a9, type: 2}
+  m_settingsIcon: {fileID: 21300000, guid: 4f5cda07b7ca5fe4abd91807d32ef030, type: 3}
+  m_backButtonFrame: {fileID: 21300000, guid: 18f8e111d7d3f8f429d1726b803b284b, type: 3}
+  m_titleSceneName: TitleScene
+  m_pauseTime: 1
+  m_showSettingsButton: 1
 --- !u!1001 &323467594
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78047,6 +78295,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_13 (1)
@@ -83150,7 +83402,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -118.829956, y: 171.66002}
+  m_AnchoredPosition: {x: -118.83008, y: 171.66003}
   m_SizeDelta: {x: 92, y: 66.67}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &373448365
@@ -84185,6 +84437,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_18
@@ -84787,6 +85043,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.018
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cebcbf50e0865b54ea17979fe7a92f1d, type: 2}
     - target: {fileID: 919132149155446097, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
       propertyPath: m_Name
       value: Sandbag2 (10)
@@ -85732,11 +85992,11 @@ Transform:
   m_GameObject: {fileID: 381694222}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7035333, z: -0, w: 0.7106623}
-  m_LocalPosition: {x: 183, y: 220, z: 111.7}
+  m_LocalPosition: {x: 183, y: 20, z: 111.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &381694224
 MonoBehaviour:
@@ -87410,6 +87670,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.658
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (4)
@@ -87492,6 +87756,70 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7263670411503950643, guid: 83b595485a86d104bbe2a5d5e75f6d8c, type: 3}
   m_PrefabInstance: {fileID: 388187288}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &388273804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 388273805}
+  - component: {fileID: 388273806}
+  m_Layer: 0
+  m_Name: PathGuide_NavMesh
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &388273805
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388273804}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 894334756}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &388273806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 388273804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a5ac11cc976e418e8d13136b07e1f52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
+  m_SerializedVersion: 0
+  m_AgentTypeID: 1955735310
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294705151
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_GenerateLinks: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_MinRegionArea: 2
+  m_NavMeshData: {fileID: 23800000, guid: 0d6339bbf9629494a9ebf09739c9d94d, type: 2}
+  m_BuildHeightMesh: 1
 --- !u!1 &389352457
 GameObject:
   m_ObjectHideFlags: 0
@@ -88933,6 +89261,7 @@ Transform:
   - {fileID: 1655556015}
   - {fileID: 876761858}
   - {fileID: 1153088503}
+  - {fileID: 323192818}
   - {fileID: 330575732}
   - {fileID: 324533345}
   m_Father: {fileID: 0}
@@ -91336,6 +91665,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 406800061}
+  - component: {fileID: 406800062}
   m_Layer: 0
   m_Name: Rock_Wall_Bridge_Approach
   m_TagString: Untagged
@@ -91366,6 +91696,26 @@ Transform:
   - {fileID: 596858868}
   m_Father: {fileID: 1133965176}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &406800062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 406800060}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1001 &407075383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -91785,6 +92135,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_12
@@ -96566,6 +96920,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (20)
@@ -98070,6 +98428,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_03 (1)
@@ -100516,6 +100878,8 @@ RectTransform:
   - {fileID: 908328913}
   - {fileID: 1059753824}
   - {fileID: 520775386}
+  - {fileID: 1146928374}
+  - {fileID: 1430026642}
   - {fileID: 96151444}
   - {fileID: 2056911234}
   - {fileID: 381022673}
@@ -102297,6 +102661,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 455588706}
+  - component: {fileID: 455588707}
   m_Layer: 0
   m_Name: Rock_Wall_West_Valley
   m_TagString: Untagged
@@ -102321,6 +102686,26 @@ Transform:
   - {fileID: 287844480}
   m_Father: {fileID: 1133965176}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &455588707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 455588705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &455615145
 GameObject:
   m_ObjectHideFlags: 0
@@ -106951,6 +107336,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_06 (2)
@@ -116991,6 +117380,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 45.237
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (21)
@@ -117770,6 +118163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 514472905}
+  - component: {fileID: 514472906}
   m_Layer: 0
   m_Name: Structure2
   m_TagString: Untagged
@@ -117812,6 +118206,26 @@ Transform:
   - {fileID: 1710038245}
   m_Father: {fileID: 2115891893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &514472906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 514472904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: 0e279274
 --- !u!1001 &515079389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -118945,7 +119359,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 520775385}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2fabb0fab90418f4cb0c3e33458226c6, type: 3}
   m_Name: 
@@ -122625,6 +123039,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_11
@@ -128720,6 +129138,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (12)
@@ -134069,6 +134491,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cebcbf50e0865b54ea17979fe7a92f1d, type: 2}
     - target: {fileID: 919132149155446097, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
       propertyPath: m_Name
       value: Sandbag2 (8)
@@ -135723,6 +136149,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_07
@@ -144187,6 +144617,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_05 (5)
@@ -146174,6 +146608,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cebcbf50e0865b54ea17979fe7a92f1d, type: 2}
     - target: {fileID: 919132149155446097, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
       propertyPath: m_Name
       value: Sandbag2 (2)
@@ -146863,11 +147301,11 @@ Transform:
   m_GameObject: {fileID: 645427898}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.91340274, z: -0, w: 0.40705714}
-  m_LocalPosition: {x: 64.89, y: 220, z: 9.85}
+  m_LocalPosition: {x: 64.89, y: 20, z: 9.85}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &645427900
 MonoBehaviour:
@@ -149022,6 +149460,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_13
@@ -155316,6 +155758,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_10
@@ -155501,6 +155947,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cebcbf50e0865b54ea17979fe7a92f1d, type: 2}
     - target: {fileID: 919132149155446097, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
       propertyPath: m_Name
       value: Sandbag2
@@ -156600,6 +157050,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (22)
@@ -161547,6 +162001,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1031087071, guid: abc00000000009943515906010803694, type: 3}
   m_PrefabInstance: {fileID: 707251084}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &707879979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 707879980}
+  - component: {fileID: 707879981}
+  m_Layer: 0
+  m_Name: EnemyDeleteTunnel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &707879980
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707879979}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 186.7, y: 0.6000061, z: 12.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1272490347}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!65 &707879981
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 707879979}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 70, y: 60, z: 200}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &708363316
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -161657,6 +162164,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.013
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (23)
@@ -162739,7 +163250,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 93.85, y: -826.65}
+  m_AnchoredPosition: {x: 93.8501, y: -826.65}
   m_SizeDelta: {x: 93.2, y: 99.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &713497536
@@ -164570,11 +165081,11 @@ Transform:
   m_GameObject: {fileID: 722149423}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7035333, z: -0, w: 0.7106623}
-  m_LocalPosition: {x: -63.9, y: 209.6, z: 150.1}
+  m_LocalPosition: {x: -63.9, y: 9.600006, z: 150.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &722149425
 MonoBehaviour:
@@ -167398,6 +167909,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.01
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (22)
@@ -167472,6 +167987,7 @@ Transform:
   m_Children:
   - {fileID: 1892554803}
   - {fileID: 308833065}
+  - {fileID: 1272490347}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &734330798
@@ -168213,6 +168729,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_06 (1)
@@ -168304,6 +168824,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (15)
@@ -168921,6 +169445,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_05 (3)
@@ -170289,6 +170817,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (13)
@@ -172155,6 +172687,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 6.758
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (26)
@@ -176154,6 +176690,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.001
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (13)
@@ -179216,6 +179756,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (13)
@@ -179369,6 +179913,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1
@@ -179472,6 +180020,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_05 (1)
@@ -180772,6 +181324,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.166
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (14)
@@ -181456,7 +182012,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -181605,6 +182164,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.008
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cebcbf50e0865b54ea17979fe7a92f1d, type: 2}
     - target: {fileID: 919132149155446097, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
       propertyPath: m_Name
       value: Sandbag2 (11)
@@ -187289,6 +187852,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.012
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (17)
@@ -189632,8 +190199,11 @@ MonoBehaviour:
   m_waveStartMessageHoldDuration: 2
   m_waveStartMessageFadeDuration: 1.5
   m_clearingPullDelay: 20
-  m_clearingOffscreenDespawnDelay: 40
-  m_clearingForceEndDelay: 60
+  m_clearingDeleteRanges: []
+  m_clearingDeleteInNotWalkableVolumes: 1
+  m_clearingIdleDespawnDelay: 8
+  m_clearingIdleMoveTolerance: 1
+  m_offNavMeshReturnSearchRadius: 10
   m_emptySpaceHoldStartDuration: 3
   m_beginWithMaintenance: 1
   m_startPromptOverlay: {fileID: 96151443}
@@ -190015,6 +190585,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 1.464
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c00d2faf0c92ed346ac4203a96dba043, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2069e1f9bc50c6c428a53daa14901d37, type: 2}
     - target: {fileID: 919132149155446097, guid: c00d2faf0c92ed346ac4203a96dba043, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall3
@@ -190349,6 +190923,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 3.766
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9b822585cc3f0234f9ef7581dee96ec2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a129604dab56ad488513f5f0cc3e50b, type: 2}
     - target: {fileID: 919132149155446097, guid: 9b822585cc3f0234f9ef7581dee96ec2, type: 3}
       propertyPath: m_Name
       value: Trailer2
@@ -192863,6 +193441,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 514472905}
     m_Modifications:
+    - target: {fileID: 167400271701793491, guid: 44eef4292e6e6e1479b73da59235c875, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0eff521ce473c0442a786aef4699b1b5, type: 2}
     - target: {fileID: 1202902939826065515, guid: 44eef4292e6e6e1479b73da59235c875, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.644223
@@ -192907,6 +193489,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wooden_Cable_Coil_01 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6196316201373674125, guid: 44eef4292e6e6e1479b73da59235c875, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0eff521ce473c0442a786aef4699b1b5, type: 2}
+    - target: {fileID: 7480045035862615945, guid: 44eef4292e6e6e1479b73da59235c875, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 0eff521ce473c0442a786aef4699b1b5, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -193402,6 +193992,143 @@ Transform:
   - {fileID: 1007373458}
   m_Father: {fileID: 1605095087}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &848993542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 848993543}
+  - component: {fileID: 848993545}
+  - component: {fileID: 848993544}
+  m_Layer: 0
+  m_Name: Name
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &848993543
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848993542}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1318202688}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 93.48, y: -81.44}
+  m_SizeDelta: {x: 160, y: 24}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &848993544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848993542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: bc77ed116053d1142821833a97b0e3a9, type: 2}
+  m_sharedMaterial: {fileID: -8978981746931778531, guid: bc77ed116053d1142821833a97b0e3a9, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: 0
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 24
+  m_fontSizeBase: 24
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 0
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &848993545
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 848993542}
+  m_CullTransparentMesh: 1
 --- !u!1001 &849050606
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -195657,6 +196384,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.015
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (16)
@@ -195858,6 +196589,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (25)
@@ -196440,6 +197175,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.11
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1f4106d9a3033284d8c8e8e2e8f27625, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: da5a5eef4f9183e4eb02e82c9f31b409, type: 2}
     - target: {fileID: 919132149155446097, guid: 1f4106d9a3033284d8c8e8e2e8f27625, type: 3}
       propertyPath: m_Name
       value: BurntOut_Car3
@@ -203902,6 +204641,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_12
@@ -204037,29 +204780,14 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 388273805}
   - {fileID: 444177877}
   - {fileID: 138559162}
   - {fileID: 564952515}
   - {fileID: 852760651}
   - {fileID: 1208442654}
   - {fileID: 1430246329}
-  - {fileID: 1220026729}
-  - {fileID: 1106713914}
-  - {fileID: 1445469876}
-  - {fileID: 645427899}
-  - {fileID: 957745678}
-  - {fileID: 381694223}
-  - {fileID: 1373911183}
-  - {fileID: 297911820}
-  - {fileID: 1673103372}
-  - {fileID: 1340145757}
-  - {fileID: 94939573}
-  - {fileID: 1030149324}
-  - {fileID: 1839029474}
-  - {fileID: 2116368932}
-  - {fileID: 722149424}
-  - {fileID: 1490982223}
-  - {fileID: 1846837992}
+  - {fileID: 1282585079}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &894334757
@@ -204395,7 +205123,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9a0faefc0deccb44981f6874d8107c21, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: a1211183cd09c104c8020b3571c66436, type: 2}
+      objectReference: {fileID: 2100000, guid: 715365c2230229d4493cddcd7d22bdf0, type: 2}
     - target: {fileID: 919132149155446097, guid: 9a0faefc0deccb44981f6874d8107c21, type: 3}
       propertyPath: m_Name
       value: BurntOut_Car1
@@ -204546,6 +205274,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7280483907892407997, guid: 1c30cc562b5397c41ae2c1d55bef8279, type: 3}
   m_PrefabInstance: {fileID: 896898797}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &896911380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 896911381}
+  - component: {fileID: 896911383}
+  - component: {fileID: 896911382}
+  m_Layer: 0
+  m_Name: Portrait
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &896911381
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896911380}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1318202688}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 108.83, y: 112.75}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &896911382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896911380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 1
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &896911383
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896911380}
+  m_CullTransparentMesh: 1
 --- !u!1001 &897768909
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -205745,6 +206548,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_14
@@ -206282,6 +207089,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 903227888}
+  - component: {fileID: 903227889}
   m_Layer: 0
   m_Name: Structure5
   m_TagString: Untagged
@@ -206314,6 +207122,26 @@ Transform:
   - {fileID: 350914373}
   m_Father: {fileID: 2115891893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &903227889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903227887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: 0e279274
 --- !u!1 &903236741
 GameObject:
   m_ObjectHideFlags: 0
@@ -206930,6 +207758,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (24)
@@ -207033,6 +207865,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_03
@@ -207576,6 +208412,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_11
@@ -208168,6 +209008,8 @@ MonoBehaviour:
   m_nameText: {fileID: 1920319065}
   m_costText: {fileID: 454436350}
   m_costIcon: {fileID: 1181880186}
+  m_actionText: {fileID: 0}
+  m_actionTextColor: {r: 1, g: 1, b: 1, a: 1}
   m_descriptionText: {fileID: 560515490}
   m_holdGaugeFill: {fileID: 677528799}
   m_growWithDescription:
@@ -213206,6 +214048,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_20
@@ -216562,6 +217408,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 943339718}
+  - component: {fileID: 943339719}
   m_Layer: 0
   m_Name: Rock_Wall_SouthWest
   m_TagString: Untagged
@@ -216596,6 +217443,26 @@ Transform:
   - {fileID: 1468175144}
   m_Father: {fileID: 1133965176}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &943339719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943339717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1001 &943391967
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -217620,6 +218487,81 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1030973782, guid: abc00000000008143113075319095533, type: 3}
   m_PrefabInstance: {fileID: 949090176}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &949123149
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 949123150}
+  - component: {fileID: 949123152}
+  - component: {fileID: 949123151}
+  m_Layer: 0
+  m_Name: RoleLine
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &949123150
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949123149}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1318202688}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 91.92, y: -77.58}
+  m_SizeDelta: {x: 73.42, y: 2.07}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &949123151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949123149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 4d85fd6f23fb11043ae073f2ce28da1d, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &949123152
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 949123149}
+  m_CullTransparentMesh: 1
 --- !u!1 &949367252
 GameObject:
   m_ObjectHideFlags: 0
@@ -219254,11 +220196,11 @@ Transform:
   m_GameObject: {fileID: 957745677}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7035333, z: -0, w: 0.7106623}
-  m_LocalPosition: {x: 148.9, y: 235.6, z: -119.4}
+  m_LocalPosition: {x: 148.9, y: 35.600006, z: -119.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &957745679
 MonoBehaviour:
@@ -221428,6 +222370,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_04 (1)
@@ -222725,6 +223671,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_05 (9)
@@ -223003,6 +223953,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 974583934}
+  - component: {fileID: 974583935}
   m_Layer: 0
   m_Name: Rock_Wall_South
   m_TagString: Untagged
@@ -223043,6 +223994,26 @@ Transform:
   - {fileID: 374970812}
   m_Father: {fileID: 1133965176}
   m_LocalEulerAnglesHint: {x: 0, y: -6.982, z: 0}
+--- !u!114 &974583935
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 974583933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1001 &976133267
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -228682,6 +229653,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_04_07
@@ -229766,6 +230741,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_19
@@ -230494,6 +231473,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (15)
@@ -233698,6 +234681,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_16
@@ -234158,6 +235145,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (20)
@@ -235157,11 +236148,11 @@ Transform:
   m_GameObject: {fileID: 1030149323}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7112993, z: -0, w: 0.7028893}
-  m_LocalPosition: {x: 61, y: 226.39, z: 238.7}
+  m_LocalPosition: {x: 61, y: 26.39, z: 238.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1030149325
 MonoBehaviour:
@@ -235564,6 +236555,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (12)
@@ -235667,6 +236662,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (2)
@@ -238223,6 +239222,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1045986633}
+  - component: {fileID: 1045986634}
   m_Layer: 0
   m_Name: Structure4
   m_TagString: Untagged
@@ -238264,6 +239264,26 @@ Transform:
   - {fileID: 466297381}
   m_Father: {fileID: 2115891893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1045986634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045986632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: 0e279274
 --- !u!1001 &1046887363
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -245495,6 +246515,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cebcbf50e0865b54ea17979fe7a92f1d, type: 2}
     - target: {fileID: 919132149155446097, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
       propertyPath: m_Name
       value: Sandbag2 (6)
@@ -248588,6 +249612,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1084619813}
+  - component: {fileID: 1084619814}
   m_Layer: 0
   m_Name: Concrete_Barriers
   m_TagString: Untagged
@@ -248633,6 +249658,26 @@ Transform:
   - {fileID: 1745374423}
   m_Father: {fileID: 2115891893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1084619814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1084619812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: 0e279274
 --- !u!1001 &1085322597
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -248763,7 +249808,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -250999,6 +252047,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (21)
@@ -253405,11 +254457,11 @@ Transform:
   m_GameObject: {fileID: 1106713913}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.92565084, z: -0, w: 0.37837887}
-  m_LocalPosition: {x: -57.5, y: 220, z: 123.9}
+  m_LocalPosition: {x: -57.5, y: 20, z: 123.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1106713915
 MonoBehaviour:
@@ -253896,6 +254948,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_05 (7)
@@ -255562,6 +256618,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (30)
@@ -257327,6 +258387,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (27)
@@ -261084,6 +262148,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1141240574}
+  - component: {fileID: 1141240575}
   m_Layer: 0
   m_Name: Structure6
   m_TagString: Untagged
@@ -261113,6 +262178,26 @@ Transform:
   - {fileID: 983861093}
   m_Father: {fileID: 2115891893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1141240575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141240573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: 0e279274
 --- !u!43 &1141273356
 Mesh:
   m_ObjectHideFlags: 0
@@ -262847,6 +263932,82 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1872345997343545511, guid: 1efc51d9e1ee6794787b17d17a9ce0a3, type: 3}
   m_PrefabInstance: {fileID: 1146869357}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1146928373
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1146928374}
+  - component: {fileID: 1146928376}
+  - component: {fileID: 1146928375}
+  m_Layer: 0
+  m_Name: TutorialFlow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1146928374
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146928373}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 449303938}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1146928375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146928373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df1280430ace3f14f8c3784c95426901, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialFlowDirector
+  m_sequence: {fileID: 11400000, guid: 74a027dc5daa3358feac7366bc02c9f5, type: 2}
+  m_dialogue: {fileID: 1146928376}
+  m_events: {fileID: 0}
+  m_playOnStart: 1
+  m_onlyFirstDefenseRound: 1
+  m_stepIndex: -1
+  m_lineIndex: -1
+--- !u!114 &1146928376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146928373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f76bea694532ed49a32883a5cebac2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialoguePlayer
+  m_window: {fileID: 1430026643}
+  m_bubblePrefab: {fileID: 618944661988658008, guid: 304dcccee7d367f46b9ed8df40c2dfbb, type: 3}
+  m_showBubbles: 0
+  m_bubbleHeight: 1.9
+  m_autoBaseSeconds: 1.5
+  m_autoSecondsPerCharacter: 0.08
+  m_inputGuardSeconds: 0.2
+  m_advanceKey: 20
 --- !u!1001 &1147071289
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -270704,6 +271865,7 @@ GameObject:
   - component: {fileID: 1180865245}
   - component: {fileID: 1180865247}
   - component: {fileID: 1180865246}
+  - component: {fileID: 1180865248}
   m_Layer: 0
   m_Name: River_Water_Bitgem
   m_TagString: Untagged
@@ -270783,6 +271945,26 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1180865244}
   m_Mesh: {fileID: 4300000, guid: 3c4985937bc4b5649a221f3b926c4ef2, type: 2}
+--- !u!114 &1180865248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180865244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &1181084625
 GameObject:
   m_ObjectHideFlags: 0
@@ -271537,6 +272719,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_10
@@ -273206,6 +274392,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.018
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (12)
@@ -274690,6 +275880,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: soviet_car2_white
       objectReference: {fileID: 0}
+    - target: {fileID: 7690018597504574375, guid: cf52597be3551d9469260344e6962e3c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: dff32b8ae8d86bf4b96a56e3951a8e1d, type: 2}
+    - target: {fileID: 7690018597504574375, guid: cf52597be3551d9469260344e6962e3c, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5b83e6a587550044b99b19039c7e619f, type: 2}
+    - target: {fileID: 7690018597504574375, guid: cf52597be3551d9469260344e6962e3c, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: c958aa3901995b344ae31841d2fd2225, type: 2}
     - target: {fileID: 8128379655616417588, guid: cf52597be3551d9469260344e6962e3c, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.7599998
@@ -279317,11 +280519,11 @@ Transform:
   m_GameObject: {fileID: 1220026728}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.41388834, z: -0, w: 0.91032773}
-  m_LocalPosition: {x: -111.7, y: 276.3, z: -118.6}
+  m_LocalPosition: {x: -111.7, y: 76.29999, z: -118.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1220026730
 MonoBehaviour:
@@ -280501,6 +281703,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (6)
@@ -281090,6 +282296,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_15
@@ -286748,6 +287958,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.658
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (5)
@@ -290647,6 +291861,39 @@ MonoBehaviour:
   m_pauseTimeWhileShown: 1
   m_squadEliminatedMessage: "\uC2A4\uCFFC\uB4DC \uC804\uC6D0\uC774 \uC804\uD22C\uC5D0\uC11C
     \uC774\uD0C8\uD588\uC2B5\uB2C8\uB2E4."
+--- !u!1 &1272490346
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1272490347}
+  m_Layer: 0
+  m_Name: EnemyDeleteRanges
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1272490347
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272490346}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 200, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1330696051}
+  - {fileID: 707879980}
+  m_Father: {fileID: 734101648}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1273857662
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -292339,6 +293586,54 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7263670411503950643, guid: 83b595485a86d104bbe2a5d5e75f6d8c, type: 3}
   m_PrefabInstance: {fileID: 1282543701}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1282585078
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1282585079}
+  m_Layer: 0
+  m_Name: Modifier Vlolumes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1282585079
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1282585078}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 200, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1220026729}
+  - {fileID: 1106713914}
+  - {fileID: 1445469876}
+  - {fileID: 645427899}
+  - {fileID: 957745678}
+  - {fileID: 381694223}
+  - {fileID: 1373911183}
+  - {fileID: 297911820}
+  - {fileID: 1673103372}
+  - {fileID: 1340145757}
+  - {fileID: 94939573}
+  - {fileID: 1030149324}
+  - {fileID: 1839029474}
+  - {fileID: 2116368932}
+  - {fileID: 722149424}
+  - {fileID: 1490982223}
+  - {fileID: 1846837992}
+  m_Father: {fileID: 894334756}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1282809898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -293648,6 +294943,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c00d2faf0c92ed346ac4203a96dba043, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2069e1f9bc50c6c428a53daa14901d37, type: 2}
     - target: {fileID: 919132149155446097, guid: c00d2faf0c92ed346ac4203a96dba043, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall3
@@ -296138,6 +297437,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (20)
@@ -298513,6 +299816,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_04_03
@@ -299785,6 +301092,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.012
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (28)
@@ -300528,6 +301839,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3486012779941372095, guid: b36c78f2bd032c2499367661aeaa4085, type: 3}
   m_PrefabInstance: {fileID: 1317541534}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1318202687
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1318202688}
+  - component: {fileID: 1318202689}
+  m_Layer: 0
+  m_Name: Content
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1318202688
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318202687}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1701409232}
+  - {fileID: 896911381}
+  - {fileID: 949123150}
+  - {fileID: 1495135335}
+  - {fileID: 848993543}
+  m_Father: {fileID: 1430026642}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 662, y: 115}
+  m_Pivot: {x: 0, y: 1}
+--- !u!225 &1318202689
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1318202687}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1 &1318464028
 GameObject:
   m_ObjectHideFlags: 0
@@ -303398,6 +304762,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (2)
@@ -303593,6 +304961,59 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 12.000005, y: 1.6170254, z: 6.0000033}
   m_Center: {x: -0.0000009536741, y: 0.622632, z: 0}
+--- !u!1 &1330696050
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1330696051}
+  - component: {fileID: 1330696052}
+  m_Layer: 0
+  m_Name: EnemyDeleteBridge
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1330696051
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330696050}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 62.1, y: -6.199997, z: 202.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1272490347}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1330696052
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330696050}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 70, y: 60, z: 200}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1330791693
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -305214,6 +306635,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (23)
@@ -306269,11 +307694,11 @@ Transform:
   m_GameObject: {fileID: 1340145756}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7112993, z: -0, w: 0.7028893}
-  m_LocalPosition: {x: 44, y: 224.2, z: 153.8}
+  m_LocalPosition: {x: 44, y: 24.199997, z: 153.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1340145758
 MonoBehaviour:
@@ -308383,6 +309808,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (16)
@@ -311843,6 +313272,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_05 (8)
@@ -312591,6 +314024,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 17fe74d6640898a428bc17d54a9640c6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 512a1705ea5f7ef4a9cec54e604a31b4, type: 2}
     - target: {fileID: 919132149155446097, guid: 17fe74d6640898a428bc17d54a9640c6, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall4 (1)
@@ -313662,6 +315099,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1367924381}
+  - component: {fileID: 1367924382}
   m_Layer: 0
   m_Name: Rock_Wall_NorthWest
   m_TagString: Untagged
@@ -313708,6 +315146,26 @@ Transform:
   - {fileID: 700779116}
   m_Father: {fileID: 1133965176}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1367924382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367924380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1 &1368033626
 GameObject:
   m_ObjectHideFlags: 0
@@ -315279,11 +316737,11 @@ Transform:
   m_GameObject: {fileID: 1373911182}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.6253027, z: -0, w: 0.7803824}
-  m_LocalPosition: {x: 94.8, y: 220, z: 63.9}
+  m_LocalPosition: {x: 94.8, y: 20, z: 63.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1373911184
 MonoBehaviour:
@@ -318745,6 +320203,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (22)
@@ -320072,6 +321534,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (11)
@@ -322006,6 +323472,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1407068834}
+  - component: {fileID: 1407068835}
   m_Layer: 0
   m_Name: Rock_Wall_SouthEast
   m_TagString: Untagged
@@ -322043,6 +323510,26 @@ Transform:
   - {fileID: 1068437304}
   m_Father: {fileID: 1133965176}
   m_LocalEulerAnglesHint: {x: 0, y: -10.939, z: 0}
+--- !u!114 &1407068835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407068833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1001 &1407177661
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -322141,6 +323628,143 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1031076866, guid: 051c43eada7f72b4baff20d5927aec4c, type: 3}
   m_PrefabInstance: {fileID: 1407177661}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1407258897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1407258898}
+  - component: {fileID: 1407258900}
+  - component: {fileID: 1407258899}
+  m_Layer: 0
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1407258898
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407258897}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1701409232}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 141, y: -25}
+  m_SizeDelta: {x: 398, y: 18}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1407258899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407258897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: ec2ab205d43f07749b6d52b521bbb20f, type: 2}
+  m_sharedMaterial: {fileID: -8662602313187672627, guid: ec2ab205d43f07749b6d52b521bbb20f, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: 0
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 20
+  m_fontSizeBase: 20
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 1
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1407258900
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1407258897}
+  m_CullTransparentMesh: 1
 --- !u!4 &1407357651 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3402632705352432334, guid: ec358327ad5a723489d6d1ec529fb32f, type: 3}
@@ -326697,6 +328321,65 @@ Transform:
   m_Children: []
   m_Father: {fileID: 665939994}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1430026641
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1430026642}
+  - component: {fileID: 1430026643}
+  m_Layer: 0
+  m_Name: DialogueWindow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1430026642
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430026641}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1318202688}
+  m_Father: {fileID: 449303938}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 1}
+  m_AnchorMax: {x: 0.5, y: 1}
+  m_AnchoredPosition: {x: -257, y: -315}
+  m_SizeDelta: {x: 662, y: 115}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1430026643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430026641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9361afad33f17294c86322b7a653ddcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PortraitDialogueWindow
+  m_content: {fileID: 1318202687}
+  m_canvasGroup: {fileID: 0}
+  m_base: {fileID: 1701409232}
+  m_text: {fileID: 1407258899}
+  m_portrait: {fileID: 896911382}
+  m_role: {fileID: 1495135336}
+  m_roleLine: {fileID: 949123149}
+  m_name: {fileID: 848993544}
+  m_fadeSeconds: 0.2
+  m_charactersPerSecond: 30
 --- !u!1001 &1430246328
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -326898,6 +328581,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (32)
@@ -326970,6 +328657,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_03 (2)
@@ -328031,6 +329722,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_08
@@ -329022,6 +330717,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (1)
@@ -329782,6 +331481,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_04
@@ -330025,6 +331728,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_18 (1)
@@ -330862,11 +332569,11 @@ Transform:
   m_GameObject: {fileID: 1445469875}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.96312565, z: -0, w: 0.2690522}
-  m_LocalPosition: {x: 53.18, y: 220, z: 4.21}
+  m_LocalPosition: {x: 53.18, y: 20, z: 4.21}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1445469877
 MonoBehaviour:
@@ -331966,6 +333673,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cebcbf50e0865b54ea17979fe7a92f1d, type: 2}
     - target: {fileID: 919132149155446097, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
       propertyPath: m_Name
       value: Sandbag2 (15)
@@ -335124,6 +336835,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1
@@ -335829,6 +337544,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 17fe74d6640898a428bc17d54a9640c6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 512a1705ea5f7ef4a9cec54e604a31b4, type: 2}
     - target: {fileID: 919132149155446097, guid: 17fe74d6640898a428bc17d54a9640c6, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall4 (2)
@@ -336283,6 +338002,7 @@ GameObject:
   - component: {fileID: 1472025101}
   - component: {fileID: 1472025100}
   - component: {fileID: 1472025104}
+  - component: {fileID: 1472025105}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -336456,6 +338176,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
   nonRigidbodyVelocity: 0
   attenuationObject: {fileID: 0}
+--- !u!114 &1472025105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472025098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db2e98be1e8ae4e47969c04dc0dac14b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnvironmentOcclusionCutout
+  m_cutoutLayers:
+    serializedVersion: 2
+    m_Bits: 64
+  m_targetOverride: {fileID: 0}
+  m_radiusMode: 0
+  m_radiusScale: 0.9
+  m_fixedRadius: 1.5
+  m_minDistance: 0.5
+  m_edgeSoftness: 0.35
+  m_minimumVisibility: 0
+  m_disableCameraCollision: 1
 --- !u!1001 &1472316882
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -336806,6 +338549,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (26)
@@ -337069,6 +338816,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (19)
@@ -337538,6 +339289,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_05 (2)
@@ -339819,11 +341574,11 @@ Transform:
   m_GameObject: {fileID: 1490982222}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.26245406, z: -0, w: 0.9649445}
-  m_LocalPosition: {x: 8.4, y: 220, z: 87.6}
+  m_LocalPosition: {x: 8.4, y: 20, z: 87.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1490982224
 MonoBehaviour:
@@ -340582,6 +342337,143 @@ Mesh:
       - serializedVersion: 1
         m_IndexStart: 0
         m_IndexCount: 0
+--- !u!1 &1495135334
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1495135335}
+  - component: {fileID: 1495135337}
+  - component: {fileID: 1495135336}
+  m_Layer: 0
+  m_Name: Role
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1495135335
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495135334}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1318202688}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 93.48, y: -60.15}
+  m_SizeDelta: {x: 120, y: 15}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1495135336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495135334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_text: 
+  m_isRightToLeft: 0
+  m_fontAsset: {fileID: 11400000, guid: ec2ab205d43f07749b6d52b521bbb20f, type: 2}
+  m_sharedMaterial: {fileID: -8662602313187672627, guid: ec2ab205d43f07749b6d52b521bbb20f, type: 2}
+  m_fontSharedMaterials: []
+  m_fontMaterial: {fileID: 0}
+  m_fontMaterials: []
+  m_fontColor32:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_enableVertexGradient: 0
+  m_colorMode: 3
+  m_fontColorGradient:
+    topLeft: {r: 1, g: 1, b: 1, a: 1}
+    topRight: {r: 1, g: 1, b: 1, a: 1}
+    bottomLeft: {r: 1, g: 1, b: 1, a: 1}
+    bottomRight: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColorGradientPreset: {fileID: 0}
+  m_spriteAsset: {fileID: 0}
+  m_tintAllSprites: 0
+  m_StyleSheet: {fileID: 0}
+  m_TextStyleHashCode: 0
+  m_overrideHtmlColors: 0
+  m_faceColor:
+    serializedVersion: 2
+    rgba: 4294967295
+  m_fontSize: 15
+  m_fontSizeBase: 15
+  m_fontWeight: 400
+  m_enableAutoSizing: 0
+  m_fontSizeMin: 18
+  m_fontSizeMax: 72
+  m_fontStyle: 0
+  m_HorizontalAlignment: 1
+  m_VerticalAlignment: 256
+  m_textAlignment: 65535
+  m_characterSpacing: 0
+  m_characterHorizontalScale: 1
+  m_wordSpacing: 0
+  m_lineSpacing: 0
+  m_lineSpacingMax: 0
+  m_paragraphSpacing: 0
+  m_charWidthMaxAdj: 0
+  m_TextWrappingMode: 0
+  m_wordWrappingRatios: 0.4
+  m_overflowMode: 0
+  m_linkedTextComponent: {fileID: 0}
+  parentLinkedComponent: {fileID: 0}
+  m_enableKerning: 0
+  m_ActiveFontFeatures: 6e72656b
+  m_enableExtraPadding: 0
+  checkPaddingRequired: 0
+  m_isRichText: 1
+  m_EmojiFallbackSupport: 1
+  m_parseCtrlCharacters: 1
+  m_isOrthographic: 1
+  m_isCullingEnabled: 0
+  m_horizontalMapping: 0
+  m_verticalMapping: 0
+  m_uvLineOffset: 0
+  m_geometrySortingOrder: 0
+  m_IsTextObjectScaleStatic: 0
+  m_VertexBufferAutoSizeReduction: 0
+  m_useMaxVisibleDescender: 1
+  m_pageToDisplay: 1
+  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_isUsingLegacyAnimationComponent: 0
+  m_isVolumetricText: 0
+  m_hasFontAssetChanged: 0
+  m_baseMaterial: {fileID: 0}
+  m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!222 &1495135337
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495135334}
+  m_CullTransparentMesh: 1
 --- !u!1001 &1495661336
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -343498,7 +345390,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -343806,6 +345701,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (3)
@@ -344398,6 +346297,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.006
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (18)
@@ -346421,6 +348324,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (18)
@@ -359059,6 +360966,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.001
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cebcbf50e0865b54ea17979fe7a92f1d, type: 2}
     - target: {fileID: 919132149155446097, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
       propertyPath: m_Name
       value: Sandbag2 (11)
@@ -359499,6 +361410,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_17
@@ -360703,6 +362618,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 17fe74d6640898a428bc17d54a9640c6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 512a1705ea5f7ef4a9cec54e604a31b4, type: 2}
     - target: {fileID: 919132149155446097, guid: 17fe74d6640898a428bc17d54a9640c6, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall4 (2)
@@ -363293,6 +365212,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.067
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (7)
@@ -363920,6 +365843,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.002
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cebcbf50e0865b54ea17979fe7a92f1d, type: 2}
     - target: {fileID: 919132149155446097, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
       propertyPath: m_Name
       value: Sandbag2 (10)
@@ -364615,6 +366542,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (10)
@@ -367182,10 +369113,10 @@ MonoBehaviour:
   m_repairRatio: 0.1
   m_repeatWhileHeld: 1
   m_displayName: "\uC815\uBB38 \uC218\uB9AC"
-  m_description: "F\uB97C \uB204\uB974\uACE0 \uC788\uC73C\uBA74 \uCCB4\uB825\uC744
-    {0}%\uC529 \uD68C\uBCF5\uD569\uB2C8\uB2E4.\n\uD604\uC7AC \uCCB4\uB825 {1}/{2}"
+  m_description: "F\uB97C \uB204\uB974\uACE0 \uC788\uC73C\uBA74 \uB0B4\uAD6C\uB3C4\uB97C
+    {0}%\uC529 \uD68C\uBCF5\uD569\uB2C8\uB2E4."
   m_prompt: "\uC218\uB9AC"
-  m_fullHealthMessage: "\uCCB4\uB825\uC774 \uCDA9\uBD84\uD569\uB2C8\uB2E4"
+  m_fullHealthMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
 --- !u!1001 &1612242082
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -371891,6 +373822,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.018
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (14)
@@ -375952,6 +377887,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_05 (4)
@@ -380288,6 +382227,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (22)
@@ -381384,6 +383327,7 @@ GameObject:
   - component: {fileID: 1666084334}
   - component: {fileID: 1666084336}
   - component: {fileID: 1666084335}
+  - component: {fileID: 1666084337}
   m_Layer: 0
   m_Name: Notice
   m_TagString: Untagged
@@ -381448,6 +383392,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1666084333}
   m_CullTransparentMesh: 1
+--- !u!114 &1666084337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1666084333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c86ebea22c223c419e164094011d49f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MissionObjectiveHud
+  m_titleText: {fileID: 79875327}
+  m_subtitleText: {fileID: 1140254097}
 --- !u!1001 &1666419037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -382957,11 +384915,11 @@ Transform:
   m_GameObject: {fileID: 1673103371}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.7035333, z: -0, w: 0.7106623}
-  m_LocalPosition: {x: 76.3, y: 224.2, z: 154.1}
+  m_LocalPosition: {x: 76.3, y: 24.199997, z: 154.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1673103373
 MonoBehaviour:
@@ -387637,6 +389595,82 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1030986001, guid: f3ac082992771f648a449b3c2c6dac57, type: 3}
   m_PrefabInstance: {fileID: 1701388923}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1701409231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1701409232}
+  - component: {fileID: 1701409234}
+  - component: {fileID: 1701409233}
+  m_Layer: 0
+  m_Name: Base
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1701409232
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701409231}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1407258898}
+  m_Father: {fileID: 1318202688}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 57, y: -50}
+  m_SizeDelta: {x: 605, y: 65}
+  m_Pivot: {x: 0, y: 1}
+--- !u!114 &1701409233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701409231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: a5ad938cc3190aa4d89f48523dbb84eb, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1701409234
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701409231}
+  m_CullTransparentMesh: 1
 --- !u!4 &1701424508 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8628aa197cf0ebc4d88ac80af5fedc11, type: 3}
@@ -388772,6 +390806,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cebcbf50e0865b54ea17979fe7a92f1d, type: 2}
     - target: {fileID: 919132149155446097, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
       propertyPath: m_Name
       value: Sandbag2 (1)
@@ -389306,6 +391344,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c00d2faf0c92ed346ac4203a96dba043, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 2069e1f9bc50c6c428a53daa14901d37, type: 2}
     - target: {fileID: 919132149155446097, guid: c00d2faf0c92ed346ac4203a96dba043, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall3
@@ -389814,6 +391856,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (11)
@@ -390746,6 +392792,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.664
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e5583b3dd171cec488b229c11526c7b2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: d3871480230a7e34888b8e3e477ff2ed, type: 2}
     - target: {fileID: 919132149155446097, guid: e5583b3dd171cec488b229c11526c7b2, type: 3}
       propertyPath: m_Name
       value: Truck1
@@ -395169,7 +397219,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 9a0faefc0deccb44981f6874d8107c21, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: a1211183cd09c104c8020b3571c66436, type: 2}
+      objectReference: {fileID: 2100000, guid: 715365c2230229d4493cddcd7d22bdf0, type: 2}
     - target: {fileID: 919132149155446097, guid: 9a0faefc0deccb44981f6874d8107c21, type: 3}
       propertyPath: m_Name
       value: BurntOut_Car1 (1)
@@ -396199,6 +398249,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1738657632}
+  - component: {fileID: 1738657633}
   m_Layer: 0
   m_Name: Rock_Wall_North
   m_TagString: Untagged
@@ -396232,6 +398283,26 @@ Transform:
   - {fileID: 2133920230}
   m_Father: {fileID: 1133965176}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1738657633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1738657631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1001 &1739013781
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -396620,6 +398691,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.234
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 17fe74d6640898a428bc17d54a9640c6, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 512a1705ea5f7ef4a9cec54e604a31b4, type: 2}
     - target: {fileID: 919132149155446097, guid: 17fe74d6640898a428bc17d54a9640c6, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall4
@@ -399062,6 +401137,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -6.608
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (19)
@@ -401149,7 +403228,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 94.6, y: -670.85}
+  m_AnchoredPosition: {x: 94.6001, y: -670.85}
   m_SizeDelta: {x: 93.2, y: 99.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &1759945618
@@ -401947,6 +404026,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (23)
@@ -405087,6 +407170,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (18)
@@ -406696,6 +408783,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1783919939}
+  - component: {fileID: 1783919940}
   m_Layer: 0
   m_Name: Rock_Wall_NorthEast
   m_TagString: Untagged
@@ -406737,6 +408825,26 @@ Transform:
   - {fileID: 1632453336}
   m_Father: {fileID: 1133965176}
   m_LocalEulerAnglesHint: {x: 0, y: -8.51, z: 0}
+--- !u!114 &1783919940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1783919938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff
 --- !u!1001 &1784190244
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -408260,6 +410368,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (23)
@@ -410517,6 +412629,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (29)
@@ -410683,6 +412799,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 1.137
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (10)
@@ -410898,7 +413018,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -411828,7 +413951,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: -85, y: 27.659973}
+  m_AnchoredPosition: {x: -85, y: 27.659912}
   m_SizeDelta: {x: 213, y: 83}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &1808828273
@@ -413095,6 +415218,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_06
@@ -418525,11 +420652,11 @@ Transform:
   m_GameObject: {fileID: 1839029473}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.99998236, z: -0, w: -0.005946636}
-  m_LocalPosition: {x: 116.4, y: 224.2, z: 253.4}
+  m_LocalPosition: {x: 116.4, y: 24.199997, z: 253.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 180.681, z: 0}
 --- !u!114 &1839029475
 MonoBehaviour:
@@ -418770,6 +420897,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (31)
@@ -420167,6 +422298,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (6)
@@ -420718,11 +422853,11 @@ Transform:
   m_GameObject: {fileID: 1846837991}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.0065382253, z: -0, w: 0.99997866}
-  m_LocalPosition: {x: 244.1, y: 220, z: 13.5}
+  m_LocalPosition: {x: 244.1, y: 20, z: 13.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1846837993
 MonoBehaviour:
@@ -421933,6 +424068,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_04_05
@@ -422626,6 +424765,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_04_06
@@ -423380,6 +425523,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.015
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (27)
@@ -427285,6 +429432,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cebcbf50e0865b54ea17979fe7a92f1d, type: 2}
     - target: {fileID: 919132149155446097, guid: f1b888c5da83328479dc6f94539072c2, type: 3}
       propertyPath: m_Name
       value: Sandbag2 (6)
@@ -428833,6 +430984,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -9.214
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 9b822585cc3f0234f9ef7581dee96ec2, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a129604dab56ad488513f5f0cc3e50b, type: 2}
     - target: {fileID: 919132149155446097, guid: 9b822585cc3f0234f9ef7581dee96ec2, type: 3}
       propertyPath: m_Name
       value: Trailer2 (1)
@@ -454101,6 +456256,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (21)
@@ -459781,6 +461940,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0.002
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (12)
@@ -464540,6 +466703,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_05
@@ -474610,6 +476777,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 173855fbb1472de4b8270272099d7a31, type: 2}
     - target: {fileID: 919132149155446097, guid: 21f0f3ce8d0444a4d91b54a30b32772c, type: 3}
       propertyPath: m_Name
       value: Sandbag_Wall1 (20)
@@ -477119,6 +479290,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2008047692}
+  - component: {fileID: 2008047693}
   m_Layer: 0
   m_Name: Structure1
   m_TagString: Untagged
@@ -477154,6 +479326,26 @@ Transform:
   - {fileID: 92667268}
   m_Father: {fileID: 2115891893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2008047693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2008047691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshModifier
+  m_SerializedVersion: 0
+  m_OverrideArea: 1
+  m_Area: 1
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: 0e279274
 --- !u!1001 &2008702260
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -478853,6 +481045,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_07
@@ -482268,6 +484464,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_06
@@ -482536,6 +484736,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_05
@@ -486799,6 +489003,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -2.757
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 14ab0e38ad303344684b40884da71e3b, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 599bcc931c057c54c9bd16964720d6f5, type: 2}
     - target: {fileID: 919132149155446097, guid: 14ab0e38ad303344684b40884da71e3b, type: 3}
       propertyPath: m_Name
       value: Truck2
@@ -488227,6 +490435,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_13
@@ -498198,6 +500410,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_02_05 (1)
@@ -508989,6 +511205,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence (17)
@@ -509940,6 +512160,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (10)
@@ -510321,6 +512545,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2115891893}
+  - component: {fileID: 2115891894}
   m_Layer: 0
   m_Name: Road_Approach_Defense_Structure
   m_TagString: Untagged
@@ -510351,6 +512576,18 @@ Transform:
   - {fileID: 177322357}
   m_Father: {fileID: 199624263}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2115891894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115891892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779c846c43ce54346a8661808926225e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::OcclusionCutoutTarget
 --- !u!1001 &2116056510
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -510616,11 +512853,11 @@ Transform:
   m_GameObject: {fileID: 2116368931}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.99998236, z: -0, w: -0.005946636}
-  m_LocalPosition: {x: -85.9, y: 217.5, z: 250.8}
+  m_LocalPosition: {x: -85.9, y: 17.5, z: 250.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 894334756}
+  m_Father: {fileID: 1282585079}
   m_LocalEulerAnglesHint: {x: 0, y: 180.681, z: 0}
 --- !u!114 &2116368933
 MonoBehaviour:
@@ -512212,7 +514449,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -513940,6 +516180,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 275f5ed69dbe5a2499c7bc007c64d40a, type: 2}
     - target: {fileID: 919132149155446097, guid: e7432e87cec93b84cb0b00d2a9becefc, type: 3}
       propertyPath: m_Name
       value: Sandbag1 (1)
@@ -514693,6 +516937,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 083a46f50d279bf4fbf800e0178aa379, type: 2}
     - target: {fileID: 919132149155446097, guid: 1d3862e851cfb604dab159ea9ef05e42, type: 3}
       propertyPath: m_Name
       value: BarbedWire_Fence_Redline_01_09
@@ -530923,7 +533171,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -560498,6 +562749,9 @@ MonoBehaviour:
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
   m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -569213,7 +571467,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -610263,7 +612520,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -691097,7 +693357,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -694992,7 +697255,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -916256,7 +918522,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -972190,7 +974459,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -1044380,7 +1046652,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -1045624,6 +1047899,9 @@ MonoBehaviour:
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
   m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -1057024,7 +1059302,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -1113430,6 +1115711,9 @@ MonoBehaviour:
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
   m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -1126282,7 +1128566,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -1245119,7 +1247406,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -1281473,7 +1283763,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -1357868,6 +1360161,9 @@ MonoBehaviour:
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
   m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -1394894,7 +1397190,10 @@ MonoBehaviour:
   m_startPlaced: 0
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
-  m_buildPrompt: "?\u317C\uD282"
+  m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -1400721,6 +1403020,9 @@ MonoBehaviour:
   m_buildCostResourceId: trap_material
   m_buildCostAmount: 0
   m_buildPrompt: "\uC124\uCE58"
+  m_repairCostAmount: 1
+  m_repairPrompt: "\uC218\uB9AC"
+  m_fullDurabilityMessage: "\uB0B4\uAD6C\uB3C4\uAC00 \uAC00\uB4DD \uCC3C\uC2B5\uB2C8\uB2E4"
   m_buildHoldDuration: 0.3
   m_displayName: 
   m_description: 
@@ -1411823,3 +1414125,4 @@ SceneRoots:
   - {fileID: 1590928534}
   - {fileID: 708522259}
   - {fileID: 228634981}
+  - {fileID: 145747071}
