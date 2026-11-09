@@ -33,6 +33,13 @@ public sealed class MenuSelectionIndicator : MonoBehaviour
     [Tooltip("선택 장식이 나타나고 사라지는 시간입니다. 시간 정지와 무관하게 실제 시간으로 흐릅니다.")]
     [SerializeField, Min(0f)] private float m_fadeDuration = 0.15f;
 
+    [Tooltip("장식이 숨어 있다가 처음 나타날 때(메뉴 밖에서 마우스를 처음 올렸을 때 등) 투명에서 시작해 나타나는 시간입니다. " +
+             "항목 사이를 옮겨 갈 때는 쓰지 않고 바로 옮깁니다.")]
+    [SerializeField, Min(0f)] private float m_appearFadeDuration = 0.2f;
+
+    /// <summary>장식이 지금 보이는 대상(또는 보이게 하려는 대상)입니다. 없으면 숨김 상태입니다.</summary>
+    private Button m_shownButton;
+
     private RectTransform m_root;
     private RawImage m_leftImage;
     private RawImage m_rightImage;
@@ -69,6 +76,7 @@ public sealed class MenuSelectionIndicator : MonoBehaviour
     {
         m_pointerButton = null;
         m_selectedButton = null;
+        m_shownButton = null;
 
         if (m_fadeRoutine != null)
         {
@@ -218,7 +226,8 @@ public sealed class MenuSelectionIndicator : MonoBehaviour
         Button target = m_pointerButton != null ? m_pointerButton : m_selectedButton;
         if (target == null)
         {
-            Fade(0f);
+            m_shownButton = null;
+            Fade(0f, m_fadeDuration);
             return;
         }
 
@@ -244,10 +253,15 @@ public sealed class MenuSelectionIndicator : MonoBehaviour
 
         m_leftImage.rectTransform.anchoredPosition = new Vector2(textLeft - m_textGap - leftCapWidth, verticalCenter);
         m_rightImage.rectTransform.anchoredPosition = new Vector2(textRight + m_textGap, verticalCenter);
-        Fade(1f);
+
+        // 숨어 있다가 처음 나타나는 경우에만 투명에서 시작해 짧게 나타냅니다. 이미 보이던 장식을 다른 항목으로 옮길 때는
+        // 기존처럼 바로 옮깁니다. 숨는 도중(페이드아웃 중)에 다시 올리면 지금 투명도에서 이어서 나타납니다.
+        bool appearing = m_shownButton == null;
+        m_shownButton = button;
+        Fade(1f, appearing ? m_appearFadeDuration : m_fadeDuration);
     }
 
-    private void Fade(float targetAlpha)
+    private void Fade(float targetAlpha, float duration)
     {
         if (m_canvasGroup == null)
         {
@@ -259,28 +273,33 @@ public sealed class MenuSelectionIndicator : MonoBehaviour
             StopCoroutine(m_fadeRoutine);
         }
 
-        if (m_fadeDuration <= 0f || !isActiveAndEnabled)
+        if (duration <= 0f || !isActiveAndEnabled)
         {
             m_canvasGroup.alpha = targetAlpha;
             m_fadeRoutine = null;
             return;
         }
 
-        m_fadeRoutine = StartCoroutine(FadeRoutine(targetAlpha));
+        m_fadeRoutine = StartCoroutine(FadeRoutine(targetAlpha, duration));
     }
 
-    private IEnumerator FadeRoutine(float targetAlpha)
+    /// <remarks>
+    /// 시작한 프레임의 시간은 세지 않고 다음 프레임부터 셉니다. 시작 프레임이 길면(처음 호버 때 글자 메시를 만드는 등)
+    /// 그 시간이 한 번에 더해져 페이드가 시작하자마자 거의 끝나 버리기 때문입니다. 한 프레임에 더하는 시간도 1/30초로 묶습니다.
+    /// </remarks>
+    private IEnumerator FadeRoutine(float targetAlpha, float duration)
     {
+        const float MaxStep = 1f / 30f;
         float startAlpha = m_canvasGroup.alpha;
         float elapsed = 0f;
 
-        while (elapsed < m_fadeDuration)
+        while (elapsed < duration)
         {
-            elapsed += Time.unscaledDeltaTime;
-            float normalized = Mathf.Clamp01(elapsed / m_fadeDuration);
+            yield return null;
+            elapsed += Mathf.Min(Time.unscaledDeltaTime, MaxStep);
+            float normalized = Mathf.Clamp01(elapsed / duration);
             float eased = normalized * normalized * (3f - (2f * normalized));
             m_canvasGroup.alpha = Mathf.Lerp(startAlpha, targetAlpha, eased);
-            yield return null;
         }
 
         m_canvasGroup.alpha = targetAlpha;
