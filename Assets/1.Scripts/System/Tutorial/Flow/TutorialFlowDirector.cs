@@ -6,17 +6,23 @@ using UnityEngine.InputSystem;
 using VInspector;
 
 /// <summary>
-/// 튜토리얼(<see cref="TutorialSequence"/>)을 챕터별로 한 줄씩 진행합니다. 챕터의 줄을 모두 넘기고 종료 조건을 채우면 다음 챕터로 넘어갑니다.
+/// 튜토리얼(<see cref="TutorialSequence"/>)을 진행합니다. 챕터의 블록(대사, 트리거, 엔드포인트)을 위에서부터 하나씩 차례로 처리합니다.
 /// </summary>
 /// <remarks>
-/// 대사 표시는 <see cref="DialoguePlayer"/>에 맡기고, 이 컴포넌트는 순서, 조건, 이벤트만 봅니다.
+/// 대사 표시는 <see cref="DialoguePlayer"/>에, 이벤트 실행은 <see cref="TutorialEvents"/>에 맡기고, 이 컴포넌트는 순서와 조건만 봅니다.
 /// 기존 페이지형 튜토리얼(<see cref="TutorialManager"/>)과 별개이며, 두 튜토리얼을 한 씬에서 함께 켜지 않습니다.
 /// <para>
-/// 줄은 대사의 넘김 방식(입력/자동)대로 넘어갑니다. 챕터에 종료 조건이 있으면 마지막 줄의 대사를 띄워 둔 채 조건을 기다립니다.
-/// 처치·상호작용은 챕터가 시작된 순간부터 세서, 앞 줄에서 적을 만들고 대사를 읽는 동안 처치한 것도 들어갑니다.
+/// 블록별 처리:
+/// 대사는 넘김 방식(입력/자동)대로 넘어가고, 바로 다음 블록이 엔드포인트면 조건을 채울 때까지 띄워 둡니다.
+/// 트리거는 이벤트를 한꺼번에 실행하고 자기 완료 조건을 세기 시작한 뒤 바로 다음 블록으로 갑니다.
+/// 엔드포인트는 자기가 닫는 트리거(여러 개 가능)가 모두 완료될 때까지 기다렸다가 완료 이벤트를 실행하고 넘어갑니다.
+/// 시네마틱은 인게임 시네마틱을 끝까지 재생합니다.
 /// </para>
-/// 줄의 이벤트는 <see cref="TutorialEvents"/>가 실행합니다. 기다리는 이벤트(창 띄우기 등)가 끝날 때까지
-/// 다음 줄로 넘어가지 않고, 종료 조건도 확인하지 않습니다.
+/// <para>
+/// 엔드포인트는 다음 챕터로 넘어가는 기준입니다. 챕터의 트리거가 모두 해소돼야 다음 챕터가 시작되고,
+/// 엔드포인트 없이 남은 트리거가 있으면 경고를 남기고 그 트리거가 완료될 때까지 기다립니다.
+/// </para>
+/// 기다리는 이벤트(창 띄우기, 도착까지 대기 등)가 있으면 끝날 때까지 다음 블록으로 넘어가지 않습니다.
 /// </remarks>
 [DisallowMultipleComponent]
 public sealed class TutorialFlowDirector : MonoBehaviour
@@ -32,7 +38,7 @@ public sealed class TutorialFlowDirector : MonoBehaviour
     [Tooltip("대사를 띄울 플레이어입니다. 비어 있으면 씬에서 찾습니다.")]
     [SerializeField] private DialoguePlayer m_dialogue;
 
-    [Tooltip("줄의 이벤트를 실행할 곳입니다. 비어 있으면 씬에서 찾고, 없으면 이 오브젝트에 붙입니다.")]
+    [Tooltip("블록의 이벤트를 실행할 곳입니다. 비어 있으면 씬에서 찾고, 없으면 이 오브젝트에 붙입니다.")]
     [SerializeField] private TutorialEvents m_events;
 
     [Header("Flow")]
@@ -43,32 +49,19 @@ public sealed class TutorialFlowDirector : MonoBehaviour
     [SerializeField] private bool m_onlyFirstDefenseRound = true;
 
     [Header("Current")]
-    [Tooltip("현재 묶음 번호입니다. 진행 중이 아니면 -1입니다.")]
+    [Tooltip("현재 챕터 번호입니다. 진행 중이 아니면 -1입니다.")]
     [ReadOnly][SerializeField] private int m_stepIndex = NoIndex;
 
-    [Tooltip("현재 묶음 안의 줄 번호입니다. 진행 중이 아니면 -1입니다.")]
-    [ReadOnly][SerializeField] private int m_lineIndex = NoIndex;
+    [Tooltip("현재 챕터 안의 블록 번호입니다. 진행 중이 아니면 -1입니다.")]
+    [ReadOnly][SerializeField] private int m_blockIndex = NoIndex;
 
-    /// <summary>현재 줄의 대사가 떴는지(띄워 두는 마지막 줄) 또는 넘어갔는지(그 밖의 줄) 여부입니다.</summary>
-    private bool m_dialogueDone;
+    /// <summary>트리거 블록 번호별 완료 조건 감시자입니다. 엔드포인트가 닫거나 챕터·튜토리얼이 끝나면 정리합니다.</summary>
+    private readonly Dictionary<int, TutorialConditionWatcher> m_watchers = new();
 
-    /// <summary>현재 줄이 뜬 뒤 흐른 실제 시간(초)입니다. Time 조건에 씁니다.</summary>
-    private float m_lineTimer;
+    private bool m_isRunning;
 
-    /// <summary>줄의 이벤트를 실행 중인지 여부입니다. 기다리는 이벤트가 끝날 때까지 다음 줄로 넘어가지 않습니다.</summary>
-    private bool m_actionsBusy;
-
-    /// <summary>KillEnemy: 챕터가 시작된 뒤 처치한(프리팹이 맞는) 적 수입니다.</summary>
-    private int m_killed;
-
-    /// <summary>대상 ID로 대상을 찾지 못했는지 여부입니다. 튜토리얼이 멈추지 않도록 경고 후 조건을 채운 것으로 봅니다.</summary>
-    private bool m_targetMissing;
-
-    /// <summary>Interact: 조건에 맞는 상호작용을 했는지 여부입니다.</summary>
-    private bool m_interacted;
-
-    /// <summary>KillEnemy: 사망 알림을 걸어 둔 적과 그 처리기입니다. 조건이 끝나면 모두 뗍니다.</summary>
-    private readonly Dictionary<EnemyHealth, Action> m_deathHandlers = new();
+    /// <summary>엔드포인트를 기다리는 동안 띄워 둔 대사가 있는지 여부입니다. 엔드포인트가 닫히면 내립니다.</summary>
+    private bool m_isHoldingDialogue;
 
     /// <summary>씬에 있는 활성 튜토리얼 진행기입니다. 없으면 null입니다.</summary>
     public static TutorialFlowDirector Instance => s_instance;
@@ -77,24 +70,37 @@ public sealed class TutorialFlowDirector : MonoBehaviour
     public static bool IsAnyRunning => s_instance != null && s_instance.IsRunning;
 
     /// <summary>튜토리얼이 진행 중인지 여부입니다.</summary>
-    public bool IsRunning => m_sequence != null && m_stepIndex >= 0 && m_stepIndex < m_sequence.Steps.Count;
+    public bool IsRunning => m_isRunning;
 
-    /// <summary>현재 묶음 번호입니다. 진행 중이 아니면 -1입니다.</summary>
+    /// <summary>현재 챕터 번호입니다. 진행 중이 아니면 -1입니다.</summary>
     public int CurrentStepIndex => IsRunning ? m_stepIndex : NoIndex;
 
-    /// <summary>현재 줄 번호입니다. 진행 중이 아니면 -1입니다.</summary>
-    public int CurrentLineIndex => IsRunning ? m_lineIndex : NoIndex;
+    /// <summary>현재 블록 번호입니다. 진행 중이 아니면 -1입니다.</summary>
+    public int CurrentBlockIndex => IsRunning ? m_blockIndex : NoIndex;
 
-    /// <summary>줄이 바뀔 때 (묶음 번호, 줄 번호)로 발생합니다.</summary>
-    public event Action<int, int> OnLineChanged;
+    /// <summary>블록이 바뀔 때 (챕터 번호, 블록 번호)로 발생합니다.</summary>
+    public event Action<int, int> OnBlockChanged;
 
     /// <summary>
-    /// 마지막 줄까지 마치거나 <see cref="Skip"/>으로 건너뛰어 튜토리얼이 끝났을 때 발생합니다. <see cref="End"/>로 끝낼 때는 발생하지 않습니다.
+    /// 마지막 블록까지 마치거나 <see cref="Skip"/>으로 건너뛰어 튜토리얼이 끝났을 때 발생합니다. <see cref="End"/>로 끝낼 때는 발생하지 않습니다.
     /// </summary>
     public event Action OnCompleted;
 
     /// <summary>튜토리얼을 건너뛰는 키입니다. 진행할 튜토리얼이 없으면 <see cref="Key.None"/>입니다.</summary>
     public Key SkipKey => m_sequence != null ? m_sequence.SkipKey : Key.None;
+
+    /// <summary>처음부터 튜토리얼을 시작합니다. 이미 진행 중이면 처음부터 다시 시작합니다.</summary>
+    public void Begin()
+    {
+        if (m_sequence == null)
+        {
+            return;
+        }
+
+        End();
+        m_isRunning = true;
+        StartCoroutine(RunSequence());
+    }
 
     /// <summary>
     /// 남은 챕터를 모두 건너뛰고 튜토리얼을 마칩니다. 대사, 창, 마커, 멈춘 시간, 막아 둔 조작을 모두 되돌리고 <see cref="OnCompleted"/>를 보냅니다.
@@ -111,31 +117,26 @@ public sealed class TutorialFlowDirector : MonoBehaviour
         OnCompleted?.Invoke();
     }
 
-    /// <summary>처음부터 튜토리얼을 시작합니다. 줄이 하나도 없으면 아무것도 하지 않습니다.</summary>
-    public void Begin()
-    {
-        if (m_sequence == null)
-        {
-            return;
-        }
-
-        EnterNextLine(0, NoIndex);
-    }
-
     /// <summary>튜토리얼을 즉시 끝내고 대사를 내립니다. 막아 둔 조작도 엽니다. <see cref="OnCompleted"/>는 발생하지 않습니다.</summary>
     public void End()
     {
+        m_isRunning = false;
         m_stepIndex = NoIndex;
-        m_lineIndex = NoIndex;
-        m_actionsBusy = false;
+        m_blockIndex = NoIndex;
+        m_isHoldingDialogue = false;
         StopAllCoroutines();
-        StopCondition();
+        DisposeWatchers();
         // 씬이 내려갈 때도 불리므로 여기서는 찾거나 붙이지 않고, 이미 연결된 것만 되돌립니다.
         if (m_events != null)
         {
             m_events.ReleaseAll();
         }
-        ResolveDialogue()?.Stop();
+
+        if (m_dialogue != null)
+        {
+            m_dialogue.Stop();
+        }
+
         PlayerInputController.SetInputLock(PlayerInputLock.None);
     }
 
@@ -189,30 +190,193 @@ public sealed class TutorialFlowDirector : MonoBehaviour
         }
 
         // 분대원이 늦게 준비되면 처음 건 잠금이 닿지 않을 수 있어 매 프레임 맞춥니다. 값이 같으면 아무것도 하지 않습니다.
-        PlayerInputController.SetInputLock(m_sequence.Steps[m_stepIndex].LockedInputs);
-
-        if (!m_dialogueDone || m_actionsBusy)
+        if (m_stepIndex >= 0)
         {
-            return;
+            PlayerInputController.SetInputLock(m_sequence.Steps[m_stepIndex].LockedInputs);
         }
-
-        TutorialStep step = CurrentStep;
-        m_lineTimer += Time.unscaledDeltaTime;
-        bool isLastLine = m_lineIndex == step.Lines.Count - 1;
-        if (isLastLine)
-        {
-            if (!IsConditionMet(step))
-            {
-                return;
-            }
-
-            StopCondition();
-        }
-
-        FinishLine(CurrentLine);
     }
 
-    private TutorialStep CurrentStep => m_sequence.Steps[m_stepIndex];
+    private IEnumerator RunSequence()
+    {
+        IReadOnlyList<TutorialStep> steps = m_sequence.Steps;
+        for (int stepIndex = 0; stepIndex < steps.Count; stepIndex++)
+        {
+            m_stepIndex = stepIndex;
+            PlayerInputController.SetInputLock(steps[stepIndex].LockedInputs);
+            yield return RunStep(steps[stepIndex]);
+        }
+
+        End();
+        OnCompleted?.Invoke();
+    }
+
+    private IEnumerator RunStep(TutorialStep step)
+    {
+        IReadOnlyList<TutorialBlock> blocks = step.Blocks;
+        TutorialBlockLinks links = TutorialBlockLinks.Build(blocks);
+
+        for (int i = 0; i < blocks.Count; i++)
+        {
+            TutorialBlock block = blocks[i];
+            if (block == null)
+            {
+                continue;
+            }
+
+            m_blockIndex = i;
+            OnBlockChanged?.Invoke(m_stepIndex, i);
+
+            switch (block.Type)
+            {
+                case TutorialBlockType.Dialogue:
+                    bool hold = i + 1 < blocks.Count && blocks[i + 1] != null && blocks[i + 1].Type == TutorialBlockType.Endpoint;
+                    yield return PlayDialogue(block.Dialogue, hold);
+                    break;
+
+                case TutorialBlockType.Trigger:
+                    if (links.ClosedBy[i] == TutorialBlockLinks.None)
+                    {
+                        Debug.LogWarning($"튜토리얼 챕터 '{step.Label}'의 {i}번 트리거를 닫는 엔드포인트가 없습니다. 이벤트만 실행하고 넘어갑니다.", this);
+                    }
+                    else
+                    {
+                        m_watchers[i] = new TutorialConditionWatcher(block, this);
+                    }
+
+                    yield return RunActions(block.Actions);
+                    break;
+
+                case TutorialBlockType.Endpoint:
+                    List<int> closes = links.Closes[i];
+                    if (closes.Count == 0)
+                    {
+                        Debug.LogWarning($"튜토리얼 챕터 '{step.Label}'의 {i}번 엔드포인트가 닫을 트리거가 없습니다. 기다리지 않고 넘어갑니다.", this);
+                    }
+
+                    // 고른 트리거가 모두 완료돼야 닫힙니다. 먼저 완료된 트리거도 나머지를 기다립니다.
+                    while (!AreTriggersMet(closes))
+                    {
+                        yield return null;
+                    }
+
+                    for (int k = 0; k < closes.Count; k++)
+                    {
+                        if (m_watchers.TryGetValue(closes[k], out TutorialConditionWatcher watcher))
+                        {
+                            watcher.Dispose();
+                            m_watchers.Remove(closes[k]);
+                        }
+                    }
+
+                    ReleaseHeldDialogue();
+                    yield return RunActions(block.Actions);
+                    break;
+
+                case TutorialBlockType.Cinematic:
+                    ReleaseHeldDialogue();
+                    yield return ResolveEvents().PlayCinematic(block.CinematicId);
+                    break;
+            }
+        }
+
+        // 엔드포인트는 다음 챕터로 넘어가는 기준입니다. 엔드포인트 없이 남은 트리거도 완료돼야 다음 챕터로 넘어갑니다.
+        if (m_watchers.Count > 0)
+        {
+            Debug.LogWarning($"튜토리얼 챕터 '{step.Label}'에 엔드포인트로 닫히지 않은 트리거가 {m_watchers.Count}개 있습니다. 완료될 때까지 기다린 뒤 다음 챕터로 넘어갑니다.", this);
+            while (!AreTriggersMet(new List<int>(m_watchers.Keys)))
+            {
+                yield return null;
+            }
+        }
+
+        ReleaseHeldDialogue();
+        DisposeWatchers();
+    }
+
+    /// <summary>
+    /// 대사 한 줄을 띄우고 끝날 때까지 기다립니다. <paramref name="hold"/>면 뜨는 순간 끝나고, 다음 엔드포인트가 닫힐 때 내립니다.
+    /// </summary>
+    private IEnumerator PlayDialogue(DialogueLine line, bool hold)
+    {
+        DialoguePlayer dialogue = ResolveDialogue();
+        if (dialogue == null)
+        {
+            yield break;
+        }
+
+        bool done = false;
+        dialogue.PlayLine(line, hold, () => done = true);
+        m_isHoldingDialogue = hold;
+        while (!done)
+        {
+            yield return null;
+        }
+    }
+
+    private void ReleaseHeldDialogue()
+    {
+        if (m_isHoldingDialogue && m_dialogue != null)
+        {
+            m_dialogue.Stop();
+        }
+
+        m_isHoldingDialogue = false;
+    }
+
+    /// <summary>이벤트를 한꺼번에 시작하고, 기다리는 이벤트가 모두 끝날 때까지 기다립니다.</summary>
+    private IEnumerator RunActions(IReadOnlyList<TutorialAction> actions)
+    {
+        if (actions == null || actions.Count == 0)
+        {
+            yield break;
+        }
+
+        TutorialEvents events = ResolveEvents();
+        int running = 0;
+        for (int i = 0; i < actions.Count; i++)
+        {
+            if (actions[i] != null)
+            {
+                running++;
+                StartCoroutine(RunTracked(events.Run(actions[i]), () => running--));
+            }
+        }
+
+        while (running > 0)
+        {
+            yield return null;
+        }
+    }
+
+    private static IEnumerator RunTracked(IEnumerator routine, Action onDone)
+    {
+        yield return routine;
+        onDone();
+    }
+
+    /// <summary>트리거 블록 번호들의 완료 조건이 모두 채워졌는지 여부입니다. 감시자가 없는 트리거는 완료로 봅니다.</summary>
+    private bool AreTriggersMet(List<int> triggers)
+    {
+        for (int i = 0; i < triggers.Count; i++)
+        {
+            if (m_watchers.TryGetValue(triggers[i], out TutorialConditionWatcher watcher) && !watcher.IsMet)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private void DisposeWatchers()
+    {
+        foreach (TutorialConditionWatcher watcher in m_watchers.Values)
+        {
+            watcher.Dispose();
+        }
+
+        m_watchers.Clear();
+    }
 
     private bool WasSkipPressed()
     {
@@ -220,8 +384,6 @@ public sealed class TutorialFlowDirector : MonoBehaviour
         Keyboard keyboard = Keyboard.current;
         return key != Key.None && keyboard != null && keyboard[key].wasPressedThisFrame;
     }
-
-    private TutorialLine CurrentLine => CurrentStep.Lines[m_lineIndex];
 
     /// <summary>
     /// 이번 판에 튜토리얼을 진행할지 여부입니다. 방어전 1회차에서만 진행합니다.
@@ -238,230 +400,6 @@ public sealed class TutorialFlowDirector : MonoBehaviour
         return data == null || data.DefenseRound <= 1;
     }
 
-    private bool IsConditionMet(TutorialStep step)
-    {
-        switch (step.Condition)
-        {
-            case TutorialConditionType.None:
-                // 조건 없는 챕터는 마지막 대사를 넘긴 순간(m_dialogueDone)이 끝입니다.
-                return true;
-
-            case TutorialConditionType.Time:
-                return m_lineTimer >= step.Seconds;
-
-            case TutorialConditionType.KillEnemy:
-                return m_killed >= step.KillCount;
-
-            case TutorialConditionType.ReachArea:
-                return TutorialEvents.IsPlayerInArea(step.AreaCenter, step.AreaRadius);
-
-            case TutorialConditionType.Interact:
-                return m_interacted || m_targetMissing;
-
-            default:
-                return false;
-        }
-    }
-
-    /// <summary>
-    /// 챕터의 종료 조건을 세기 시작합니다. 처치·상호작용처럼 알림이 필요한 조건은 여기서 알림을 겁니다.
-    /// </summary>
-    private void StartCondition(TutorialStep step)
-    {
-        StopCondition();
-
-        switch (step.Condition)
-        {
-            case TutorialConditionType.KillEnemy:
-                EnemyHealth[] enemies = FindObjectsByType<EnemyHealth>(FindObjectsSortMode.None);
-                for (int i = 0; i < enemies.Length; i++)
-                {
-                    WatchEnemy(enemies[i]);
-                }
-
-                // 조건을 세는 동안 새로 나오는(스폰되거나 풀에서 꺼내지는) 적도 셉니다.
-                EnemyHealth.OnEnemyEnabled += WatchEnemy;
-                break;
-
-            case TutorialConditionType.Interact:
-                if (!string.IsNullOrEmpty(step.TargetId))
-                {
-                    FindTarget(step.TargetId);
-                }
-
-                InteractionController.OnAnyInteracted += HandleInteracted;
-                break;
-        }
-    }
-
-    /// <summary>조건 세기를 멈추고 걸어 둔 알림을 모두 뗍니다.</summary>
-    private void StopCondition()
-    {
-        EnemyHealth.OnEnemyEnabled -= WatchEnemy;
-        InteractionController.OnAnyInteracted -= HandleInteracted;
-        foreach (KeyValuePair<EnemyHealth, Action> pair in m_deathHandlers)
-        {
-            if (pair.Key != null)
-            {
-                pair.Key.OnDeath -= pair.Value;
-            }
-        }
-
-        m_deathHandlers.Clear();
-        m_killed = 0;
-        m_targetMissing = false;
-        m_interacted = false;
-    }
-
-    /// <summary>대상 ID로 씬 대상을 찾습니다. 없으면 경고를 남기고, 튜토리얼이 멈추지 않도록 조건을 채운 것으로 둡니다.</summary>
-    private TutorialTarget FindTarget(string id)
-    {
-        TutorialTarget target = TutorialTarget.Find(id);
-        if (target == null)
-        {
-            Debug.LogWarning($"튜토리얼 대상 '{id}'를 찾지 못해 조건을 건너뜁니다. 씬 오브젝트에 같은 ID의 {nameof(TutorialTarget)}이 있는지 확인하세요.", this);
-            m_targetMissing = true;
-        }
-
-        return target;
-    }
-
-    private void WatchEnemy(EnemyHealth enemy)
-    {
-        if (enemy == null || m_deathHandlers.ContainsKey(enemy) || !IsRunning
-            || !TutorialEvents.IsFromPrefab(enemy, CurrentStep.EnemyPrefab))
-        {
-            return;
-        }
-
-        Action handler = () => m_killed++;
-        enemy.OnDeath += handler;
-        m_deathHandlers[enemy] = handler;
-    }
-
-    private void HandleInteracted(IInteractable interactable, GameObject interactor)
-    {
-        string id = CurrentStep.TargetId;
-        if (string.IsNullOrEmpty(id))
-        {
-            m_interacted = true;
-            return;
-        }
-
-        TutorialTarget target = interactable is Component component ? component.GetComponentInParent<TutorialTarget>() : null;
-        if (target != null && target.Id == id)
-        {
-            m_interacted = true;
-        }
-    }
-
-    /// <summary>
-    /// 지금 위치 다음의 줄로 들어갑니다. 줄이 없는 묶음은 건너뛰고, 더 없으면 튜토리얼을 마칩니다.
-    /// </summary>
-    private void EnterNextLine(int stepIndex, int lineIndex)
-    {
-        IReadOnlyList<TutorialStep> steps = m_sequence.Steps;
-        lineIndex++;
-        while (stepIndex < steps.Count && lineIndex >= steps[stepIndex].Lines.Count)
-        {
-            stepIndex++;
-            lineIndex = 0;
-        }
-
-        if (stepIndex >= steps.Count)
-        {
-            bool wasRunning = IsRunning;
-            End();
-            if (wasRunning)
-            {
-                OnCompleted?.Invoke();
-            }
-
-            return;
-        }
-
-        bool isNewStep = stepIndex != m_stepIndex || lineIndex == 0;
-        m_stepIndex = stepIndex;
-        m_lineIndex = lineIndex;
-        m_dialogueDone = false;
-        m_lineTimer = 0.0f;
-
-        // 처치·상호작용은 챕터가 시작된 순간부터 셉니다.
-        TutorialStep step = steps[stepIndex];
-        if (isNewStep)
-        {
-            StartCondition(step);
-        }
-
-        TutorialLine line = CurrentLine;
-        PlayerInputController.SetInputLock(steps[stepIndex].LockedInputs);
-        RunActions(line, TutorialActionTiming.OnShow, null);
-        OnLineChanged?.Invoke(stepIndex, lineIndex);
-
-        DialoguePlayer dialogue = ResolveDialogue();
-        if (dialogue == null)
-        {
-            m_dialogueDone = true;
-            return;
-        }
-
-        // 종료 조건이 있는 챕터의 마지막 줄은 띄워 둔 채로 뜬 순간 알림을 받고, 그 밖의 줄은 넘긴 순간 알림을 받습니다.
-        // 빈 대사는 Play 안에서 바로 알림이 옵니다.
-        bool hold = step.HasCondition && lineIndex == step.Lines.Count - 1;
-        int capturedStep = stepIndex;
-        int capturedLine = lineIndex;
-        dialogue.PlayLine(line.Dialogue, hold, () => HandleDialogueDone(capturedStep, capturedLine));
-    }
-
-    private void HandleDialogueDone(int stepIndex, int lineIndex)
-    {
-        if (stepIndex == m_stepIndex && lineIndex == m_lineIndex)
-        {
-            m_dialogueDone = true;
-        }
-    }
-
-    private void FinishLine(TutorialLine line)
-    {
-        int stepIndex = m_stepIndex;
-        int lineIndex = m_lineIndex;
-        RunActions(line, TutorialActionTiming.OnFinish, () => EnterNextLine(stepIndex, lineIndex));
-    }
-
-    /// <summary>
-    /// 줄의 이벤트 중 해당 시점의 것을 한꺼번에 시작하고, 기다리는 이벤트가 모두 끝나면 <paramref name="onDone"/>을 부릅니다.
-    /// </summary>
-    /// <param name="onDone">모두 끝난 뒤 부를 동작입니다. 선택 항목입니다.</param>
-    private void RunActions(TutorialLine line, TutorialActionTiming timing, Action onDone)
-    {
-        m_actionsBusy = true;
-        StartCoroutine(RunActionsRoutine(line, timing, onDone));
-    }
-
-    private IEnumerator RunActionsRoutine(TutorialLine line, TutorialActionTiming timing, Action onDone)
-    {
-        TutorialEvents events = ResolveEvents();
-        IReadOnlyList<TutorialAction> actions = line.Actions;
-        int running = 0;
-        for (int i = 0; i < actions.Count; i++)
-        {
-            if (actions[i] != null && actions[i].Timing == timing)
-            {
-                running++;
-                StartCoroutine(RunTracked(events.Run(actions[i]), () => running--));
-            }
-        }
-
-        while (running > 0)
-        {
-            yield return null;
-        }
-
-        // 기다리는 이벤트가 없으면 StartCoroutine 안에서 바로 여기까지 옵니다. onDone이 다음 줄의 이벤트를 시작할 수 있어 먼저 풉니다.
-        m_actionsBusy = false;
-        onDone?.Invoke();
-    }
-
     private DialoguePlayer ResolveDialogue()
     {
         if (m_dialogue == null)
@@ -470,12 +408,6 @@ public sealed class TutorialFlowDirector : MonoBehaviour
         }
 
         return m_dialogue;
-    }
-
-    private static IEnumerator RunTracked(IEnumerator routine, Action onDone)
-    {
-        yield return routine;
-        onDone();
     }
 
     private TutorialEvents ResolveEvents()

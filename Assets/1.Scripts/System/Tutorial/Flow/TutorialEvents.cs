@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
+using UnityEngine.Playables;
 
 /// <summary>
 /// 튜토리얼 시퀀스에서 고를 수 있는 이벤트 메서드임을 표시합니다. 시퀀스 Inspector의 드롭다운에 이 이름으로 나옵니다.
@@ -19,6 +21,14 @@ public sealed class TutorialEventAttribute : Attribute
     {
         DisplayName = displayName;
     }
+}
+
+/// <summary>
+/// 이벤트 메서드의 string 파라미터가 시네마틱 ID임을 표시합니다. Inspector가 텍스트 칸 대신 씬의 시네마틱 목록 드롭다운을 그립니다.
+/// </summary>
+[AttributeUsage(AttributeTargets.Parameter)]
+public sealed class TutorialCinematicIdAttribute : Attribute
+{
 }
 
 /// <summary>
@@ -57,6 +67,10 @@ public sealed class TutorialEvents : MonoBehaviour
     [Tooltip("적 생성 위치를 NavMesh 위로 붙일 때 찾는 반경(m)입니다.")]
     [SerializeField] private float m_spawnSampleRadius = 3.0f;
 
+    [Header("Cinematic")]
+    [Tooltip("시네마틱 카메라에 줄 우선순위입니다. 평소 카메라보다 높아야 화면이 넘어갑니다(시설 업그레이드 컷신과 같은 100).")]
+    [SerializeField] private int m_cinematicPriority = 100;
+
     [Header("Window")]
     [Tooltip("튜토리얼 창을 닫는 키입니다.")]
     [SerializeField] private Key m_closeKey = Key.F;
@@ -77,8 +91,29 @@ public sealed class TutorialEvents : MonoBehaviour
     /// <summary>기다리지 않는 경로선 안내의 도착 감시입니다. 도착하면 경로선을 숨깁니다.</summary>
     private Coroutine m_pathWatch;
 
+    /// <summary>지금 띄운 경로선의 목표 위치와 도착 반경입니다. Scene 뷰에 도착 범위를 그릴 때 씁니다. 반경이 0이면 경로선이 없습니다.</summary>
+    private Vector3 m_pathTarget;
+    private float m_pathArriveRadius;
+
     /// <summary>적 생성으로 만든 적입니다. 튜토리얼 적 제거가 여기서만 고릅니다.</summary>
     private readonly List<EnemyController> m_spawnedEnemies = new();
+
+    /// <summary>시네마틱으로 켠 카메라와 켜기 전 상태입니다. 끝나거나 튜토리얼이 끝나면 되돌립니다.</summary>
+    private readonly List<CinematicCameraState> m_cinematicCameras = new();
+
+    /// <summary>재생 중인 시네마틱 Timeline입니다. 없으면 null입니다.</summary>
+    private PlayableDirector m_cinematicDirector;
+
+    /// <summary>시네마틱이 분대 조작을 막아 두었는지 여부입니다.</summary>
+    private bool m_cinematicLockedInput;
+
+    private struct CinematicCameraState
+    {
+        public CinemachineCamera Camera;
+        public bool WasActive;
+        public bool PriorityEnabled;
+        public int Priority;
+    }
 
     /// <summary>
     /// 이벤트 하나를 실행합니다. 메서드가 기다리는 이벤트면 끝날 때까지 이어집니다.
@@ -125,6 +160,7 @@ public sealed class TutorialEvents : MonoBehaviour
 
         HideMarker();
         HidePathLine();
+        StopCinematic();
         ResumeTime();
     }
 
@@ -341,6 +377,8 @@ public sealed class TutorialEvents : MonoBehaviour
         }
 
         StopPathWatch();
+        m_pathTarget = position;
+        m_pathArriveRadius = Mathf.Max(0.1f, arriveRadius);
         m_pathAnchor.position = position;
         arrow.SetTarget(m_pathAnchor);
         arrow.SetVisible(true);
@@ -361,6 +399,7 @@ public sealed class TutorialEvents : MonoBehaviour
     public void HidePathLine()
     {
         StopPathWatch();
+        m_pathArriveRadius = 0.0f;
         if (m_pathArrow != null)
         {
             m_pathArrow.SetVisible(false);
@@ -441,6 +480,88 @@ public sealed class TutorialEvents : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 인게임 시네마틱을 재생하고 끝날 때까지 기다립니다. 끝나면 카메라와 조작을 원래대로 돌립니다.
+    /// </summary>
+    /// <param name="cinematicId">재생할 시네마틱의 ID입니다. 씬의 <see cref="TutorialCinematicSettings"/> 목록에서 드롭다운으로 고릅니다.
+    /// Timeline이 있으면 Timeline을 끝까지 재생하고, 없으면 카메라 목록을 위에서부터 차례로 비춥니다.</param>
+    /// <remarks>
+    /// 카메라는 시설 업그레이드 컷신처럼 우선순위를 올려 켜는 방식이라, 평소 카메라를 바꾸는 쪽(ThirdPersonController 등)과 부딪히지 않습니다.
+    /// 카메라 사이 전환은 CinemachineBrain의 기본 블렌드를 따릅니다.
+    /// </remarks>
+    [TutorialEvent("시네마틱 재생 (끝날 때까지 대기)")]
+    public IEnumerator PlayCinematic([TutorialCinematicId] string cinematicId)
+    {
+        TutorialCinematicSettings settings = FindFirstObjectByType<TutorialCinematicSettings>(FindObjectsInactive.Include);
+        TutorialCinematic cinematic = settings != null ? settings.Find(cinematicId) : null;
+        if (cinematic == null)
+        {
+            Debug.LogWarning(settings == null
+                ? $"씬에 {nameof(TutorialCinematicSettings)}가 없어 시네마틱을 건너뜁니다."
+                : $"시네마틱 '{cinematicId}'를 {nameof(TutorialCinematicSettings)} 목록에서 찾지 못해 건너뜁니다.", this);
+            yield break;
+        }
+
+        StopCinematic();
+        if (cinematic.LockInput)
+        {
+            m_cinematicLockedInput = true;
+            SetSquadGameplayInput(false);
+        }
+
+        PlayableDirector director = cinematic.Timeline;
+        if (director != null && director.playableAsset != null)
+        {
+            m_cinematicDirector = director;
+            if (!director.gameObject.activeSelf)
+            {
+                director.gameObject.SetActive(true);
+            }
+
+            director.time = 0.0;
+            director.Play();
+            double duration = director.duration;
+            while (m_cinematicDirector == director && director != null && director.state == PlayState.Playing && director.time < duration)
+            {
+                yield return null;
+            }
+        }
+        else
+        {
+            IReadOnlyList<CinemachineCamera> cameras = cinematic.Cameras;
+            if (cameras.Count == 0)
+            {
+                Debug.LogWarning($"시네마틱 '{cinematic.Name}'에 Timeline도 카메라도 없어 건너뜁니다.", settings);
+            }
+
+            CinemachineCamera previous = null;
+            for (int i = 0; i < cameras.Count; i++)
+            {
+                if (cameras[i] == null)
+                {
+                    continue;
+                }
+
+                // 다음 카메라를 먼저 켜고 앞 카메라를 돌려야, 그 사이에 평소 카메라가 끼지 않고 바로 이어서 블렌드됩니다.
+                ActivateCinematicCamera(cameras[i]);
+                if (previous != null)
+                {
+                    RestoreCinematicCamera(previous);
+                }
+
+                previous = cameras[i];
+                float elapsed = 0.0f;
+                while (elapsed < cinematic.SecondsPerCamera)
+                {
+                    elapsed += Time.unscaledDeltaTime;
+                    yield return null;
+                }
+            }
+        }
+
+        StopCinematic();
+    }
+
     /// <summary>정한 시간(초, 실제 시간)만큼 기다립니다.</summary>
     [TutorialEvent("대기")]
     public IEnumerator Wait(float seconds)
@@ -470,6 +591,19 @@ public sealed class TutorialEvents : MonoBehaviour
         ReleaseAll();
     }
 
+    /// <summary>Play 중 경로선을 띄우고 있으면 목표 위치와 도착 반경을 Scene 뷰에 그립니다.</summary>
+    private void OnDrawGizmos()
+    {
+        if (m_pathArriveRadius <= 0.0f)
+        {
+            return;
+        }
+
+        Gizmos.color = new Color(0.2f, 1.0f, 0.4f, 1.0f);
+        Gizmos.DrawWireSphere(m_pathTarget, m_pathArriveRadius);
+        Gizmos.DrawLine(m_pathTarget, m_pathTarget + Vector3.up * 2.0f);
+    }
+
     private IEnumerator WatchArrival(Vector3 position, float radius)
     {
         while (!IsPlayerInArea(position, radius))
@@ -480,6 +614,66 @@ public sealed class TutorialEvents : MonoBehaviour
         // 기다리지 않는 안내는 감시 코루틴이 자기 자신이라, 숨기면서 멈추지 않도록 먼저 비웁니다.
         m_pathWatch = null;
         HidePathLine();
+    }
+
+    private void ActivateCinematicCamera(CinemachineCamera camera)
+    {
+        m_cinematicCameras.Add(new CinematicCameraState
+        {
+            Camera = camera,
+            WasActive = camera.gameObject.activeSelf,
+            PriorityEnabled = camera.Priority.Enabled,
+            Priority = camera.Priority.Value,
+        });
+
+        camera.Priority.Enabled = true;
+        camera.Priority.Value = m_cinematicPriority;
+        camera.gameObject.SetActive(true);
+    }
+
+    private void RestoreCinematicCamera(CinemachineCamera camera)
+    {
+        for (int i = m_cinematicCameras.Count - 1; i >= 0; i--)
+        {
+            CinematicCameraState state = m_cinematicCameras[i];
+            if (state.Camera != camera)
+            {
+                continue;
+            }
+
+            m_cinematicCameras.RemoveAt(i);
+            if (state.Camera != null)
+            {
+                state.Camera.Priority.Enabled = state.PriorityEnabled;
+                state.Camera.Priority.Value = state.Priority;
+                state.Camera.gameObject.SetActive(state.WasActive);
+            }
+        }
+    }
+
+    /// <summary>재생 중인 시네마틱을 멈추고 카메라와 조작을 원래대로 돌립니다. 재생 중이 아니면 아무것도 하지 않습니다.</summary>
+    private void StopCinematic()
+    {
+        while (m_cinematicCameras.Count > 0)
+        {
+            RestoreCinematicCamera(m_cinematicCameras[m_cinematicCameras.Count - 1].Camera);
+        }
+
+        if (m_cinematicDirector != null)
+        {
+            m_cinematicDirector.Stop();
+            m_cinematicDirector = null;
+        }
+
+        if (m_cinematicLockedInput)
+        {
+            m_cinematicLockedInput = false;
+            // 시간 멈춤이 조작을 막고 있으면 그대로 둡니다. 시간 재개가 풀어 줍니다.
+            if (!m_isHoldingPause)
+            {
+                SetSquadGameplayInput(true);
+            }
+        }
     }
 
     private void StopPathWatch()

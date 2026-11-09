@@ -12,560 +12,832 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e4d5b7a9a2e364fb2d21ca1a84f716, type: 3}
   m_Name: TutorialSequence_Main
   m_EditorClassIdentifier: Assembly-CSharp::TutorialSequence
+  m_skipKey: 30
   m_steps:
-  - m_label: "이동 튜토리얼"
+  - m_label: "\uC774\uB3D9 \uD29C\uD1A0\uB9AC\uC5BC"
     m_lockedInputs: 0
-    m_lines:
-    - m_dialogue:
+    m_blocks:
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 1d75cdcc75a269b4886e7cf971f63008, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "아 - 아, 여기는 운영실, 방어선 근처에 소수의 감염체가 포착됐어. 처리하고 방어선 보수를 진행하자."
+        m_text: "\uC544 - \uC544, \uC5EC\uAE30\uB294 \uC6B4\uC601\uC2E4, \uBC29\uC5B4\uC120
+          \uADFC\uCC98\uC5D0 \uC18C\uC218\uC758 \uAC10\uC5FC\uCCB4\uAC00 \uD3EC\uCC29\uB410\uC5B4.
+          \uCC98\uB9AC\uD558\uACE0 \uBC29\uC5B4\uC120 \uBCF4\uC218\uB97C \uC9C4\uD589\uD558\uC790."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "여기는 나린팀. 알겠습니다. 감염체 처리부터 진행하죠."
+        m_text: "\uC5EC\uAE30\uB294 \uB098\uB9B0\uD300. \uC54C\uACA0\uC2B5\uB2C8\uB2E4.
+          \uAC10\uC5FC\uCCB4 \uCC98\uB9AC\uBD80\uD130 \uC9C4\uD589\uD558\uC8E0."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uD760\uD760, \uADF8\uB7F0 \uAC8C \uC788\uC5B4! \uAE08\uBC29 \uBCF4\uC5EC\uC904\uAC8C!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowPathLine
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "그럼 오른쪽 터널부터 가볼까요?"
+        m_text: "\uADF8\uB7FC \uC624\uB978\uCABD \uD130\uB110\uBD80\uD130 \uAC00\uBCFC\uAE4C\uC694?"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "흠흠! 좋았어, 가보자고!!"
+        m_text: "\uD760\uD760! \uC88B\uC558\uC5B4, \uAC00\uBCF4\uC790\uACE0!!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "어머, 기분이 좋아보이시네요, 좋은 일 있으신가요??"
+        m_text: "\uC5B4\uBA38, \uAE30\uBD84\uC774 \uC88B\uC544\uBCF4\uC774\uC2DC\uB124\uC694,
+          \uC88B\uC740 \uC77C \uC788\uC73C\uC2E0\uAC00\uC694??"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "흠흠, 그런 게 있어! 금방 보여줄게!"
+        m_text: "\uD760\uD760, \uADF8\uB7F0 \uAC8C \uC788\uC5B4! \uAE08\uBC29 \uBCF4\uC5EC\uC904\uAC8C!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-  - m_label: "사격 튜토리얼"
-    m_lockedInputs: 0
-    m_lines:
-    - m_dialogue:
-        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "적 발견. 처리할게."
+        m_text: "\uD760\uD760, \uADF8\uB7F0 \uAC8C \uC788\uC5B4! \uAE08\uBC29 \uBCF4\uC5EC\uC904\uAC8C!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
-      m_condition: 0
+      m_condition: 2
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-  - m_label: "투척물 튜토리얼"
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 3
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 951b2b12
+  - m_label: "\uC0AC\uACA9 \uD29C\uD1A0\uB9AC\uC5BC"
     m_lockedInputs: 0
-    m_lines:
-    - m_dialogue:
+    m_blocks: []
+  - m_label: "\uD22C\uCC99\uBB3C \uD29C\uD1A0\uB9AC\uC5BC"
+    m_lockedInputs: 0
+    m_blocks:
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "저쪽에 적이 더 있어요! 조심해요."
+        m_text: "\uC800\uCABD\uC5D0 \uC801\uC774 \uB354 \uC788\uC5B4\uC694! \uC870\uC2EC\uD574\uC694."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "아까보다 적이 많네. 폭발물을 써야겠어."
+        m_text: "\uC544\uAE4C\uBCF4\uB2E4 \uC801\uC774 \uB9CE\uB124. \uD3ED\uBC1C\uBB3C\uC744
+          \uC368\uC57C\uACA0\uC5B4."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-  - m_label: "캐릭터 변경 튜토리얼"
+      m_targetId: 
+      m_cinematicId: 
+  - m_label: "\uCE90\uB9AD\uD130 \uBCC0\uACBD \uD29C\uD1A0\uB9AC\uC5BC"
     m_lockedInputs: 0
-    m_lines:
-    - m_dialogue:
+    m_blocks:
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "이제 남은 건 다리쪽이야. 이동하자."
+        m_text: "\uC774\uC81C \uB0A8\uC740 \uAC74 \uB2E4\uB9AC\uCABD\uC774\uC57C.
+          \uC774\uB3D9\uD558\uC790."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "블로터들이 있어. 처리할게."
+        m_text: "\uBE14\uB85C\uD130\uB4E4\uC774 \uC788\uC5B4. \uCC98\uB9AC\uD560\uAC8C."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "엇 잠깐!!"
+        m_text: "\uC5C7 \uC7A0\uAE50!!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "언니, 저건 내가 할래!! 보여줄 게 있거든!"
+        m_text: "\uC5B8\uB2C8, \uC800\uAC74 \uB0B4\uAC00 \uD560\uB798!! \uBCF4\uC5EC\uC904
+          \uAC8C \uC788\uAC70\uB4E0!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-  - m_label: "스킬 튜토리얼 1"
+      m_targetId: 
+      m_cinematicId: 
+  - m_label: "\uC2A4\uD0AC \uD29C\uD1A0\uB9AC\uC5BC 1"
     m_lockedInputs: 0
-    m_lines:
-    - m_dialogue:
+    m_blocks:
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "짜잔 내가 준비한 특수탄이야!!"
+        m_text: "\uC9DC\uC794 \uB0B4\uAC00 \uC900\uBE44\uD55C \uD2B9\uC218\uD0C4\uC774\uC57C!!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "후후 어때!!! 내 새 특제 탄!!"
+        m_text: "\uD6C4\uD6C4 \uC5B4\uB54C!!! \uB0B4 \uC0C8 \uD2B9\uC81C \uD0C4!!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "우와 대단해요!! 특수 변이체들 처리에 좋을 것 같네요!"
+        m_text: "\uC6B0\uC640 \uB300\uB2E8\uD574\uC694!! \uD2B9\uC218 \uBCC0\uC774\uCCB4\uB4E4
+          \uCC98\uB9AC\uC5D0 \uC88B\uC744 \uAC83 \uAC19\uB124\uC694!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "효과적이네."
+        m_text: "\uD6A8\uACFC\uC801\uC774\uB124."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "히히, 그럼 그럼! 이제 돌아가자..어엇!"
+        m_text: "\uD788\uD788, \uADF8\uB7FC \uADF8\uB7FC! \uC774\uC81C \uB3CC\uC544\uAC00\uC790..\uC5B4\uC5C7!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-  - m_label: "구조 튜토리얼 [1안]"
+      m_targetId: 
+      m_cinematicId: 
+  - m_label: "\uAD6C\uC870 \uD29C\uD1A0\uB9AC\uC5BC [1\uC548]"
     m_lockedInputs: 0
-    m_lines:
-    - m_dialogue:
+    m_blocks:
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "아야야.."
+        m_text: "\uC544\uC57C\uC57C.."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "어엇! 괜찮으세요?!"
+        m_text: "\uC5B4\uC5C7! \uAD1C\uCC2E\uC73C\uC138\uC694?!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "괜찮아?? 조심해야지!"
+        m_text: "\uAD1C\uCC2E\uC544?? \uC870\uC2EC\uD574\uC57C\uC9C0!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "다칠까봐 걱정했어요! 정말."
+        m_text: "\uB2E4\uCE60\uAE4C\uBD10 \uAC71\uC815\uD588\uC5B4\uC694! \uC815\uB9D0."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "에헤헤, 미안! 조심할게!"
+        m_text: "\uC5D0\uD5E4\uD5E4, \uBBF8\uC548! \uC870\uC2EC\uD560\uAC8C!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "다치지 않아서 다행이야. 이제 함정들 설치하고 보수하러 가자."
+        m_text: "\uB2E4\uCE58\uC9C0 \uC54A\uC544\uC11C \uB2E4\uD589\uC774\uC57C.
+          \uC774\uC81C \uD568\uC815\uB4E4 \uC124\uCE58\uD558\uACE0 \uBCF4\uC218\uD558\uB7EC
+          \uAC00\uC790."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-  - m_label: "방어선 정비(함정, 수리) 튜토리얼"
+      m_targetId: 
+      m_cinematicId: 
+  - m_label: "\uBC29\uC5B4\uC120 \uC815\uBE44(\uD568\uC815, \uC218\uB9AC) \uD29C\uD1A0\uB9AC\uC5BC"
     m_lockedInputs: 0
-    m_lines:
-    - m_dialogue:
+    m_blocks:
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "좋아, 설치 완료했어!"
+        m_text: "\uC88B\uC544, \uC124\uCE58 \uC644\uB8CC\uD588\uC5B4!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "이제 정문 수리만 하고 복귀하도록 하자."
+        m_text: "\uC774\uC81C \uC815\uBB38 \uC218\uB9AC\uB9CC \uD558\uACE0 \uBCF5\uADC0\uD558\uB3C4\uB85D
+          \uD558\uC790."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "빠르게 마무리하죠!"
+        m_text: "\uBE60\uB974\uAC8C \uB9C8\uBB34\uB9AC\uD558\uC8E0!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-  - m_label: "위치 사수 튜토리얼"
+      m_targetId: 
+      m_cinematicId: 
+  - m_label: "\uC704\uCE58 \uC0AC\uC218 \uD29C\uD1A0\uB9AC\uC5BC"
     m_lockedInputs: 0
-    m_lines:
-    - m_dialogue:
+    m_blocks:
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 1d75cdcc75a269b4886e7cf971f63008, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "여기는 운영실! 긴급 상황이야. 특수 개체의 이상 반응으로 대규모 감염체가 몰려들고 있어. 진행 상황은?"
+        m_text: "\uC5EC\uAE30\uB294 \uC6B4\uC601\uC2E4! \uAE34\uAE09 \uC0C1\uD669\uC774\uC57C.
+          \uD2B9\uC218 \uAC1C\uCCB4\uC758 \uC774\uC0C1 \uBC18\uC751\uC73C\uB85C \uB300\uADDC\uBAA8
+          \uAC10\uC5FC\uCCB4\uAC00 \uBAB0\uB824\uB4E4\uACE0 \uC788\uC5B4. \uC9C4\uD589
+          \uC0C1\uD669\uC740?"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "여기는 나린팀. 방어선 수리만 남았습니다."
+        m_text: "\uC5EC\uAE30\uB294 \uB098\uB9B0\uD300. \uBC29\uC5B4\uC120 \uC218\uB9AC\uB9CC
+          \uB0A8\uC558\uC2B5\uB2C8\uB2E4."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 1d75cdcc75a269b4886e7cf971f63008, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "아직 오기까지 조금 걸리는 것 같아. 빠르게 수리하고 그쪽 방어선을 지켜줘. 우린 다른 방면을 맡을게."
+        m_text: "\uC544\uC9C1 \uC624\uAE30\uAE4C\uC9C0 \uC870\uAE08 \uAC78\uB9AC\uB294
+          \uAC83 \uAC19\uC544. \uBE60\uB974\uAC8C \uC218\uB9AC\uD558\uACE0 \uADF8\uCABD
+          \uBC29\uC5B4\uC120\uC744 \uC9C0\uCF1C\uC918. \uC6B0\uB9B0 \uB2E4\uB978
+          \uBC29\uBA74\uC744 \uB9E1\uC744\uAC8C."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "확인했습니다."
+        m_text: "\uD655\uC778\uD588\uC2B5\uB2C8\uB2E4."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "나랑 서하 선배가 같이 위치를 사수할게. 솔이는 정문을 수리해줘."
+        m_text: "\uB098\uB791 \uC11C\uD558 \uC120\uBC30\uAC00 \uAC19\uC774 \uC704\uCE58\uB97C
+          \uC0AC\uC218\uD560\uAC8C. \uC194\uC774\uB294 \uC815\uBB38\uC744 \uC218\uB9AC\uD574\uC918."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "좋아. 이제 수리한다?! 빨리 해볼게!!"
+        m_text: "\uC88B\uC544. \uC774\uC81C \uC218\uB9AC\uD55C\uB2E4?! \uBE68\uB9AC
+          \uD574\uBCFC\uAC8C!!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "침착하게 해도 돼. 우리가 지켜줄게."
+        m_text: "\uCE68\uCC29\uD558\uAC8C \uD574\uB3C4 \uB3FC. \uC6B0\uB9AC\uAC00
+          \uC9C0\uCF1C\uC904\uAC8C."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "확실하게 지켜드릴게요!"
+        m_text: "\uD655\uC2E4\uD558\uAC8C \uC9C0\uCF1C\uB4DC\uB9B4\uAC8C\uC694!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "생각보다 손상이 크지 않아. 금방 끝났어!!"
+        m_text: "\uC0DD\uAC01\uBCF4\uB2E4 \uC190\uC0C1\uC774 \uD06C\uC9C0 \uC54A\uC544.
+          \uAE08\uBC29 \uB05D\uB0AC\uC5B4!!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "좋아. 이제 같이 적을 처리하자. 잘 해낼 수 있을거야."
+        m_text: "\uC88B\uC544. \uC774\uC81C \uAC19\uC774 \uC801\uC744 \uCC98\uB9AC\uD558\uC790.
+          \uC798 \uD574\uB0BC \uC218 \uC788\uC744\uAC70\uC57C."
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
-    - m_dialogue:
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
         m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
         m_portrait: {fileID: 0}
-        m_text: "해보자구요!"
+        m_text: "\uD574\uBCF4\uC790\uAD6C\uC694!"
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
       m_actions: []
       m_condition: 0
       m_seconds: 2
-      m_targetId: 
+      m_enemyPrefab: {fileID: 0}
       m_killCount: 1
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 
