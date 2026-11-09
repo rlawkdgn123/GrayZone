@@ -162,6 +162,35 @@ public struct TutorialPage
         };
     }
 
+    /// <summary>
+    /// 튜토리얼 창을 대화창으로 빌려 쓸 때 띄울 표시 전용 페이지를 만듭니다. 넘김 조건은 없습니다.
+    /// </summary>
+    /// <remarks>제목 칸에 화자 이름, 본문에 대사, 이미지 칸에 초상화를 넣습니다(<see cref="TutorialOverlayDialogueWindow"/>).</remarks>
+    public static TutorialPage CreateDialoguePage(string speakerName, string text, Sprite portrait)
+    {
+        return new TutorialPage
+        {
+            m_title = speakerName,
+            m_body = text,
+            m_hint = string.Empty,
+            m_image = portrait,
+        };
+    }
+
+    /// <summary>
+    /// 튜토리얼 이벤트(<see cref="TutorialEvents.ShowWindow"/>)가 띄울 표시 전용 페이지를 만듭니다. 넘김 조건은 없습니다.
+    /// </summary>
+    public static TutorialPage CreateWindowPage(string title, string body, Sprite image, string hint)
+    {
+        return new TutorialPage
+        {
+            m_title = title,
+            m_body = body,
+            m_image = image,
+            m_hint = hint,
+        };
+    }
+
     /// <summary>인스펙터에서 음수로 입력된 유지 시간을 바로잡습니다.</summary>
     public void Sanitize()
     {

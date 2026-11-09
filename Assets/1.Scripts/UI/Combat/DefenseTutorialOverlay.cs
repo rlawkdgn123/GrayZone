@@ -77,6 +77,9 @@ public class DefenseTutorialOverlay : MonoBehaviour
     /// <summary>Awake 전에 Show가 불렸는지입니다. 오브젝트가 꺼진 채 시작해 Awake가 늦게 돌 때 표시를 덮어쓰지 않기 위해 씁니다.</summary>
     private bool m_showRequested;
 
+    /// <summary>템플릿에 적혀 있던 공용 패널 제목입니다. 대화창으로 빌려 쓰며 화자 이름으로 바꾼 뒤 되돌릴 때 씁니다.</summary>
+    private string m_templateTitle;
+
     /// <summary>안내가 현재 표시 중인지 여부입니다.</summary>
     public bool IsShown => (m_panelRoot != null && m_panelRoot.activeSelf) || m_overrideInstance != null;
 
@@ -136,6 +139,24 @@ public class DefenseTutorialOverlay : MonoBehaviour
         ApplyCompactLayout(true);
         ApplyPage(m_titleText, m_bodyText, m_hintText, m_image, m_keyIcon, page);
         SetPanelVisible(true);
+    }
+
+    /// <summary>
+    /// 이 창을 대화창으로 빌려 쓸 때 대사를 띄웁니다. 좌측 공지와 넘김 키 게이지는 비웁니다.
+    /// </summary>
+    /// <remarks>
+    /// 제목이 비어 있으면 <see cref="ApplyPage"/>가 템플릿 제목("튜토리얼")을 넣으므로, 화자 이름이 없을 때는 제목을 직접 비웁니다.
+    /// </remarks>
+    public void ShowDialogue(TutorialPage page)
+    {
+        Show(page);
+        SetNoticeVisible(false);
+        SetGaugeProgress(0.0f);
+
+        if (m_titleText != null && string.IsNullOrEmpty(page.Title))
+        {
+            m_titleText.text = string.Empty;
+        }
     }
 
     /// <summary>압축 표시 중인지 여부입니다.</summary>
@@ -241,6 +262,11 @@ public class DefenseTutorialOverlay : MonoBehaviour
             m_titleText = FindChild<TMP_Text>(searchRoot, TitleName);
         }
 
+        if (m_templateTitle == null && m_titleText != null)
+        {
+            m_templateTitle = m_titleText.text;
+        }
+
         if (m_bodyText == null)
         {
             m_bodyText = FindChild<TMP_Text>(searchRoot, BodyName);
@@ -280,10 +306,17 @@ public class DefenseTutorialOverlay : MonoBehaviour
 
     private void ApplyPage(TMP_Text title, TMP_Text body, TMP_Text hint, Image image, Image keyIcon, TutorialPage page)
     {
-        // 제목이 비어 있으면 템플릿에 적힌 제목("튜토리얼")을 그대로 둡니다.
-        if (title != null && !string.IsNullOrEmpty(page.Title))
+        // 제목이 비어 있으면 템플릿에 적힌 제목("튜토리얼")을 씁니다. 대화창으로 빌려 쓰며 화자 이름으로 바꿨을 수 있어 되돌립니다.
+        if (title != null)
         {
-            title.text = page.Title;
+            if (!string.IsNullOrEmpty(page.Title))
+            {
+                title.text = page.Title;
+            }
+            else if (title == m_titleText && m_templateTitle != null)
+            {
+                title.text = m_templateTitle;
+            }
         }
 
         if (body != null)
