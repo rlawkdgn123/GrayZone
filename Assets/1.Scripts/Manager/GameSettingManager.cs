@@ -11,6 +11,14 @@ public class GameSettingManager : MonoBehaviour
         public int width = 1920;
         public int height = 1080;
         public bool fullscreen = true;
+        // UnityEngine.FullScreenMode 값입니다. -1이면 fullscreen 값으로 정합니다(이 값이 없던 씬·파일 호환).
+        public int screenMode = -1;
+        public bool vSync;
+        // 0 이하면 프레임 제한 없음입니다.
+        public int targetFrameRate = -1;
+        // 주사율(분자/분모)입니다. 분자가 0 이하면 지정하지 않고 Unity가 고릅니다(이 값이 없던 씬·파일 호환).
+        public int refreshRateNumerator;
+        public int refreshRateDenominator = 1;
         public float masterVolume = 1f;
         public float bgmVolume = 1f;
         public float sfxVolume = 1f;
@@ -44,6 +52,14 @@ public class GameSettingManager : MonoBehaviour
     public const float MinMouseSensitivity = 0.01f;
     public const float MaxMouseSensitivity = 10f;
 
+    public int ResolutionWidth => currentSettings.width;
+    public int ResolutionHeight => currentSettings.height;
+    public bool IsFullscreen => currentSettings.fullscreen;
+    public FullScreenMode ScreenMode => ResolveScreenMode(currentSettings);
+    public bool VSyncEnabled => currentSettings.vSync;
+    public int TargetFrameRate => currentSettings.targetFrameRate;
+    /// <summary>저장된 주사율입니다. 지정하지 않았으면 numerator가 0입니다.</summary>
+    public RefreshRate RefreshRate => new RefreshRate { numerator = (uint)Mathf.Max(0, currentSettings.refreshRateNumerator), denominator = (uint)Mathf.Max(1, currentSettings.refreshRateDenominator) };
     public float MouseSensitivity => currentSettings.mouseSensitivity;
     public bool CameraKickEnabled => currentSettings.cameraKickEnabled;
 
@@ -108,15 +124,98 @@ public class GameSettingManager : MonoBehaviour
 
         currentSettings.width = width;
         currentSettings.height = height;
-        currentSettings.fullscreen = fullscreen;
+        SyncScreenModeWithFullscreen(fullscreen);
 
-        Screen.SetResolution(width, height, fullscreen);
+        ApplyDisplayMode(ResolveScreenMode(currentSettings));
     }
 
     public void SetFullscreen(bool isFullscreen)
     {
-        currentSettings.fullscreen = isFullscreen;
-        Screen.fullScreen = isFullscreen;
+        SyncScreenModeWithFullscreen(isFullscreen);
+        Screen.fullScreenMode = ResolveScreenMode(currentSettings);
+    }
+
+    /// <summary>해상도와 주사율을 함께 바꿉니다. 화면 모드는 그대로 둡니다.</summary>
+    /// <remarks>
+    /// 주사율은 배타적 전체 화면에서만 모니터에 그대로 적용됩니다. 테두리 없는 전체 화면과 창 모드는 바탕화면 주사율을 따릅니다.
+    /// numerator가 0이면 주사율을 지정하지 않습니다.
+    /// </remarks>
+    public void SetDisplayMode(int width, int height, RefreshRate refreshRate)
+    {
+        if (width <= 0 || height <= 0)
+        {
+            Debug.LogWarning($"[GameSettingManager] Invalid resolution: {width}x{height}");
+            return;
+        }
+
+        currentSettings.width = width;
+        currentSettings.height = height;
+        currentSettings.refreshRateNumerator = (int)refreshRate.numerator;
+        currentSettings.refreshRateDenominator = refreshRate.denominator > 0 ? (int)refreshRate.denominator : 1;
+        ApplyDisplayMode(ResolveScreenMode(currentSettings));
+    }
+
+    /// <summary>저장된 해상도·주사율과 주어진 화면 모드로 화면을 맞춥니다.</summary>
+    private void ApplyDisplayMode(FullScreenMode mode)
+    {
+        if (currentSettings.refreshRateNumerator > 0)
+        {
+            Screen.SetResolution(currentSettings.width, currentSettings.height, mode, RefreshRate);
+        }
+        else
+        {
+            Screen.SetResolution(currentSettings.width, currentSettings.height, mode);
+        }
+    }
+
+    /// <summary>화면 모드(전체 화면, 테두리 없는 전체 화면, 창 모드)를 바꿉니다. 해상도는 그대로 둡니다.</summary>
+    public void SetScreenMode(FullScreenMode mode)
+    {
+        currentSettings.screenMode = (int)mode;
+        currentSettings.fullscreen = mode != FullScreenMode.Windowed;
+        ApplyDisplayMode(mode);
+    }
+
+    /// <summary>수직 동기화를 켜고 끕니다. 켜져 있으면 프레임 제한(<see cref="SetTargetFrameRate"/>)은 무시됩니다.</summary>
+    public void SetVSync(bool enabled)
+    {
+        currentSettings.vSync = enabled;
+        QualitySettings.vSyncCount = enabled ? 1 : 0;
+    }
+
+    /// <summary>최대 프레임을 정합니다. 0 이하면 제한하지 않습니다.</summary>
+    public void SetTargetFrameRate(int frameRate)
+    {
+        currentSettings.targetFrameRate = frameRate > 0 ? frameRate : -1;
+        Application.targetFrameRate = currentSettings.targetFrameRate;
+    }
+
+    /// <summary>
+    /// 전체 화면 여부만 받는 기존 호출을 화면 모드와 맞춥니다. 창 모드로 바꾸거나, 창 모드에서 전체 화면으로 돌아오면
+    /// 화면 모드를 그에 맞게 고칩니다. 이미 전체 화면 계열이면 고른 종류(전체 화면/테두리 없는 전체 화면)를 유지합니다.
+    /// </summary>
+    private void SyncScreenModeWithFullscreen(bool fullscreen)
+    {
+        currentSettings.fullscreen = fullscreen;
+        if (!fullscreen)
+        {
+            currentSettings.screenMode = (int)FullScreenMode.Windowed;
+        }
+        else if (currentSettings.screenMode == (int)FullScreenMode.Windowed)
+        {
+            currentSettings.screenMode = -1;
+        }
+    }
+
+    /// <summary>저장된 화면 모드를 돌려줍니다. 값이 없으면 전체 화면 여부로 정합니다(Unity 기본 전체 화면은 테두리 없는 전체 화면).</summary>
+    private static FullScreenMode ResolveScreenMode(SettingSnapshot settings)
+    {
+        if (settings.screenMode >= 0 && System.Enum.IsDefined(typeof(FullScreenMode), settings.screenMode))
+        {
+            return (FullScreenMode)settings.screenMode;
+        }
+
+        return settings.fullscreen ? FullScreenMode.FullScreenWindow : FullScreenMode.Windowed;
     }
 
     public void SetMasterVolume(float volume)
@@ -155,6 +254,8 @@ public class GameSettingManager : MonoBehaviour
     {
         SetResolution(currentSettings.width, currentSettings.height, currentSettings.fullscreen);
         SetFullscreen(currentSettings.fullscreen);
+        SetVSync(currentSettings.vSync);
+        SetTargetFrameRate(currentSettings.targetFrameRate);
         SetMasterVolume(currentSettings.masterVolume);
         SetBgmVolume(currentSettings.bgmVolume);
         SetSfxVolume(currentSettings.sfxVolume);
@@ -258,6 +359,11 @@ public class GameSettingManager : MonoBehaviour
             width = currentSettings.width,
             height = currentSettings.height,
             fullscreen = currentSettings.fullscreen,
+            screenMode = currentSettings.screenMode,
+            vSync = currentSettings.vSync,
+            targetFrameRate = currentSettings.targetFrameRate,
+            refreshRateNumerator = currentSettings.refreshRateNumerator,
+            refreshRateDenominator = currentSettings.refreshRateDenominator,
             masterVolume = currentSettings.masterVolume,
             bgmVolume = currentSettings.bgmVolume,
             sfxVolume = currentSettings.sfxVolume,
@@ -272,6 +378,11 @@ public class GameSettingManager : MonoBehaviour
         data.display.width = currentSettings.width;
         data.display.height = currentSettings.height;
         data.display.fullscreen = currentSettings.fullscreen;
+        data.display.screenMode = currentSettings.screenMode;
+        data.display.vSync = currentSettings.vSync;
+        data.display.targetFrameRate = currentSettings.targetFrameRate;
+        data.display.refreshRateNumerator = currentSettings.refreshRateNumerator;
+        data.display.refreshRateDenominator = currentSettings.refreshRateDenominator;
         data.audio.masterVolume = currentSettings.masterVolume;
         data.audio.bgmVolume = currentSettings.bgmVolume;
         data.audio.sfxVolume = currentSettings.sfxVolume;
@@ -291,8 +402,15 @@ public class GameSettingManager : MonoBehaviour
         }
 
         NormalizeGameplaySettings(snapshot);
+
+        // 전체 화면 종류는 SetResolution이 fullscreen 값과 맞춰 쓰므로 먼저 넣어 둡니다.
+        currentSettings.screenMode = snapshot.screenMode;
+        currentSettings.refreshRateNumerator = snapshot.refreshRateNumerator;
+        currentSettings.refreshRateDenominator = snapshot.refreshRateDenominator;
         SetResolution(snapshot.width, snapshot.height, snapshot.fullscreen);
         SetFullscreen(snapshot.fullscreen);
+        SetVSync(snapshot.vSync);
+        SetTargetFrameRate(snapshot.targetFrameRate);
         SetMasterVolume(snapshot.masterVolume);
         SetBgmVolume(snapshot.bgmVolume);
         SetSfxVolume(snapshot.sfxVolume);
@@ -330,6 +448,11 @@ public class GameSettingManager : MonoBehaviour
             width = data.display.width,
             height = data.display.height,
             fullscreen = data.display.fullscreen,
+            screenMode = data.display.screenMode,
+            vSync = data.display.vSync,
+            targetFrameRate = data.display.targetFrameRate,
+            refreshRateNumerator = data.display.refreshRateNumerator,
+            refreshRateDenominator = data.display.refreshRateDenominator,
             masterVolume = data.audio.masterVolume,
             bgmVolume = data.audio.bgmVolume,
             sfxVolume = data.audio.sfxVolume,

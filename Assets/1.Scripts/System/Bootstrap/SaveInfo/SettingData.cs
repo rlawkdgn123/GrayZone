@@ -30,6 +30,16 @@ public class SettingData
         public int width = 1920;
         public int height = 1080;
         public bool fullscreen = true;
+
+        // 아래 값은 이전 파일에 없습니다. 없으면 이 기본값으로 읽힙니다.
+        // screenMode는 UnityEngine.FullScreenMode 값이고, -1이면 fullscreen 값으로 정합니다(이전 파일 호환).
+        public int screenMode = -1;
+        public bool vSync;
+        // 0 이하면 프레임 제한 없음입니다.
+        public int targetFrameRate = -1;
+        // 주사율(분자/분모)입니다. 분자가 0이면 지정하지 않습니다.
+        public int refreshRateNumerator;
+        public int refreshRateDenominator = 1;
     }
 
     [Serializable]
