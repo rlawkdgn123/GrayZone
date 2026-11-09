@@ -20,6 +20,8 @@ public class DefenseObjectiveHud : MonoBehaviour
     private const string GaugeName = "Gauge";
     private const string LabelName = "Label";
     private const string WarningName = "Warning";
+    private const string WarningIconLeftName = "AlertIconLeft";
+    private const string WarningIconRightName = "AlertIconRight";
 
     [Header("References (비워두면 자식 이름으로 자동 탐색)")]
     [Tooltip("HUD 패널 루트입니다. 이 오브젝트를 켜고 끄는 것으로 표시를 전환합니다. 비어 있으면 자식 'Panel'을 찾습니다.")]
@@ -70,12 +72,39 @@ public class DefenseObjectiveHud : MonoBehaviour
     [Tooltip("위험 체력 진입 경고음과 함께 표시할 문구입니다.")]
     [SerializeField] private string m_criticalAttackMessage = "외곽 방어선이 위험합니다!";
 
+    [Header("Warning Style")]
+    [Tooltip("경고 문구 왼쪽 경고 아이콘입니다. 비어 있으면 경고 문구의 자식 'AlertIconLeft'를 찾습니다. 문구 폭에 맞춰 가로 위치만 옮깁니다.")]
+    [SerializeField] private RectTransform m_warningIconLeft;
+
+    [Tooltip("경고 문구 오른쪽 경고 아이콘입니다. 비어 있으면 경고 문구의 자식 'AlertIconRight'를 찾습니다.")]
+    [SerializeField] private RectTransform m_warningIconRight;
+
+    [Tooltip("경고 문구 글자 끝과 아이콘 사이 간격입니다.")]
+    [Min(0.0f)]
+    [SerializeField] private float m_warningIconGap = 5.0f;
+
+    [Tooltip("경고 문구 기본 색입니다.")]
+    [SerializeField] private Color m_warningColor = Color.red;
+
+    [Tooltip("켜면 경고 문구 색이 기본 색과 점멸 색 사이를 부드럽게 오갑니다. 끄면 기본 색으로 고정합니다.")]
+    [SerializeField] private bool m_warningBlink = true;
+
+    [Tooltip("점멸할 때 오갈 색입니다.")]
+    [SerializeField] private Color m_warningBlinkColor = new Color(1.0f, 126.0f / 255.0f, 126.0f / 255.0f, 1.0f);
+
+    [Tooltip("점멸 한 번(기본 색 → 점멸 색 → 기본 색)에 걸리는 시간(초)입니다.")]
+    [Min(0.05f)]
+    [SerializeField] private float m_warningBlinkPeriod = 1.0f;
+
     [Header("Behaviour")]
     [Tooltip("Defense가 시작될 때 자동으로 표시할지 여부입니다. 끄면 Show()를 직접 불러야 합니다.")]
     [SerializeField] private bool m_showOnDefenseStart = true;
 
     /// <summary>경고 문구를 지울 시각입니다. 0 이하면 예약 없음입니다.</summary>
     private float m_warningClearTime;
+
+    /// <summary>경고 문구를 띄운 시각입니다. 점멸을 기본 색에서 시작하려고 둡니다.</summary>
+    private float m_warningShownTime;
 
     /// <summary>거점이 파괴된 뒤인지 여부입니다. 파괴 문구는 자동으로 지우지 않습니다.</summary>
     private bool m_objectiveDestroyed;
@@ -124,6 +153,7 @@ public class DefenseObjectiveHud : MonoBehaviour
     private void Update()
     {
         RefreshEnemyCount();
+        UpdateWarningColor();
 
         if (m_objectiveDestroyed || m_warningClearTime <= 0.0f || Time.time < m_warningClearTime)
         {
@@ -231,7 +261,50 @@ public class DefenseObjectiveHud : MonoBehaviour
 
         m_warningText.text = message;
         m_warningText.gameObject.SetActive(true);
+        m_warningShownTime = Time.time;
         m_warningClearTime = m_warningDuration > 0.0f ? Time.time + m_warningDuration : 0.0f;
+        LayoutWarningIcons();
+        UpdateWarningColor();
+    }
+
+    /// <summary>경고 아이콘을 문구 실제 폭의 양 끝 바깥에 붙입니다. 문구마다 길이가 달라서 띄울 때마다 맞춥니다.</summary>
+    /// <remarks>아이콘은 문구 RectTransform 가운데를 앵커로 둔다고 가정합니다. 세로 위치는 씬에 둔 값을 그대로 씁니다.</remarks>
+    private void LayoutWarningIcons()
+    {
+        m_warningText.ForceMeshUpdate();
+        float halfWidth = m_warningText.preferredWidth * 0.5f;
+        if (m_warningIconLeft != null)
+        {
+            m_warningIconLeft.anchoredPosition = new Vector2(
+                -halfWidth - m_warningIconGap - (m_warningIconLeft.rect.width * (1.0f - m_warningIconLeft.pivot.x)),
+                m_warningIconLeft.anchoredPosition.y);
+        }
+
+        if (m_warningIconRight != null)
+        {
+            m_warningIconRight.anchoredPosition = new Vector2(
+                halfWidth + m_warningIconGap + (m_warningIconRight.rect.width * m_warningIconRight.pivot.x),
+                m_warningIconRight.anchoredPosition.y);
+        }
+    }
+
+    /// <summary>경고 문구가 떠 있으면 점멸 설정에 따라 색을 맞춥니다. 띄운 순간 기본 색에서 시작합니다.</summary>
+    private void UpdateWarningColor()
+    {
+        if (m_warningText == null || !m_warningText.gameObject.activeSelf)
+        {
+            return;
+        }
+
+        if (!m_warningBlink)
+        {
+            m_warningText.color = m_warningColor;
+            return;
+        }
+
+        float phase = (Time.time - m_warningShownTime) / m_warningBlinkPeriod;
+        float blend = 0.5f - (0.5f * Mathf.Cos(phase * Mathf.PI * 2.0f));
+        m_warningText.color = Color.Lerp(m_warningColor, m_warningBlinkColor, blend);
     }
 
     private void SubscribeAudioWarning()
@@ -402,6 +475,19 @@ public class DefenseObjectiveHud : MonoBehaviour
             if (warning != null)
             {
                 m_warningText = warning.GetComponent<TMP_Text>();
+            }
+        }
+
+        if (m_warningText != null)
+        {
+            if (m_warningIconLeft == null)
+            {
+                m_warningIconLeft = m_warningText.transform.Find(WarningIconLeftName) as RectTransform;
+            }
+
+            if (m_warningIconRight == null)
+            {
+                m_warningIconRight = m_warningText.transform.Find(WarningIconRightName) as RectTransform;
             }
         }
     }
