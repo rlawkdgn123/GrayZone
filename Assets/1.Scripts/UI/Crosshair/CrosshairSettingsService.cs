@@ -236,6 +236,17 @@ public sealed class CrosshairSettingsService : MonoBehaviour
     /// 캐릭터마다 AimController가 소유한 세 값(외부 형태, 중앙 간격, 링 지름)을 현재 값으로 바꿉니다.
     /// AimController가 조작 중일 때 이 값을 HUD에 다시 맞추므로, HUD에만 쓰면 다음 프레임에 되돌아갑니다.
     /// </summary>
+    /// <summary>
+    /// <see cref="GameSettingManager"/>에 들어 있는 조준선 값(캐릭터별, 투척물)을 다시 HUD와 대원에 적용합니다.
+    /// 설정 화면의 '되돌리기'가 조준선 값을 통째로 바꾼 뒤 부릅니다.
+    /// </summary>
+    public void ReapplyFromSettings()
+    {
+        ApplyCharacterStylesToAimControllers();
+        ApplyThrowableStyleToShooters();
+        m_appliedCharacter = null;
+    }
+
     private void ApplyCharacterStylesToAimControllers()
     {
         foreach (KeyValuePair<PlayerbleCharacterId, string> pair in GetCharacters())

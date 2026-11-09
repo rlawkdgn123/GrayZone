@@ -8,9 +8,10 @@ using UnityEngine.UI;
 /// ESC 설정 화면의 조준선 페이지입니다. 캐릭터별 조준선 또는 공용 투척물 조준선의 내부(Main)/외부(Sub) 값을 편집하고 미리 보여 줍니다.
 /// </summary>
 /// <remarks>
-/// 편집 값은 이 패널의 작업 사본에만 들어갑니다. 설정 화면의 저장 버튼이 <see cref="ApplyPendingValues"/>를 부르면
-/// <see cref="CrosshairSettingsService"/>로 넘어가 HUD에 적용되고 설정 파일에 저장됩니다. 되돌리기와 설정 화면 열기는
-/// <see cref="RevertToCommittedValues"/>로 서비스의 확정 값을 다시 읽습니다. 기본값 버튼은 씬 값으로 작업 사본을 되돌립니다.
+/// 설정 화면 원칙(바꾸면 바로 적용, 파일 저장은 '변경사항 저장'을 눌러야 함)을 따릅니다. 편집할 때마다
+/// <see cref="ApplyPendingValues"/>로 <see cref="CrosshairSettingsService"/>에 넘겨 HUD에 바로 적용하고, 파일 저장은 설정 화면의
+/// 저장 버튼이 맡습니다. 되돌리기는 설정 화면이 조준선 값을 연 때의 값으로 바꾼 뒤 <see cref="RevertToCommittedValues"/>로
+/// 서비스 값을 다시 읽습니다. 기본값 버튼은 씬 값으로 바꾸고 바로 적용합니다.
 ///
 /// 미리보기는 <see cref="CrosshairController"/>의 배치 계산(링 기준 지름, 바깥쪽 두께 확장, 팔 위치)을 따라 텍스처에 그립니다.
 /// 탄퍼짐에 따른 간격 변화는 반영하지 않고 기본 간격으로 그립니다.
@@ -516,6 +517,7 @@ public sealed class CrosshairSettingsPanel : MonoBehaviour
             change(style);
         }
 
+        ApplyPendingValues();
         RefreshAll();
     }
 
@@ -563,6 +565,7 @@ public sealed class CrosshairSettingsPanel : MonoBehaviour
             m_workingStyles[id] = service.GetDefaultCharacterStyle(id);
         }
 
+        ApplyPendingValues();
         RefreshAll();
     }
 
@@ -629,6 +632,7 @@ public sealed class CrosshairSettingsPanel : MonoBehaviour
 
         style.subDynamic = !style.subDynamic;
         m_adsTab = false;
+        ApplyPendingValues();
         RefreshAll();
     }
 
