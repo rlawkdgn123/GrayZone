@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using TMPro;
+using Unity.AI.Navigation;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.InputSystem;
 using VInspector;
 
@@ -130,13 +132,24 @@ public sealed class DefenseManager : CombatSceneManager
     [Min(0.0f)]
     [SerializeField] private float m_clearingPullDelay = 20.0f;
 
-    [Tooltip("정리 구간이 시작되고 이 시간(초)이 지나면, 카메라에 보이지 않는 남은 적을 풀로 되돌립니다. 처치로 세지 않습니다. 0이면 회수하지 않습니다.")]
-    [Min(0.0f)]
-    [SerializeField] private float m_clearingOffscreenDespawnDelay = 40.0f;
+    [Tooltip("정리 구간에 이 콜라이더 안에 있는 적을 풀로 되돌립니다(처치로 세지 않음). 스폰 지점 뒤쪽처럼 적이 머물면 안 되는 범위입니다. " +
+             "비워 두면 씬의 'EnemyDeleteRanges' 오브젝트 아래 콜라이더를 씁니다.")]
+    [SerializeField] private Collider[] m_clearingDeleteRanges;
 
-    [Tooltip("정리 구간이 시작되고 이 시간(초)이 지나면, 보이는지와 관계없이 남은 적을 모두 풀로 되돌려 정리를 끝냅니다. 보이는 곳에 갇힌 적 때문에 진행이 멈추는 것을 막습니다. 0이면 강제로 끝내지 않습니다.")]
+    [Tooltip("켜면 정리 구간에 NavMesh를 굽지 않는 Modifier Volume(Not Walkable 영역) 안에 있는 적도 풀로 되돌립니다.")]
+    [SerializeField] private bool m_clearingDeleteInNotWalkableVolumes = true;
+
+    [Tooltip("정리 구간에 이동·공격·경직이 아닌 채로 이 시간(초) 동안 제자리에 있는 적을 풀로 되돌립니다. 길이 막혀 멈춘 적 때문에 정리가 끝나지 않는 것을 막습니다. 0이면 회수하지 않습니다.")]
     [Min(0.0f)]
-    [SerializeField] private float m_clearingForceEndDelay = 60.0f;
+    [SerializeField] private float m_clearingIdleDespawnDelay = 8.0f;
+
+    [Tooltip("이 거리(m)보다 적게 움직였으면 제자리에 있는 것으로 봅니다.")]
+    [Min(0.0f)]
+    [SerializeField] private float m_clearingIdleMoveTolerance = 1.0f;
+
+    [Tooltip("정리 구간에 NavMesh 밖에 있는 적을 자기 스폰 지점으로 옮길 때, 스폰 지점 주변에서 NavMesh를 찾을 반경(m)입니다.")]
+    [Min(0.1f)]
+    [SerializeField] private float m_offNavMeshReturnSearchRadius = 10.0f;
 
     [Header("Defense Start Input")]
     [Tooltip("방어전 시작 전, 현재 스쿼드 조작 멤버가 Z키를 이 시간(초)만큼 누르고 있으면 방어전을 시작합니다. 실제 시간으로 셉니다. " +
@@ -228,14 +241,42 @@ public sealed class DefenseManager : CombatSceneManager
     /// <summary>이번 정리 구간에서 남은 적 끌어오기를 이미 했는지 여부입니다.</summary>
     private bool m_clearingPullApplied;
 
-    /// <summary>화면 밖 회수를 다음에 검사할 정리 경과 시간(초)입니다. 매 프레임 검사하지 않기 위해서입니다.</summary>
-    private float m_nextOffscreenCheckTime;
+    /// <summary>남은 적 검사를 다음에 할 정리 경과 시간(초)입니다. 매 프레임 검사하지 않기 위해서입니다.</summary>
+    private float m_nextClearingCheckTime;
 
     /// <summary>안전장치가 남은 적을 모을 때 쓰는 재사용 목록입니다.</summary>
     private readonly List<EnemyController> m_clearingEnemyBuffer = new List<EnemyController>();
 
-    /// <summary>화면 밖 회수를 검사하는 간격(초)입니다.</summary>
-    private const float OffscreenCheckInterval = 1.0f;
+    /// <summary>스포너 하나의 남은 적을 모을 때 쓰는 재사용 목록입니다.</summary>
+    private readonly List<EnemyController> m_spawnerEnemyBuffer = new List<EnemyController>();
+
+    /// <summary>정리 구간에서 적마다 마지막으로 움직인 기준 위치와 제자리에 있던 시간입니다.</summary>
+    private readonly Dictionary<EnemyController, IdleTrack> m_idleTracks = new Dictionary<EnemyController, IdleTrack>();
+
+    /// <summary>이번 검사에서 본 적입니다. 사라진 적의 기록을 지우는 데 씁니다.</summary>
+    private readonly HashSet<EnemyController> m_seenEnemies = new HashSet<EnemyController>();
+
+    /// <summary>지울 기록을 모으는 재사용 목록입니다. 사전을 돌면서 바로 지울 수 없어서 둡니다.</summary>
+    private readonly List<EnemyController> m_staleIdleKeys = new List<EnemyController>();
+
+    /// <summary>찾아 둔 Not Walkable Modifier Volume입니다. 처음 쓸 때 한 번 찾습니다.</summary>
+    private NavMeshModifierVolume[] m_notWalkableVolumes;
+
+    /// <summary>삭제 범위 콜라이더를 찾아 두었는지 여부입니다.</summary>
+    private bool m_clearingZonesResolved;
+
+    /// <summary>남은 적 검사 간격(초)입니다.</summary>
+    private const float ClearingCheckInterval = 1.0f;
+
+    /// <summary>인스펙터에서 비워 둔 삭제 범위를 찾을 씬 오브젝트 이름입니다.</summary>
+    private const string DefaultDeleteRangesName = "EnemyDeleteRanges";
+
+    /// <summary>제자리 판정 기록입니다.</summary>
+    private struct IdleTrack
+    {
+        public Vector3 Anchor;
+        public float IdleTime;
+    }
 
     /// <summary>마지막 웨이브를 완료하여 귀환 구역 진입만 기다리는 상태인지 여부입니다.</summary>
     private bool m_isVictoryReady;
@@ -717,15 +758,16 @@ public sealed class DefenseManager : CombatSceneManager
         m_lastShownRemainingEnemyCount = -1;
         m_clearingElapsed = 0.0f;
         m_clearingPullApplied = false;
-        m_nextOffscreenCheckTime = m_clearingOffscreenDespawnDelay;
+        m_nextClearingCheckTime = 0.0f;
+        m_idleTracks.Clear();
         EndStageCombat();
         RefreshTimerText();
     }
 
     /// <summary>남은 적이 0이 되면 정리를 끝냅니다. 그 전까지는 남은 적 수를 갱신하고 안전장치를 시간에 맞춰 적용합니다.</summary>
     /// <remarks>
-    /// 안전장치는 정리 구간 시작부터 셉니다(명세 C4). 끌어오기 → 화면 밖 회수 → 강제 종료 순서이며, 각각 0이면 꺼집니다.
-    /// 지스타 시연에서 갇힌 적 한 마리 때문에 휴식이 시작되지 않는 일을 막기 위한 장치입니다.
+    /// 안전장치는 정리 구간 시작부터 셉니다(명세 C4). 갇힌 적 한 마리 때문에 휴식이 시작되지 않는 일을 막기 위한 장치입니다.
+    /// 아직 싸우러 오는 적은 지우지 않도록, 회수는 "있으면 안 되는 범위에 있다"와 "제자리에서 아무것도 안 한다" 두 기준으로만 합니다.
     /// </remarks>
     private void UpdateClearing()
     {
@@ -751,31 +793,222 @@ public sealed class DefenseManager : CombatSceneManager
         }
     }
 
-    /// <summary>정리 경과 시간에 맞춰 끌어오기, 화면 밖 회수, 강제 종료를 적용합니다.</summary>
+    /// <summary>
+    /// 정리 경과 시간에 맞춰 끌어오기를 하고, 1초마다 남은 적을 검사합니다.
+    /// </summary>
+    /// <remarks>
+    /// 검사 순서는 다음과 같습니다.
+    /// 1. 삭제 범위(<see cref="m_clearingDeleteRanges"/>)나 Not Walkable Modifier Volume 안에 있는 적을 회수합니다.
+    /// 2. NavMesh 밖에 있는 적은 자기 스폰 지점 주변 NavMesh로 옮깁니다. 거기서 다시 경로를 따라옵니다.
+    /// 3. 이동·공격·경직이 아닌 채로 <see cref="m_clearingIdleDespawnDelay"/>초 동안 제자리에 있는 적을 회수합니다.
+    /// </remarks>
     private void ApplyClearingSafety()
     {
-        if (m_clearingForceEndDelay > 0.0f && m_clearingElapsed >= m_clearingForceEndDelay)
-        {
-            int despawned = DespawnRemainingEnemies(null, "강제 종료");
-            Debug.LogWarning($"[DefenseManager] 정리 구간이 {m_clearingForceEndDelay:0}초를 넘어 남은 적 {despawned}마리를 회수하고 정리를 끝냅니다.", this);
-            return;
-        }
-
         if (!m_clearingPullApplied && m_clearingPullDelay > 0.0f && m_clearingElapsed >= m_clearingPullDelay)
         {
             m_clearingPullApplied = true;
             PullRemainingEnemiesToPlayer();
         }
 
-        if (m_clearingOffscreenDespawnDelay > 0.0f && m_clearingElapsed >= m_nextOffscreenCheckTime)
+        if (m_clearingElapsed < m_nextClearingCheckTime)
         {
-            m_nextOffscreenCheckTime = m_clearingElapsed + OffscreenCheckInterval;
-            Camera viewCamera = Camera.main;
-            if (viewCamera != null)
+            return;
+        }
+
+        float elapsedSinceCheck = m_nextClearingCheckTime > 0.0f
+            ? m_clearingElapsed - (m_nextClearingCheckTime - ClearingCheckInterval)
+            : 0.0f;
+        m_nextClearingCheckTime = m_clearingElapsed + ClearingCheckInterval;
+
+        ResolveClearingZones();
+        DespawnRemainingEnemies(IsInsideClearingZone, "삭제 범위");
+        ReturnOffNavMeshEnemiesToSpawn();
+        UpdateIdleTracks(elapsedSinceCheck);
+        if (m_clearingIdleDespawnDelay > 0.0f)
+        {
+            DespawnRemainingEnemies(IsIdleTooLong, $"{m_clearingIdleDespawnDelay:0.#}초 이상 제자리");
+        }
+    }
+
+    /// <summary>비워 둔 삭제 범위와 Not Walkable Modifier Volume을 처음 한 번 찾습니다.</summary>
+    private void ResolveClearingZones()
+    {
+        if (m_clearingZonesResolved)
+        {
+            return;
+        }
+
+        m_clearingZonesResolved = true;
+        if (m_clearingDeleteRanges == null || m_clearingDeleteRanges.Length == 0)
+        {
+            GameObject rangesRoot = GameObject.Find(DefaultDeleteRangesName);
+            m_clearingDeleteRanges = rangesRoot != null
+                ? rangesRoot.GetComponentsInChildren<Collider>(true)
+                : Array.Empty<Collider>();
+            if (rangesRoot == null)
             {
-                DespawnRemainingEnemies(enemy => !IsVisibleToCamera(viewCamera, enemy.transform.position), "화면 밖 회수");
+                Debug.LogWarning($"[DefenseManager] 삭제 범위가 비어 있고 씬에 '{DefaultDeleteRangesName}' 오브젝트도 없어 범위 회수는 Modifier Volume만 씁니다.", this);
             }
         }
+
+        if (!m_clearingDeleteInNotWalkableVolumes)
+        {
+            m_notWalkableVolumes = Array.Empty<NavMeshModifierVolume>();
+            return;
+        }
+
+        int notWalkable = NavMesh.GetAreaFromName("Not Walkable");
+        var volumes = new List<NavMeshModifierVolume>();
+        foreach (NavMeshModifierVolume volume in FindObjectsByType<NavMeshModifierVolume>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+        {
+            if (volume.isActiveAndEnabled && volume.area == notWalkable)
+            {
+                volumes.Add(volume);
+            }
+        }
+
+        m_notWalkableVolumes = volumes.ToArray();
+    }
+
+    /// <summary>적이 삭제 범위나 Not Walkable Modifier Volume 안에 있는지 확인합니다.</summary>
+    private bool IsInsideClearingZone(EnemyController enemy)
+    {
+        Vector3 position = enemy.transform.position;
+        for (int i = 0; i < m_clearingDeleteRanges.Length; i++)
+        {
+            Collider range = m_clearingDeleteRanges[i];
+            if (range != null && range.enabled && range.gameObject.activeInHierarchy
+                && (range.ClosestPoint(position) - position).sqrMagnitude < 0.0001f)
+            {
+                return true;
+            }
+        }
+
+        for (int i = 0; i < m_notWalkableVolumes.Length; i++)
+        {
+            NavMeshModifierVolume volume = m_notWalkableVolumes[i];
+            if (volume == null)
+            {
+                continue;
+            }
+
+            // 볼륨은 자기 트랜스폼 기준 상자입니다. 회전한 볼륨도 있으므로 로컬 좌표로 바꿔 비교합니다.
+            Vector3 local = volume.transform.InverseTransformPoint(position) - volume.center;
+            Vector3 half = volume.size * 0.5f;
+            if (Mathf.Abs(local.x) <= half.x && Mathf.Abs(local.y) <= half.y && Mathf.Abs(local.z) <= half.z)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>NavMesh 밖에 있는 적을 자기 스폰 지점 주변 NavMesh로 옮깁니다.</summary>
+    /// <remarks>
+    /// NavMesh 밖에 있는 적은 경로를 잡지 못해 제자리에 서 있습니다. 끌어오기로도 풀리지 않으므로 스폰 지점에서 다시 출발시킵니다.
+    /// 경직 중(에이전트 위치 갱신이 꺼진 상태)인 적은 경직이 끝난 뒤 스스로 NavMesh로 돌아오므로 건드리지 않습니다.
+    /// </remarks>
+    private void ReturnOffNavMeshEnemiesToSpawn()
+    {
+        if (m_spawnPoints == null)
+        {
+            return;
+        }
+
+        for (int i = 0; i < m_spawnPoints.Count; i++)
+        {
+            EnemyDefenseSpawnPoint spawnPoint = m_spawnPoints[i];
+            if (spawnPoint == null)
+            {
+                continue;
+            }
+
+            m_spawnerEnemyBuffer.Clear();
+            spawnPoint.CollectLiveEnemies(m_spawnerEnemyBuffer);
+            for (int j = 0; j < m_spawnerEnemyBuffer.Count; j++)
+            {
+                EnemyController enemy = m_spawnerEnemyBuffer[j];
+                NavMeshAgent agent = enemy.Agent;
+                if (agent == null || !agent.enabled || agent.isOnNavMesh || enemy.IsStaggered)
+                {
+                    continue;
+                }
+
+                Vector3 from = enemy.transform.position;
+                if (!NavMesh.SamplePosition(spawnPoint.transform.position, out NavMeshHit hit, m_offNavMeshReturnSearchRadius, NavMesh.AllAreas))
+                {
+                    Debug.LogWarning($"[DefenseManager] '{enemy.name}'이 NavMesh 밖({from.x:0.#}, {from.y:0.#}, {from.z:0.#})에 있지만 스폰 지점 '{spawnPoint.name}' 주변 {m_offNavMeshReturnSearchRadius:0.#}m 안에 NavMesh가 없어 옮기지 못했습니다.", this);
+                    continue;
+                }
+
+                agent.Warp(hit.position);
+                m_idleTracks.Remove(enemy);
+                Debug.LogWarning($"[DefenseManager] 정리 안전장치: '{enemy.name}'이 NavMesh 밖({from.x:0.#}, {from.y:0.#}, {from.z:0.#})에 있어 스폰 지점 '{spawnPoint.name}'으로 옮겼습니다.", this);
+            }
+        }
+
+        m_spawnerEnemyBuffer.Clear();
+    }
+
+    /// <summary>
+    /// 남은 적마다 제자리에 있던 시간을 갱신합니다. 기준 위치에서 허용 거리 넘게 움직였거나, 공격·경직 중이면 0으로 되돌립니다.
+    /// </summary>
+    /// <param name="elapsed">직전 검사 뒤 지난 시간(초)입니다.</param>
+    private void UpdateIdleTracks(float elapsed)
+    {
+        CollectRemainingEnemies();
+        m_seenEnemies.Clear();
+        float toleranceSqr = m_clearingIdleMoveTolerance * m_clearingIdleMoveTolerance;
+
+        for (int i = 0; i < m_clearingEnemyBuffer.Count; i++)
+        {
+            EnemyController enemy = m_clearingEnemyBuffer[i];
+            m_seenEnemies.Add(enemy);
+            Vector3 position = enemy.transform.position;
+
+            if (!m_idleTracks.TryGetValue(enemy, out IdleTrack track) || IsBusy(enemy)
+                || (position - track.Anchor).sqrMagnitude > toleranceSqr)
+            {
+                m_idleTracks[enemy] = new IdleTrack { Anchor = position, IdleTime = 0.0f };
+                continue;
+            }
+
+            track.IdleTime += elapsed;
+            m_idleTracks[enemy] = track;
+        }
+
+        m_clearingEnemyBuffer.Clear();
+
+        // 처치·회수된 적의 기록은 지웁니다. 풀에서 다시 나온 같은 적이 이전 기록을 이어받지 않게 합니다.
+        m_staleIdleKeys.Clear();
+        foreach (EnemyController enemy in m_idleTracks.Keys)
+        {
+            if (!m_seenEnemies.Contains(enemy))
+            {
+                m_staleIdleKeys.Add(enemy);
+            }
+        }
+
+        for (int i = 0; i < m_staleIdleKeys.Count; i++)
+        {
+            m_idleTracks.Remove(m_staleIdleKeys[i]);
+        }
+    }
+
+    /// <summary>공격하거나, 정문 공격 대기 줄에 섰거나, 경직 중이라 제자리에 있어도 멈춘 것으로 보지 않는 적인지 확인합니다.</summary>
+    /// <remarks>
+    /// 대기 줄의 앞자리 적이 정말 막혀 있으면 그 적은 공격도 이동도 하지 않으므로 회수되고, 그 뒤 줄이 앞으로 당겨집니다.
+    /// </remarks>
+    private static bool IsBusy(EnemyController enemy)
+    {
+        return enemy.Current is AttackState || enemy.IsStaggered || enemy.IsWaitingForDefenseAttackPoint;
+    }
+
+    /// <summary>제자리 시간이 회수 기준을 넘은 적인지 확인합니다.</summary>
+    private bool IsIdleTooLong(EnemyController enemy)
+    {
+        return m_idleTracks.TryGetValue(enemy, out IdleTrack track) && track.IdleTime >= m_clearingIdleDespawnDelay;
     }
 
     /// <summary>남은 적을 모두 플레이어 우선으로 바꿔 지금 조작 중인 캐릭터 쪽으로 끌어옵니다.</summary>
@@ -841,13 +1074,6 @@ public sealed class DefenseManager : CombatSceneManager
         {
             m_spawnPoints[i]?.CollectLiveEnemies(m_clearingEnemyBuffer);
         }
-    }
-
-    /// <summary>위치가 카메라 화면 안(앞쪽)에 있는지 확인합니다. 가림은 보지 않습니다.</summary>
-    private static bool IsVisibleToCamera(Camera viewCamera, Vector3 worldPosition)
-    {
-        Vector3 viewport = viewCamera.WorldToViewportPoint(worldPosition);
-        return viewport.z > 0.0f && viewport.x >= 0.0f && viewport.x <= 1.0f && viewport.y >= 0.0f && viewport.y <= 1.0f;
     }
 
     /// <summary>적 이름과 위치를 한 줄로 만듭니다. 경고에 남겨 적이 갇히는 곳을 찾는 데 씁니다.</summary>
@@ -1085,9 +1311,8 @@ public sealed class DefenseManager : CombatSceneManager
     /// </remarks>
     private void UpdateEmptySpaceHoldStart()
     {
-        TutorialManager tutorial = TutorialManager.Instance;
         Keyboard keyboard = Keyboard.current;
-        if ((tutorial != null && tutorial.IsRunning)
+        if (IsTutorialRunning()
             || Time.timeScale <= 0.0f
             || keyboard == null
             || !HasActiveSquadStartInput()
@@ -1113,8 +1338,7 @@ public sealed class DefenseManager : CombatSceneManager
     /// </remarks>
     private void TryAutoStartMaintenance()
     {
-        TutorialManager tutorial = TutorialManager.Instance;
-        if (m_autoStartAttempted || (tutorial != null && tutorial.IsRunning))
+        if (m_autoStartAttempted || IsTutorialRunning())
         {
             return;
         }
@@ -1159,6 +1383,16 @@ public sealed class DefenseManager : CombatSceneManager
     }
 
     /// <summary>
+    /// 페이지형 튜토리얼(<see cref="TutorialManager"/>)이나 스텝형 튜토리얼(<see cref="TutorialFlowDirector"/>)이 진행 중인지 확인합니다.
+    /// </summary>
+    /// <remarks>둘 중 하나라도 진행 중이면 시작 홀드, 자동 시작, 시작 안내 창을 튜토리얼에 양보합니다.</remarks>
+    private static bool IsTutorialRunning()
+    {
+        TutorialManager tutorial = TutorialManager.Instance;
+        return (tutorial != null && tutorial.IsRunning) || TutorialFlowDirector.IsAnyRunning;
+    }
+
+    /// <summary>
     /// 현재 스쿼드가 직접 조작 중이고 입력을 받는 멤버가 있는지 확인합니다.
     /// </summary>
     /// <remarks>
@@ -1195,8 +1429,7 @@ public sealed class DefenseManager : CombatSceneManager
             }
         }
 
-        TutorialManager tutorial = TutorialManager.Instance;
-        bool tutorialRunning = tutorial != null && tutorial.IsRunning;
+        bool tutorialRunning = IsTutorialRunning();
 
         // 기본 모드는 시작 전에, 정비 시작 모드는 정비 구간마다 띄웁니다(정비 건너뛰기 안내).
         bool showPrompt = IsStartHoldAvailable && !tutorialRunning;
@@ -1637,8 +1870,9 @@ public sealed class DefenseManager : CombatSceneManager
         m_restDuration = Mathf.Max(0.01f, m_restDuration);
         m_maxActiveEnemies = Mathf.Max(1, m_maxActiveEnemies);
         m_clearingPullDelay = Mathf.Max(0.0f, m_clearingPullDelay);
-        m_clearingOffscreenDespawnDelay = Mathf.Max(0.0f, m_clearingOffscreenDespawnDelay);
-        m_clearingForceEndDelay = Mathf.Max(0.0f, m_clearingForceEndDelay);
+        m_clearingIdleDespawnDelay = Mathf.Max(0.0f, m_clearingIdleDespawnDelay);
+        m_clearingIdleMoveTolerance = Mathf.Max(0.0f, m_clearingIdleMoveTolerance);
+        m_offNavMeshReturnSearchRadius = Mathf.Max(0.1f, m_offNavMeshReturnSearchRadius);
         m_waveStartMessageHoldDuration = Mathf.Max(0.0f, m_waveStartMessageHoldDuration);
         m_waveStartMessageFadeDuration = Mathf.Max(0.0f, m_waveStartMessageFadeDuration);
         m_emptySpaceHoldStartDuration = Mathf.Max(0.01f, m_emptySpaceHoldStartDuration);

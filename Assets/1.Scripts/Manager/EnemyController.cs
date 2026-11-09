@@ -311,6 +311,12 @@ public class EnemyController : MonoBehaviour, IKnockbackReceiver
 
     /// <summary>현재 방어 목표 공격 상태를 실행하고 있는지 여부입니다.</summary>
     public bool IsAttackingDefenseObjective => m_defenseAttack != null && m_current == m_defenseAttack;
+
+    /// <summary>
+    /// 공격 포인트를 골랐지만 앞자리가 아니라서 대기 줄에 서 있는지 여부입니다.
+    /// </summary>
+    /// <remarks>대기 중에는 제자리에 서 있으므로, 멈춘 적을 찾는 쪽(정리 구간 안전장치)이 이 상태를 멈춤으로 보지 않게 하는 데 씁니다.</remarks>
+    public bool IsWaitingForDefenseAttackPoint => m_defenseAttackPoint != null && !m_defenseAttackPoint.IsHolder(this);
     // 각성 준비(AwakenState)는 슬라이스 2에서 추가.
     // 경직은 상태가 아니라 상태 위에 얹히는 잠금이라 여기 목록에 없습니다(§5.7). HandleStaggered 참고.
 
