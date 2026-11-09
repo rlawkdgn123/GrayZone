@@ -6,8 +6,8 @@ using UnityEngine.UI;
 /// 타이틀 메뉴 버튼(새 게임·불러오기·나가기)을 실제 동작에 연결합니다.
 /// </summary>
 /// <remarks>
-/// 버튼은 씬에 미리 배치돼 있고, 이 컴포넌트는 이름으로 찾아 onClick만 붙입니다. 설정·크레딧은 아직 띄울
-/// 화면이 없어 연결하지 않습니다.
+/// 버튼은 씬에 미리 배치돼 있고, 이 컴포넌트는 이름으로 찾아 onClick만 붙입니다. 설정은 아직 띄울 화면이 없어
+/// 연결하지 않고, 크레딧은 <see cref="TitleCreditsOverlay"/>가 맡습니다.
 ///
 /// 타이틀 씬에는 <see cref="GameSaveManager"/>가 없습니다. 그래서 불러오기는 셸터 씬을 먼저 연 뒤, 그 씬이
 /// 로드된 직후(<see cref="SceneManager.sceneLoaded"/>) 셸터 씬의 저장 관리자로 저장을 읽습니다.
