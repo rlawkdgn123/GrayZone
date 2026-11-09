@@ -1,0 +1,571 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e4d5b7a9a2e364fb2d21ca1a84f716, type: 3}
+  m_Name: TutorialSequence_Main
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialSequence
+  m_steps:
+  - m_label: "이동 튜토리얼"
+    m_lockedInputs: 0
+    m_lines:
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 1d75cdcc75a269b4886e7cf971f63008, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "아 - 아, 여기는 운영실, 방어선 근처에 소수의 감염체가 포착됐어. 처리하고 방어선 보수를 진행하자."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "여기는 나린팀. 알겠습니다. 감염체 처리부터 진행하죠."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "그럼 오른쪽 터널부터 가볼까요?"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "흠흠! 좋았어, 가보자고!!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "어머, 기분이 좋아보이시네요, 좋은 일 있으신가요??"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "흠흠, 그런 게 있어! 금방 보여줄게!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+  - m_label: "사격 튜토리얼"
+    m_lockedInputs: 0
+    m_lines:
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "적 발견. 처리할게."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+  - m_label: "투척물 튜토리얼"
+    m_lockedInputs: 0
+    m_lines:
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "저쪽에 적이 더 있어요! 조심해요."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "아까보다 적이 많네. 폭발물을 써야겠어."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+  - m_label: "캐릭터 변경 튜토리얼"
+    m_lockedInputs: 0
+    m_lines:
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "이제 남은 건 다리쪽이야. 이동하자."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "블로터들이 있어. 처리할게."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "엇 잠깐!!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "언니, 저건 내가 할래!! 보여줄 게 있거든!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+  - m_label: "스킬 튜토리얼 1"
+    m_lockedInputs: 0
+    m_lines:
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "짜잔 내가 준비한 특수탄이야!!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "후후 어때!!! 내 새 특제 탄!!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "우와 대단해요!! 특수 변이체들 처리에 좋을 것 같네요!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "효과적이네."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "히히, 그럼 그럼! 이제 돌아가자..어엇!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+  - m_label: "구조 튜토리얼 [1안]"
+    m_lockedInputs: 0
+    m_lines:
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "아야야.."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "어엇! 괜찮으세요?!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "괜찮아?? 조심해야지!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "다칠까봐 걱정했어요! 정말."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "에헤헤, 미안! 조심할게!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "다치지 않아서 다행이야. 이제 함정들 설치하고 보수하러 가자."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+  - m_label: "방어선 정비(함정, 수리) 튜토리얼"
+    m_lockedInputs: 0
+    m_lines:
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "좋아, 설치 완료했어!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "이제 정문 수리만 하고 복귀하도록 하자."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "빠르게 마무리하죠!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+  - m_label: "위치 사수 튜토리얼"
+    m_lockedInputs: 0
+    m_lines:
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 1d75cdcc75a269b4886e7cf971f63008, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "여기는 운영실! 긴급 상황이야. 특수 개체의 이상 반응으로 대규모 감염체가 몰려들고 있어. 진행 상황은?"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "여기는 나린팀. 방어선 수리만 남았습니다."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 1d75cdcc75a269b4886e7cf971f63008, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "아직 오기까지 조금 걸리는 것 같아. 빠르게 수리하고 그쪽 방어선을 지켜줘. 우린 다른 방면을 맡을게."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "확인했습니다."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "나랑 서하 선배가 같이 위치를 사수할게. 솔이는 정문을 수리해줘."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "좋아. 이제 수리한다?! 빨리 해볼게!!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "침착하게 해도 돼. 우리가 지켜줄게."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "확실하게 지켜드릴게요!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "생각보다 손상이 크지 않아. 금방 끝났어!!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "좋아. 이제 같이 적을 처리하자. 잘 해낼 수 있을거야."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "해보자구요!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_targetId: 
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2

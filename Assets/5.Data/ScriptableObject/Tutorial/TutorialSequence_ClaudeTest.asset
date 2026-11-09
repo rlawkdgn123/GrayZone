@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e4d5b7a9a2e364fb2d21ca1a84f716, type: 3}
+  m_Name: TutorialSequence_ClaudeTest
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialSequence
+  m_steps:
+  - m_label: "\uC785\uB825 \uB300\uC0AC \uD655\uC778"
+    m_lockedInputs: 0
+    m_lines:
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: fa16a7b9b135b5748a5b984be5039028, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "[\uD14C\uC2A4\uD2B8] \uC785\uB825 \uB300\uC0AC 1. \uD074\uB9AD\uC774\uB098
+          Space\uB85C \uB118\uACA8."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_condition: 0
+      m_seconds: 0
+      m_actions: []
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: a55c7497ba968c5459b0a6ed9a1d9b44, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "[\uD14C\uC2A4\uD2B8] \uC785\uB825 \uB300\uC0AC 2. \uB9D0\uD48D\uC120\uC5D0\uB294
+          \uC9E7\uC740 \uBB38\uAD6C\uAC00 \uB530\uB85C \uB5A0."
+        m_bubbleText: "[\uD14C\uC2A4\uD2B8] \uC9E7\uC740 \uBB38\uAD6C!"
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_condition: 0
+      m_seconds: 0
+      m_actions: []
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 8d0183333193b184982890475792c01b, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "[\uD14C\uC2A4\uD2B8] \uC258\uD130 \uB9AC\uB354 \uB300\uC0AC\uC57C.
+          \uAE30\uC9C0 NPC\uB77C \uB9D0\uD48D\uC120 \uC5C6\uC774 \uB300\uD654\uCC3D\uB9CC
+          \uB728\uACE0, \uB300\uC0AC\uAC00 \uAE38\uBA74 \uC774\uB807\uAC8C \uC544\uB798\uB85C
+          \uC904\uC774 \uBC14\uB00C\uBA74\uC11C \uBC30\uACBD \uB760\uB3C4 \uAC19\uC774
+          \uB298\uC5B4\uB098."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_condition: 0
+      m_seconds: 0
+      m_actions: []
+  - m_label: "\uC870\uAC74\uACFC \uC774\uBCA4\uD2B8 \uD655\uC778"
+    m_lockedInputs: 0
+    m_lines:
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 44399657a1862064cb5e3d9b7405fc17, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "[\uD14C\uC2A4\uD2B8] \uC774 \uC904\uC740 \uB72C \uB4A4 3\uCD08\uAC00
+          \uC9C0\uB098\uC57C \uB118\uC5B4\uAC00. \uB118\uC5B4\uAC00\uBA74 \uBBF8\uC158
+          \uBAA9\uD45C\uAC00 \uBC14\uB00C\uC5B4."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 0
+      m_condition: 1
+      m_seconds: 3
+      m_actions:
+      - m_timing: 1
+        m_method: SetObjective
+        m_args:
+        - m_string: "[\uD14C\uC2A4\uD2B8] \uBAA9\uD45C\uAC00 \uBC14\uB00C\uC5C8\uC2B5\uB2C8\uB2E4"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_object: {fileID: 0}
+        - m_string: "[\uD14C\uC2A4\uD2B8] \uB300\uC0AC\uAC00 \uB05D\uB098\uBA74 \uBBF8\uC158
+            \uBAA9\uD45C\uAC00 \uBC14\uB01D\uB2C8\uB2E4"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_object: {fileID: 0}
+    - m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 0
+      m_condition: 1
+      m_seconds: 1
+      m_actions: []
+    - m_dialogue:
+        m_speaker: {fileID: 11400000, guid: fa16a7b9b135b5748a5b984be5039028, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "[\uD14C\uC2A4\uD2B8] \uC9E7\uC740 \uB300\uC0AC."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_condition: 0
+      m_seconds: 0
+      m_actions: []

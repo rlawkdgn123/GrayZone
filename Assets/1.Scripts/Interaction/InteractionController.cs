@@ -99,6 +99,9 @@ public class InteractionController : MonoBehaviour
     /// <summary>현재 상호작용 대상이 바뀔 때 발생합니다(없어지면 <c>null</c>). UI 프롬프트 갱신에 사용합니다.</summary>
     public event Action<IInteractable> OnCurrentChanged;
 
+    /// <summary>어느 멤버든 상호작용을 실행했을 때 (대상, 실행한 멤버)로 발생합니다. 튜토리얼의 상호작용 완료 조건에 사용합니다.</summary>
+    public static event Action<IInteractable, GameObject> OnAnyInteracted;
+
     /// <summary>상호작용 대상 탐지가 멈춰 있는지 여부입니다.</summary>
     public static bool IsTargetingSuppressed => s_targetingSuppressed;
 
@@ -572,6 +575,7 @@ public class InteractionController : MonoBehaviour
 
         IInteractable target = m_current;
         target.Interact(gameObject);
+        OnAnyInteracted?.Invoke(target, gameObject);
 
         if (m_debugLog)
         {
