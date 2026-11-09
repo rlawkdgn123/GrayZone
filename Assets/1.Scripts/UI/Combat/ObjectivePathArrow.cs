@@ -85,6 +85,17 @@ public sealed class ObjectivePathArrow : MonoBehaviour
     [Tooltip("경로 선을 바닥에서 띄울 높이(m)입니다.")]
     [SerializeField] private float m_pathLineHeight = 0.1f;
 
+    [Tooltip("경로 선에 쓸 머티리얼입니다. 비워 두면 Path Line Color 단색으로 그립니다. 넣으면 복사본을 만들어 쓰므로 " +
+             "에셋 자체는 바뀌지 않습니다. 텍스처는 선 길이 방향(U)으로 펼쳐지고, 반복하려면 텍스처 Wrap Mode가 Repeat여야 합니다.")]
+    [SerializeField] private Material m_pathLineMaterialOverride;
+
+    [Tooltip("머티리얼 텍스처 한 장이 차지할 선 길이(m)입니다. Tile 방식으로 이 길이마다 반복합니다.")]
+    [Min(0.01f)]
+    [SerializeField] private float m_pathLineTileLength = 0.5f;
+
+    [Tooltip("텍스처가 목표 쪽으로 흐르는 속도(초당 장 수)입니다. 0이면 멈춰 있습니다.")]
+    [SerializeField] private float m_pathLineScrollSpeed = 1.0f;
+
     [Tooltip("바닥 높이를 확인할 간격(m)입니다. 작을수록 굴곡을 잘 따라가지만 확인 횟수가 늘어납니다.")]
     [Min(0.1f)]
     [SerializeField] private float m_groundSampleSpacing = 0.5f;
@@ -92,6 +103,22 @@ public sealed class ObjectivePathArrow : MonoBehaviour
     [Tooltip("선 점마다 NavMesh 바닥을 찾아볼 반경(m)입니다. 못 찾으면 꺾임점을 이은 높이를 그대로 씁니다.")]
     [Min(0.1f)]
     [SerializeField] private float m_groundSnapRadius = 1.0f;
+
+    [Tooltip("켜면 경로 선의 꺾이는 곳을 2차 베지어 곡선으로 휘게 그립니다. 화살표 방향 계산에는 영향이 없습니다.")]
+    [SerializeField] private bool m_smoothCorners = true;
+
+    [Tooltip("꺾임점에서 이 거리(m)만큼 앞에서 곡선을 시작해 뒤에서 끝냅니다. 앞뒤 구간 길이의 절반을 넘으면 그만큼 줄여 씁니다.")]
+    [Min(0.05f)]
+    [SerializeField] private float m_cornerRadius = 2.5f;
+
+    [Tooltip("꺾이는 곳 곡선 하나를 나눌 점 개수입니다. 많을수록 매끄럽습니다.")]
+    [Range(2, 32)]
+    [SerializeField] private int m_cornerSegments = 12;
+
+    [Tooltip("곡선을 켰을 때, 이 거리(m)보다 가까운 꺾임점은 가운데 한 점으로 합쳐서 그립니다. " +
+             "벽 모서리처럼 꺾임점이 몰린 곳에서 곡선이 너무 작아지지 않게 합니다.")]
+    [Min(0.0f)]
+    [SerializeField] private float m_cornerMergeDistance = 1.0f;
 
     /// <summary>경로 계산 결과를 받는 버퍼입니다. 매번 새로 만들지 않으려고 재사용합니다.</summary>
     private NavMeshPath m_path;
@@ -101,6 +128,10 @@ public sealed class ObjectivePathArrow : MonoBehaviour
 
     /// <summary>마지막으로 계산한 경로의 꺾임점입니다. 경로가 없으면 비어 있습니다.</summary>
     private Vector3[] m_corners = new Vector3[0];
+
+    /// <summary>선을 그릴 때 쓰는 꺾임점입니다. 곡선을 켜면 가까운 꺾임점을 합친 결과입니다.</summary>
+    private Vector3[] m_lineCorners = new Vector3[0];
+    private readonly System.Collections.Generic.List<Vector3> m_lineCornerBuffer = new System.Collections.Generic.List<Vector3>();
 
     private bool m_hasPath;
     private float m_remainingPathLength;
@@ -119,6 +150,12 @@ public sealed class ObjectivePathArrow : MonoBehaviour
 
     /// <summary>경로 선에 넘길 점입니다. 캐릭터에서 첫 꺾임점까지의 점 + <see cref="m_groundedTail"/>입니다.</summary>
     private readonly System.Collections.Generic.List<Vector3> m_linePoints = new System.Collections.Generic.List<Vector3>();
+
+    /// <summary>
+    /// 곡선을 켰을 때 <see cref="m_groundedTail"/>이 이어지는 시작점입니다. 매 프레임 만드는 앞부분은 여기까지 그립니다.
+    /// 둘째 꺾임점의 곡선 시작점이고, 꺾임점이 셋뿐이면 마지막 꺾임점입니다.
+    /// </summary>
+    private Vector3 m_tailStart;
 
     /// <summary>표시할 목표를 바꿉니다. null이면 화살표를 숨깁니다.</summary>
     public void SetTarget(Transform target)
@@ -359,6 +396,21 @@ public sealed class ObjectivePathArrow : MonoBehaviour
         m_pathLine.endColor = m_pathLineColor;
         m_pathLine.positionCount = 0;
 
+        // 텍스처는 선 길이 방향으로 Tile 반복합니다. 단색이면 결과가 같습니다. textureScale.x는 1m당 반복 횟수입니다.
+        m_pathLine.textureMode = LineTextureMode.Tile;
+        m_pathLine.textureScale = new Vector2(1.0f / m_pathLineTileLength, 1.0f);
+
+        if (m_pathLineMaterialOverride != null)
+        {
+            // 흐름 연출로 텍스처 오프셋을 매 프레임 바꾸므로 에셋이 아니라 복사본에 씁니다.
+            m_pathLineMaterial = new Material(m_pathLineMaterialOverride)
+            {
+                hideFlags = HideFlags.HideAndDontSave
+            };
+            m_pathLine.sharedMaterial = m_pathLineMaterial;
+            return;
+        }
+
         Shader lineShader = Shader.Find("Universal Render Pipeline/Unlit");
         if (lineShader != null)
         {
@@ -378,11 +430,95 @@ public sealed class ObjectivePathArrow : MonoBehaviour
     /// </remarks>
     private void BuildGroundedTail()
     {
+        BuildLineCorners();
+
         // 첫 구간(캐릭터 → 첫 꺾임점)은 캐릭터가 움직이므로 매 프레임 따로 만듭니다. 여기서는 첫 꺾임점 다음부터 만듭니다.
         m_groundedTail.Clear();
-        for (int i = 2; i < m_corners.Length; i++)
+        if (!m_smoothCorners)
         {
-            AppendGroundedSegment(m_groundedTail, m_corners[i - 1], m_corners[i], false);
+            for (int i = 2; i < m_lineCorners.Length; i++)
+            {
+                AppendGroundedSegment(m_groundedTail, m_lineCorners[i - 1], m_lineCorners[i], false);
+            }
+
+            return;
+        }
+
+        // 곡선을 켜면 첫 꺾임점의 곡선도 캐릭터 위치에 따라 바뀌어 매 프레임 만듭니다. 여기서는 둘째 꺾임점의 곡선부터 만듭니다.
+        int last = m_lineCorners.Length - 1;
+        if (last < 3)
+        {
+            m_tailStart = m_lineCorners[last];
+            return;
+        }
+
+        Vector3 previousEnd = Vector3.zero;
+        for (int i = 2; i < last; i++)
+        {
+            float radius = CornerRadius(m_lineCorners[i - 1], m_lineCorners[i], m_lineCorners[i + 1]);
+            Vector3 curveStart = Vector3.MoveTowards(m_lineCorners[i], m_lineCorners[i - 1], radius);
+            Vector3 curveEnd = Vector3.MoveTowards(m_lineCorners[i], m_lineCorners[i + 1], radius);
+            if (i == 2)
+            {
+                m_tailStart = curveStart;
+            }
+            else
+            {
+                AppendGroundedSegment(m_groundedTail, previousEnd, curveStart, false);
+            }
+
+            AppendGroundedCurve(m_groundedTail, curveStart, m_lineCorners[i], curveEnd);
+            previousEnd = curveEnd;
+        }
+
+        AppendGroundedSegment(m_groundedTail, previousEnd, m_lineCorners[last], false);
+    }
+
+    /// <summary>선을 그릴 꺾임점을 만듭니다. 곡선을 켜면 서로 가까운 꺾임점을 가운데 한 점으로 합칩니다.</summary>
+    /// <remarks>
+    /// NavMesh는 벽 모서리를 돌 때 1m도 안 되는 간격으로 꺾임점을 여러 개 찍습니다. 곡선 반경은 앞뒤 구간 길이의 절반을
+    /// 넘지 못하므로, 그대로 쓰면 그런 곳에서 반경이 수십 cm로 줄어 꺾임이 각지게 남습니다. 시작점과 목표는 합치지 않고,
+    /// 화살표 방향은 합치기 전 꺾임점(<see cref="m_corners"/>)으로 계산합니다.
+    /// </remarks>
+    private void BuildLineCorners()
+    {
+        m_lineCornerBuffer.Clear();
+        int last = m_corners.Length - 1;
+        for (int i = 0; i <= last; i++)
+        {
+            Vector3 corner = m_corners[i];
+            int keptCount = m_lineCornerBuffer.Count;
+            bool canMerge = m_smoothCorners && i > 0 && i < last && keptCount > 1;
+            if (canMerge && HorizontalDistance(m_lineCornerBuffer[keptCount - 1], corner) < m_cornerMergeDistance)
+            {
+                m_lineCornerBuffer[keptCount - 1] = (m_lineCornerBuffer[keptCount - 1] + corner) * 0.5f;
+                continue;
+            }
+
+            m_lineCornerBuffer.Add(corner);
+        }
+
+        m_lineCorners = m_lineCornerBuffer.ToArray();
+    }
+
+    /// <summary>꺾임점에서 곡선을 시작할 거리입니다. 곡선끼리 겹치지 않게 앞뒤 구간 길이의 절반을 넘지 않습니다.</summary>
+    private float CornerRadius(Vector3 previous, Vector3 corner, Vector3 next)
+    {
+        return Mathf.Min(
+            m_cornerRadius,
+            HorizontalDistance(previous, corner) * 0.5f,
+            HorizontalDistance(corner, next) * 0.5f);
+    }
+
+    /// <summary>a에서 b까지 control을 조절점으로 하는 2차 베지어 곡선을 나눠 바닥에 붙여 넣습니다. a는 넣지 않습니다.</summary>
+    /// <remarks>조절점을 꺾임점에 두므로 곡선은 a에서 들어오는 구간, b에서 나가는 구간과 같은 방향으로 이어집니다.</remarks>
+    private void AppendGroundedCurve(System.Collections.Generic.List<Vector3> points, Vector3 a, Vector3 control, Vector3 b)
+    {
+        for (int k = 1; k <= m_cornerSegments; k++)
+        {
+            float t = k / (float)m_cornerSegments;
+            float u = 1.0f - t;
+            points.Add(SnapToGround(u * u * a + 2.0f * u * t * control + t * t * b));
         }
     }
 
@@ -432,8 +568,34 @@ public sealed class ObjectivePathArrow : MonoBehaviour
 
         // 경로의 첫 점은 계산할 때의 캐릭터 위치라 그 뒤 움직인 만큼 어긋납니다. 첫 구간만 지금 캐릭터 위치로 다시 만듭니다.
         m_linePoints.Clear();
-        AppendGroundedSegment(m_linePoints, originPosition, m_corners[1], true);
+        if (m_smoothCorners && m_lineCorners.Length >= 3)
+        {
+            // 캐릭터 → 첫 꺾임점 곡선 → 뒷부분 시작점까지입니다. 곡선 크기가 캐릭터와 첫 꺾임점 사이 거리에 따라 달라집니다.
+            Vector3 corner = m_lineCorners[1];
+            float radius = CornerRadius(originPosition, corner, m_lineCorners[2]);
+            Vector3 curveStart = Vector3.MoveTowards(corner, originPosition, radius);
+            Vector3 curveEnd = Vector3.MoveTowards(corner, m_lineCorners[2], radius);
+            AppendGroundedSegment(m_linePoints, originPosition, curveStart, true);
+            AppendGroundedCurve(m_linePoints, curveStart, corner, curveEnd);
+            if (HorizontalDistance(curveEnd, m_tailStart) > 0.01f)
+            {
+                AppendGroundedSegment(m_linePoints, curveEnd, m_tailStart, false);
+            }
+        }
+        else
+        {
+            AppendGroundedSegment(m_linePoints, originPosition, m_lineCorners[1], true);
+        }
+
         m_linePoints.AddRange(m_groundedTail);
+
+        // 텍스처 U는 캐릭터에서 목표 쪽으로 커집니다. 오프셋을 줄이면 무늬가 목표 쪽으로 흐릅니다.
+        if (m_pathLineMaterialOverride != null && m_pathLineMaterial != null && m_pathLineScrollSpeed != 0.0f)
+        {
+            Vector2 offset = m_pathLineMaterial.mainTextureOffset;
+            offset.x = Mathf.Repeat(offset.x - m_pathLineScrollSpeed * Time.deltaTime, 1.0f);
+            m_pathLineMaterial.mainTextureOffset = offset;
+        }
 
         m_pathLine.positionCount = m_linePoints.Count;
         for (int i = 0; i < m_linePoints.Count; i++)
