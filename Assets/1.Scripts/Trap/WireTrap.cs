@@ -29,6 +29,10 @@ public class WireTrap : Trap
     /// <inheritdoc />
     protected override TrapKind CostKind => TrapKind.Wire;
 
+    /// <inheritdoc />
+    /// <remarks>철조망과 스파이크(파생)는 적이 지날 때마다 내구도가 닳으므로 설치된 채로 수리할 수 있습니다.</remarks>
+    protected override bool IsRepairable => true;
+
     /// <summary>범위 안에 있는 대상 하나의 상태입니다.</summary>
     private struct Occupant
     {

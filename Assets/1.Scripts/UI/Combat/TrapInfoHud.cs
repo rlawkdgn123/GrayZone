@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 조작 대원이 설치 가능한 함정을 바라보고 있을 때 함정 이름·설치 비용·설명과 F 홀드 진행도를 표시합니다.
+/// 조작 대원이 설치하거나 수리할 수 있는 함정을 바라보고 있을 때 함정 이름·동작(설치/수리)과 비용·설명과 F 홀드 진행도를 표시합니다.
 /// </summary>
 /// <remarks>
 /// 구조 HUD(<see cref="ReviveHudController"/>)와 같은 방식입니다. 레이아웃은 씬에 미리 배치돼 있고(Figma
@@ -30,6 +30,12 @@ public sealed class TrapInfoHud : MonoBehaviour
 
     [Tooltip("설치 비용 아이콘입니다. 비용이 없는 함정이면 숨깁니다. 선택 사항입니다.")]
     [SerializeField] private GameObject m_costIcon;
+
+    [Tooltip("비용 줄 맨 앞(아이콘 왼쪽)에 \"설치\"/\"수리\"를 표시할 텍스트입니다. 비워 두면 실행할 때 비용 텍스트를 복제해 비용 줄 맨 앞에 만듭니다.")]
+    [SerializeField] private TMP_Text m_actionText;
+
+    [Tooltip("실행할 때 만든 동작 텍스트(설치/수리)의 색입니다. 직접 지정한 동작 텍스트에는 적용하지 않습니다.")]
+    [SerializeField] private Color m_actionTextColor = Color.white;
 
     [Tooltip("함정 설명 텍스트입니다.")]
     [SerializeField] private TMP_Text m_descriptionText;
@@ -112,9 +118,59 @@ public sealed class TrapInfoHud : MonoBehaviour
             m_defaultCostIconSprite = m_costIconImage != null ? m_costIconImage.sprite : null;
         }
 
+        EnsureActionText();
         CacheBaseHeights();
         CreateFocusOutline();
         SetVisible(false);
+    }
+
+    /// <summary>동작 텍스트(설치/수리)가 비어 있으면 비용 텍스트를 복제해 비용 줄 맨 앞에 만듭니다.</summary>
+    /// <remarks>
+    /// 비용 줄은 가로 레이아웃이라 맨 앞 자식으로 넣으면 아이콘과 비용이 알아서 오른쪽으로 밀립니다.
+    /// 씬마다 텍스트를 배치하지 않아도 같은 모양이 나오게 하려는 것입니다.
+    /// </remarks>
+    private void EnsureActionText()
+    {
+        if (m_actionText != null || m_costText == null)
+        {
+            return;
+        }
+
+        Transform row = m_costText.transform.parent;
+        m_actionText = Instantiate(m_costText, row);
+        m_actionText.name = "Action";
+        m_actionText.color = m_actionTextColor;
+        m_actionText.text = string.Empty;
+        m_actionText.transform.SetSiblingIndex(m_costIcon != null && m_costIcon.transform.parent == row
+            ? m_costIcon.transform.GetSiblingIndex()
+            : m_costText.transform.GetSiblingIndex());
+    }
+
+    /// <summary>동작 텍스트를 바꾸고 폭을 글자에 맞춥니다. 비어 있으면 숨깁니다.</summary>
+    private void SetActionLabel(string label)
+    {
+        if (m_actionText == null)
+        {
+            return;
+        }
+
+        bool show = !string.IsNullOrEmpty(label);
+        if (m_actionText.gameObject.activeSelf != show)
+        {
+            m_actionText.gameObject.SetActive(show);
+        }
+
+        if (!show || m_actionText.text == label)
+        {
+            return;
+        }
+
+        m_actionText.text = label;
+
+        // 가로 레이아웃이 자식 폭을 직접 정하지 않는 설정이어도 글자 폭만큼만 차지하게 맞춥니다.
+        RectTransform rect = m_actionText.rectTransform;
+        float width = Mathf.Ceil(m_actionText.GetPreferredValues(label).x);
+        rect.sizeDelta = new Vector2(width, rect.sizeDelta.y);
     }
 
     private void CacheBaseHeights()
@@ -219,7 +275,8 @@ public sealed class TrapInfoHud : MonoBehaviour
             ApplyInfo(info);
         }
 
-        // 자원과 설명(남은 체력 등)은 보고 있는 동안에도 바뀔 수 있어 매 프레임 맞춥니다.
+        // 이름(남은 내구도), 자원, 설명(남은 체력 등)은 보고 있는 동안에도 바뀔 수 있어 매 프레임 맞춥니다.
+        RefreshName(info);
         RefreshDescription(info);
         RefreshCost(info);
 
@@ -257,11 +314,6 @@ public sealed class TrapInfoHud : MonoBehaviour
 
     private void ApplyInfo(IInteractionHudInfo info)
     {
-        if (m_nameText != null)
-        {
-            m_nameText.text = info.HudDisplayName;
-        }
-
         if (m_costIconImage != null)
         {
             Sprite icon = info.HudCostIcon != null ? info.HudCostIcon : m_defaultCostIconSprite;
@@ -269,6 +321,20 @@ public sealed class TrapInfoHud : MonoBehaviour
             {
                 m_costIconImage.sprite = icon;
             }
+        }
+    }
+
+    private void RefreshName(IInteractionHudInfo info)
+    {
+        if (m_nameText == null)
+        {
+            return;
+        }
+
+        string text = info.HudDisplayName;
+        if (m_nameText.text != text)
+        {
+            m_nameText.text = text;
         }
     }
 
@@ -290,6 +356,8 @@ public sealed class TrapInfoHud : MonoBehaviour
     /// <summary>비용 줄을 갱신합니다. 자원이 모자라면 비용 옆에 빨간 경고 문구를 붙입니다.</summary>
     private void RefreshCost(IInteractionHudInfo info)
     {
+        SetActionLabel(info.HudActionLabel);
+
         ResourceCost cost = info.HudCost;
         bool hasCost = cost.IsValid;
         if (m_costText != null)

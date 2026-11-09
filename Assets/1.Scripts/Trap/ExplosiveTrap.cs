@@ -72,6 +72,10 @@ public abstract class ExplosiveTrap : Trap, IChainDetonatable
     /// <remarks>기즈모 색이 바뀌는 시점을 "밟힌 순간"으로 둡니다.</remarks>
     protected override bool HasTargetInRange => m_isFuseBurning;
 
+    /// <inheritdoc />
+    /// <remarks>지뢰·클레이모어는 한 번 터지면 끝이라 내구도 대신 일회성임을 표시합니다.</remarks>
+    protected override string HudNameSuffix => "(일회성)";
+
     /// <summary>
     /// 파생이 자기 모양대로 폭발 피해를 적용합니다.
     /// </summary>

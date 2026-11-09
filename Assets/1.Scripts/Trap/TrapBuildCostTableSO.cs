@@ -49,6 +49,11 @@ public sealed class TrapBuildCostTableSO : ScriptableObject
         [Tooltip("소모할 수량입니다. 0이면 무료로 설치됩니다.")]
         [Min(0)]
         public int Amount;
+
+        [Tooltip("이미 설치된 함정을 수리할 때 소모할 수량입니다. 자원 종류는 설치와 같습니다. 0이면 무료로 수리됩니다. " +
+                 "수리는 내구도를 최대치로 채우는 것으로, 새것으로 바꿔 설치하는 것과 같습니다. 수리할 수 있는 함정(철조망·스파이크)만 씁니다.")]
+        [Min(0)]
+        public int RepairAmount;
     }
 
     [Tooltip("함정 종류별 가격입니다. 같은 종류가 여러 번 있으면 위의 것을 씁니다.")]
@@ -65,6 +70,31 @@ public sealed class TrapBuildCostTableSO : ScriptableObject
     public bool TryGetCost(TrapKind kind, out ResourceCost cost)
     {
         cost = default;
+        if (!TryGetEntry(kind, out Entry entry))
+        {
+            return false;
+        }
+
+        cost = new ResourceCost(entry.ResourceId, Mathf.Max(0, entry.Amount));
+        return true;
+    }
+
+    /// <summary>지정한 종류의 수리 가격을 찾습니다. 표에 없거나 종류가 <see cref="TrapKind.None"/>이면 <c>false</c>입니다.</summary>
+    public bool TryGetRepairCost(TrapKind kind, out ResourceCost cost)
+    {
+        cost = default;
+        if (!TryGetEntry(kind, out Entry entry))
+        {
+            return false;
+        }
+
+        cost = new ResourceCost(entry.ResourceId, Mathf.Max(0, entry.RepairAmount));
+        return true;
+    }
+
+    private bool TryGetEntry(TrapKind kind, out Entry entry)
+    {
+        entry = default;
         if (kind == TrapKind.None || m_entries == null)
         {
             return false;
@@ -74,7 +104,7 @@ public sealed class TrapBuildCostTableSO : ScriptableObject
         {
             if (m_entries[i].Kind == kind)
             {
-                cost = new ResourceCost(m_entries[i].ResourceId, Mathf.Max(0, m_entries[i].Amount));
+                entry = m_entries[i];
                 return true;
             }
         }

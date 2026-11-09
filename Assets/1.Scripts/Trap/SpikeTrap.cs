@@ -16,7 +16,7 @@ public sealed class SpikeTrap : WireTrap
     protected override string DefaultDisplayName => "스파이크";
 
     /// <inheritdoc />
-    protected override string DefaultDescription => "밟은 적을 잠시 멈칫하게 하고 큰 피해를 줍니다";
+    protected override string DefaultDescription => "밟은 적에게 경직과 함께 큰 피해를 줍니다.";
 
     /// <inheritdoc />
     protected override TrapKind CostKind => TrapKind.Spike;

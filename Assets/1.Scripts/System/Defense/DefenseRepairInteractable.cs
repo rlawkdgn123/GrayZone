@@ -52,15 +52,15 @@ public sealed class DefenseRepairInteractable : MonoBehaviour,
     [Tooltip("안내 패널 제목입니다.")]
     [SerializeField] private string m_displayName = "정문 수리";
 
-    [Tooltip("안내 패널 설명입니다. {0}에 한 바퀴당 회복 비율(%), {1}에 현재 체력, {2}에 최대 체력이 들어갑니다.")]
+    [Tooltip("안내 패널 설명입니다. {0}에 한 바퀴당 회복 비율(%), {1}에 현재 내구도, {2}에 최대 내구도가 들어갑니다. 현재 내구도는 제목 옆에 자동으로 붙습니다.")]
     [TextArea(2, 4)]
-    [SerializeField] private string m_description = "F를 누르고 있으면 체력을 {0}%씩 회복합니다.\n현재 체력 {1}/{2}";
+    [SerializeField] private string m_description = "F를 누르고 있으면 내구도를 {0}%씩 회복합니다.";
 
     [Tooltip("상호작용 프롬프트 문구입니다.")]
     [SerializeField] private string m_prompt = "수리";
 
-    [Tooltip("체력이 가득 차 수리할 수 없을 때 비용 옆에 붙일 문구입니다.")]
-    [SerializeField] private string m_fullHealthMessage = "체력이 충분합니다";
+    [Tooltip("내구도가 가득 차 수리할 수 없을 때 비용 옆에 붙일 문구입니다.")]
+    [SerializeField] private string m_fullHealthMessage = "내구도가 가득 찼습니다";
 
     /// <summary>한 바퀴에 회복하는 체력입니다.</summary>
     public int RepairAmount => m_health != null
@@ -77,12 +77,18 @@ public sealed class DefenseRepairInteractable : MonoBehaviour,
     public bool RepeatWhileHeld => m_repeatWhileHeld;
 
     /// <inheritdoc />
-    public string HudDisplayName => m_displayName;
+    /// <remarks>함정과 같은 방식으로 제목 옆에 현재/최대 내구도를 붙입니다(예: "정문 수리 (내구도 : 800/1000)").</remarks>
+    public string HudDisplayName => m_health != null
+        ? $"{m_displayName} (내구도 : {m_health.CurrentHP}/{m_health.MaxHP})"
+        : m_displayName;
 
     /// <inheritdoc />
     public string HudDescription => m_health != null
         ? string.Format(m_description, Mathf.RoundToInt(m_repairRatio * 100.0f), m_health.CurrentHP, m_health.MaxHP)
         : m_displayName;
+
+    /// <inheritdoc />
+    public string HudActionLabel => m_prompt;
 
     /// <inheritdoc />
     public ResourceCost HudCost => Cost;

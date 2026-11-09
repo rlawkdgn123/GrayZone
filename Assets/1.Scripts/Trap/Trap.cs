@@ -77,6 +77,17 @@ public abstract class Trap : MonoBehaviour, IInteractable, IInteractionRequireme
     [Tooltip("청사진 상태에서 UI에 표시할 문구입니다. 비용은 뒤에 자동으로 붙습니다.")]
     [SerializeField] private string m_buildPrompt = "설치";
 
+    [Tooltip("이미 설치된 함정을 수리할 때 소모할 자원 수량입니다. 자원 종류는 설치와 같습니다. 0이면 자원 없이 수리됩니다. " +
+             "함정 가격 표(Resources/Trap/TrapBuildCostTable)에 이 함정 종류가 있으면 표 값이 우선합니다. 수리할 수 있는 함정(철조망·스파이크)만 씁니다.")]
+    [Min(0)]
+    [SerializeField] private int m_repairCostAmount = 1;
+
+    [Tooltip("설치된 함정에서 UI에 표시할 수리 문구입니다.")]
+    [SerializeField] private string m_repairPrompt = "수리";
+
+    [Tooltip("내구도가 가득 차 수리할 수 없을 때 비용 옆에 붙일 문구입니다.")]
+    [SerializeField] private string m_fullDurabilityMessage = "내구도가 가득 찼습니다";
+
     [Tooltip("설치에 필요한 홀드 시간(초)입니다. 0이면 누르는 즉시 설치됩니다. " +
              "기본 1초인 이유: 튜토리얼 넘김이 상호작용 단일 탭이라, 설치를 홀드로 두어 두 입력을 구분합니다.")]
     [Min(0.0f)]
@@ -330,6 +341,18 @@ public abstract class Trap : MonoBehaviour, IInteractable, IInteractionRequireme
         }
     }
 
+    /// <summary>수리 비용입니다. 자원 종류는 설치와 같고, 수량은 가격 표의 수리 수량이 있으면 그 값을, 없으면 프리팹 값을 씁니다.</summary>
+    public ResourceCost RepairCost
+    {
+        get
+        {
+            TrapBuildCostTableSO table = CostTable;
+            return table != null && table.TryGetRepairCost(CostKind, out ResourceCost tableCost)
+                ? tableCost
+                : new ResourceCost(m_buildCostResourceId, m_repairCostAmount);
+        }
+    }
+
     /// <summary>함정 안내 HUD에 표시할 이름입니다. 인스펙터 값이 비어 있으면 <see cref="DefaultDisplayName"/>입니다.</summary>
     public string DisplayName => string.IsNullOrWhiteSpace(m_displayName) ? DefaultDisplayName : m_displayName;
 
@@ -337,19 +360,36 @@ public abstract class Trap : MonoBehaviour, IInteractable, IInteractionRequireme
     public string Description => string.IsNullOrWhiteSpace(m_description) ? DefaultDescription : m_description;
 
     /// <inheritdoc />
-    string IInteractionHudInfo.HudDisplayName => DisplayName;
+    string IInteractionHudInfo.HudDisplayName
+    {
+        get
+        {
+            string suffix = HudNameSuffix;
+            return string.IsNullOrEmpty(suffix) ? DisplayName : $"{DisplayName} {suffix}";
+        }
+    }
+
+    /// <summary>안내 HUD에서 이름 뒤에 붙일 문구입니다. 비어 있으면 이름만 표시합니다.</summary>
+    /// <remarks>기본은 설치된 함정에만 남은 내구도를 붙입니다(예: "윤형 철조망 (내구도 : 80/100)").</remarks>
+    protected virtual string HudNameSuffix => IsBuilt ? DurabilityLabel(m_currentHealth) : null;
+
+    /// <summary>이름 뒤에 붙이는 내구도 문구를 "현재/최대" 형태로 만듭니다.</summary>
+    protected string DurabilityLabel(int durability) => $"(내구도 : {durability}/{MaxHealth})";
 
     /// <inheritdoc />
     string IInteractionHudInfo.HudDescription => Description;
 
     /// <inheritdoc />
-    ResourceCost IInteractionHudInfo.HudCost => BuildCost;
+    string IInteractionHudInfo.HudActionLabel => IsRepairTarget ? m_repairPrompt : m_buildPrompt;
 
     /// <inheritdoc />
-    bool IInteractionHudInfo.CanAffordHudCost => CanAffordBuild;
+    ResourceCost IInteractionHudInfo.HudCost => IsRepairTarget ? RepairCost : BuildCost;
 
     /// <inheritdoc />
-    string IInteractionHudInfo.HudBlockedMessage => null;
+    bool IInteractionHudInfo.CanAffordHudCost => IsRepairTarget ? CanPayCost(RepairCost) : CanAffordBuild;
+
+    /// <inheritdoc />
+    string IInteractionHudInfo.HudBlockedMessage => IsRepairTarget && IsFullDurability ? m_fullDurabilityMessage : null;
 
     /// <inheritdoc />
     bool IInteractionHudInfo.IsHudCostWaived => IsDebugFreeBuild;
@@ -367,8 +407,23 @@ public abstract class Trap : MonoBehaviour, IInteractable, IInteractionRequireme
     /// <summary>함정 종류의 기본 설명입니다. 파생이 덮어쓰지 않으면 빈 문자열입니다.</summary>
     protected virtual string DefaultDescription => string.Empty;
 
-    /// <summary>이 함정에 비용이 걸려 있는지 여부입니다.</summary>
-    private bool HasBuildCost => BuildCost.IsValid;
+    /// <summary>설치된 뒤 플레이어가 수리할 수 있는 함정인지 여부입니다. 기본은 수리할 수 없습니다.</summary>
+    /// <remarks>
+    /// 수리는 내구도를 최대치로 채우는 것으로, 새것으로 바꿔 설치하는 것과 같습니다. 내구도가 조금씩 닳는 함정(철조망·스파이크)만 켭니다.
+    /// 한 번 터지면 끝나는 함정(지뢰, 화염 드럼통 등)은 수리할 것이 없습니다.
+    /// </remarks>
+    protected virtual bool IsRepairable => false;
+
+    /// <summary>지금 이 함정을 바라보면 수리 안내가 떠야 하는지 여부입니다. 설치된 수리 가능 함정입니다.</summary>
+    private bool IsRepairTarget => IsBuilt && IsRepairable;
+
+    /// <summary>
+    /// 지금 수리할 수 있는 구간인지 여부입니다. 수리는 새로 설치하는 것과 같으므로 설치와 같은 구간 규칙을 따릅니다.
+    /// </summary>
+    private bool IsRepairWindowOpen => m_rebuildPolicy == TrapRebuildPolicy.Always || m_buildWindowOpen;
+
+    /// <summary>내구도가 가득 차 수리할 것이 없는지 여부입니다.</summary>
+    private bool IsFullDurability => m_currentHealth >= MaxHealth;
 
     protected virtual void Awake()
     {
@@ -529,36 +584,52 @@ public abstract class Trap : MonoBehaviour, IInteractable, IInteractionRequireme
     /// 이미 설치됐거나, 다 써서 아직 복구 시점이 오지 않았거나, 설치 구간이 아니면(상시 설치가 아닐 때) 후보에서 빠집니다.
     /// 자원이 모자란 것은 후보에서 빼지 않습니다. 빼면 안내 HUD가 뜨지 않아 왜 설치가 안 되는지 알 수 없습니다.
     /// 자원은 <see cref="MeetsInteractionRequirement"/>가 따로 막습니다.
+    ///
+    /// 설치된 수리 가능 함정(철조망·스파이크)은 설치와 같은 구간 규칙 안에서 수리 대상이 됩니다. 내구도가 가득 차도
+    /// 후보에서 빼지 않습니다. 안내가 떠야 남은 내구도를 볼 수 있고, 수리는 <see cref="MeetsInteractionRequirement"/>가 막습니다.
     /// </remarks>
     public bool CanInteract(GameObject interactor)
     {
-        return IsBuildable;
+        return IsBuildable || (IsRepairTarget && IsRepairWindowOpen);
     }
 
     /// <summary>설치 비용을 지금 낼 수 있는지 여부입니다. 안내 HUD가 "자원이 부족합니다"를 띄울 때 씁니다.</summary>
-    public bool CanAffordBuild => CanPayBuildCost();
+    public bool CanAffordBuild => CanPayCost(BuildCost);
 
     /// <inheritdoc />
-    /// <remarks>자원이 모자라면 홀드 게이지를 채우지 않고 설치하지 않습니다.</remarks>
+    /// <remarks>자원이 모자라거나 수리할 내구도가 없으면 홀드 게이지를 채우지 않습니다.</remarks>
     public bool MeetsInteractionRequirement(GameObject interactor)
     {
-        return CanPayBuildCost();
+        if (IsRepairTarget)
+        {
+            return !IsFullDurability && CanPayCost(RepairCost);
+        }
+
+        return CanPayCost(BuildCost);
     }
 
     /// <inheritdoc />
     public string GetPrompt()
     {
-        ResourceCost cost = BuildCost;
+        bool repair = IsRepairTarget;
+        string prompt = repair ? m_repairPrompt : m_buildPrompt;
+        ResourceCost cost = repair ? RepairCost : BuildCost;
         return cost.IsValid
-            ? $"{m_buildPrompt} ({cost.ResourceId} {cost.Amount})"
-            : m_buildPrompt;
+            ? $"{prompt} ({cost.ResourceId} {cost.Amount})"
+            : prompt;
     }
 
     /// <inheritdoc />
     public void Interact(GameObject interactor)
     {
+        if (IsRepairTarget)
+        {
+            TryRepair(interactor);
+            return;
+        }
+
         // 홀드 도중에 전투가 시작돼 설치 구간이 닫혔으면 자원을 내기 전에 멈춥니다.
-        if (!IsBuildable || !TryPayBuildCost())
+        if (!IsBuildable || !TryPayCost(BuildCost))
         {
             return;
         }
@@ -569,6 +640,29 @@ public abstract class Trap : MonoBehaviour, IInteractable, IInteractionRequireme
 
         Build();
         PlayInstallSound(installSoundPosition);
+    }
+
+    /// <summary>수리 비용을 내고 내구도를 최대치로 채웁니다. 새것으로 바꿔 설치한 것과 같게 다룹니다.</summary>
+    /// <remarks>
+    /// 방어전당 설치 횟수는 쓰지 않습니다. 횟수는 청사진에서 새로 짓는 것만 셉니다.
+    /// 홀드 도중에 구간이 닫히거나 내구도가 이미 가득 찼으면 자원을 내기 전에 멈춥니다.
+    /// </remarks>
+    private void TryRepair(GameObject interactor)
+    {
+        if (!IsRepairTarget || !IsRepairWindowOpen || IsFullDurability || !TryPayCost(RepairCost))
+        {
+            return;
+        }
+
+        Vector3 soundPosition = ResolveInstallSoundPosition(interactor);
+        m_currentHealth = MaxHealth;
+        OnRepaired();
+        PlayInstallSound(soundPosition);
+    }
+
+    /// <summary>수리로 내구도가 다시 가득 찬 순간 파생 함정이 자기 상태를 맞추도록 부릅니다.</summary>
+    protected virtual void OnRepaired()
+    {
     }
 
     /// <summary>플레이어와 가장 가까운 설치 콜라이더 표면의 월드 위치를 구합니다.</summary>
@@ -636,21 +730,21 @@ public abstract class Trap : MonoBehaviour, IInteractable, IInteractionRequireme
     /// 확인과 차감을 나눈 이유는 UI가 버튼을 미리 비활성화할 수 있어야 하고, 실행 도중 모자라도
     /// 일부만 빠져나간 상태가 남지 않아야 하기 때문입니다. <c>IFacilityService</c>가 쓰는 방식과 같습니다.
     /// </remarks>
-    private bool CanPayBuildCost()
+    private bool CanPayCost(ResourceCost cost)
     {
-        if (!HasBuildCost || IsDebugFreeBuild)
+        if (!cost.IsValid || IsDebugFreeBuild)
         {
             return true;
         }
 
         StorageFacility storage = ShelterSceneDataManager.Instance?.Storage;
-        return storage != null && storage.CanSpendResource(BuildCost);
+        return storage != null && storage.CanSpendResource(cost);
     }
 
-    /// <summary>설치 비용을 차감합니다. 모자라면 아무것도 차감하지 않고 <c>false</c>를 돌려줍니다.</summary>
-    private bool TryPayBuildCost()
+    /// <summary>설치·수리 비용을 차감합니다. 모자라면 아무것도 차감하지 않고 <c>false</c>를 돌려줍니다.</summary>
+    private bool TryPayCost(ResourceCost cost)
     {
-        if (!HasBuildCost || IsDebugFreeBuild)
+        if (!cost.IsValid || IsDebugFreeBuild)
         {
             return true;
         }
@@ -659,13 +753,13 @@ public abstract class Trap : MonoBehaviour, IInteractable, IInteractionRequireme
         if (storage == null)
         {
             Debug.LogWarning(
-                $"[Trap] '{name}': 자원 보관소를 찾지 못해 설치할 수 없습니다. " +
+                $"[Trap] '{name}': 자원 보관소를 찾지 못해 설치·수리할 수 없습니다. " +
                 "이 씬에 ShelterSceneDataManager가 있는지 확인하세요.",
                 this);
             return false;
         }
 
-        return storage.TrySpendResource(BuildCost);
+        return storage.TrySpendResource(cost);
     }
 
     /// <summary>청사진을 설치 완료 상태로 바꿉니다. 비용은 이미 치른 뒤에 부릅니다.</summary>

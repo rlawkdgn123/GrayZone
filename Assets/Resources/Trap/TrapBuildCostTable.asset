@@ -16,15 +16,20 @@ MonoBehaviour:
   - Kind: 1
     ResourceId: trap_material
     Amount: 10
+    RepairAmount: 10
   - Kind: 2
     ResourceId: trap_material
     Amount: 0
+    RepairAmount: 0
   - Kind: 3
     ResourceId: trap_material
     Amount: 15
+    RepairAmount: 15
   - Kind: 4
     ResourceId: trap_material
     Amount: 15
+    RepairAmount: 15
   - Kind: 5
     ResourceId: trap_material
     Amount: 10
+    RepairAmount: 10

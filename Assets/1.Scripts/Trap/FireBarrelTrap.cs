@@ -31,10 +31,19 @@ public sealed class FireBarrelTrap : Trap, IChainDetonatable, IShotReactive
     protected override string DefaultDisplayName => "화염 드럼통";
 
     /// <inheritdoc />
-    protected override string DefaultDescription => "쏘거나 폭발에 휘말리면 터져 불길을 남깁니다";
+    /// <remarks>사격 피해 고정 문구는 실제 규칙과 맞을 때(총기 피해량을 쓰지 않을 때)만 붙입니다.</remarks>
+    protected override string DefaultDescription => m_useWeaponDamage
+        ? "쏘거나 폭발에 휘말리면 불길을 남깁니다."
+        : "쏘거나 폭발에 휘말리면 불길을 남깁니다.\n받는 사격 피해는 1로 고정됩니다.";
 
     /// <inheritdoc />
     protected override TrapKind CostKind => TrapKind.FireBarrel;
+
+    /// <inheritdoc />
+    /// <remarks>
+    /// 드럼통은 설치 뒤에는 안내가 뜨지 않으므로, 청사진에서도 터지기까지 맞아야 하는 내구도(최대치)를 보여 줍니다.
+    /// </remarks>
+    protected override string HudNameSuffix => DurabilityLabel(IsBuilt ? Health : MaxHealth);
 
     [Header("Fire Barrel")]
     [Tooltip("터질 때 남길 화염 지대 프리팹입니다. 화염병이 쓰는 FireBoom_Trap을 지정합니다.")]

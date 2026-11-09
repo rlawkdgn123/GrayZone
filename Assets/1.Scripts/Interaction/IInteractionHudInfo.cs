@@ -16,6 +16,9 @@ public interface IInteractionHudInfo
     /// <summary>안내 패널 설명입니다.</summary>
     string HudDescription { get; }
 
+    /// <summary>비용 줄 맨 앞(아이콘 왼쪽)에 붙일 동작 이름입니다(예: "설치", "수리"). 비어 있으면 표시하지 않습니다.</summary>
+    string HudActionLabel { get; }
+
     /// <summary>한 번 실행할 때 소모하는 자원입니다. 비용이 없으면 유효하지 않은 값입니다.</summary>
     ResourceCost HudCost { get; }
 
