@@ -756,6 +756,14 @@ MonoBehaviour:
           m_bool: 0
           m_vector: {x: 0, y: 0, z: 0}
           m_object: {fileID: 0}
+      - m_method: SetFreeUse
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 1
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
       m_condition: 2
       m_seconds: 2
       m_enemyPrefab: {fileID: 6670782890415228131, guid: e1862b3bfc486144f86ceb7ddbecd341, type: 3}
@@ -777,7 +785,15 @@ MonoBehaviour:
       m_triggerId: 
       m_closeTriggerIds:
       - 1ed6e9b6
-      m_actions: []
+      m_actions:
+      - m_method: SetFreeUse
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
       m_condition: 0
       m_seconds: 2
       m_enemyPrefab: {fileID: 0}
@@ -826,7 +842,8 @@ MonoBehaviour:
       m_actions:
       - m_method: SetObjective
         m_args:
-        - m_string: "\uB9C8\uCEE4\uB97C \uB530\uB77C \uB2E4\uB9AC\uB85C \uC774\uB3D9\uD558\uC138\uC694."
+        - m_string: "\uB9C8\uCEE4\uB97C \uB530\uB77C \uB2E4\uC74C \uC9C0\uC810\uC73C\uB85C
+            \uC774\uB3D9\uD558\uC138\uC694."
           m_float: 0
           m_int: 0
           m_bool: 0
@@ -1198,6 +1215,20 @@ MonoBehaviour:
           m_bool: 1
           m_vector: {x: 0, y: 0, z: 0}
           m_object: {fileID: 0}
+      - m_method: SetSkillCooldown
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 1
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 5
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
       m_condition: 0
       m_seconds: 2
       m_enemyPrefab: {fileID: 0}
@@ -1355,7 +1386,15 @@ MonoBehaviour:
       m_triggerId: 
       m_closeTriggerIds:
       - f7875cf0
-      m_actions: []
+      m_actions:
+      - m_method: RestoreSkillCooldown
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 1
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
       m_condition: 0
       m_seconds: 2
       m_enemyPrefab: {fileID: 0}

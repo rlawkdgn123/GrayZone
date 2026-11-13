@@ -122,6 +122,9 @@ public sealed class TutorialEvents : MonoBehaviour
     /// <summary>적 생성으로 만든 적입니다. 튜토리얼 적 제거가 여기서만 고릅니다.</summary>
     private readonly List<EnemyController> m_spawnedEnemies = new();
 
+    /// <summary>스킬 쿨타임 변경으로 쿨타임을 바꿔 둔 스킬입니다. 튜토리얼이 끝나면 되돌립니다.</summary>
+    private readonly HashSet<CharacterSkill> m_cooldownOverrides = new();
+
     /// <summary>시네마틱으로 켠 카메라와 켜기 전 상태입니다. 끝나거나 튜토리얼이 끝나면 되돌립니다.</summary>
     private readonly List<CinematicCameraState> m_cinematicCameras = new();
 
@@ -201,6 +204,15 @@ public sealed class TutorialEvents : MonoBehaviour
         ResumeTime();
         SquadInventoryManager.FreeUse = false;
         PlayerHealth.KeepMinimumHp = false;
+        foreach (CharacterSkill skill in m_cooldownOverrides)
+        {
+            if (skill != null)
+            {
+                skill.ClearCooldownOverride();
+            }
+        }
+
+        m_cooldownOverrides.Clear();
     }
 
     /// <summary>조작 중인 캐릭터가 위치의 반경 안에 있는지 여부입니다. 높이는 보지 않고 평면 거리로 잽니다.</summary>
@@ -613,6 +625,38 @@ public sealed class TutorialEvents : MonoBehaviour
     public void SetKeepMinimumHp(bool enabled)
     {
         PlayerHealth.KeepMinimumHp = enabled;
+    }
+
+    /// <summary>스킬 쿨타임을 잠시 바꿉니다. 이미 돌고 있는 쿨타임이 더 길면 새 값으로 줄입니다.</summary>
+    /// <param name="skill">바꿀 스킬입니다.</param>
+    /// <param name="seconds">바꿀 쿨타임(초)입니다.</param>
+    /// <remarks>"스킬 쿨타임 복구"로 되돌립니다. 튜토리얼이 끝나면 자동으로 되돌립니다.</remarks>
+    [TutorialEvent("스킬 쿨타임 변경")]
+    public void SetSkillCooldown(CharacterSkillType skill, float seconds)
+    {
+        foreach (CharacterSkill target in FindObjectsByType<CharacterSkill>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (target.SkillType == skill)
+            {
+                target.SetCooldownOverride(seconds);
+                m_cooldownOverrides.Add(target);
+            }
+        }
+    }
+
+    /// <summary>"스킬 쿨타임 변경"으로 바꾼 쿨타임을 원래 값으로 되돌립니다.</summary>
+    /// <param name="skill">되돌릴 스킬입니다.</param>
+    [TutorialEvent("스킬 쿨타임 복구")]
+    public void RestoreSkillCooldown(CharacterSkillType skill)
+    {
+        foreach (CharacterSkill target in FindObjectsByType<CharacterSkill>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (target.SkillType == skill)
+            {
+                target.ClearCooldownOverride();
+                m_cooldownOverrides.Remove(target);
+            }
+        }
     }
 
     /// <summary>씬의 청사진 상태인 함정 오브젝트를 모두 끕니다. 이미 설치된 함정은 그대로 둡니다.</summary>
