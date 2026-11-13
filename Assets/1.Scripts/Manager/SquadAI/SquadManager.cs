@@ -141,6 +141,16 @@ public class SquadManager : MonoBehaviour
     [Tooltip("조준점 근처에서 NavMesh 위 자리를 찾을 반경(m)입니다. 이 안에 걸을 수 있는 자리가 없으면 명령하지 않습니다.")]
     [SerializeField] private float m_orderNavMeshSampleRadius = 2.0f;
 
+    /// <summary>
+    /// 분대원 NavMeshAgent 종류(Humanoid, ID 0)로 NavMesh를 조회하는 필터입니다.
+    /// </summary>
+    /// <remarks>영역 값만 넘기면 경로 안내용 PathGuide NavMesh 위 자리를 고를 수 있습니다(SquadAIController.NavFilter 참조).</remarks>
+    private static readonly NavMeshQueryFilter HumanoidNavFilter = new NavMeshQueryFilter
+    {
+        agentTypeID = 0,
+        areaMask = NavMesh.AllAreas,
+    };
+
     [Tooltip("명령 자리와 복귀 시 돌아올 팀원 발밑에 재생할 이펙트 설정입니다. 비우면 이펙트 없이 명령만 내립니다.")]
     [SerializeField] private SquadOrderFeedbackSO m_orderFeedback;
 
@@ -783,7 +793,7 @@ public class SquadManager : MonoBehaviour
         hasAimHit = true;
 
         if (!NavMesh.SamplePosition(point, out NavMeshHit navHit,
-                Mathf.Max(0.1f, m_orderNavMeshSampleRadius), NavMesh.AllAreas))
+                Mathf.Max(0.1f, m_orderNavMeshSampleRadius), HumanoidNavFilter))
         {
             return false;
         }

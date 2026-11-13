@@ -168,7 +168,7 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
     [Min(0.0f)]
     [SerializeField] private float m_crouchLandingTransitionDuration = 0.08f;
 
-    [Tooltip("MoveState 한 단계(웅크림↔걷기, 걷기↔달리기) 전환에 걸리는 시간입니다. 웅크림 높이 전환 시간과 맞추면 자세와 콜라이더가 같이 움직입니다.")]
+    [Tooltip("MoveState 한 단계(웅크림↔조깅, 조깅↔달리기) 전환에 걸리는 시간입니다. 웅크림 높이 전환 시간과 맞추면 자세와 콜라이더가 같이 움직입니다.")]
     [Clamp(Min = 0)]
     [SerializeField] private float m_moveStateBlendDuration = 0.2f;
 
@@ -573,14 +573,15 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
     /// <summary>MoveState 축의 웅크림 단계 값입니다.</summary>
     private const float MoveStateCrouch = 0.0f;
 
-    /// <summary>MoveState 축의 걷기 단계 값입니다.</summary>
-    private const float MoveStateWalk = 1.0f;
+    /// <summary>MoveState 축의 조깅 단계 값입니다. 평소 이동은 이 단계입니다.</summary>
+    /// <remarks>1은 걷기 블렌드 자리입니다. 조작 중에는 쓰지 않고, 대문 입장 컷신(SquadGateEntranceCinematic)만 씁니다.</remarks>
+    private const float MoveStateJog = 2.0f;
 
     /// <summary>MoveState 축의 달리기 단계 값입니다.</summary>
-    private const float MoveStateRun = 2.0f;
+    private const float MoveStateRun = 3.0f;
 
     /// <summary>현재 애니메이터에 넣고 있는 MoveState 값입니다. 목표 단계를 향해 보간합니다.</summary>
-    private float m_moveState = MoveStateWalk;
+    private float m_moveState = MoveStateJog;
 
     /// <summary>이번 프레임에 전력질주 방향 조건을 통과했는지입니다. 프레임당 한 번 판정해 캐싱합니다.</summary>
     private bool m_canSprintForward;
@@ -1879,13 +1880,13 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
         m_animationBlend = 0.0f;
 
         // 보간 중간값이 남아 있으면 다음 프레임에 그 값에서 이어져 리셋이 한 프레임만 보입니다.
-        m_moveState = MoveStateWalk;
+        m_moveState = MoveStateJog;
 
         m_animator.SetFloat(m_animIDSpeed, 0.0f);
         m_animator.SetFloat(m_animIDMotionSpeed, 1.0f);
         m_animator.SetFloat(m_animIDMoveX, 0.0f);
         m_animator.SetFloat(m_animIDMoveZ, 0.0f);
-        m_animator.SetFloat(m_animIDMoveState, MoveStateWalk);
+        m_animator.SetFloat(m_animIDMoveState, MoveStateJog);
         m_animator.SetFloat(m_animIDLookX, 0.0f);
         m_animator.SetFloat(m_animIDLookY, 0.0f);
 
@@ -2557,8 +2558,9 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
     /// 값을 즉시 바꾸지 않고 보간하는 이유는 걷기와 달리기 사이가 한 단계 차이라 중간값이
     /// 두 동작을 섞은 자연스러운 자세가 되기 때문입니다. 즉시 바꾸면 발걸음이 튑니다.
     ///
-    /// 축의 순서를 웅크림 0, 걷기 1, 달리기 2로 잡은 것도 같은 이유입니다. 웅크림과 달리기를 양 끝에 두면
-    /// 그 둘이 직접 섞이는 일이 없고, 웅크린 채 달리기를 눌러도 걷기를 지나며 이어집니다.
+    /// 축의 순서를 웅크림 0, 걷기 1, 조깅 2, 달리기 3으로 잡은 것도 같은 이유입니다. 웅크림과 달리기를 양 끝에 두면
+    /// 그 둘이 직접 섞이는 일이 없고, 웅크린 채 달리기를 눌러도 조깅을 지나며 이어집니다.
+    /// 평소 이동은 조깅입니다. 걷기(1)는 애니메이터에 클립만 넣어 두었고 아직 목표 값으로 쓰지 않습니다.
     ///
     /// 전력질주 판정에 <see cref="CanSprintTowardInput"/>을 함께 보는 이유는 실제 속도와 자세를 맞추기
     /// 위해서입니다. 부채꼴을 벗어난 방향은 걷기 속도로 움직이므로 자세도 걷기여야 합니다.
@@ -2568,7 +2570,7 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
     /// </remarks>
     private float UpdateMoveState()
     {
-        float target = MoveStateWalk;
+        float target = MoveStateJog;
 
         if (IsCrouchActive)
         {
@@ -2579,10 +2581,16 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
             target = MoveStateRun;
         }
 
+        // 웅크림과 조깅은 축에서 두 칸(가운데 1이 걷기) 떨어져 있지만 한 단계로 칩니다.
+        // 그 구간은 두 배 빠르게 움직여야 웅크림 높이 전환 시간과 계속 맞습니다.
+        float stepSize = m_moveState < MoveStateJog || target < MoveStateJog
+            ? MoveStateJog - MoveStateCrouch
+            : MoveStateRun - MoveStateJog;
+
         float moveStateBlendDuration = MoveStateBlendDuration;
         m_moveState = moveStateBlendDuration <= 0.0f
             ? target
-            : Mathf.MoveTowards(m_moveState, target, Time.deltaTime / moveStateBlendDuration);
+            : Mathf.MoveTowards(m_moveState, target, stepSize * Time.deltaTime / moveStateBlendDuration);
 
         return m_moveState;
     }
@@ -2603,6 +2611,14 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
     private void UpdateLookAnimator()
     {
         float lookX = 0.0f;
+
+        // 컷신 중에는 Main Camera가 컷신 카메라라서 그 각도를 따라가면 상체가 엉뚱한 쪽으로 틀어집니다. 정면으로 둡니다.
+        if (InGameCutscene.IsPlaying)
+        {
+            m_animator.SetFloat(m_animIDLookX, 0.0f);
+            m_animator.SetFloat(m_animIDLookY, 0.0f);
+            return;
+        }
 
         if (m_mainCamera != null)
         {
@@ -2750,6 +2766,25 @@ public class ThirdPersonController : MonoBehaviour, ISharedBalanceReceiver
     /// </remarks>
     private void ApplyBodyRotation()
     {
+        // 컷신 중에는 Main Camera가 컷신 카메라이고 입력도 기준이 아닙니다. 실제로 움직이는 방향을 정면으로 봅니다.
+        if (InGameCutscene.IsPlaying)
+        {
+            Vector3 velocity = m_controller.velocity;
+            velocity.y = 0.0f;
+            if (velocity.sqrMagnitude <= MoveDirectionThreshold * MoveDirectionThreshold)
+            {
+                return;
+            }
+
+            float travelRotation = Mathf.SmoothDampAngle(
+                transform.eulerAngles.y,
+                Mathf.Atan2(velocity.x, velocity.z) * Mathf.Rad2Deg,
+                ref m_rotationVelocity,
+                m_rotationSmoothTime);
+            transform.rotation = Quaternion.Euler(0.0f, travelRotation, 0.0f);
+            return;
+        }
+
         bool backView = m_viewMode == CameraViewMode.BackView;
 
         // 자유 시점은 이동 입력이 있을 때만 몸을 돌립니다. 백뷰는 제자리에서도 카메라를 따라갑니다.

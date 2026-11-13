@@ -985,6 +985,16 @@ public class SquadMemberController : MonoBehaviour
     }
 
     /// <summary>
+    /// 이 멤버 NavMeshAgent의 에이전트 종류로 NavMesh를 조회하는 필터입니다.
+    /// </summary>
+    /// <remarks>영역 값만 넘기면 경로 안내용 PathGuide NavMesh 위로 붙을 수 있습니다(SquadAIController.NavFilter 참조).</remarks>
+    private NavMeshQueryFilter NavFilter => new NavMeshQueryFilter
+    {
+        agentTypeID = m_navMeshAgent != null ? m_navMeshAgent.agentTypeID : 0,
+        areaMask = NavMesh.AllAreas,
+    };
+
+    /// <summary>
     /// AI 제어로 전환된 멤버를 현재 위치 근처의 NavMesh 지면으로 보정합니다.
     /// </summary>
     /// <param name="referencePosition">지면 보정 기준 위치입니다.</param>
@@ -995,7 +1005,7 @@ public class SquadMemberController : MonoBehaviour
             return;
         }
 
-        if (!NavMesh.SamplePosition(referencePosition, out NavMeshHit hit, 5.0f, NavMesh.AllAreas))
+        if (!NavMesh.SamplePosition(referencePosition, out NavMeshHit hit, 5.0f, NavFilter))
         {
             return;
         }

@@ -210,6 +210,15 @@ public class SquadAIController : MonoBehaviour
     [Tooltip("합류 실패가 확정되면 플레이어 근처 유효 위치로 즉시 재배치합니다. 연출이 없어 순간이동으로 보이므로 끌 수 있게 두었습니다. 끄면 판정과 경고만 남고 위치는 보정하지 않아, 경로가 끊긴 팀원이 그 자리에 그대로 남습니다.")]
     [SerializeField] private bool m_repositionOnJoinFailure = true;
 
+    [Tooltip("플레이어까지 NavMesh 경로가 없을 때, 플레이어 발밑이 이 레이어(기본 Environment, Prop)면 재배치하지 않습니다. 플레이어가 차량·상자 같은 지형 오브젝트나 소품 위에 올라가 있어 경로가 끊긴 경우입니다. 그동안은 경로만 다시 찾고, 플레이어가 내려오면 평소처럼 따라갑니다.")]
+    [SerializeField] private LayerMask m_noRepositionLeaderGroundLayers = (1 << 6) | (1 << 7);
+
+    /// <summary>플레이어 발밑 지면을 찾을 때 발 위에서 시작하는 높이(m)입니다.</summary>
+    private const float LeaderGroundProbeUp = 0.3f;
+
+    /// <summary>플레이어 발밑 지면을 찾을 때 아래로 보는 거리(m)입니다.</summary>
+    private const float LeaderGroundProbeDistance = 0.8f;
+
     private SquadMemberController m_memberController;
     private NavMeshAgent m_agent;
     private SquadManager m_squadManager;
@@ -255,6 +264,20 @@ public class SquadAIController : MonoBehaviour
     // 플레이어까지의 경로상 거리입니다. 직선거리를 쓰면 벽 하나 사이에 두고 "가깝다"고 오판합니다(§6.2).
     private float m_pathDistanceToLeader = -1.0f;
 
+    /// <summary>
+    /// NavMesh 조회에 쓰는 필터입니다. 이 멤버 NavMeshAgent의 에이전트 종류로 조회합니다.
+    /// </summary>
+    /// <remarks>
+    /// 영역 값만 넘기는 조회는 에이전트 종류를 가리지 않아, 경로 안내용 PathGuide NavMesh가 씬에 같이 있으면
+    /// 그쪽 메시에서 경로를 찾다가 PathPartial이 나옵니다. 그러면 플레이어 바로 옆에서도 경로가 없다고 보고
+    /// 합류 실패로 쌓여 약 6초마다 재배치(순간이동)됩니다(실측).
+    /// </remarks>
+    private NavMeshQueryFilter NavFilter => new NavMeshQueryFilter
+    {
+        agentTypeID = m_agent != null ? m_agent.agentTypeID : 0,
+        areaMask = NavMesh.AllAreas,
+    };
+
     // 경로 계산 버퍼입니다. 매번 새로 만들면 갱신마다 할당이 생깁니다.
     private NavMeshPath m_pathBuffer;
 
@@ -266,7 +289,7 @@ public class SquadAIController : MonoBehaviour
     private bool m_isSprinting;
 
     // 애니메이터에 넣고 있는 MoveState 값입니다. 목표 단계로 보간합니다.
-    private float m_moveState = MoveStateWalk;
+    private float m_moveState = MoveStateJog;
 
     // 현재 대상 판단입니다. 이동과 별개 축이라 따로 둡니다(§9).
     private readonly SquadAITargeting m_targeting = new SquadAITargeting();
@@ -373,12 +396,12 @@ public class SquadAIController : MonoBehaviour
     /// <summary>이동 방향을 유효한 방향으로 볼 최소 수평 속력입니다.</summary>
     private const float MoveDirectionThreshold = 0.01f;
 
-    /// <summary>MoveState 축의 걷기 단계 값입니다.</summary>
-    private const float MoveStateWalk = 1.0f;
+    /// <summary>MoveState 축의 조깅 단계 값입니다. 평소 이동은 이 단계입니다.</summary>
+    private const float MoveStateJog = 2.0f;
 
     /// <summary>MoveState 축의 달리기 단계 값입니다.</summary>
-    /// <remarks><see cref="ThirdPersonController"/>와 같은 축을 씁니다(0=웅크림, 1=걷기, 2=달리기).</remarks>
-    private const float MoveStateRun = 2.0f;
+    /// <remarks><see cref="ThirdPersonController"/>와 같은 축을 씁니다(0=웅크림, 1=걷기(대문 입장 컷신만 씀), 2=조깅, 3=달리기).</remarks>
+    private const float MoveStateRun = 3.0f;
 
     /// <summary>이동 방향 파라미터의 감쇠 시간입니다.</summary>
     private const float MoveDirectionDamp = 0.1f;
@@ -727,7 +750,7 @@ public class SquadAIController : MonoBehaviour
             Vector3 velocity = state.Velocity;
             velocity.y = 0.0f;
 
-            if (NavMesh.SamplePosition(destination, out NavMeshHit hit, 2.0f, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(destination, out NavMeshHit hit, 2.0f, NavFilter))
             {
                 destination = hit.position;
             }
@@ -1124,7 +1147,7 @@ public class SquadAIController : MonoBehaviour
         m_hasCombatPosition = false;
         m_pathDistanceToLeader = -1.0f;
         m_isSprinting = false;
-        m_moveState = MoveStateWalk;
+        m_moveState = MoveStateJog;
         m_cachedLeaderTransform = null;
         m_cachedLeaderController = null;
 
@@ -1813,6 +1836,14 @@ public class SquadAIController : MonoBehaviour
             return;
         }
 
+        // 경로가 없는 이유가 플레이어가 지형 오브젝트 위에 올라가 있어서라면 옮기지 않습니다.
+        // 유효 위치가 없을 때와 같이 실패 상태를 유지한 채 다음 주기에 다시 봅니다.
+        if (pathMissing && IsLeaderOnNoRepositionGround(leader))
+        {
+            m_joinRepathCount = Mathf.Max(0, m_joinRepathLimit);
+            return;
+        }
+
         if (TryRepositionNearLeader(leader))
         {
             // §17: 재배치 후 거리와 전투 상태를 다시 평가한다. 다음 갱신이 경로상 거리를 새로 재므로
@@ -1825,6 +1856,49 @@ public class SquadAIController : MonoBehaviour
         // §17, §18.2: 유효한 재배치 위치가 없으면 강제로 옮기지 않고 경로 재탐색을 계속한다.
         // 그래서 실패 상태는 유지한 채 재탐색 횟수만 되돌려 다음 주기에 다시 시도하게 합니다.
         m_joinRepathCount = Mathf.Max(0, m_joinRepathLimit);
+    }
+
+    /// <summary>
+    /// 플레이어가 재배치하지 않을 레이어(<see cref="m_noRepositionLeaderGroundLayers"/>) 위에 서 있는지 봅니다.
+    /// </summary>
+    /// <param name="leader">따라갈 플레이어 조작 캐릭터의 Transform입니다.</param>
+    /// <returns>발밑 가장 가까운 지면이 그 레이어면 true입니다.</returns>
+    /// <remarks>
+    /// 가장 가까운 지면 하나만 봅니다. 지정 레이어만 골라 쏘면, 지면 아래 깔린 다른 오브젝트에 맞아도 위에 서 있다고 잘못 판정합니다.
+    /// 플레이어 자신의 콜라이더는 건너뜁니다.
+    /// </remarks>
+    private bool IsLeaderOnNoRepositionGround(Transform leader)
+    {
+        if (leader == null || m_noRepositionLeaderGroundLayers.value == 0)
+        {
+            return false;
+        }
+
+        RaycastHit[] hits = Physics.RaycastAll(
+            leader.position + Vector3.up * LeaderGroundProbeUp,
+            Vector3.down,
+            LeaderGroundProbeUp + LeaderGroundProbeDistance,
+            Physics.AllLayers,
+            QueryTriggerInteraction.Ignore);
+
+        float nearest = float.MaxValue;
+        int nearestLayer = -1;
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.transform.IsChildOf(leader))
+            {
+                continue;
+            }
+
+            if (hit.distance < nearest)
+            {
+                nearest = hit.distance;
+                nearestLayer = hit.collider.gameObject.layer;
+            }
+        }
+
+        return nearestLayer >= 0 && (m_noRepositionLeaderGroundLayers.value & (1 << nearestLayer)) != 0;
     }
 
     /// <summary>합류 실패 판정 상태를 비웁니다.</summary>
@@ -1920,7 +1994,7 @@ public class SquadAIController : MonoBehaviour
             Vector3 offset = Quaternion.Euler(0.0f, angle, 0.0f) * (Vector3.forward * radius);
             Vector3 candidate = leader.position + offset;
 
-            if (!NavMesh.SamplePosition(candidate, out NavMeshHit hit, DestinationSampleRadius, NavMesh.AllAreas))
+            if (!NavMesh.SamplePosition(candidate, out NavMeshHit hit, DestinationSampleRadius, NavFilter))
             {
                 continue;
             }
@@ -2155,7 +2229,7 @@ public class SquadAIController : MonoBehaviour
             Vector3 dir = Quaternion.Euler(0.0f, angle, 0.0f) * away;
             Vector3 candidate = transform.position + dir * m_retreatStep;
 
-            if (!NavMesh.SamplePosition(candidate, out NavMeshHit hit, DestinationSampleRadius, NavMesh.AllAreas))
+            if (!NavMesh.SamplePosition(candidate, out NavMeshHit hit, DestinationSampleRadius, NavFilter))
             {
                 continue;
             }
@@ -2308,7 +2382,7 @@ public class SquadAIController : MonoBehaviour
             Vector3 offset = Quaternion.Euler(0.0f, angle, 0.0f) * (Vector3.forward * radius);
             Vector3 candidate = leader.position + offset;
 
-            if (!NavMesh.SamplePosition(candidate, out NavMeshHit hit, DestinationSampleRadius, NavMesh.AllAreas))
+            if (!NavMesh.SamplePosition(candidate, out NavMeshHit hit, DestinationSampleRadius, NavFilter))
             {
                 continue;
             }
@@ -2425,7 +2499,7 @@ public class SquadAIController : MonoBehaviour
 
             Vector3 offset = offsets[i];
             Vector3 candidate = transform.position + offset;
-            if (!NavMesh.SamplePosition(candidate, out NavMeshHit hit, m_playerYieldSampleRadius, NavMesh.AllAreas))
+            if (!NavMesh.SamplePosition(candidate, out NavMeshHit hit, m_playerYieldSampleRadius, NavFilter))
             {
                 continue;
             }
@@ -2624,7 +2698,7 @@ public class SquadAIController : MonoBehaviour
     {
         m_pathBuffer ??= new NavMeshPath();
 
-        if (!NavMesh.CalculatePath(from, to, NavMesh.AllAreas, m_pathBuffer))
+        if (!NavMesh.CalculatePath(from, to, NavFilter, m_pathBuffer))
         {
             return -1.0f;
         }
@@ -2892,9 +2966,9 @@ public class SquadAIController : MonoBehaviour
 
         m_animator.SetBool(IsMoveHash, moving);
 
-        // 걷기와 달리기 사이를 즉시 바꾸면 발걸음이 튑니다. ThirdPersonController와 같은 방식으로 보간합니다.
-        // 멈춰 있을 때는 걷기 자세로 돌려놓아야 다음 출발이 달리기 포즈에서 시작하지 않습니다.
-        float targetMoveState = moving && m_isSprinting ? MoveStateRun : MoveStateWalk;
+        // 조깅과 달리기 사이를 즉시 바꾸면 발걸음이 튑니다. ThirdPersonController와 같은 방식으로 보간합니다.
+        // 멈춰 있을 때는 조깅 자세로 돌려놓아야 다음 출발이 달리기 포즈에서 시작하지 않습니다.
+        float targetMoveState = moving && m_isSprinting ? MoveStateRun : MoveStateJog;
         m_moveState = m_moveStateBlendDuration <= 0.0f
             ? targetMoveState
             : Mathf.MoveTowards(m_moveState, targetMoveState, Time.deltaTime / m_moveStateBlendDuration);

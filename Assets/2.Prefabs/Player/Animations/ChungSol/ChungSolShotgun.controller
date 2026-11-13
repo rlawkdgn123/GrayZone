@@ -1167,7 +1167,7 @@ BlendTree:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Default Move Blend Tier
+  m_Name: Default Rifle Move
   m_Childs:
   - serializedVersion: 2
     m_Motion: {fileID: 321237213651388699}
@@ -1178,8 +1178,16 @@ BlendTree:
     m_DirectBlendParameter: Blend
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -431552926920010653}
+    m_Motion: {fileID: -1063745743111291021}
     m_Threshold: 1
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: MoveSpeed
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: -431552926920010653}
+    m_Threshold: 2
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -1187,7 +1195,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 38614353142825975}
-    m_Threshold: 2
+    m_Threshold: 3
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -1196,7 +1204,7 @@ BlendTree:
   m_BlendParameter: MoveState
   m_BlendParameterY: MoveState
   m_MinThreshold: 0
-  m_MaxThreshold: 6
+  m_MaxThreshold: 3
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
@@ -1615,7 +1623,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: -5803970736071561708}
-    m_Threshold: 1
+    m_Threshold: 2
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -1623,7 +1631,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 6588914037504647934}
-    m_Threshold: 2
+    m_Threshold: 3
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -1632,10 +1640,97 @@ BlendTree:
   m_BlendParameter: MoveState
   m_BlendParameterY: MoveState
   m_MinThreshold: 0
-  m_MaxThreshold: 2
+  m_MaxThreshold: 3
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0
+--- !u!206 &-1063745743111291021
+BlendTree:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Default Rifle Walk
+  m_Childs:
+  - serializedVersion: 2
+    m_Motion: {fileID: -2033296940674034950, guid: 5bd31d1904471714abf025cdf0226e33, type: 3}
+    m_Threshold: 0
+    m_Position: {x: 0, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7223808573399319982, guid: 2dfb00bb3ee63e24c8fe99dbf26b26e8, type: 3}
+    m_Threshold: 0.125
+    m_Position: {x: 0, y: 1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 4262421271245339310, guid: 111c93b7563f76646a4a0b510539275f, type: 3}
+    m_Threshold: 0.25
+    m_Position: {x: 0.7071, y: 0.7071}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 7797133934495630544, guid: c931c789bd30b3b47afa3b64feafd784, type: 3}
+    m_Threshold: 0.375
+    m_Position: {x: 1, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 239128871772083688, guid: 396859ee1b4674a4ba0c219a806017ec, type: 3}
+    m_Threshold: 0.5
+    m_Position: {x: 0.7071, y: -0.7071}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: -764071220189434905, guid: 4c1dec79dc1492b49b526070df65e555, type: 3}
+    m_Threshold: 0.625
+    m_Position: {x: 0, y: -1}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 1769805348930603145, guid: 47c1c9b1cfaa6a44ca9ddb026a98e7ac, type: 3}
+    m_Threshold: 0.75
+    m_Position: {x: -0.7071, y: -0.7071}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: -7173802514747845971, guid: 3a8a90cf3be469b4f8631af1f64b191e, type: 3}
+    m_Threshold: 0.875
+    m_Position: {x: -1, y: 0}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  - serializedVersion: 2
+    m_Motion: {fileID: 5919335799014803187, guid: bf4f48ba25815004cad05cab8cde4656, type: 3}
+    m_Threshold: 1
+    m_Position: {x: -0.7071, y: 0.7071}
+    m_TimeScale: 1
+    m_CycleOffset: 0
+    m_DirectBlendParameter: Blend
+    m_Mirror: 0
+  m_BlendParameter: MoveX
+  m_BlendParameterY: MoveZ
+  m_MinThreshold: 0
+  m_MaxThreshold: 1
+  m_UseAutomaticThresholds: 1
+  m_NormalizedBlendValues: 0
+  m_BlendType: 1
 --- !u!1107 &-929736561806151363
 AnimatorStateMachine:
   serializedVersion: 6
@@ -1720,7 +1815,7 @@ BlendTree:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Default Rifle Walk
+  m_Name: Default Rifle Jog
   m_Childs:
   - serializedVersion: 2
     m_Motion: {fileID: -2033296940674034950, guid: 5bd31d1904471714abf025cdf0226e33, type: 3}
@@ -2638,32 +2733,6 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 3722208360424673404, guid: 4de5023e7304dfd45b14134f151cf600, type: 3}
-  m_Tag: 
-  m_SpeedParameter: ShootSpeed
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &7123456789012345678
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Shotgun Shoot Crouch
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 1
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: -7337448647526351203, guid: c1855b9e96f83fe47bce36a483afec85, type: 3}
   m_Tag: 
   m_SpeedParameter: ShootSpeed
   m_MirrorParameter: 
@@ -3645,6 +3714,32 @@ AnimatorStateMachine:
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -6017639950637664580}
+--- !u!1102 &7123456789012345678
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Shotgun Shoot Crouch
+  m_Speed: 1
+  m_CycleOffset: 0
+  m_Transitions: []
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 1
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -7337448647526351203, guid: c1855b9e96f83fe47bce36a483afec85, type: 3}
+  m_Tag: 
+  m_SpeedParameter: ShootSpeed
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1101 &7169478470790012405
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -3744,7 +3839,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: 6790952602304309752}
-    m_Threshold: 1
+    m_Threshold: 2
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -3752,7 +3847,7 @@ BlendTree:
     m_Mirror: 0
   - serializedVersion: 2
     m_Motion: {fileID: -7623164566713082775}
-    m_Threshold: 2
+    m_Threshold: 3
     m_Position: {x: 0, y: 0}
     m_TimeScale: 1
     m_CycleOffset: 0
@@ -3761,7 +3856,7 @@ BlendTree:
   m_BlendParameter: MoveState
   m_BlendParameterY: MoveState
   m_MinThreshold: 0
-  m_MaxThreshold: 6
+  m_MaxThreshold: 3
   m_UseAutomaticThresholds: 0
   m_NormalizedBlendValues: 0
   m_BlendType: 0

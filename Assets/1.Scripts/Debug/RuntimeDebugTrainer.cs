@@ -1189,7 +1189,7 @@ public class RuntimeDebugTrainer : MonoBehaviour
             controller.SetMoveDirectionSnapAngle(
                 SliderRow("교체 판정 각도", controller.MoveDirectionSnapAngle, 0f, 180f));
             controller.SetMoveStateBlendDuration(
-                SliderRow("웅크림/걷기/달리기", controller.MoveStateBlendDuration, 0f, 0.8f));
+                SliderRow("웅크림/조깅/달리기", controller.MoveStateBlendDuration, 0f, 0.8f));
         }
         else
         {
