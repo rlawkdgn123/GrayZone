@@ -732,7 +732,7 @@ public abstract class Trap : MonoBehaviour, IInteractable, IInteractionRequireme
     /// </remarks>
     private bool CanPayCost(ResourceCost cost)
     {
-        if (!cost.IsValid || IsDebugFreeBuild)
+        if (!cost.IsValid || IsDebugFreeBuild || SquadInventoryManager.FreeUse)
         {
             return true;
         }
@@ -744,7 +744,7 @@ public abstract class Trap : MonoBehaviour, IInteractable, IInteractionRequireme
     /// <summary>설치·수리 비용을 차감합니다. 모자라면 아무것도 차감하지 않고 <c>false</c>를 돌려줍니다.</summary>
     private bool TryPayCost(ResourceCost cost)
     {
-        if (!cost.IsValid || IsDebugFreeBuild)
+        if (!cost.IsValid || IsDebugFreeBuild || SquadInventoryManager.FreeUse)
         {
             return true;
         }

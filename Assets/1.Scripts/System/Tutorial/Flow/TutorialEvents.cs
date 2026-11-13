@@ -39,6 +39,15 @@ public sealed class TutorialTrapPathAttribute : Attribute
 {
 }
 
+/// <summary>자원 지급 이벤트에서 고르는 자원 종류입니다. 순서대로 정수로 저장되므로 새 종류는 끝에 붙입니다.</summary>
+public enum TutorialResourceKind
+{
+    TrapMaterial = 0,
+    UpgradeMaterial = 1,
+    CraftingMaterial = 2,
+    TrapUpgradeMaterial = 3,
+}
+
 /// <summary>
 /// 튜토리얼 이벤트 메서드를 모아 둔 곳입니다. 시퀀스의 줄마다 여기 메서드를 골라 값만 채워 실행합니다.
 /// </summary>
@@ -190,6 +199,7 @@ public sealed class TutorialEvents : MonoBehaviour
         DespawnEnemies(null, 0);
         StopCinematic();
         ResumeTime();
+        SquadInventoryManager.FreeUse = false;
     }
 
     /// <summary>조작 중인 캐릭터가 위치의 반경 안에 있는지 여부입니다. 높이는 보지 않고 평면 거리로 잽니다.</summary>
@@ -527,6 +537,70 @@ public sealed class TutorialEvents : MonoBehaviour
                 return;
             }
         }
+    }
+
+    /// <summary>분대 인벤토리에 아이템(수류탄, 화염병, 회복약 등)을 넣습니다.</summary>
+    /// <param name="item">넣을 아이템 정의입니다(Grenade_Definition, Firebomb_Definition, Potion_Definition 등).</param>
+    /// <param name="count">넣을 수량입니다.</param>
+    [TutorialEvent("아이템 지급")]
+    public void GiveItem(ItemDefinition item, int count)
+    {
+        if (item == null || count <= 0)
+        {
+            Debug.LogWarning("아이템 지급 이벤트에 아이템이 비어 있거나 수량이 0입니다.", this);
+            return;
+        }
+
+        SquadInventoryManager inventory = FindFirstObjectByType<SquadInventoryManager>(FindObjectsInactive.Include);
+        if (inventory == null)
+        {
+            Debug.LogWarning("아이템 지급: 씬에서 SquadInventoryManager를 찾지 못했습니다.", this);
+            return;
+        }
+
+        inventory.TryAcquire(item.ItemDefinitionId, count, out int leftover);
+        if (leftover > 0)
+        {
+            Debug.LogWarning($"아이템 지급: 인벤토리 공간이 부족해 {item.DisplayName} {leftover}개를 넣지 못했습니다.", this);
+        }
+    }
+
+    /// <summary>셸터 창고에 자원(함정 설치 자원 등)을 넣습니다.</summary>
+    /// <param name="resource">넣을 자원 종류입니다.</param>
+    /// <param name="amount">넣을 수량입니다.</param>
+    [TutorialEvent("자원 지급 (함정 설치 자원 등)")]
+    public void GiveResource(TutorialResourceKind resource, int amount)
+    {
+        StorageFacility storage = ShelterSceneDataManager.Instance?.Storage;
+        if (storage == null || amount <= 0)
+        {
+            Debug.LogWarning("자원 지급: 창고(ShelterSceneDataManager)가 없거나 수량이 0입니다.", this);
+            return;
+        }
+
+        string id = resource switch
+        {
+            TutorialResourceKind.UpgradeMaterial => ResourceIds.UpgradeMaterial,
+            TutorialResourceKind.CraftingMaterial => ResourceIds.CraftingMaterial,
+            TutorialResourceKind.TrapUpgradeMaterial => ResourceIds.TrapUpgradeMaterial,
+            _ => ResourceIds.TrapMaterial,
+        };
+
+        if (!storage.TryAddResource(id, amount))
+        {
+            Debug.LogWarning($"자원 지급: {id} {amount}개를 넣지 못했습니다.", this);
+        }
+    }
+
+    /// <summary>
+    /// 아이템(투척물, 회복약 등)과 함정 설치·수리 자원을 소모하지 않고 쓰게 하거나 원래대로 돌립니다.
+    /// </summary>
+    /// <param name="enabled">켜면 소모 없이 쓰고 수량이 0이어도 씁니다. 끄면 원래대로 소모합니다.</param>
+    /// <remarks>표시 수량과 UI는 바꾸지 않습니다. 튜토리얼이 끝나면 자동으로 꺼집니다.</remarks>
+    [TutorialEvent("아이템·자원 소모 없이 사용 (켜기/끄기)")]
+    public void SetFreeUse(bool enabled)
+    {
+        SquadInventoryManager.FreeUse = enabled;
     }
 
     /// <summary>씬의 청사진 상태인 함정 오브젝트를 모두 끕니다. 이미 설치된 함정은 그대로 둡니다.</summary>

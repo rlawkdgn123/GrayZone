@@ -53,6 +53,19 @@ public sealed class SquadInventoryManager : MonoBehaviour
     /// <summary>아이템 ID로 정적 정의를 찾는 카탈로그입니다. 배선되지 않았으면 <c>null</c>입니다.</summary>
     public ItemDefinitionCatalog ItemCatalog => m_itemCatalog;
 
+    /// <summary>
+    /// 켜면 <see cref="TryConsumeOne"/>이 수량을 줄이지 않고 성공하고, 수량이 0이어도 쓸 수 있습니다.
+    /// 튜토리얼의 "아이템 소모 없이 사용" 이벤트가 켜고 끕니다. 표시 수량은 바뀌지 않습니다.
+    /// </summary>
+    public static bool FreeUse { get; set; }
+
+    /// <summary>Play를 다시 시작할 때 소모 없이 사용을 끕니다. 도메인 리로드를 끈 설정에서도 이전 값이 남지 않게 합니다.</summary>
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetFreeUse()
+    {
+        FreeUse = false;
+    }
+
     /// <summary>인벤토리 칸 하나가 바뀔 때 그 인덱스와 함께 발생합니다.</summary>
     public event Action<int> SlotChanged;
 
@@ -151,6 +164,9 @@ public sealed class SquadInventoryManager : MonoBehaviour
     {
         if (string.IsNullOrWhiteSpace(itemDefinitionId))
             return false;
+
+        if (FreeUse)
+            return true;
 
         string normalizedId = itemDefinitionId.Trim();
         for (int i = 0; i < Inventory.SlotCount; i++)
