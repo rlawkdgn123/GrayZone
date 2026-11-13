@@ -36,4 +36,7 @@ public enum PlayerInputLock
 
     /// <summary>회복약(X)입니다. <see cref="PotionManager"/>가 읽습니다.</summary>
     Potion = 1 << 15,
+
+    /// <summary>AI 팀원의 사격입니다. 키 입력은 아니지만 튜토리얼 챕터 잠금으로 함께 막으려고 둡니다. <see cref="SquadAIController"/>가 읽습니다.</summary>
+    SquadAiFire = 1 << 16,
 }

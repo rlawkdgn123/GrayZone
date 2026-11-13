@@ -932,7 +932,8 @@ public class SquadAIController : MonoBehaviour
         //
         // 조준 정렬만 여기서 봅니다. 이번 프레임의 몸 회전 결과에 의존하므로 판정 시점에는 아직
         // 확정되지 않은 값입니다. 사격선이 막히거나 조준이 어긋나면 즉시 멈춥니다(§10.1, §11.2).
-        if (!m_currentDecision.Fire || !IsAimAligned)
+        // 튜토리얼이 팀원 사격을 막아 둔 동안에는 조준만 하고 쏘지 않습니다.
+        if (!m_currentDecision.Fire || !IsAimAligned || PlayerInputController.IsInputLocked(PlayerInputLock.SquadAiFire))
         {
             m_isBursting = false;
             return;
