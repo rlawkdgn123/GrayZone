@@ -855,6 +855,12 @@ public class PlayerInputController : MonoBehaviour
     /// </remarks>
     public void SetInputGate(bool enabled)
     {
+        // 조작을 막는 컷신 중에는 로딩 화면 닫힘처럼 다른 곳에서 켜려 해도 막힌 채로 둡니다. 컷신이 끝나며 다시 켭니다.
+        if (enabled && InGameCutscene.IsInputLocked)
+        {
+            enabled = false;
+        }
+
         m_isInputEnabled = enabled;
         ResetInputState();
         SetCursorInputForLook(enabled);

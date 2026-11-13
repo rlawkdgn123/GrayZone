@@ -107,6 +107,15 @@ public sealed class TutorialEvents : MonoBehaviour
     /// <summary>시네마틱이 분대 조작을 막아 두었는지 여부입니다.</summary>
     private bool m_cinematicLockedInput;
 
+    /// <summary>시네마틱 재생을 <see cref="InGameCutscene"/>에 알려 두었는지 여부입니다.</summary>
+    private bool m_cinematicPlaying;
+
+    /// <summary><see cref="SkipCinematic"/>으로 재생 중인 시네마틱을 끝내라는 요청이 있었는지 여부입니다.</summary>
+    private bool m_cinematicSkipRequested;
+
+    /// <summary>시네마틱이 끝난 뒤 플레이어 카메라로 돌아오는 전환을 기다리는 최대 시간(초)입니다.</summary>
+    private const float CameraReturnTimeout = 3.0f;
+
     private struct CinematicCameraState
     {
         public CinemachineCamera Camera;
@@ -504,9 +513,12 @@ public sealed class TutorialEvents : MonoBehaviour
         }
 
         StopCinematic();
-        if (cinematic.LockInput)
+        m_cinematicPlaying = true;
+        m_cinematicSkipRequested = false;
+        m_cinematicLockedInput = cinematic.LockInput;
+        InGameCutscene.Begin(m_cinematicLockedInput);
+        if (m_cinematicLockedInput)
         {
-            m_cinematicLockedInput = true;
             SetSquadGameplayInput(false);
         }
 
@@ -536,7 +548,7 @@ public sealed class TutorialEvents : MonoBehaviour
             }
 
             CinemachineCamera previous = null;
-            for (int i = 0; i < cameras.Count; i++)
+            for (int i = 0; i < cameras.Count && !m_cinematicSkipRequested; i++)
             {
                 if (cameras[i] == null)
                 {
@@ -552,7 +564,7 @@ public sealed class TutorialEvents : MonoBehaviour
 
                 previous = cameras[i];
                 float elapsed = 0.0f;
-                while (elapsed < cinematic.SecondsPerCamera)
+                while (elapsed < cinematic.SecondsPerCamera && !m_cinematicSkipRequested)
                 {
                     elapsed += Time.unscaledDeltaTime;
                     yield return null;
@@ -560,7 +572,10 @@ public sealed class TutorialEvents : MonoBehaviour
             }
         }
 
-        StopCinematic();
+        // 화면이 플레이어 카메라로 다 돌아올 때까지 조작 잠금과 컷신 상태를 유지한 뒤 풉니다.
+        StopCinematicPlayback();
+        yield return WaitForCameraReturn();
+        ReleaseCinematicState();
     }
 
     /// <summary>정한 시간(초, 실제 시간)만큼 기다립니다.</summary>
@@ -652,8 +667,55 @@ public sealed class TutorialEvents : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 재생 중인 시네마틱을 바로 끝냅니다. 재생 중이 아니면 아무것도 하지 않습니다.
+    /// </summary>
+    /// <remarks>
+    /// 재생하던 <see cref="PlayCinematic"/>가 이어서 카메라 복귀를 기다린 뒤 조작 잠금을 풉니다. 디버그 넘기기에서 씁니다.
+    /// </remarks>
+    public void SkipCinematic()
+    {
+        if (!m_cinematicPlaying)
+        {
+            return;
+        }
+
+        m_cinematicSkipRequested = true;
+        StopCinematicPlayback();
+    }
+
     /// <summary>재생 중인 시네마틱을 멈추고 카메라와 조작을 원래대로 돌립니다. 재생 중이 아니면 아무것도 하지 않습니다.</summary>
     private void StopCinematic()
+    {
+        StopCinematicPlayback();
+        ReleaseCinematicState();
+    }
+
+    /// <summary>
+    /// 시네마틱이 끝난 뒤 Main Camera가 플레이어 카메라로 넘어가는 전환이 끝날 때까지 기다립니다.
+    /// 시간이 멈춰 전환이 진행되지 않는 경우를 위해 최대 <see cref="CameraReturnTimeout"/>초만 기다립니다.
+    /// </summary>
+    private static IEnumerator WaitForCameraReturn()
+    {
+        Camera mainCamera = Camera.main;
+        CinemachineBrain brain = mainCamera != null ? mainCamera.GetComponent<CinemachineBrain>() : null;
+        if (brain == null)
+        {
+            yield break;
+        }
+
+        // 시네마틱 카메라를 내린 다음 프레임에 전환이 시작되므로 한 프레임 넘기고 봅니다.
+        yield return null;
+        float elapsed = 0.0f;
+        while (brain != null && brain.IsBlending && elapsed < CameraReturnTimeout)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+    }
+
+    /// <summary>시네마틱 카메라와 Timeline을 멈춥니다. 조작 잠금과 컷신 상태는 그대로 둡니다.</summary>
+    private void StopCinematicPlayback()
     {
         while (m_cinematicCameras.Count > 0)
         {
@@ -664,6 +726,16 @@ public sealed class TutorialEvents : MonoBehaviour
         {
             m_cinematicDirector.Stop();
             m_cinematicDirector = null;
+        }
+    }
+
+    /// <summary>컷신 상태를 끝내고 시네마틱이 막아 둔 분대 조작을 풉니다.</summary>
+    private void ReleaseCinematicState()
+    {
+        if (m_cinematicPlaying)
+        {
+            m_cinematicPlaying = false;
+            InGameCutscene.End(m_cinematicLockedInput);
         }
 
         if (m_cinematicLockedInput)
