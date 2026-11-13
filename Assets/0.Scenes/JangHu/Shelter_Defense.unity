@@ -270341,7 +270341,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df1280430ace3f14f8c3784c95426901, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TutorialFlowDirector
-  m_sequence: {fileID: 11400000, guid: 74a027dc5daa3358feac7366bc02c9f5, type: 2}
+  m_sequence: {fileID: 11400000, guid: 225bd7dd6f879e045a1d889492406bf5, type: 2}
   m_dialogue: {fileID: 1146928376}
   m_events: {fileID: 0}
   m_playOnStart: 1
