@@ -91,6 +91,11 @@ public class EnemyController : MonoBehaviour, IKnockbackReceiver
     [Tooltip("활성화하면 이동 상태에서 걷기 속도와 걷기 모션을 사용하지 않고 항상 달리기 속도와 달리기 모션을 사용합니다. 정지 상태의 Idle은 유지합니다. Spawn SO로 생성되면 SO 값이 우선합니다.")]
     [SerializeField] private bool m_alwaysRun;
 
+    [Tooltip("이동 애니메이션 값(MoveSpeed, MoveX, MoveZ)이 실제 속도를 따라가는 데 걸리는 시간(초)입니다. " +
+             "0이면 바로 바뀌어, 멈추는 순간 걷기에서 Idle로 자세가 튑니다. 블렌드 트리 사이를 부드럽게 넘기려고 둡니다.")]
+    [Min(0.0f)]
+    [SerializeField] private float m_moveAnimDampTime = 0.15f;
+
     [Tooltip("대상을 향해 몸을 돌리는 최대 각속도(도/초)입니다. 200이면 180도 도는 데 약 0.9초가 걸립니다. 값이 클수록 고개가 튕기듯 돌아갑니다.")]
     [SerializeField] private float rotationSpeed = 200f;
 
@@ -1700,20 +1705,24 @@ public class EnemyController : MonoBehaviour, IKnockbackReceiver
             ? Mathf.Max(speed, ChaseSpeed)
             : speed;
 
-        animator.SetFloat(AnimMoveSpeed, animationSpeed);
+        // 값을 바로 넣지 않고 짧게 따라가게 합니다. 에이전트는 멈출 때 속도가 한 프레임에 0이 되므로,
+        // 그대로 넣으면 블렌드 트리가 걷기에서 Idle로 건너뛰어 자세가 튑니다.
+        float dampTime = m_moveAnimDampTime;
+        float deltaTime = Time.deltaTime;
+        animator.SetFloat(AnimMoveSpeed, animationSpeed, dampTime, deltaTime);
 
         // 이동 방향을 자기 기준으로 바꿔 2D 블렌드 축에 넣습니다.
         // 월드 방향을 그대로 쓰면 몸이 어디를 보든 같은 값이 되어 옆걸음과 앞걸음을 구분하지 못합니다.
         if (speed <= 0.01f)
         {
-            animator.SetFloat(AnimMoveX, 0f);
-            animator.SetFloat(AnimMoveZ, 0f);
+            animator.SetFloat(AnimMoveX, 0f, dampTime, deltaTime);
+            animator.SetFloat(AnimMoveZ, 0f, dampTime, deltaTime);
             return;
         }
 
         Vector3 local = transform.InverseTransformDirection(velocity / speed);
-        animator.SetFloat(AnimMoveX, local.x);
-        animator.SetFloat(AnimMoveZ, local.z);
+        animator.SetFloat(AnimMoveX, local.x, dampTime, deltaTime);
+        animator.SetFloat(AnimMoveZ, local.z, dampTime, deltaTime);
     }
 
     // =========================
