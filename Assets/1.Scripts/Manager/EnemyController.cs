@@ -1300,10 +1300,10 @@ public class EnemyController : MonoBehaviour, IKnockbackReceiver
         // 판단은 이미 재개된 상태이므로 아래 Tick은 그대로 돌립니다.
         UpdateStaggerHandover();
 
-        // 제자리에 세워 둔 개체는 이동·추격·공격 판단을 하지 않습니다. 피격 경직과 넉백은 위에서 그대로 처리합니다.
-        if (m_holdStill)
+        // 튜토리얼 과녁은 감지·추적·공격 판단을 하지 않고 시킨 이동만 합니다. 피격 경직과 넉백은 위에서 그대로 처리합니다.
+        if (m_tutorialTargetMode)
         {
-            UpdateHoldStill();
+            UpdateTutorialTarget();
             return;
         }
 
@@ -3125,56 +3125,60 @@ public class EnemyController : MonoBehaviour, IKnockbackReceiver
     }
 
     /// <summary>
-    /// 켜면 이 개체가 제자리에 서서 움직이지도 공격하지도 않습니다. 맞으면 경직과 넉백은 그대로 받습니다.
-    /// 튜토리얼에서 적을 표적처럼 세워 둘 때 씁니다.
+    /// 튜토리얼용 과녁 모드입니다. 켜면 감지·추적·공격 판단을 하지 않고, <see cref="TargetMoveTo"/>로 시킨 이동만 한 뒤 제자리에 섭니다.
+    /// 맞으면 경직과 넉백은 그대로 받습니다. 끄면 평소 판단으로 돌아갑니다.
     /// </summary>
-    public bool HoldStill
+    public bool TutorialTargetMode
     {
-        get => m_holdStill;
+        get => m_tutorialTargetMode;
         set
         {
-            m_holdStill = value;
-            m_hasHoldPoint = false;
+            m_tutorialTargetMode = value;
+            m_hasTargetMovePoint = false;
         }
     }
 
-    private bool m_holdStill;
-    private bool m_hasHoldPoint;
-    private Vector3 m_holdPoint;
+    private bool m_tutorialTargetMode;
+    private bool m_hasTargetMovePoint;
+    private Vector3 m_targetMovePoint;
 
-    /// <summary>제자리 대기 개체를 이 위치까지 걸어가게 한 뒤 거기서 세워 둡니다. <see cref="HoldStill"/>을 함께 켭니다.</summary>
-    public void HoldAt(Vector3 worldPosition)
+    /// <summary>과녁 모드에서 이 위치까지 걸어가게 합니다. 도착하면 그 자리에 섭니다. 과녁 모드가 꺼져 있으면 무시합니다.</summary>
+    public void TargetMoveTo(Vector3 worldPosition)
     {
-        m_holdStill = true;
-        m_hasHoldPoint = true;
-        m_holdPoint = worldPosition;
+        if (!m_tutorialTargetMode)
+        {
+            return;
+        }
+
+        m_hasTargetMovePoint = true;
+        m_targetMovePoint = worldPosition;
     }
 
-    /// <summary>대기 위치가 있으면 그곳까지 걷고, 도착했거나 위치가 없으면 멈춰 섭니다.</summary>
-    private void UpdateHoldStill()
+    /// <summary>과녁 모드에서 시킨 위치가 있으면 그곳까지 걷고, 도착했거나 위치가 없으면 멈춰 섭니다.</summary>
+    private void UpdateTutorialTarget()
     {
-        if (m_hasHoldPoint && agent != null && agent.isOnNavMesh)
+        if (m_hasTargetMovePoint && agent != null && agent.isOnNavMesh)
         {
-            Vector3 offset = m_holdPoint - transform.position;
+            Vector3 offset = m_targetMovePoint - transform.position;
             offset.y = 0.0f;
-            if (offset.sqrMagnitude > HoldArriveDistance * HoldArriveDistance)
+            if (offset.sqrMagnitude > TargetArriveDistance * TargetArriveDistance)
             {
-                if (agent.isStopped || !agent.hasPath || (agent.destination - m_holdPoint).sqrMagnitude > 0.01f)
+                if (agent.isStopped || !agent.hasPath || (agent.destination - m_targetMovePoint).sqrMagnitude > 0.01f)
                 {
-                    MoveTo(m_holdPoint);
+                    MoveTo(m_targetMovePoint);
                 }
 
                 return;
             }
 
-            m_hasHoldPoint = false;
+            m_hasTargetMovePoint = false;
         }
 
         StopMoving();
     }
 
-    /// <summary>대기 위치에 도착했다고 보는 평면 거리(m)입니다.</summary>
-    private const float HoldArriveDistance = 0.4f;
+    /// <summary>과녁 모드 이동에서 도착했다고 보는 평면 거리(m)입니다.</summary>
+    private const float TargetArriveDistance = 0.4f;
 
     /// <summary>이동을 멈춥니다.</summary>
     public void StopMoving()

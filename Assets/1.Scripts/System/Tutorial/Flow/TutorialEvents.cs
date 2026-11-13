@@ -490,10 +490,9 @@ public sealed class TutorialEvents : MonoBehaviour
     /// <param name="count">만들 수입니다.</param>
     /// <param name="position">만들 위치(월드 좌표)입니다.</param>
     /// <param name="spreadRadius">위치 둘레로 흩어 놓을 반경(m)입니다. 0이면 모두 같은 위치입니다.</param>
-    /// <param name="holdStill">켜면 만든 적이 제자리에 서서 움직이지도 공격하지도 않습니다.</param>
-    /// <param name="walkInDistance">제자리 대기일 때, 서기 전에 조작 중인 캐릭터 쪽으로 걸어 나올 거리(m)입니다. 0이면 생성 위치에 바로 섭니다.</param>
+    /// <param name="targetMode">켜면 튜토리얼용 과녁 모드로 만듭니다. 감지·추적·공격을 하지 않고 시킨 이동만 합니다.</param>
     [TutorialEvent("적 생성")]
-    public void SpawnEnemies(EnemyController prefab, int count, Vector3 position, float spreadRadius, bool holdStill, float walkInDistance)
+    public void SpawnEnemies(EnemyController prefab, int count, Vector3 position, float spreadRadius, bool targetMode)
     {
         if (prefab == null)
         {
@@ -523,20 +522,63 @@ public sealed class TutorialEvents : MonoBehaviour
             }
 
             EnemyController enemy = Instantiate(prefab, spawnPosition, rotation);
-            enemy.HoldStill = holdStill;
-            if (holdStill && walkInDistance > 0.0f)
-            {
-                // 생성할 때 캐릭터를 바라보게 세웠으므로 정면이 캐릭터 쪽입니다.
-                Vector3 holdPoint = spawnPosition + rotation * Vector3.forward * walkInDistance;
-                if (NavMesh.SamplePosition(holdPoint, out NavMeshHit holdHit, m_spawnSampleRadius, NavMesh.AllAreas))
-                {
-                    holdPoint = holdHit.position;
-                }
+            enemy.TutorialTargetMode = targetMode;
+            m_spawnedEnemies.Add(enemy);
+        }
+    }
 
-                enemy.HoldAt(holdPoint);
+    /// <summary>
+    /// 적 생성으로 만든 적의 튜토리얼용 과녁 모드를 켜거나 끕니다. 켜면 감지·추적·공격을 하지 않고 시킨 이동만 한 뒤 제자리에 섭니다.
+    /// </summary>
+    /// <param name="prefab">바꿀 적 프리팹입니다. 비우면 프리팹을 가리지 않습니다.</param>
+    /// <param name="enabled">켜면 과녁 모드, 끄면 평소 판단으로 돌아갑니다.</param>
+    [TutorialEvent("튜토리얼 적 과녁 모드 (켜기/끄기)")]
+    public void SetEnemyTargetMode(EnemyController prefab, bool enabled)
+    {
+        foreach (EnemyController enemy in GetSpawnedEnemies(prefab))
+        {
+            enemy.TutorialTargetMode = enabled;
+        }
+    }
+
+    /// <summary>
+    /// 적 생성으로 만든 과녁 모드 적을 조작 중인 캐릭터 쪽으로 정한 거리만큼 걸어 나오게 합니다. 도착하면 그 자리에 섭니다.
+    /// </summary>
+    /// <param name="prefab">움직일 적 프리팹입니다. 비우면 프리팹을 가리지 않습니다.</param>
+    /// <param name="distance">걸어 나올 거리(m)입니다.</param>
+    /// <remarks>과녁 모드가 꺼진 적은 평소처럼 스스로 움직이므로 건드리지 않습니다.</remarks>
+    [TutorialEvent("튜토리얼 적 걸어 나오기")]
+    public void WalkEnemiesForward(EnemyController prefab, float distance)
+    {
+        SquadMemberController player = SquadManager.Instance != null ? SquadManager.Instance.PlayerSquadMember : null;
+        foreach (EnemyController enemy in GetSpawnedEnemies(prefab))
+        {
+            Vector3 direction = player != null ? player.transform.position - enemy.transform.position : enemy.transform.forward;
+            direction.y = 0.0f;
+            if (direction.sqrMagnitude < 0.0001f)
+            {
+                continue;
             }
 
-            m_spawnedEnemies.Add(enemy);
+            Vector3 destination = enemy.transform.position + direction.normalized * distance;
+            if (NavMesh.SamplePosition(destination, out NavMeshHit hit, m_spawnSampleRadius, NavMesh.AllAreas))
+            {
+                destination = hit.position;
+            }
+
+            enemy.TargetMoveTo(destination);
+        }
+    }
+
+    /// <summary>적 생성으로 만든 적 중 살아 있고 프리팹이 맞는 적입니다.</summary>
+    private IEnumerable<EnemyController> GetSpawnedEnemies(EnemyController prefab)
+    {
+        foreach (EnemyController enemy in m_spawnedEnemies)
+        {
+            if (enemy != null && IsFromPrefab(enemy, prefab))
+            {
+                yield return enemy;
+            }
         }
     }
 
