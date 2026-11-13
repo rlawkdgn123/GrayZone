@@ -76,6 +76,12 @@ public sealed class TutorialFlowDirector : MonoBehaviour
     /// </summary>
     private int m_blockStartFrame;
 
+    /// <summary>
+    /// 이번 챕터가 새로 여는 조작 중, 챕터의 첫 튜토리얼 창이 닫힐 때까지 계속 막아 두는 조작입니다.
+    /// 안내 창을 보고 넘긴 뒤에 조작이 열리게 하기 위해서입니다. 창이 없는 챕터는 바로 엽니다.
+    /// </summary>
+    private PlayerInputLock m_locksUntilWindow;
+
     /// <summary>씬에 있는 활성 튜토리얼 진행기입니다. 없으면 null입니다.</summary>
     public static TutorialFlowDirector Instance => s_instance;
 
@@ -137,6 +143,7 @@ public sealed class TutorialFlowDirector : MonoBehaviour
         m_stepIndex = NoIndex;
         m_blockIndex = NoIndex;
         m_isHoldingDialogue = false;
+        m_locksUntilWindow = PlayerInputLock.None;
         StopAllCoroutines();
         DisposeWatchers();
         // 씬이 내려갈 때도 불리므로 여기서는 찾거나 붙이지 않고, 이미 연결된 것만 되돌립니다.
@@ -205,7 +212,7 @@ public sealed class TutorialFlowDirector : MonoBehaviour
         // 분대원이 늦게 준비되면 처음 건 잠금이 닿지 않을 수 있어 매 프레임 맞춥니다. 값이 같으면 아무것도 하지 않습니다.
         if (m_stepIndex >= 0)
         {
-            PlayerInputController.SetInputLock(m_sequence.Steps[m_stepIndex].LockedInputs);
+            PlayerInputController.SetInputLock(m_sequence.Steps[m_stepIndex].LockedInputs | m_locksUntilWindow);
         }
     }
 
@@ -215,8 +222,13 @@ public sealed class TutorialFlowDirector : MonoBehaviour
         for (int stepIndex = 0; stepIndex < steps.Count; stepIndex++)
         {
             m_stepIndex = stepIndex;
-            PlayerInputController.SetInputLock(steps[stepIndex].LockedInputs);
-            yield return RunStep(steps[stepIndex]);
+            TutorialStep step = steps[stepIndex];
+            // 첫 챕터는 앞 챕터가 없어 기본 조작을 그대로 엽니다.
+            m_locksUntilWindow = stepIndex > 0 && HasWindow(step)
+                ? steps[stepIndex - 1].LockedInputs & ~step.LockedInputs
+                : PlayerInputLock.None;
+            PlayerInputController.SetInputLock(step.LockedInputs | m_locksUntilWindow);
+            yield return RunStep(step);
         }
 
         End();
@@ -376,7 +388,15 @@ public sealed class TutorialFlowDirector : MonoBehaviour
             if (actions[i] != null)
             {
                 running++;
-                StartCoroutine(RunTracked(events.Run(actions[i]), () => running--));
+                bool isWindow = IsWindowAction(actions[i]);
+                StartCoroutine(RunTracked(events.Run(actions[i]), () =>
+                {
+                    running--;
+                    if (isWindow)
+                    {
+                        m_locksUntilWindow = PlayerInputLock.None;
+                    }
+                }));
             }
         }
 
@@ -391,6 +411,33 @@ public sealed class TutorialFlowDirector : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    private static bool IsWindowAction(TutorialAction action)
+    {
+        return action != null && action.Method == nameof(TutorialEvents.ShowWindow);
+    }
+
+    /// <summary>챕터 안에 튜토리얼 창을 띄우는 이벤트가 있는지 여부입니다.</summary>
+    private static bool HasWindow(TutorialStep step)
+    {
+        foreach (TutorialBlock block in step.Blocks)
+        {
+            if (block?.Actions == null)
+            {
+                continue;
+            }
+
+            foreach (TutorialAction action in block.Actions)
+            {
+                if (IsWindowAction(action))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private static IEnumerator RunTracked(IEnumerator routine, Action onDone)
