@@ -159,7 +159,7 @@ public class ExplosiveProjectile : ProjectileBase
             m_explosionHeight,
             m_damage,
             m_damageTargetLayers,
-            null,
+            CreateDamageInfo(),
             false,
             m_playerDamage,
             onTargetDamaged,

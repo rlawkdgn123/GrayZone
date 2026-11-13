@@ -349,7 +349,7 @@ public sealed class FireTrap : Trap
         }
 
         Faction sourceFaction = isAlly ? Faction.Enemy : Faction.Player;
-        StatusEffectContainer.GetOrAdd(damageable)?.Apply(burning, sourceFaction, gameObject);
+        StatusEffectContainer.GetOrAdd(damageable)?.Apply(burning, sourceFaction, gameObject, CreateDamageInfo());
     }
 
     private StatusEffectDefinitionSO ResolveExitBurningEffect()
@@ -481,7 +481,7 @@ public sealed class FireTrap : Trap
         }
 
         occupant.PendingDamage -= amount;
-        damageable.TakeDamage(amount, gameObject);
+        damageable.TakeDamage(CreateDamageInfo(amount));
     }
 
     /// <summary>화염 지대 범위 안의 폭발물 함정에 불이 붙었음을 알립니다.</summary>

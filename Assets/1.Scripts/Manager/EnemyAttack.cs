@@ -397,12 +397,13 @@ public class EnemyAttack : MonoBehaviour
         // 진영 판정과 실제 피해 적용은 공용 경로로 처리합니다.
         // 맞은 쪽이 누구에게 맞았는지 알 수 있도록 이 변이체를 함께 넘깁니다.
         MeleeBalanceSO balance = source.Balance;
+        DamageInfo hit = new DamageInfo(damage, DamageCategory.Melee, balance != null ? balance.MeleeId : source.name, gameObject);
         if (balance != null && balance.AllowHeadshot)
         {
             // 약점 판정을 쓰는 무기만 Hitbox를 요구하는 경로로 갑니다.
             // 변이체의 공격은 약점 없이 정배수로 확정되어 있어 보통 아래 경로를 씁니다.
             CombatDamage.HitFeedback feedback = CombatDamage.ResolveHit(
-                other, m_ownerFaction, damage, balance.HeadshotDamageMultiplier, true, gameObject, staggerPower);
+                other, m_ownerFaction, hit, balance.HeadshotDamageMultiplier, true, staggerPower);
 
             if (!feedback.Applied)
             {
@@ -411,7 +412,7 @@ public class EnemyAttack : MonoBehaviour
         }
         else
         {
-            if (!CombatDamage.TryApplyDamage(other, m_ownerFaction, damage, gameObject))
+            if (!CombatDamage.TryApplyDamage(other, m_ownerFaction, hit))
             {
                 return false;
             }

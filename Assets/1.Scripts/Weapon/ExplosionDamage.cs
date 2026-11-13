@@ -39,9 +39,9 @@ public static class ExplosionDamage
     /// <param name="height">피해 원통의 전체 높이(m)입니다. 중심을 기준으로 위아래 절반씩 적용됩니다.</param>
     /// <param name="damage">범위 안의 각 대상에게 한 번씩 적용할 고정 피해량입니다.</param>
     /// <param name="targetLayers">피해 후보로 검색할 Collider Layer입니다.</param>
-    /// <param name="attacker">
-    /// 이 폭발을 일으킨 대상입니다. 모르면 <c>null</c>을 넘깁니다. 피해를 받은 쪽이 반격할 상대를
-    /// 정하는 데 쓰이므로, 설치물처럼 주인이 분명하면 넘기는 편이 낫습니다.
+    /// <param name="source">
+    /// 이 폭발의 피해 정보 틀입니다. 공격 방식(투척물·함정 등), 세부 종류, 공격자를 담고, 피해량은 대상마다 채워 넣습니다.
+    /// 피해를 받은 쪽이 반격할 상대와 사인을 아는 데 쓰입니다.
     /// </param>
     /// <param name="showRangeVisual">폭발 범위를 잠깐 그려 보여 줄지 여부입니다.</param>
     /// <param name="playerDamage">
@@ -58,7 +58,7 @@ public static class ExplosionDamage
         float height,
         int damage,
         LayerMask targetLayers,
-        GameObject attacker = null,
+        DamageInfo source = default,
         bool showRangeVisual = true,
         int playerDamage = -1,
         Action<IDamageable> onTargetDamaged = null,
@@ -92,7 +92,7 @@ public static class ExplosionDamage
             isInsideRange,
             damage,
             playerDamage >= 0 ? playerDamage : damage,
-            attacker,
+            source,
             onTargetDamaged,
             center,
             occluderLayers);
@@ -102,7 +102,7 @@ public static class ExplosionDamage
             new Vector3(explosionRadius, halfHeight, explosionRadius),
             Quaternion.identity,
             isInsideRange,
-            attacker);
+            source.Attacker);
 
         return damagedCount;
     }
@@ -118,7 +118,7 @@ public static class ExplosionDamage
     /// <param name="height">피해 범위의 전체 높이(m)입니다. 폭발 지점을 기준으로 위아래 절반씩 적용됩니다.</param>
     /// <param name="damage">범위 안의 각 대상에게 한 번씩 적용할 고정 피해량입니다.</param>
     /// <param name="targetLayers">피해 후보로 검색할 Collider Layer입니다.</param>
-    /// <param name="attacker">이 폭발을 일으킨 대상입니다. 모르면 <c>null</c>을 넘깁니다.</param>
+    /// <param name="source">이 폭발의 피해 정보 틀입니다. 공격 방식, 세부 종류, 공격자를 담고, 피해량은 대상마다 채워 넣습니다.</param>
     /// <param name="showRangeVisual">폭발 범위를 잠깐 그려 보여 줄지 여부입니다.</param>
     /// <returns>실제로 피해를 준 대상의 수입니다.</returns>
     /// <remarks>
@@ -135,7 +135,7 @@ public static class ExplosionDamage
         float height,
         int damage,
         LayerMask targetLayers,
-        GameObject attacker = null,
+        DamageInfo source = default,
         bool showRangeVisual = true)
     {
         float explosionRange = Mathf.Max(0.0f, range);
@@ -180,14 +180,14 @@ public static class ExplosionDamage
             halfNearWidth,
             halfFarWidth,
             halfHeight);
-        int damagedCount = ApplyDamage(colliders, isInsideRange, damage, damage, attacker, null, origin, default);
+        int damagedCount = ApplyDamage(colliders, isInsideRange, damage, damage, source, null, origin, default);
 
         TriggerChainDetonation(
             boxCenter,
             new Vector3(halfMaxWidth, halfHeight, explosionRange * 0.5f),
             rotation,
             isInsideRange,
-            attacker);
+            source.Attacker);
 
         return damagedCount;
     }
@@ -262,7 +262,7 @@ public static class ExplosionDamage
         Func<Collider, bool> isInsideRange,
         int damage,
         int playerDamage,
-        GameObject attacker,
+        DamageInfo source,
         Action<IDamageable> onTargetDamaged,
         Vector3 explosionOrigin,
         LayerMask occluderLayers)
@@ -300,7 +300,7 @@ public static class ExplosionDamage
                 continue;
             }
 
-            if (!target.TakeDamage(targetDamage, attacker))
+            if (!target.TakeDamage(source.WithAmount(targetDamage)))
             {
                 continue;
             }

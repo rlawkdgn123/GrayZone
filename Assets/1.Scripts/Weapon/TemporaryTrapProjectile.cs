@@ -161,6 +161,9 @@ public sealed class TemporaryTrapProjectile : ProjectileBase
             ? ResolveSurfaceRotation(surfaceNormal)
             : Quaternion.identity;
         Trap trap = Instantiate(m_trapPrefab, position, rotation);
+
+        // 이 함정이 주는 피해는 함정이 아니라 투척물(화염병 등)의 피해로 남깁니다.
+        trap.SetDamageSource(CreateDamageInfo());
         FireTrap fireTrap = trap as FireTrap;
         if (fireTrap != null)
         {

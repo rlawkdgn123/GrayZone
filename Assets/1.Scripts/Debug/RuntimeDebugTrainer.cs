@@ -2668,7 +2668,7 @@ public class RuntimeDebugTrainer : MonoBehaviour
     {
         foreach (EnemyHealth enemyHealth in FindObjectsByType<EnemyHealth>(FindObjectsSortMode.None))
         {
-            enemyHealth.TakeDamage(int.MaxValue);
+            enemyHealth.TakeDamage(DamageInfo.Debug(int.MaxValue, "RuntimeDebugTrainer.KillAllEnemies"));
         }
     }
 

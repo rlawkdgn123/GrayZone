@@ -404,6 +404,28 @@ public abstract class Trap : MonoBehaviour, IInteractable, IInteractionRequireme
     /// <remarks>프리팹마다 문구를 넣지 않아도 HUD가 비지 않게 하려고 종류별 기본값을 둡니다.</remarks>
     protected virtual string DefaultDisplayName => gameObject.name;
 
+    /// <summary><see cref="SetDamageSource"/>로 바꾼 피해 정보 틀입니다. 바꾸지 않았으면 기본값입니다.</summary>
+    private DamageInfo m_damageSourceOverride;
+
+    /// <summary>
+    /// 이 함정이 주는 피해의 공격 방식과 공격자를 바꿉니다. 화염병처럼 투척물이 만든 함정이 자기 투척물 정보를 남길 때 씁니다.
+    /// </summary>
+    public void SetDamageSource(DamageInfo source)
+    {
+        m_damageSourceOverride = source;
+    }
+
+    /// <summary>
+    /// 이 함정이 주는 피해 정보입니다. 기본은 공격 방식 함정, 세부 종류는 함정 타입 이름(MineTrap 등), 공격자는 이 함정입니다.
+    /// </summary>
+    /// <param name="amount">피해량입니다. 폭발처럼 대상마다 피해량을 채우는 경로에는 0을 넘깁니다.</param>
+    protected DamageInfo CreateDamageInfo(float amount = 0.0f)
+    {
+        return m_damageSourceOverride.IsValid
+            ? m_damageSourceOverride.WithAmount(amount)
+            : new DamageInfo(amount, DamageCategory.Trap, GetType().Name, gameObject, DisplayName);
+    }
+
     /// <summary>함정 종류의 기본 설명입니다. 파생이 덮어쓰지 않으면 빈 문자열입니다.</summary>
     protected virtual string DefaultDescription => string.Empty;
 

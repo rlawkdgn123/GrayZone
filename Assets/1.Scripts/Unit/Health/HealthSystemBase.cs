@@ -54,7 +54,7 @@ public class HealthSystemBase : MonoBehaviour, IDamageable
     [Button("Take 9999 Damage")]
     private void DebugTake9999Damage()
     {
-        TakeDamage(DebugDownDamage);
+        TakeDamage(DamageInfo.Debug(DebugDownDamage, "Inspector 9999"));
     }
 #endif
 
@@ -128,6 +128,15 @@ public class HealthSystemBase : MonoBehaviour, IDamageable
     /// 별도 필드에 보관해 두고 나중에 조회하는 방식은 같은 프레임에 두 발을 맞으면 덮어써집니다.
     /// </remarks>
     public event Action<float, GameObject> OnDamaged;
+
+    /// <summary>마지막으로 실제 들어간 피해의 정보입니다. 피해량은 실제로 깎인 HP입니다. 아직 맞지 않았으면 기본값입니다.</summary>
+    public DamageInfo LastDamage { get; private set; }
+
+    /// <summary>
+    /// HP를 0으로 만든 피해의 정보(사인)입니다. HP가 0이 된 적이 없거나, 부활·회복으로 다시 살아났으면 기본값입니다.
+    /// </summary>
+    /// <remarks>플레이어처럼 HP 0이 다운인 대상도 다운시킨 피해가 여기에 남습니다.</remarks>
+    public DamageInfo FatalDamage { get; private set; }
 
     private void Start()
     {
@@ -216,6 +225,7 @@ public class HealthSystemBase : MonoBehaviour, IDamageable
         m_maxHp = Mathf.Max(1, m_maxHp);
         m_currentHp = m_maxHp;
         m_isDead = false;
+        FatalDamage = default;
 
         NotifyHPChanged();
     }
@@ -249,22 +259,32 @@ public class HealthSystemBase : MonoBehaviour, IDamageable
     }
 
     /// <summary>
-    /// 피해를 적용합니다. HP가 실제로 변경된 경우에만 true를 반환합니다.
+    /// 피해를 적용합니다. HP가 실제로 변경된 경우에만 true를 반환합니다. 공격 방식은 <see cref="DamageCategory.Unknown"/>으로 기록됩니다.
     /// </summary>
     /// <param name="damage">적용할 피해량입니다.</param>
     /// <param name="attacker">피해를 입힌 대상입니다. 디버그처럼 공격자가 없는 경로는 null입니다.</param>
-    /// <remarks>정수 피해는 실수 경로로 그대로 넘깁니다. 피해 처리는 <see cref="TakeDamage(float, GameObject)"/> 한 곳에만 둡니다.</remarks>
+    /// <remarks>피해 처리는 <see cref="TakeDamage(DamageInfo)"/> 한 곳에만 둡니다.</remarks>
     public bool TakeDamage(int damage, GameObject attacker = null)
     {
-        return TakeDamage((float)damage, attacker);
+        return TakeDamage(DamageInfo.Unknown(damage, attacker));
     }
 
     /// <summary>
-    /// 소수 피해를 적용합니다. HP가 실제로 변경된 경우에만 true를 반환합니다.
+    /// 소수 피해를 적용합니다. HP가 실제로 변경된 경우에만 true를 반환합니다. 공격 방식은 <see cref="DamageCategory.Unknown"/>으로 기록됩니다.
     /// </summary>
     /// <param name="damage">적용할 피해량입니다.</param>
     /// <param name="attacker">피해를 입힌 대상입니다. 디버그처럼 공격자가 없는 경로는 null입니다.</param>
-    public virtual bool TakeDamage(float damage, GameObject attacker = null)
+    public bool TakeDamage(float damage, GameObject attacker = null)
+    {
+        return TakeDamage(DamageInfo.Unknown(damage, attacker));
+    }
+
+    /// <summary>
+    /// 피해 정보를 받아 적용합니다. HP가 실제로 변경된 경우에만 true를 반환합니다.
+    /// </summary>
+    /// <param name="info">피해량과 공격 방식, 세부 종류, 공격자를 담은 정보입니다.</param>
+    /// <remarks>실제로 깎인 HP를 담아 <see cref="LastDamage"/>에, HP를 0으로 만들었으면 <see cref="FatalDamage"/>에도 남깁니다.</remarks>
+    public virtual bool TakeDamage(DamageInfo info)
     {
         if (m_isDead)
         {
@@ -272,6 +292,7 @@ public class HealthSystemBase : MonoBehaviour, IDamageable
         }
 
         // int.MaxValue 같은 큰 값이 float로 넘어와도 그대로 HP를 0으로 만듭니다. NaN은 피해로 보지 않습니다.
+        float damage = info.Amount;
         if (float.IsNaN(damage) || damage <= 0.0f)
         {
             return false;
@@ -286,16 +307,19 @@ public class HealthSystemBase : MonoBehaviour, IDamageable
             return false;
         }
 
+        LastDamage = info.WithAmount(actualDamage);
         OnDamageApplied(actualDamage, previousHp);
         DamageNumberDebug.Report(this, actualDamage, DamageNumberKind);
 
-        LogHealthDebug($"[HealthSystem] Hit. Current HP : {m_currentHp}");
+        LogHealthDebug($"[HealthSystem] Hit. Current HP : {m_currentHp} | {LastDamage}");
 
         NotifyHPChanged();
-        OnDamaged?.Invoke(actualDamage, attacker);
+        OnDamaged?.Invoke(actualDamage, info.Attacker);
 
         if (m_currentHp <= 0.0f)
         {
+            FatalDamage = LastDamage;
+            LogHealthDebug($"[HealthSystem] HP 0 | 사인: {FatalDamage}");
             OnHpDepleted();
         }
 
@@ -339,6 +363,7 @@ public class HealthSystemBase : MonoBehaviour, IDamageable
 
         m_currentHp = m_maxHp;
         m_isDead = false;
+        FatalDamage = default;
 
         if (wasDead)
         {
@@ -369,6 +394,7 @@ public class HealthSystemBase : MonoBehaviour, IDamageable
     {
         m_currentHp = Mathf.Clamp(amount, 1, m_maxHp);
         m_isDead = false;
+        FatalDamage = default;
 
         OnRevive?.Invoke();
         NotifyHPChanged();

@@ -11,6 +11,13 @@ public sealed class StatusEffectContainer : MonoBehaviour
         public StatusEffectDefinitionSO Definition;
         public Faction SourceFaction;
         public GameObject Source;
+
+        /// <summary>
+        /// 이 효과를 건 공격의 정보입니다. 주기 피해의 공격자·원래 공격으로 씁니다.
+        /// 공격자 오브젝트(화염 지대 등)가 먼저 사라져도 이름과 공격 방식이 남도록 걸 때 저장합니다.
+        /// </summary>
+        public DamageInfo Cause;
+
         public int Stacks;
         public float ExpireTime;
         public float NextTickTime;
@@ -222,8 +229,18 @@ public sealed class StatusEffectContainer : MonoBehaviour
     }
 
     /// <summary>효과를 추가하거나 정의된 중첩 규칙에 따라 기존 효과를 갱신합니다.</summary>
-    public bool Apply(StatusEffectDefinitionSO definition, Faction sourceFaction, GameObject source = null)
+    /// <param name="cause">
+    /// 이 효과를 건 공격의 정보입니다. 주기 피해가 있는 효과(화상 등)는 이 값을 공격자·원래 공격으로 남깁니다.
+    /// 비우면 <paramref name="source"/>를 공격자로 하고 공격 방식은 모름으로 남깁니다.
+    /// 같은 효과를 다른 공격이 다시 걸면 마지막에 건 공격으로 바뀝니다(출처별로 따로 쌓는 효과는 따로 남습니다).
+    /// </param>
+    public bool Apply(StatusEffectDefinitionSO definition, Faction sourceFaction, GameObject source = null, DamageInfo cause = default)
     {
+        if (!cause.IsValid)
+        {
+            cause = DamageInfo.Unknown(0.0f, source);
+        }
+
         if (definition == null)
         {
             return false;
@@ -244,6 +261,7 @@ public sealed class StatusEffectContainer : MonoBehaviour
                 Definition = definition,
                 SourceFaction = sourceFaction,
                 Source = source,
+                Cause = cause,
                 Stacks = 1,
                 ExpireTime = now + definition.Duration,
                 NextTickTime = now + definition.TickInterval,
@@ -256,6 +274,7 @@ public sealed class StatusEffectContainer : MonoBehaviour
         {
             entry.SourceFaction = sourceFaction;
             entry.Source = source;
+            entry.Cause = cause;
             entry.ExpireTime = now + definition.Duration;
             entry.VisualSequence = ++m_nextVisualSequence;
             if (definition.StackPolicy == StatusEffectStackPolicy.StackIntensity)
@@ -534,7 +553,7 @@ public sealed class StatusEffectContainer : MonoBehaviour
 
             // 감소율 100%로 0이 되면 이번 틱은 건너뛰고 다음 틱 시각만 넘깁니다.
             if (damage > 0
-                && !CombatDamage.TryApplyDamage(m_damageable, entry.SourceFaction, damage, entry.Source))
+                && !CombatDamage.TryApplyDamage(m_damageable, entry.SourceFaction, entry.Cause.ToStatusEffect(damage, definition.name)))
             {
                 break;
             }

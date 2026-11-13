@@ -228,7 +228,7 @@ public class WireTrap : Trap
         int damage = Damage;
         if (damageable != null && !damageable.IsDead && damage > 0)
         {
-            damageable.TakeDamage(damage, gameObject);
+            damageable.TakeDamage(CreateDamageInfo(damage));
         }
 
         // 내구도는 머무는 시간이 아니라 걸린 적 수로 깎습니다. 시간으로 깎으면 한 마리가 오래 갇혀
@@ -333,7 +333,7 @@ public class WireTrap : Trap
             {
                 if (damage > 0)
                 {
-                    occupant.Damageable.TakeDamage(damage, gameObject);
+                    occupant.Damageable.TakeDamage(CreateDamageInfo(damage));
                 }
 
                 occupant.TickTimer = interval;

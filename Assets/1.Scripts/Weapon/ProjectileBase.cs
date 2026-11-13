@@ -44,6 +44,25 @@ public abstract class ProjectileBase : MonoBehaviour
         ? m_inventoryItemDefinition.ItemDefinitionId
         : string.Empty;
 
+    /// <summary>이 투척물을 던진 캐릭터입니다. 모르면 null입니다.</summary>
+    public GameObject Thrower { get; private set; }
+
+    /// <summary>던진 캐릭터를 기록합니다. 피해 정보의 공격자로 씁니다.</summary>
+    public void SetThrower(GameObject thrower)
+    {
+        Thrower = thrower;
+    }
+
+    /// <summary>
+    /// 이 투척물의 피해 정보 틀입니다. 공격 방식은 투척물, 세부 종류는 아이템 ID(없으면 오브젝트 이름), 공격자는 던진 캐릭터입니다.
+    /// </summary>
+    /// <param name="amount">피해량입니다. 폭발처럼 대상마다 피해량을 채우는 경로에는 0을 넘깁니다.</param>
+    public DamageInfo CreateDamageInfo(float amount = 0.0f)
+    {
+        string sourceId = !string.IsNullOrEmpty(InventoryItemDefinitionId) ? InventoryItemDefinitionId : name;
+        return new DamageInfo(amount, DamageCategory.Throwable, sourceId, Thrower);
+    }
+
     /// <summary>투척 경로를 계산할 최대 비행 시간입니다.</summary>
     public virtual float FlightTimeLimit => float.PositiveInfinity;
 

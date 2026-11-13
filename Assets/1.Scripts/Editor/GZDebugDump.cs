@@ -822,7 +822,7 @@ namespace GrayZone.EditorTools
                     }
                 }
 
-                health.TakeDamage(int.MaxValue);
+                health.TakeDamage(DamageInfo.Debug(int.MaxValue, "GZDebugDump"));
                 var ragdoll = controller.GetComponent<RagdollController>();
                 var animator = controller.Animator;
                 var bodies = controller.GetComponentsInChildren<Rigidbody>(true);

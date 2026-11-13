@@ -358,14 +358,13 @@ public class PlayerHealth : HealthSystemBase, IBalancePostProcess, ISharedBalanc
         AddInjuryGaugeFromDamage(actualDamage);
     }
 
-    /// <summary>피해를 적용하고 그 결과 다운으로 넘어갔는지 판단합니다.</summary>
-    /// <param name="damage">적용할 피해량입니다.</param>
-    /// <param name="attacker">피해를 준 주체입니다. 없으면 <c>null</c>입니다.</param>
-    /// <returns>피해가 실제로 들어갔으면 <c>true</c>입니다.</returns>
-    /// <remarks>HP가 0이 되어도 사망이 아니라 다운으로 갑니다. 사망은 별도 조건에서만 처리합니다.</remarks>
     protected override DamageNumberDebug.TargetKind DamageNumberKind => DamageNumberDebug.TargetKind.Player;
 
-    public override bool TakeDamage(float damage, GameObject attacker = null)
+    /// <summary>피해를 적용하고 그 결과 다운으로 넘어갔는지 판단합니다.</summary>
+    /// <param name="info">피해량과 공격 방식, 공격자를 담은 정보입니다.</param>
+    /// <returns>피해가 실제로 들어갔으면 <c>true</c>입니다.</returns>
+    /// <remarks>HP가 0이 되어도 사망이 아니라 다운으로 갑니다. 사망은 별도 조건에서만 처리합니다.</remarks>
+    public override bool TakeDamage(DamageInfo info)
     {
         // 무한 체력 디버그는 런타임 트레이너가 활성화된 Editor/Development Build에서만 효과가 있습니다.
         if (m_debugInfiniteHealth && GameDevMode.DebugFeaturesEnabled)
@@ -376,14 +375,16 @@ public class PlayerHealth : HealthSystemBase, IBalancePostProcess, ISharedBalanc
         // 반무적 중에는 HP 1까지만 깎습니다. 이미 1 이하이면 피해를 무시합니다.
         if (KeepMinimumHp)
         {
-            damage = Mathf.Min(damage, m_currentHp - 1.0f);
+            float damage = Mathf.Min(info.Amount, m_currentHp - 1.0f);
             if (damage <= 0.0f)
             {
                 return false;
             }
+
+            info = info.WithAmount(damage);
         }
 
-        return base.TakeDamage(damage, attacker);
+        return base.TakeDamage(info);
     }
 
     /// <summary>

@@ -1517,6 +1517,10 @@ public class ExplosiveProjectileShooter : MonoBehaviour
             : transform.rotation;
 
         ProjectileBase projectile = Instantiate(selectedProjectile, m_throwStart, rotation);
+
+        // 피해 정보에 던진 캐릭터가 남도록 체력 컴포넌트를 가진 부모(캐릭터)를 기록합니다. 없으면 이 오브젝트입니다.
+        HealthSystemBase thrower = GetComponentInParent<HealthSystemBase>();
+        projectile.SetThrower(thrower != null ? thrower.gameObject : gameObject);
         Collider[] projectileColliders = projectile.GetComponentsInChildren<Collider>(true);
         foreach (Collider projectileCollider in projectileColliders)
         {

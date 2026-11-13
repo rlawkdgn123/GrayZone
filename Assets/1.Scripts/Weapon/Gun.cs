@@ -2563,10 +2563,9 @@ public class Gun : MonoBehaviour, IBalancePostProcess, ISharedBalanceReceiver
             CombatDamage.HitFeedback feedback = CombatDamage.ResolveHit(
                 target.Collider,
                 m_ownerFaction,
-                damage,
+                new DamageInfo(damage, DamageCategory.Ranged, gameObject.name, m_ownerObject),
                 m_headshotDamageMultiplier,
                 m_allowHeadshot,
-                m_ownerObject,
                 m_stoppingPower);
             DamageNumberDebug.ClearPending();
 

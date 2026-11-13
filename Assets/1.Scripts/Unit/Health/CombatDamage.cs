@@ -148,11 +148,10 @@ public static class CombatDamage
     /// </summary>
     /// <param name="target">피해를 받을 대상입니다.</param>
     /// <param name="attacker">피해를 주는 쪽의 진영입니다.</param>
-    /// <param name="damage">적용할 피해량입니다. 0 이하면 아무것도 하지 않습니다.</param>
-    /// <param name="attackerObject">피해를 입힌 대상입니다. 피격자가 반격 대상을 알기 위해 그대로 전달합니다.</param>
-    public static bool TryApplyDamage(IDamageable target, Faction attacker, int damage, GameObject attackerObject = null)
+    /// <param name="info">피해량과 공격 방식, 공격자를 담은 정보입니다. 피해량이 0 이하면 아무것도 하지 않습니다.</param>
+    public static bool TryApplyDamage(IDamageable target, Faction attacker, DamageInfo info)
     {
-        if (target == null || target.IsDead || damage <= 0)
+        if (target == null || target.IsDead || info.Amount <= 0.0f)
         {
             return false;
         }
@@ -162,7 +161,7 @@ public static class CombatDamage
             return false;
         }
 
-        return target.TakeDamage(damage, attackerObject);
+        return target.TakeDamage(info);
     }
 
     /// <summary>
@@ -174,17 +173,17 @@ public static class CombatDamage
     /// 약점 판정이 필요한 사격은 <see cref="ResolveHit"/>를 쓰십시오. 근접 공격을 그쪽으로 옮기면
     /// 변이체에게도 약점 배율이 생기므로 바꾸지 마십시오.
     /// </remarks>
-    public static bool TryApplyDamage(Collider collider, Faction attacker, int damage, out IDamageable target, GameObject attackerObject = null)
+    public static bool TryApplyDamage(Collider collider, Faction attacker, DamageInfo info, out IDamageable target)
     {
         target = null;
 
-        if (collider == null || damage <= 0)
+        if (collider == null || info.Amount <= 0.0f)
         {
             return false;
         }
 
         target = collider.GetComponentInParent<IDamageable>();
-        return TryApplyDamage(target, attacker, damage, attackerObject);
+        return TryApplyDamage(target, attacker, info);
     }
 
     /// <summary>
@@ -192,9 +191,9 @@ public static class CombatDamage
     /// </summary>
     /// <returns>피해가 실제로 들어갔으면 <c>true</c>입니다.</returns>
     /// <remarks>찾은 대상을 돌려받을 필요가 없을 때 쓰는 간편 오버로드입니다.</remarks>
-    public static bool TryApplyDamage(Collider collider, Faction attacker, int damage, GameObject attackerObject = null)
+    public static bool TryApplyDamage(Collider collider, Faction attacker, DamageInfo info)
     {
-        return TryApplyDamage(collider, attacker, damage, out _, attackerObject);
+        return TryApplyDamage(collider, attacker, info, out _);
     }
 
     /// <summary>
@@ -204,8 +203,9 @@ public static class CombatDamage
     /// <see cref="Hitbox"/>가 붙은 콜라이더만 피격 대상입니다. 무엇이 맞을 수 있는지를 명시적으로 표시하게 해서,
     /// 이동용 캡슐이나 다른 용도의 콜라이더가 실수로 피해를 받는 것을 막습니다.
     /// <see cref="Hitbox"/>는 약점 여부만 표시하고, 배율은 무기가 넘깁니다.
-    /// 근접 공격은 이 경로가 아니라 <see cref="TryApplyDamage(Collider, Faction, int)"/>를 쓰므로 이 규칙의 적용을 받지 않습니다.
+    /// 근접 공격은 이 경로가 아니라 <see cref="TryApplyDamage(Collider, Faction, DamageInfo)"/>를 쓰므로 이 규칙의 적용을 받지 않습니다.
     /// </remarks>
+    /// <param name="hit">약점 배율을 곱하기 전의 피해 정보입니다. 피해량은 기본 피해이고, 약점 배율을 곱한 값으로 바꿔 넘깁니다.</param>
     /// <param name="allowHeadshot">
     /// 약점 판정을 사용할지 여부입니다. false면 약점 히트박스를 맞혀도 일반 피해로 처리하고 <see cref="HitFeedback.Headshot"/>도 false가 됩니다.
     /// 배율만 1로 두지 않고 표시까지 끄는 이유는, 피해는 안 늘었는데 조준선에 약점 표시만 뜨는 어긋남을 막기 위해서입니다.
@@ -217,12 +217,12 @@ public static class CombatDamage
     public static HitFeedback ResolveHit(
         Collider collider,
         Faction attacker,
-        float baseDamage,
+        DamageInfo hit,
         float headshotDamageMultiplier = 1.0f,
         bool allowHeadshot = true,
-        GameObject attackerObject = null,
         float staggerPower = 0.0f)
     {
+        float baseDamage = hit.Amount;
         if (collider == null || baseDamage <= 0)
         {
             return HitFeedback.None;
@@ -245,7 +245,7 @@ public static class CombatDamage
         float damage = baseDamage * multiplier;
 
         DamageNumberDebug.SetPendingHeadshot(headshot);
-        bool applied = target.TakeDamage(damage, attackerObject);
+        bool applied = target.TakeDamage(hit.WithAmount(damage));
         DamageNumberDebug.ClearPending();
         if (!applied)
         {

@@ -421,7 +421,8 @@ public sealed class DragonBreathEffect : MonoBehaviour, IBalancePostProcess
         }
 
         int damage = ResolveDamage(distance);
-        if (!CombatDamage.TryApplyDamage(target, m_ownerFaction, damage, m_attacker) || target.IsDead)
+        DamageInfo hit = new DamageInfo(damage, DamageCategory.Skill, nameof(CharacterSkillType.ChungSolDragonBreath), m_attacker);
+        if (!CombatDamage.TryApplyDamage(target, m_ownerFaction, hit) || target.IsDead)
         {
             return;
         }
@@ -434,7 +435,7 @@ public sealed class DragonBreathEffect : MonoBehaviour, IBalancePostProcess
         StatusEffectDefinitionSO burning = ResolveBurningEffect();
         if (burning != null)
         {
-            StatusEffectContainer.GetOrAdd(target)?.Apply(burning, m_ownerFaction, m_attacker);
+            StatusEffectContainer.GetOrAdd(target)?.Apply(burning, m_ownerFaction, m_attacker, hit);
         }
     }
 

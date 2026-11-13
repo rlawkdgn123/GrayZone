@@ -71,7 +71,8 @@ public class BulletManager : MonoBehaviour
     {
         // 히트스캔(Gun)과 동일한 진영 기반 공용 피해 경로를 사용합니다.
         // 대상 구체 타입을 모른 채 CombatDamage가 IDamageable 조회 후 적대 판정하여 적용합니다.
-        CombatDamage.TryApplyDamage(other, m_ownerFaction, damage);
+        // 발사한 주체를 따로 들고 있지 않아 공격자는 비워 두고, 세부 종류에 탄환 이름을 남깁니다.
+        CombatDamage.TryApplyDamage(other, m_ownerFaction, new DamageInfo(damage, DamageCategory.Ranged, name, null));
 
         DestroyBullet();
     }

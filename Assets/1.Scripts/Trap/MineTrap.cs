@@ -79,7 +79,7 @@ public sealed class MineTrap : ExplosiveTrap
             m_explosionHeight,
             Damage,
             m_damageTargetLayers,
-            gameObject,
+            CreateDamageInfo(),
             m_showExplosionRangeVisual);
     }
 
