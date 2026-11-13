@@ -270303,6 +270303,7 @@ GameObject:
   - component: {fileID: 1146928374}
   - component: {fileID: 1146928376}
   - component: {fileID: 1146928375}
+  - component: {fileID: 1146928377}
   m_Layer: 0
   m_Name: TutorialFlow
   m_TagString: Untagged
@@ -270343,7 +270344,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialFlowDirector
   m_sequence: {fileID: 11400000, guid: 225bd7dd6f879e045a1d889492406bf5, type: 2}
   m_dialogue: {fileID: 1146928376}
-  m_events: {fileID: 0}
+  m_events: {fileID: 1146928377}
   m_playOnStart: 1
   m_onlyFirstDefenseRound: 1
   m_debugAdvance: 1
@@ -270370,6 +270371,27 @@ MonoBehaviour:
   m_autoSecondsPerCharacter: 0.08
   m_inputGuardSeconds: 0.2
   m_advanceKey: 20
+--- !u!114 &1146928377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146928373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94ef5ba35c9bf8c45a921969fb971696, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialEvents
+  m_objective: {fileID: 0}
+  m_window: {fileID: 520775387}
+  m_marker: {fileID: 0}
+  m_markerAnchor: {fileID: 0}
+  m_pathArrow: {fileID: 0}
+  m_spawnSampleRadius: 3
+  m_cinematicPriority: 100
+  m_closeKey: 20
+  m_closeGuardSeconds: 0.3
 --- !u!1001 &1147071289
 PrefabInstance:
   m_ObjectHideFlags: 0
