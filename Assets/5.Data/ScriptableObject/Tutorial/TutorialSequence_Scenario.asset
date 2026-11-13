@@ -1,0 +1,3235 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26e4d5b7a9a2e364fb2d21ca1a84f716, type: 3}
+  m_Name: TutorialSequence_Scenario
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialSequence
+  m_skipKey: 30
+  m_steps:
+  - m_label: "01. \uC774\uB3D9"
+    m_lockedInputs: 0
+    m_blocks:
+    - m_type: 3
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 43fd9e67
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 1d75cdcc75a269b4886e7cf971f63008, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC5EC\uAE30\uB294 \uC0C1\uD669\uC2E4. \uBC29\uC5B4\uC120 \uADFC\uCC98\uC5D0
+          \uC18C\uC218\uC758 \uBCC0\uC774\uCCB4 \uBB34\uB9AC\uB4E4\uC774 \uD3EC\uCC29\uB410\uC5B4.
+          \uBA3C\uC800 \uCC98\uB9AC\uD558\uACE0 \uBC29\uC5B4\uC120 \uC815\uBE44\uB97C
+          \uC2DC\uC791\uD558\uC790."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC54C\uACA0\uC5B4. \uC11C\uD558, \uD3EC\uCC29\uB41C \uBCC0\uC774\uCCB4\uB4E4\uC744
+          \uD655\uC778\uD574 \uC918."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uADF8\uB7FC \uC624\uB978\uCABD \uD130\uB110\uBD80\uD130 \uAC00\uBCFC\uAE4C\uC694?"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC88B\uC544, \uAC00\uBCF4\uC790\uACE0!"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: f6652f40
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowWindow
+        m_args:
+        - m_string: "\uC774\uB3D9"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "WASD\uB85C \uC774\uB3D9\uD558\uACE0, Ctrl\uB85C \uC549\uACE0,
+            Space\uB85C \uC810\uD504\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "Z\uB97C \uAE38\uAC8C \uB204\uB974\uBA74 \uC548\uB0B4\uB97C \uB118\uAE41\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 1
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - f6652f40
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: e596cb2e
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "\uC624\uB978\uCABD \uD130\uB110\uB85C \uC774\uB3D9\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uC774\uB3D9"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 3
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 32.35, y: 200.09, z: 19.43}
+      m_areaRadius: 3
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - e596cb2e
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+  - m_label: "02. \uC0AC\uACA9"
+    m_lockedInputs: 0
+    m_blocks:
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: ca4f4483
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SpawnEnemies
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 3
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 32.35, y: 200.09, z: 19.43}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 3
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - ca4f4483
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC801 \uBC1C\uACAC. \uCC98\uB9AC\uD560\uAC8C."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 0f36ec1d
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowWindow
+        m_args:
+        - m_string: "\uC0AC\uACA9"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uB9C8\uC6B0\uC2A4 \uC67C\uCABD \uBC84\uD2BC\uC73C\uB85C \uC0AC\uACA9\uD558\uACE0,
+            \uC624\uB978\uCABD \uBC84\uD2BC\uC73C\uB85C \uC870\uC900\uD569\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "Z\uB97C \uAE38\uAC8C \uB204\uB974\uBA74 \uC548\uB0B4\uB97C \uB118\uAE41\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 1
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 0f36ec1d
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 94727f0a
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "\uBCC0\uC774\uCCB4\uB97C \uBAA8\uB450 \uCC98\uCE58\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uC0AC\uACA9"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 2
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 3
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 94727f0a
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+  - m_label: "03. \uD22C\uCC99\uBB3C"
+    m_lockedInputs: 0
+    m_blocks:
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 7fb5af80
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SpawnEnemies
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 10
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 32.35, y: 200.09, z: 19.43}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 3
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 7fb5af80
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC800\uCABD\uC5D0\uB3C4 \uC801\uC774 \uC788\uC5B4\uC694. \uC870\uC2EC\uD574\uC694."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC544\uAE4C\uBCF4\uB2E4 \uB9CE\uB124. \uD22C\uCC99\uBB3C\uB85C
+          \uD55C\uAEBC\uBC88\uC5D0 \uCC98\uB9AC\uD558\uC790."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 2cf9409b
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowWindow
+        m_args:
+        - m_string: "\uD22C\uCC99\uBB3C"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "G\uB97C \uB20C\uB7EC \uD22C\uCC99\uBB3C \uBAA8\uB4DC\uB85C \uC804\uD658\uD569\uB2C8\uB2E4.\n\uB9C8\uC6B0\uC2A4
+            \uD720\uB85C \uD22C\uCC99\uBB3C \uC885\uB958\uB97C \uC120\uD0DD\uD569\uB2C8\uB2E4.
+            \uC67C\uCABD \uB9C8\uC6B0\uC2A4 \uD074\uB9AD\uD558\uC5EC \uD22C\uCC99\uBB3C\uC744
+            \uB358\uC9C8 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n\uC18C\uC9C0 \uAC1C\uC218\uB294
+            \uD654\uBA74 \uC624\uB978\uCABD \uC544\uB798\uC5D0 \uD45C\uC2DC\uB429\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "Z\uB97C \uAE38\uAC8C \uB204\uB974\uBA74 \uC548\uB0B4\uB97C \uB118\uAE41\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 1
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 2cf9409b
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 1ed6e9b6
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "\uD22C\uCC99\uBB3C\uC744 \uC120\uD0DD\uD574 \uC0AC\uC6A9\uD558\uACE0,
+            \uC801\uC744 \uBAA8\uB450 \uCC98\uCE58\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uD22C\uCC99\uBB3C"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 2
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 10
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 1ed6e9b6
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+  - m_label: "04. \uCE90\uB9AD\uD130 \uBCC0\uACBD"
+    m_lockedInputs: 0
+    m_blocks:
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC774\uC81C \uB0A8\uC740 \uAC74 \uB2E4\uB9AC \uCABD\uC774\uC57C.
+          \uC774\uB3D9\uD558\uC790."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: abd2926e
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "\uB9C8\uCEE4\uB97C \uB530\uB77C \uB2E4\uB9AC\uB85C \uC774\uB3D9\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uCE90\uB9AD\uD130 \uBCC0\uACBD"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      - m_method: ShowMarker
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 32.35, y: 200.09, z: 19.43}
+          m_object: {fileID: 0}
+      - m_method: ShowPathLine
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 32.35, y: 200.09, z: 19.43}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 3
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 3
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 32.35, y: 200.09, z: 19.43}
+      m_areaRadius: 3
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - abd2926e
+      m_actions:
+      - m_method: HideMarker
+        m_args: []
+      - m_method: HidePathLine
+        m_args: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: ee8ff67e
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SpawnEnemies
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 5
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 32.35, y: 200.09, z: 19.43}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 3
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - ee8ff67e
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uBE14\uB85C\uD130\uC57C. \uCC98\uB9AC\uD560\uAC8C."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC7A0\uAE50, \uC5B8\uB2C8! \uC774\uBC88\uC5D4 \uB0B4\uAC00 \uD560\uB798.
+          \uBCF4\uC5EC \uC904 \uAC8C \uC788\uAC70\uB4E0!"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: abb129b3
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowWindow
+        m_args:
+        - m_string: "\uCE90\uB9AD\uD130 \uBCC0\uACBD"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "1~3\uBC88 \uD0A4\uB85C \uC870\uC791\uD560 \uCE90\uB9AD\uD130\uB97C
+            \uBCC0\uACBD\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4. \uCE90\uB9AD\uD130\uB9C8\uB2E4
+            \uC0AC\uC6A9\uD558\uB294 \uBB34\uAE30\uC640 \uC2A4\uD0AC\uC774 \uB2E4\uB985\uB2C8\uB2E4.\n2\uBC88\uC744
+            \uB20C\uB7EC \uCCAD\uC194\uB85C \uBCC0\uACBD\uD558\uC138\uC694.\n\uBCC0\uC774\uCCB4
+            \uC720\uD615\uC5D0 \uB300\uD574\uC11C\uB3C4 \uC548\uB0B4"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "Z\uB97C \uAE38\uAC8C \uB204\uB974\uBA74 \uC548\uB0B4\uB97C \uB118\uAE41\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 1
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - abb129b3
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 320a53c0
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "2\uBC88\uC744 \uB20C\uB7EC \uCCAD\uC194\uB85C \uBCC0\uACBD\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uCE90\uB9AD\uD130 \uBCC0\uACBD"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 5
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 2
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 320a53c0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+  - m_label: "05. \uCCAD\uC194 \uC2A4\uD0AC"
+    m_lockedInputs: 0
+    m_blocks:
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 2edeb009
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowWindow
+        m_args:
+        - m_string: "\uC2A4\uD0AC"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "C\uB97C \uB20C\uB7EC \uD604\uC7AC \uCE90\uB9AD\uD130\uC758 \uC2A4\uD0AC\uC744
+            \uC0AC\uC6A9\uD569\uB2C8\uB2E4.\n\uCCAD\uC194\uC740 \uBC94\uC704 \uD53C\uD574\uC640
+            \uD654\uC0C1\uC744 \uC8FC\uB294 \uD2B9\uC218\uD0C4\uC744 \uC7A5\uC804\uD569\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "Z\uB97C \uAE38\uAC8C \uB204\uB974\uBA74 \uC548\uB0B4\uB97C \uB118\uAE41\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 1
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 2edeb009
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 52cbf2fa
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "C\uB97C \uB20C\uB7EC \uC2A4\uD0AC\uC744 \uC0AC\uC6A9\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uCCAD\uC194 \uC2A4\uD0AC"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 6
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 2
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 52cbf2fa
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC9DC\uC794! \uC0C8\uB85C \uB9CC\uB4E0 \uD2B9\uC218\uD0C4\uC774\uC57C!"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: f7875cf0
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "\uCCAD\uC194\uC758 \uD2B9\uC218\uD0C4\uC73C\uB85C \uBE14\uB85C\uD130\uB97C
+            \uCC98\uCE58\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uCCAD\uC194 \uC2A4\uD0AC"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 2
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 5
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - f7875cf0
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC5B4\uB54C, \uB0B4 \uD2B9\uC218\uD0C4? \uC81C\uBC95\uC774\uC9C0?"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uB4E0\uB4E0\uD558\uB124\uC694. \uC801\uC774 \uBAB0\uB824\uC640\uB3C4
+          \uC798 \uB9C9\uC544\uB0BC \uC218 \uC788\uACA0\uC5B4\uC694."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uD6A8\uACFC\uC801\uC774\uB124."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uD5E4\uD5E4, \uADF8\uB807\uC9C0? \uADF8\uB7FC \uC774\uC81C \uC815\uBE44\uD558\uB7EC
+          \uAC00\uC790!"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+  - m_label: "06. \uD568\uC815 \uC124\uCE58 \uBC0F \uB3D9\uB8CC \uAD6C\uC870"
+    m_lockedInputs: 0
+    m_blocks:
+    - m_type: 3
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: eb7efc22
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowWindow
+        m_args:
+        - m_string: "\uD568\uC815 \uC124\uCE58"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uD568\uC815 \uC124\uCE58 \uC7A5\uC18C\uB85C \uB2E4\uAC00\uAC00\uBA74
+            F\uD0A4\uB97C \uB20C\uB7EC \uD568\uC815\uC744 \uC124\uCE58 \uD560 \uC218
+            \uC788\uC2B5\uB2C8\uB2E4.\n\uD568\uC815 \uC720\uD615\uC5D0 \uB300\uD574
+            \uC124\uBA85"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "Z\uB97C \uAE38\uAC8C \uB204\uB974\uBA74 \uC548\uB0B4\uB97C \uB118\uAE41\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 1
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - eb7efc22
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uADF8\uB7FC \uC774 \uBD80\uBD84\uC5D0 \uD568\uC815\uC744 \uC124\uCE58\uD574\uBCF4\uC790"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: aba5cb1a
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "F\uD0A4\uB97C \uB20C\uB7EC \uD568\uC815\uC744 \uC124\uCE58\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uD568\uC815 \uC124\uCE58"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 4
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - aba5cb1a
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC544\uC545!!"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uBB34\uC2A8 \uC77C\uC774\uC57C?"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uBE68\uB9AC \uAC00\uBCF4\uC8E0!"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: c6846441
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowPathLine
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 32.35, y: 200.09, z: 19.43}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 3
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 3
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 32.35, y: 200.09, z: 19.43}
+      m_areaRadius: 3
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - c6846441
+      m_actions:
+      - m_method: HidePathLine
+        m_args: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC73C\uC73D... \uC774 \uC790\uC2DD\uC774 \uB0A0 \uB36E\uCE58\uB824\uB2E4\uAC00
+          \uC9C0\uB8B0 \uD3ED\uBC1C\uC5D0 \uAC19\uC774 \uD718\uB9D0\uB838\uC5B4..."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uAC00\uB9CC\uD788 \uC788\uC73C\uC138\uC694. \uC81C\uAC00 \uCE58\uB8CC\uD574\uB4DC\uB9B4\uAC8C\uC694!"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 38e5a76e
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowWindow
+        m_args:
+        - m_string: "\uB3D9\uB8CC \uAD6C\uC870"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uBD80\uC0C1\uB2F9\uD55C \uB3D9\uB8CC\uB294 F\uB85C \uC0C1\uD638\uC791\uC6A9\uD558\uAC70\uB098
+            \uC11C\uD558\uC758 \uC2A4\uD0AC\uC744 \uC0AC\uC6A9\uD574 \uAD6C\uC870\uD560
+            \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n\uC81C\uD55C \uC2DC\uAC04 \uC548\uC5D0
+            \uAD6C\uC870\uD558\uC9C0 \uBABB\uD558\uBA74 \uD574\uB2F9 \uB3D9\uB8CC\uB294
+            \uC774\uBC88 \uC804\uD22C\uC5D0\uC11C \uC774\uD0C8\uD569\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "Z\uB97C \uAE38\uAC8C \uB204\uB974\uBA74 \uC548\uB0B4\uB97C \uB118\uAE41\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 1
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 38e5a76e
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: fdd20cb4
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "\uCCAD\uC194\uC744 \uAD6C\uC870\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uB3D9\uB8CC \uAD6C\uC870"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 4
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - fdd20cb4
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uBC1C\uC744 \uB514\uB51C \uC218 \uC788\uACA0\uC5B4\uC694? \uC544\uC9C1
+          \uB9CE\uC774 \uC544\uD30C\uC694?"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC751, \uAC78\uC744 \uC218 \uC788\uC5B4. \uACE0\uB9C8\uC6CC!"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uBB34\uB9AC\uD558\uC9C0 \uB9C8. \uC0C1\uD0DC\uAC00 \uB098\uBE60\uC9C0\uBA74
+          \uBC14\uB85C \uB9D0\uD574."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uADF8\uB7FC \uBC29\uC5B4\uC120 \uC815\uBE44\uB97C \uACC4\uC18D\uD558\uC790."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+  - m_label: "07. \uC815\uBB38 \uBCF4\uC218"
+    m_lockedInputs: 0
+    m_blocks:
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC88B\uC544. \uC124\uCE58\uB791 \uBCF4\uC218\uB294 \uB0B4\uAC00
+          \uB9E1\uC744\uAC8C!"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 1d694eac
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowWindow
+        m_args:
+        - m_string: "\uBC29\uC5B4\uC120 \uC815\uBE44"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uC6E8\uC774\uBE0C \uC0AC\uC774\uC758 \uC815\uBE44 \uC2DC\uAC04\uC5D0\uB294
+            \uAD6C\uC870\uBB3C\uC744 \uC124\uCE58\uD558\uACE0 \uBC29\uC5B4\uC120\uC744
+            \uC218\uB9AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.\n\uD568\uC815\uC740
+            \uC18C\uBAA8\uC131\uC774\uBA70 \uC885\uB958\uB9C8\uB2E4 \uD2B9\uC131\uC774
+            \uB2E4\uB985\uB2C8\uB2E4. \uB2E4\uC74C \uACF5\uC138\uAC00 \uC2DC\uC791\uD574\uB3C4
+            \uB0A8\uC740 \uB0B4\uAD6C\uB3C4\uB294 \uC720\uC9C0\uB429\uB2C8\uB2E4.\n\uCCAD\uC0AC\uC9C4\uC774\uB098
+            \uC218\uB9AC\uD560 \uC2DC\uC124\uC5D0 \uB2E4\uAC00\uAC00 F\uB85C \uC0C1\uD638\uC791\uC6A9\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 1d694eac
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 27abf61d
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "\uCCA0\uC870\uB9DD, \uD3ED\uBC1C\uBB3C, \uC9C0\uB8B0\uB97C \uAC01\uAC01
+            1\uAC1C \uC124\uCE58\uD558\uACE0, \uC190\uC0C1\uB41C \uC2A4\uD30C\uC774\uD06C
+            1\uAC1C\uB97C \uC218\uB9AC\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uBC29\uC5B4\uC120 \uC815\uBE44"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 4
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: Trap_BarbedWire
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 8894e3fd
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 4
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: Trap_Explosive
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 9f9f1dd5
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 4
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: Trap_Mine
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 42b144a1
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 4
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: Trap_SpikeRepair
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 27abf61d
+      - 8894e3fd
+      - 9f9f1dd5
+      - 42b144a1
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uD568\uC815 \uC124\uCE58 \uB05D! \uC2A4\uD30C\uC774\uD06C\uB3C4
+          \uACE0\uCCE4\uC5B4."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC774\uC81C \uC815\uBB38\uB9CC \uC218\uB9AC\uD558\uBA74 \uB3FC.
+          \uB9C8\uCE58\uACE0 \uBCF5\uADC0\uD558\uC790."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC800\uB3C4 \uAC19\uC774 \uD655\uC778\uD560\uAC8C\uC694."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 372ed7c8
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowWindow
+        m_args:
+        - m_string: "\uC815\uBB38"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uC815\uBB38\uC740 \uBC29\uC5B4\uC804\uC5D0\uC11C \uC9C0\uCF1C\uC57C
+            \uD560 \uB300\uC0C1\uC785\uB2C8\uB2E4. \uD30C\uAD34\uB418\uC9C0 \uC54A\uB3C4\uB85D
+            \uC9C0\uD0A4\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 372ed7c8
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+  - m_label: "08. \uC704\uCE58 \uC0AC\uC218 \uBA85\uB839"
+    m_lockedInputs: 0
+    m_blocks:
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 1d75cdcc75a269b4886e7cf971f63008, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uB098\uB9B0! \uB4E4\uB824? \uC9C0\uAE08 \uAE34\uAE09\uD55C \uC0C1\uD669\uC774\uC57C!
+          \uB300\uADDC\uBAA8 \uBCC0\uC774\uCCB4\uAC00 \uC811\uADFC \uC911\uC778 \uAC8C
+          \uD655\uC778\uB418\uC5C8\uC5B4! \uC815\uBE44\uB294 \uC5B4\uB514\uAE4C\uC9C0
+          \uB05D\uB0AC\uC5B4?"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uD568\uC815 \uC124\uCE58\uB294 \uB05D\uB0AC\uC5B4. \uC815\uBB38
+          \uC218\uB9AC\uB97C \uD574\uC57C \uD574."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 1d75cdcc75a269b4886e7cf971f63008, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uB188\uB4E4\uC774 \uC624\uAE30 \uC804\uC5D0 \uC218\uB9AC\uB97C
+          \uB9C8\uCCD0\uC57C \uD574. \uB2E4\uB978 \uBC29\uBA74 \uC0C1\uD669\uC740
+          \uB0B4\uAC00 \uD655\uC778\uD560\uAC8C. \uB108\uD76C\uB294 \uADF8\uCABD
+          \uBC29\uC5B4\uC120\uC744 \uC9C0\uCF1C \uC918."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uD655\uC778\uD588\uC5B4."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 3
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uB098\uB791 \uC11C\uD558\uAC00 \uC591\uCABD\uC744 \uB9E1\uC744\uAC8C.
+          \uC194\uC774\uB294 \uC815\uBB38\uC744 \uC218\uB9AC\uD574 \uC918."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 1c59067f
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowWindow
+        m_args:
+        - m_string: "\uC704\uCE58 \uC0AC\uC218"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uBAA9\uD45C \uC9C0\uC810\uC744 \uC870\uC900\uD558\uACE0 Q \uB610\uB294
+            E\uB97C \uB20C\uB7EC \uB3D9\uB8CC\uC5D0\uAC8C \uC704\uCE58 \uC0AC\uC218\uB97C
+            \uC9C0\uC2DC\uD569\uB2C8\uB2E4.\n\uD604\uC7AC \uC870\uC791 \uC911\uC778
+            \uCE90\uB9AD\uD130\uB97C \uC81C\uC678\uD55C \uB450 \uB3D9\uB8CC\uC5D0\uAC8C
+            \uAC01\uAC01 \uC9C0\uC2DC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 1c59067f
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: d32bbc0f
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "\uB450 \uBAA9\uD45C \uC9C0\uC810\uC5D0 \uB3D9\uB8CC\uB97C \uD55C
+            \uBA85\uC529 \uBC30\uCE58\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uC704\uCE58 \uC0AC\uC218"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      - m_method: ShowMarker
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 32.35, y: 200.09, z: 19.43}
+          m_object: {fileID: 0}
+      m_condition: 7
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 2
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - d32bbc0f
+      m_actions:
+      - m_method: HideMarker
+        m_args: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+  - m_label: "09. \uC815\uBB38 \uC218\uB9AC"
+    m_lockedInputs: 0
+    m_blocks:
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uB458 \uB2E4 \uC790\uB9AC \uC7A1\uC558\uC9C0? \uADF8\uB7FC \uC218\uB9AC\uB294
+          \uB098\uD55C\uD14C \uB9E1\uACA8!"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uADF8\uB798. \uC218\uB9AC\uC5D0 \uC9D1\uC911\uD574 \uC918. \uC6B0\uB9AC\uAC00
+          \uC9C0\uCF1C \uC904\uAC8C."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC774\uCABD\uC740 \uAC71\uC815 \uB9D0\uC544\uC694."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: be7a3a27
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowWindow
+        m_args:
+        - m_string: "\uC815\uBB38 \uC218\uB9AC"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uC815\uBB38\uC5D0 \uB2E4\uAC00\uAC00 F\uB85C \uC0C1\uD638\uC791\uC6A9\uD558\uBA74
+            \uD568\uC815 \uC7AC\uB8CC\uB97C \uC0AC\uC6A9\uD574 \uC218\uB9AC\uD560
+            \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - be7a3a27
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: d91ff6f6
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "\uC815\uBB38\uC744 \uC218\uB9AC\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uC815\uBB38 \uC218\uB9AC"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      - m_method: ShowMarker
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 32.35, y: 200.09, z: 19.43}
+          m_object: {fileID: 0}
+      m_condition: 4
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: Gate_Repair
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - d91ff6f6
+      m_actions:
+      - m_method: HideMarker
+        m_args: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC0DD\uAC01\uBCF4\uB2E4 \uC190\uC0C1\uC774 \uC801\uB124. \uC88B\uC544,
+          \uC218\uB9AC \uB05D!"
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC88B\uC544. \uC774\uC81C \uD569\uB958\uD574\uC11C \uC801\uC744
+          \uB9C9\uC790."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uD568\uAED8 \uB9C9\uC544\uB0B4\uC694."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+  - m_label: "10. \uC704\uCE58 \uC0AC\uC218 \uBCF5\uADC0"
+    m_lockedInputs: 0
+    m_blocks:
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 57467bb5
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowWindow
+        m_args:
+        - m_string: "\uC704\uCE58 \uC0AC\uC218 \uBCF5\uADC0"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "Q \uB610\uB294 E\uB97C \uAE38\uAC8C \uB204\uB974\uBA74 \uD574\uB2F9
+            \uB3D9\uB8CC\uB97C \uC704\uCE58 \uC0AC\uC218\uC5D0\uC11C \uBCF5\uADC0\uC2DC\uD0B5\uB2C8\uB2E4.\nCapsLock\uC744
+            \uB204\uB974\uBA74 \uB450 \uB3D9\uB8CC\uB97C \uD55C \uBC88\uC5D0 \uBCF5\uADC0\uC2DC\uD0AC
+            \uC218 \uC788\uC2B5\uB2C8\uB2E4."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 57467bb5
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 59dfcc3b
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "\uC704\uCE58 \uC0AC\uC218 \uC911\uC778 \uB3D9\uB8CC\uB4E4\uC744
+            \uBCF5\uADC0\uC2DC\uD0A4\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uC704\uCE58 \uC0AC\uC218 \uBCF5\uADC0"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 8
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 2
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 59dfcc3b
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+  - m_label: "11. \uBC29\uC5B4\uC804 \uC9C4\uC785"
+    m_lockedInputs: 0
+    m_blocks:
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 1d75cdcc75a269b4886e7cf971f63008, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC218\uB9AC \uC644\uB8CC \uD655\uC778\uD588\uC5B4. \uC774\uC81C
+          \uC811\uADFC\uD558\uB294 \uBCC0\uC774\uCCB4\uB97C \uB9C9\uC544 \uC918.
+          \uB2E4\uC74C \uC815\uBE44 \uC2DC\uAC04\uC5D0\uB294 \uD568\uC815\uACFC \uC815\uBB38
+          \uC0C1\uD0DC\uB97C \uB2E4\uC2DC \uD655\uC778\uD558\uACE0."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uB2E4\uB4E4 \uC900\uBE44\uD574. \uC815\uBB38\uC744 \uC9C0\uD0A4\uC790."
+        m_bubbleText: 
+        m_advanceMode: 1
+        m_autoSeconds: 1
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 09961af3
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: ShowWindow
+        m_args:
+        - m_string: "\uBC29\uC5B4\uC804"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uBC29\uC5B4\uC804\uC740 \uC815\uBE44\uC640 \uC804\uD22C\uAC00
+            \uBC18\uBCF5\uB418\uB294 \uBC29\uC2DD\uC73C\uB85C \uC9C4\uD589\uB429\uB2C8\uB2E4.\n\uC804\uD22C
+            \uC2DC\uAC04\uC774 \uB05D\uB098\uB3C4 \uB0A8\uC544 \uC788\uB294 \uC801\uC744
+            \uBAA8\uB450 \uCC98\uCE58\uD574\uC57C \uD574\uB2F9 \uC804\uD22C \uB2E8\uACC4\uAC00
+            \uC885\uB8CC\uB429\uB2C8\uB2E4.\n\uC815\uBB38\uC774 \uD30C\uAD34\uB418\uC9C0
+            \uC54A\uB3C4\uB85D \uC9C0\uD0A4\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 09961af3
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 3d7c5c8c
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: SetObjective
+        m_args:
+        - m_string: "\uC815\uBB38\uC744 \uC9C0\uD0A4\uBA70 \uB0A8\uC740 \uC801\uC744
+            \uBAA8\uB450 \uCC98\uCE58\uD558\uC138\uC694."
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: "\uBC29\uC5B4\uC804"
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
+    - m_type: 2
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds:
+      - 3d7c5c8c
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 

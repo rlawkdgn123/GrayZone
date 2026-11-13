@@ -14,9 +14,271 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TutorialSequence
   m_skipKey: 30
   m_steps:
+  - m_label: "\uC704\uCE58 \uC0AC\uC218 \uD29C\uD1A0\uB9AC\uC5BC"
+    m_lockedInputs: 0
+    m_blocks:
+    - m_type: 3
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uD574\uBCF4\uC790\uAD6C\uC694!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 43fd9e67
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 1d75cdcc75a269b4886e7cf971f63008, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC5EC\uAE30\uB294 \uC6B4\uC601\uC2E4! \uAE34\uAE09 \uC0C1\uD669\uC774\uC57C.
+          \uD2B9\uC218 \uAC1C\uCCB4\uC758 \uC774\uC0C1 \uBC18\uC751\uC73C\uB85C \uB300\uADDC\uBAA8
+          \uAC10\uC5FC\uCCB4\uAC00 \uBAB0\uB824\uB4E4\uACE0 \uC788\uC5B4. \uC9C4\uD589
+          \uC0C1\uD669\uC740?"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC5EC\uAE30\uB294 \uB098\uB9B0\uD300. \uBC29\uC5B4\uC120 \uC218\uB9AC\uB9CC
+          \uB0A8\uC558\uC2B5\uB2C8\uB2E4."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 1d75cdcc75a269b4886e7cf971f63008, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC544\uC9C1 \uC624\uAE30\uAE4C\uC9C0 \uC870\uAE08 \uAC78\uB9AC\uB294
+          \uAC83 \uAC19\uC544. \uBE60\uB974\uAC8C \uC218\uB9AC\uD558\uACE0 \uADF8\uCABD
+          \uBC29\uC5B4\uC120\uC744 \uC9C0\uCF1C\uC918. \uC6B0\uB9B0 \uB2E4\uB978
+          \uBC29\uBA74\uC744 \uB9E1\uC744\uAC8C."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uD655\uC778\uD588\uC2B5\uB2C8\uB2E4."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uB098\uB791 \uC11C\uD558 \uC120\uBC30\uAC00 \uAC19\uC774 \uC704\uCE58\uB97C
+          \uC0AC\uC218\uD560\uAC8C. \uC194\uC774\uB294 \uC815\uBB38\uC744 \uC218\uB9AC\uD574\uC918."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC88B\uC544. \uC774\uC81C \uC218\uB9AC\uD55C\uB2E4?! \uBE68\uB9AC
+          \uD574\uBCFC\uAC8C!!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uCE68\uCC29\uD558\uAC8C \uD574\uB3C4 \uB3FC. \uC6B0\uB9AC\uAC00
+          \uC9C0\uCF1C\uC904\uAC8C."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uD655\uC2E4\uD558\uAC8C \uC9C0\uCF1C\uB4DC\uB9B4\uAC8C\uC694!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 5a79809b359003b458c6c3cec59db0cb, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC0DD\uAC01\uBCF4\uB2E4 \uC190\uC0C1\uC774 \uD06C\uC9C0 \uC54A\uC544.
+          \uAE08\uBC29 \uB05D\uB0AC\uC5B4!!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: 83c1000525abcd94eba7494290f44033, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uC88B\uC544. \uC774\uC81C \uAC19\uC774 \uC801\uC744 \uCC98\uB9AC\uD558\uC790.
+          \uC798 \uD574\uB0BC \uC218 \uC788\uC744\uAC70\uC57C."
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 
+    - m_type: 0
+      m_dialogue:
+        m_speaker: {fileID: 11400000, guid: c9ee43f5e45ae0949ad3d51a84a0994c, type: 2}
+        m_portrait: {fileID: 0}
+        m_text: "\uD574\uBCF4\uC790\uAD6C\uC694!"
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 
   - m_label: "\uC774\uB3D9 \uD29C\uD1A0\uB9AC\uC5BC"
     m_lockedInputs: 0
     m_blocks:
+    - m_type: 3
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: 
+      m_closeTriggerIds: []
+      m_actions: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_cinematicId: 43fd9e67
     - m_type: 0
       m_dialogue:
         m_speaker: {fileID: 11400000, guid: 1d75cdcc75a269b4886e7cf971f63008, type: 2}
@@ -66,7 +328,7 @@ MonoBehaviour:
         m_bubbleText: 
         m_advanceMode: 0
         m_autoSeconds: 0
-      m_triggerId: 
+      m_triggerId: 7f22583d
       m_closeTriggerIds: []
       m_actions:
       - m_method: ShowPathLine
