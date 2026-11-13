@@ -71,6 +71,12 @@ public sealed class SquadGateEntranceCinematic : MonoBehaviour
     /// <summary>걷기 클립(R_StrafeWalk_F)이 한 번 재생될 때 앞으로 가는 속도(m/s)입니다. 애니메이션 재생 속도를 걷는 속도에 맞출 때 씁니다.</summary>
     private const float WalkClipSpeed = 1.42f;
 
+    /// <summary>지면을 찾을 때 발 위에서 광선을 시작하는 높이(m)입니다.</summary>
+    private const float GroundProbeUp = 0.5f;
+
+    /// <summary>지면을 찾을 때 발 아래로 보는 거리(m)입니다.</summary>
+    private const float GroundProbeDown = 1.5f;
+
     private PlayableDirector m_director;
     private Coroutine m_routine;
     private readonly List<Walker> m_walkers = new();
@@ -205,12 +211,15 @@ public sealed class SquadGateEntranceCinematic : MonoBehaviour
             {
                 Transform = member,
                 Animator = member.GetComponent<Animator>(),
-                End = member.position,
-                Start = member.position + offset,
                 EndRotation = member.rotation,
                 Controller = member.GetComponent<CharacterController>(),
                 Agent = member.GetComponent<NavMeshAgent>(),
             };
+
+            // 씬에 놓인 높이가 지면에서 조금 떠 있으면, 연출이 끝나고 컨트롤러가 켜질 때 중력으로 내려앉아 튑니다.
+            // 출발·도착 자리를 컨트롤러가 지면에 섰을 때의 높이로 맞춥니다.
+            walker.End = SnapToGround(walker, member.position);
+            walker.Start = SnapToGround(walker, member.position + offset);
 
             DisableBehaviour(walker, member.GetComponent<ThirdPersonController>());
             DisableBehaviour(walker, member.GetComponent<SquadAIController>());
@@ -287,7 +296,11 @@ public sealed class SquadGateEntranceCinematic : MonoBehaviour
             return false;
         }
 
-        Vector3 next = Vector3.MoveTowards(walker.Transform.position, walker.End, m_walkSpeed * deltaTime);
+        // 수평으로만 다가가고 높이는 지면을 따라갑니다. 출발점과 도착점의 지면 높이가 달라 떠 보이거나 묻히지 않게 합니다.
+        Vector3 current = walker.Transform.position;
+        Vector3 target = new Vector3(walker.End.x, current.y, walker.End.z);
+        Vector3 next = Vector3.MoveTowards(current, target, m_walkSpeed * deltaTime);
+        next = (next - target).sqrMagnitude <= 0.0001f ? walker.End : SnapToGround(walker, next);
 
         // 카메라나 입력이 아니라 걸어가는 방향을 정면으로 봅니다.
         Vector3 travel = next - walker.Transform.position;
@@ -307,6 +320,53 @@ public sealed class SquadGateEntranceCinematic : MonoBehaviour
         }
 
         SetWalkAnimation(walker, true);
+        return false;
+    }
+
+    /// <summary>
+    /// 위치의 높이를 그 자리 지면에 캐릭터 컨트롤러가 서 있을 때의 높이로 바꿉니다. 지면을 찾지 못하면 그대로 돌려줍니다.
+    /// </summary>
+    /// <remarks>분대원 자신의 콜라이더와 트리거는 지면으로 보지 않습니다.</remarks>
+    private Vector3 SnapToGround(Walker walker, Vector3 position)
+    {
+        RaycastHit[] hits = Physics.RaycastAll(
+            position + Vector3.up * GroundProbeUp,
+            Vector3.down,
+            GroundProbeUp + GroundProbeDown,
+            Physics.DefaultRaycastLayers,
+            QueryTriggerInteraction.Ignore);
+
+        float groundY = float.NegativeInfinity;
+        for (int i = 0; i < hits.Length; i++)
+        {
+            if (!IsSquadCollider(hits[i].collider) && hits[i].point.y > groundY)
+            {
+                groundY = hits[i].point.y;
+            }
+        }
+
+        if (float.IsNegativeInfinity(groundY))
+        {
+            return position;
+        }
+
+        // 컨트롤러는 캡슐 바닥이 지면에서 skinWidth만큼 떠서 섭니다. 캡슐 바닥은 피벗에서 center.y - height/2 위에 있습니다.
+        CharacterController controller = walker.Controller;
+        float footOffset = controller != null ? controller.skinWidth - (controller.center.y - controller.height * 0.5f) : 0.0f;
+        position.y = groundY + footOffset;
+        return position;
+    }
+
+    private bool IsSquadCollider(Collider collider)
+    {
+        for (int i = 0; i < m_members.Count; i++)
+        {
+            if (m_members[i] != null && collider.transform.IsChildOf(m_members[i]))
+            {
+                return true;
+            }
+        }
+
         return false;
     }
 
