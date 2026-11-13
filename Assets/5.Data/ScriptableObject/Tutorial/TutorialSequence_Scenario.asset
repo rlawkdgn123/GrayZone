@@ -1151,7 +1151,7 @@ MonoBehaviour:
       m_orderKey: 0
       m_cinematicId: 
   - m_label: "05. \uCCAD\uC194 \uC2A4\uD0AC"
-    m_lockedInputs: 123912
+    m_lockedInputs: 125960
     m_blocks:
     - m_type: 1
       m_dialogue:
