@@ -203,6 +203,7 @@ public sealed class TutorialEvents : MonoBehaviour
         StopCinematic();
         ResumeTime();
         SquadInventoryManager.FreeUse = false;
+        SquadInventoryManager.UseWhenEmpty = false;
         PlayerHealth.KeepMinimumHp = false;
         foreach (CharacterSkill skill in m_cooldownOverrides)
         {
@@ -578,6 +579,45 @@ public sealed class TutorialEvents : MonoBehaviour
         }
     }
 
+    /// <summary>분대 인벤토리의 아이템 수량을 정한 값으로 맞춥니다. 모자라면 넣고, 많으면 뺍니다.</summary>
+    /// <param name="item">맞출 아이템 정의입니다(Grenade_Definition, Firebomb_Definition, Potion_Definition 등).</param>
+    /// <param name="count">맞출 수량입니다.</param>
+    [TutorialEvent("아이템 수량 맞추기")]
+    public void SetItemCount(ItemDefinition item, int count)
+    {
+        SquadInventoryManager inventory = FindFirstObjectByType<SquadInventoryManager>(FindObjectsInactive.Include);
+        if (item == null || inventory == null)
+        {
+            Debug.LogWarning("아이템 수량 맞추기: 아이템이 비어 있거나 씬에서 SquadInventoryManager를 찾지 못했습니다.", this);
+            return;
+        }
+
+        string id = item.ItemDefinitionId;
+        int current = inventory.CountOf(id);
+        if (current < count)
+        {
+            GiveItem(item, count - current);
+            return;
+        }
+
+        // 소모 없이 사용이 켜져 있어도 실제로 빼야 하므로 TryConsumeOne 대신 칸에서 직접 뺍니다.
+        int excess = current - count;
+        SlotContainer<string> slots = inventory.Inventory;
+        for (int i = slots.SlotCount - 1; i >= 0 && excess > 0; i--)
+        {
+            if (slots.IsEmpty(i) || !string.Equals(slots.GetContent(i), id, StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            int remove = Mathf.Min(excess, slots.GetQuantity(i));
+            if (slots.TryRemove(i, remove) == SlotOpResult.Success)
+            {
+                excess -= remove;
+            }
+        }
+    }
+
     /// <summary>셸터 창고에 자원(함정 설치 자원 등)을 넣습니다.</summary>
     /// <param name="resource">넣을 자원 종류입니다.</param>
     /// <param name="amount">넣을 수량입니다.</param>
@@ -614,6 +654,17 @@ public sealed class TutorialEvents : MonoBehaviour
     public void SetFreeUse(bool enabled)
     {
         SquadInventoryManager.FreeUse = enabled;
+    }
+
+    /// <summary>
+    /// 아이템(투척물, 회복약 등)을 평소처럼 소모하되, 다 써서 0개여도 계속 쓸 수 있게 하거나 원래대로 돌립니다.
+    /// </summary>
+    /// <param name="enabled">켜면 0개여도 씁니다. 끄면 원래대로 0개일 때 못 씁니다.</param>
+    /// <remarks>함정 설치·수리 자원에는 적용하지 않습니다. 튜토리얼이 끝나면 자동으로 꺼집니다.</remarks>
+    [TutorialEvent("아이템 다 써도 사용 (켜기/끄기)")]
+    public void SetUseWhenEmpty(bool enabled)
+    {
+        SquadInventoryManager.UseWhenEmpty = enabled;
     }
 
     /// <summary>

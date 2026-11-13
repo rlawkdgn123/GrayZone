@@ -59,11 +59,18 @@ public sealed class SquadInventoryManager : MonoBehaviour
     /// </summary>
     public static bool FreeUse { get; set; }
 
-    /// <summary>Play를 다시 시작할 때 소모 없이 사용을 끕니다. 도메인 리로드를 끈 설정에서도 이전 값이 남지 않게 합니다.</summary>
+    /// <summary>
+    /// 켜면 <see cref="TryConsumeOne"/>이 평소처럼 수량을 줄이되, 수량이 0이어도 성공합니다.
+    /// 튜토리얼의 "아이템 다 써도 사용" 이벤트가 켜고 끕니다.
+    /// </summary>
+    public static bool UseWhenEmpty { get; set; }
+
+    /// <summary>Play를 다시 시작할 때 소모 없이 사용과 다 써도 사용을 끕니다. 도메인 리로드를 끈 설정에서도 이전 값이 남지 않게 합니다.</summary>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetFreeUse()
     {
         FreeUse = false;
+        UseWhenEmpty = false;
     }
 
     /// <summary>인벤토리 칸 하나가 바뀔 때 그 인덱스와 함께 발생합니다.</summary>
@@ -179,10 +186,11 @@ public sealed class SquadInventoryManager : MonoBehaviour
                 continue;
             }
 
-            return Inventory.TryRemove(i, 1) == SlotOpResult.Success;
+            if (Inventory.TryRemove(i, 1) == SlotOpResult.Success)
+                return true;
         }
 
-        return false;
+        return UseWhenEmpty;
     }
 
     /// <summary>슬롯에 들어 있는 아이템의 정적 정의를 찾습니다. 빈 칸이거나 카탈로그에 없으면 <c>false</c>입니다.</summary>

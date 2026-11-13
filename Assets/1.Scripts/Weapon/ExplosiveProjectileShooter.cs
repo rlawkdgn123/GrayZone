@@ -1493,7 +1493,7 @@ public class ExplosiveProjectileShooter : MonoBehaviour
             return false;
         }
 
-        if (!SquadInventoryManager.FreeUse && GetProjectileQuantity(selectedProjectile) <= 0)
+        if (!SquadInventoryManager.FreeUse && !SquadInventoryManager.UseWhenEmpty && GetProjectileQuantity(selectedProjectile) <= 0)
         {
             // 투척 시도마다 조준선 위에 경고를 다시 띄웁니다. 경고 문구가 없는 씬에서는 아무 일도 없습니다.
             AimWarningText.Show(m_outOfProjectileMessage);
