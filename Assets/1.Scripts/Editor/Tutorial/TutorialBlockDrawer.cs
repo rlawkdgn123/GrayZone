@@ -214,6 +214,16 @@ public sealed class TutorialBlockDrawer : PropertyDrawer
                     case TutorialConditionType.Interact:
                         yield return property.FindPropertyRelative("m_targetId");
                         break;
+
+                    case TutorialConditionType.SwitchCharacter:
+                    case TutorialConditionType.UseSkill:
+                        yield return property.FindPropertyRelative("m_memberNumber");
+                        break;
+
+                    case TutorialConditionType.HoldOrder:
+                    case TutorialConditionType.RecallOrder:
+                        yield return property.FindPropertyRelative("m_orderKey");
+                        break;
                 }
 
                 break;
@@ -246,6 +256,8 @@ public sealed class TutorialBlockDrawer : PropertyDrawer
             "m_areaCenter" => "도착 위치",
             "m_areaRadius" => "도착 반경(m)",
             "m_targetId" => "대상 ID",
+            "m_memberNumber" => "캐릭터 번호",
+            "m_orderKey" => "명령 키 팀원",
             "m_cinematicId" => "시네마틱",
             "m_actions" => GetType(block) == TutorialBlockType.Trigger ? "실행할 이벤트" : "완료 시 이벤트",
             _ => field.displayName,
@@ -350,9 +362,33 @@ public sealed class TutorialBlockDrawer : PropertyDrawer
                 string id = property.FindPropertyRelative("m_targetId").stringValue;
                 return string.IsNullOrEmpty(id) ? "아무 상호작용" : $"'{id}' 상호작용";
 
+            case TutorialConditionType.SwitchCharacter:
+                int switchNumber = property.FindPropertyRelative("m_memberNumber").intValue;
+                return switchNumber > 0 ? $"{switchNumber}번 캐릭터로 변경" : "다른 캐릭터로 변경";
+
+            case TutorialConditionType.UseSkill:
+                int skillNumber = property.FindPropertyRelative("m_memberNumber").intValue;
+                return skillNumber > 0 ? $"{skillNumber}번 캐릭터 스킬 사용" : "스킬 사용";
+
+            case TutorialConditionType.HoldOrder:
+                return $"{DescribeOrderKey(property)} 위치 사수";
+
+            case TutorialConditionType.RecallOrder:
+                return $"{DescribeOrderKey(property)} 복귀";
+
             default:
                 return "바로 완료";
         }
+    }
+
+    private static string DescribeOrderKey(SerializedProperty property)
+    {
+        return (TutorialOrderKey)property.FindPropertyRelative("m_orderKey").intValue switch
+        {
+            TutorialOrderKey.Q => "Q 팀원",
+            TutorialOrderKey.E => "E 팀원",
+            _ => "Q·E 팀원",
+        };
     }
 
     private static TutorialBlockType GetType(SerializedProperty property)

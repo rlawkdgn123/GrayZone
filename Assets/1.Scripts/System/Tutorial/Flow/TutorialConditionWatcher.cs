@@ -17,6 +17,10 @@ public sealed class TutorialConditionWatcher : IDisposable
 
     private int m_killed;
     private bool m_interacted;
+    private bool m_skillUsed;
+
+    /// <summary>트리거가 실행될 때 조작 중이던 캐릭터의 스쿼드 목록 번호입니다. 캐릭터 번호 0인 SwitchCharacter 조건이 비교합니다.</summary>
+    private readonly int m_startMemberIndex = -1;
 
     /// <summary>대상 ID로 대상을 찾지 못했는지 여부입니다. 튜토리얼이 멈추지 않도록 경고 후 조건을 채운 것으로 봅니다.</summary>
     private bool m_targetMissing;
@@ -53,6 +57,15 @@ public sealed class TutorialConditionWatcher : IDisposable
 
                 InteractionController.OnAnyInteracted += HandleInteracted;
                 break;
+
+            case TutorialConditionType.SwitchCharacter:
+                SquadManager squad = SquadManager.Instance;
+                m_startMemberIndex = squad != null ? squad.PlayerSquadMemberIndex : -1;
+                break;
+
+            case TutorialConditionType.UseSkill:
+                CharacterSkill.OnAnyActivated += HandleSkillActivated;
+                break;
         }
     }
 
@@ -78,6 +91,18 @@ public sealed class TutorialConditionWatcher : IDisposable
                 case TutorialConditionType.Interact:
                     return m_interacted || m_targetMissing;
 
+                case TutorialConditionType.SwitchCharacter:
+                    return IsSwitched();
+
+                case TutorialConditionType.UseSkill:
+                    return m_skillUsed;
+
+                case TutorialConditionType.HoldOrder:
+                    return IsOrderState(true);
+
+                case TutorialConditionType.RecallOrder:
+                    return IsOrderState(false);
+
                 default:
                     return true;
             }
@@ -95,6 +120,7 @@ public sealed class TutorialConditionWatcher : IDisposable
         m_disposed = true;
         EnemyHealth.OnEnemyEnabled -= WatchEnemy;
         InteractionController.OnAnyInteracted -= HandleInteracted;
+        CharacterSkill.OnAnyActivated -= HandleSkillActivated;
         foreach (KeyValuePair<EnemyHealth, Action> pair in m_deathHandlers)
         {
             if (pair.Key != null)
@@ -116,6 +142,60 @@ public sealed class TutorialConditionWatcher : IDisposable
         Action handler = () => m_killed++;
         enemy.OnDeath += handler;
         m_deathHandlers[enemy] = handler;
+    }
+
+    /// <summary>조작 중인 캐릭터가 정한 번호의 캐릭터인지, 번호가 0이면 트리거 때와 다른 캐릭터인지 확인합니다.</summary>
+    private bool IsSwitched()
+    {
+        SquadManager squad = SquadManager.Instance;
+        if (squad == null)
+        {
+            return false;
+        }
+
+        int index = squad.PlayerSquadMemberIndex;
+        return m_trigger.MemberNumber > 0 ? index == m_trigger.MemberNumber - 1 : index != m_startMemberIndex;
+    }
+
+    /// <summary>
+    /// 고른 명령 키의 AI 팀원이 위치 사수 명령을 받은 상태(<paramref name="holding"/>가 true) 또는 복귀한 상태인지 확인합니다.
+    /// </summary>
+    /// <remarks>상태를 보므로, 트리거 전에 이미 그 상태였어도 완료입니다.</remarks>
+    private bool IsOrderState(bool holding)
+    {
+        SquadManager squad = SquadManager.Instance;
+        if (squad == null)
+        {
+            return false;
+        }
+
+        switch (m_trigger.OrderKey)
+        {
+            case TutorialOrderKey.Q:
+                return squad.HasAiMoveOrder(0) == holding;
+
+            case TutorialOrderKey.E:
+                return squad.HasAiMoveOrder(1) == holding;
+
+            default:
+                return squad.HasAiMoveOrder(0) == holding && squad.HasAiMoveOrder(1) == holding;
+        }
+    }
+
+    private void HandleSkillActivated(CharacterSkill skill)
+    {
+        if (m_trigger.MemberNumber <= 0)
+        {
+            m_skillUsed = true;
+            return;
+        }
+
+        SquadManager squad = SquadManager.Instance;
+        int index = m_trigger.MemberNumber - 1;
+        if (squad != null && skill != null && index < squad.SquadMembers.Count && squad.SquadMembers[index] == skill.Owner)
+        {
+            m_skillUsed = true;
+        }
     }
 
     private void HandleInteracted(IInteractable interactable, GameObject interactor)

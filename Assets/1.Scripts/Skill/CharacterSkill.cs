@@ -82,6 +82,9 @@ public abstract class CharacterSkill : MonoBehaviour
     /// <summary>활성·종료 등 큰 상태가 변경될 때 발생합니다. 매 프레임 남은 시간은 속성으로 조회합니다.</summary>
     public event Action<CharacterSkill> OnStateChanged;
 
+    /// <summary>어느 캐릭터든 스킬 발동에 성공했을 때 발생합니다. 튜토리얼처럼 특정 캐릭터를 잡지 않고 스킬 사용을 셀 때 씁니다.</summary>
+    public static event Action<CharacterSkill> OnAnyActivated;
+
     /// <summary>이 스킬의 밸런스 수치 SO입니다. 비어 있으면 null이며, 인스펙터 값을 그대로 씁니다.</summary>
     protected abstract ScriptableObject BalanceSource { get; }
 
@@ -126,6 +129,7 @@ public abstract class CharacterSkill : MonoBehaviour
 
         m_nextReadyTime = Time.time + CooldownDuration;
         NotifyStateChanged();
+        OnAnyActivated?.Invoke(this);
         return true;
     }
 

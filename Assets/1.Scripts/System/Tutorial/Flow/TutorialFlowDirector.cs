@@ -48,6 +48,14 @@ public sealed class TutorialFlowDirector : MonoBehaviour
     [Tooltip("켜면 방어전 1회차(DefenseSceneDataManager.DefenseRound <= 1)에서만 시작합니다. 회차 정보가 없으면(씬 단독 실행 등) 시작합니다.")]
     [SerializeField] private bool m_onlyFirstDefenseRound = true;
 
+    [Header("Debug")]
+    [Tooltip("켜면 에디터와 개발 빌드에서 넘기기 키로 지금 기다리는 블록을 바로 넘깁니다. 대사, 엔드포인트(완료 조건 무시), 시네마틱, 기다리는 이벤트가 모두 해당합니다.\n" +
+             "넘기기 키가 상호작용 키와 같으면 상호작용할 때도 넘어가므로, 실제 완료 조건을 확인할 때는 끕니다.")]
+    [SerializeField] private bool m_debugAdvance = true;
+
+    [Tooltip("디버그 넘기기 키입니다.")]
+    [SerializeField] private Key m_debugAdvanceKey = Key.F;
+
     [Header("Current")]
     [Tooltip("현재 챕터 번호입니다. 진행 중이 아니면 -1입니다.")]
     [ReadOnly][SerializeField] private int m_stepIndex = NoIndex;
@@ -62,6 +70,11 @@ public sealed class TutorialFlowDirector : MonoBehaviour
 
     /// <summary>엔드포인트를 기다리는 동안 띄워 둔 대사가 있는지 여부입니다. 엔드포인트가 닫히면 내립니다.</summary>
     private bool m_isHoldingDialogue;
+
+    /// <summary>
+    /// 지금 블록을 시작한 프레임입니다. 같은 프레임에 디버그 넘기기가 두 블록을 한꺼번에 넘기지 않도록 이보다 뒤 프레임의 입력만 받습니다.
+    /// </summary>
+    private int m_blockStartFrame;
 
     /// <summary>씬에 있는 활성 튜토리얼 진행기입니다. 없으면 null입니다.</summary>
     public static TutorialFlowDirector Instance => s_instance;
@@ -224,6 +237,7 @@ public sealed class TutorialFlowDirector : MonoBehaviour
             }
 
             m_blockIndex = i;
+            m_blockStartFrame = Time.frameCount;
             OnBlockChanged?.Invoke(m_stepIndex, i);
 
             switch (block.Type)
@@ -254,7 +268,7 @@ public sealed class TutorialFlowDirector : MonoBehaviour
                     }
 
                     // 고른 트리거가 모두 완료돼야 닫힙니다. 먼저 완료된 트리거도 나머지를 기다립니다.
-                    while (!AreTriggersMet(closes))
+                    while (!AreTriggersMet(closes) && !ConsumeDebugAdvance())
                     {
                         yield return null;
                     }
@@ -274,7 +288,7 @@ public sealed class TutorialFlowDirector : MonoBehaviour
 
                 case TutorialBlockType.Cinematic:
                     ReleaseHeldDialogue();
-                    yield return ResolveEvents().PlayCinematic(block.CinematicId);
+                    yield return PlayCinematic(block.CinematicId);
                     break;
             }
         }
@@ -283,7 +297,8 @@ public sealed class TutorialFlowDirector : MonoBehaviour
         if (m_watchers.Count > 0)
         {
             Debug.LogWarning($"튜토리얼 챕터 '{step.Label}'에 엔드포인트로 닫히지 않은 트리거가 {m_watchers.Count}개 있습니다. 완료될 때까지 기다린 뒤 다음 챕터로 넘어갑니다.", this);
-            while (!AreTriggersMet(new List<int>(m_watchers.Keys)))
+            m_blockStartFrame = Time.frameCount;
+            while (!AreTriggersMet(new List<int>(m_watchers.Keys)) && !ConsumeDebugAdvance())
             {
                 yield return null;
             }
@@ -309,6 +324,29 @@ public sealed class TutorialFlowDirector : MonoBehaviour
         m_isHoldingDialogue = hold;
         while (!done)
         {
+            if (ConsumeDebugAdvance())
+            {
+                dialogue.Stop();
+                yield break;
+            }
+
+            yield return null;
+        }
+    }
+
+    /// <summary>시네마틱을 끝까지 재생합니다. 디버그 넘기기를 누르면 바로 끝내고 카메라 복귀만 기다립니다.</summary>
+    private IEnumerator PlayCinematic(string cinematicId)
+    {
+        TutorialEvents events = ResolveEvents();
+        bool done = false;
+        StartCoroutine(RunTracked(events.PlayCinematic(cinematicId), () => done = true));
+        while (!done)
+        {
+            if (ConsumeDebugAdvance())
+            {
+                events.SkipCinematic();
+            }
+
             yield return null;
         }
     }
@@ -342,7 +380,8 @@ public sealed class TutorialFlowDirector : MonoBehaviour
             }
         }
 
-        while (running > 0)
+        // 디버그 넘기기로 기다림만 끝냅니다. 이미 시작한 이벤트는 그대로 돌게 둡니다.
+        while (running > 0 && !ConsumeDebugAdvance())
         {
             yield return null;
         }
@@ -376,6 +415,29 @@ public sealed class TutorialFlowDirector : MonoBehaviour
         }
 
         m_watchers.Clear();
+    }
+
+    /// <summary>
+    /// 이번 프레임에 디버그 넘기기 키를 눌렀으면 true를 돌려주고 받은 것으로 표시합니다. 에디터와 개발 빌드에서만 받습니다.
+    /// </summary>
+    /// <remarks>
+    /// 블록을 시작한 프레임의 입력은 받지 않습니다. 앞 블록을 넘긴 같은 누름으로 다음 블록까지 넘어가지 않게 하기 위해서입니다.
+    /// </remarks>
+    private bool ConsumeDebugAdvance()
+    {
+        if (!m_debugAdvance || !Debug.isDebugBuild || m_debugAdvanceKey == Key.None || Time.frameCount <= m_blockStartFrame)
+        {
+            return false;
+        }
+
+        Keyboard keyboard = Keyboard.current;
+        if (keyboard == null || !keyboard[m_debugAdvanceKey].wasPressedThisFrame)
+        {
+            return false;
+        }
+
+        m_blockStartFrame = Time.frameCount;
+        return true;
     }
 
     private bool WasSkipPressed()

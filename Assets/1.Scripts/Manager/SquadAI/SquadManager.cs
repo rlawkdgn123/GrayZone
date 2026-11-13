@@ -540,6 +540,17 @@ public class SquadManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 명령 키 순번의 AI 팀원이 이동·사수 명령을 받고 있는지 확인합니다.
+    /// </summary>
+    /// <param name="aiOrder">명령 키의 팀원 순번입니다. 0이 팀원 1(Q), 1이 팀원 2(E)입니다.</param>
+    /// <returns>그 팀원이 있고 AI가 조작 중이며 명령을 수행 중이면 true입니다.</returns>
+    public bool HasAiMoveOrder(int aiOrder)
+    {
+        SquadAIController ai = ResolveOrderableAi(ResolveAiMemberByOrder(aiOrder));
+        return ai != null && ai.HasMoveOrder;
+    }
+
     /// <summary>명령 키 하나의 누름·유지·뗌을 처리합니다.</summary>
     /// <param name="keyboard">현재 키보드입니다.</param>
     /// <param name="key">처리할 명령 키입니다.</param>

@@ -56,6 +56,41 @@ public enum TutorialConditionType
     /// 트리거가 실행된 뒤 상호작용을 마치면 완료입니다. 대상 ID를 넣으면 그 <see cref="TutorialTarget"/>이 붙은 대상, 비우면 아무 대상이나입니다.
     /// </summary>
     Interact = 4,
+
+    /// <summary>
+    /// 조작 중인 캐릭터가 정한 번호(캐릭터 변경 키 1~3과 같은 번호)의 캐릭터면 완료입니다.
+    /// 번호를 0으로 두면 트리거가 실행될 때와 다른 캐릭터로 바꾸면 완료입니다.
+    /// </summary>
+    SwitchCharacter = 5,
+
+    /// <summary>
+    /// 트리거가 실행된 뒤 스킬을 쓰면 완료입니다. 캐릭터 번호를 0으로 두면 아무 캐릭터, 1~3이면 그 캐릭터의 스킬만 셉니다.
+    /// </summary>
+    UseSkill = 6,
+
+    /// <summary>고른 명령 키(Q/E)의 AI 팀원이 위치 사수 명령을 받은 상태면 완료입니다.</summary>
+    HoldOrder = 7,
+
+    /// <summary>
+    /// 고른 명령 키(Q/E)의 AI 팀원이 위치 사수 명령 없이 복귀한 상태면 완료입니다. 길게 눌러 취소하든 전원 복귀 키(CapsLock)를 쓰든 같습니다.
+    /// </summary>
+    RecallOrder = 8,
+}
+
+/// <summary>
+/// 위치 사수 조건이 볼 AI 팀원입니다. 명령 키와 같은 기준으로, 조작 중이 아닌 멤버를 목록 순서대로 Q, E에 붙입니다.
+/// </summary>
+/// <remarks>값은 에셋에 숫자로 저장되므로 이미 쓰는 값의 번호를 바꾸지 마세요.</remarks>
+public enum TutorialOrderKey
+{
+    /// <summary>Q 키로 명령하는 AI 팀원입니다.</summary>
+    Q = 0,
+
+    /// <summary>E 키로 명령하는 AI 팀원입니다.</summary>
+    E = 1,
+
+    /// <summary>Q와 E의 AI 팀원 둘 다입니다.</summary>
+    Both = 2,
 }
 
 /// <summary>
@@ -138,7 +173,8 @@ public sealed class TutorialBlock
     [SerializeField] private List<TutorialAction> m_actions = new();
 
     [Tooltip("트리거: 이 트리거가 완료로 취급되는 조건입니다. 트리거가 실행된 순간부터 셉니다.\n" +
-             "None: 바로 완료 / Time: 시간 / KillEnemy: 적 처치 / ReachArea: 위치 도착 / Interact: 상호작용 완료")]
+             "None: 바로 완료 / Time: 시간 / KillEnemy: 적 처치 / ReachArea: 위치 도착 / Interact: 상호작용 완료\n" +
+             "SwitchCharacter: 캐릭터 변경 / UseSkill: 스킬 사용 / HoldOrder: 위치 사수 명령 / RecallOrder: 위치 사수 복귀")]
     [SerializeField] private TutorialConditionType m_condition;
 
     [Tooltip("Time: 트리거가 실행된 뒤 기다릴 시간(초)입니다.")]
@@ -161,6 +197,14 @@ public sealed class TutorialBlock
 
     [Tooltip("Interact: 대상 ID입니다. 씬 오브젝트에 붙인 TutorialTarget의 ID와 같게 적습니다. 비우면 아무 대상이나 셉니다.")]
     [SerializeField] private string m_targetId;
+
+    [Tooltip("SwitchCharacter: 바꿔야 하는 캐릭터 번호(캐릭터 변경 키 1~3)입니다. 0이면 아무 캐릭터로든 바꾸면 완료입니다.\n" +
+             "UseSkill: 스킬을 쓸 캐릭터 번호(1~3)입니다. 0이면 아무 캐릭터나 셉니다.")]
+    [Range(0, 3)]
+    [SerializeField] private int m_memberNumber = 1;
+
+    [Tooltip("HoldOrder / RecallOrder: 볼 AI 팀원입니다. Q, E 키로 명령하는 팀원 또는 둘 다입니다.")]
+    [SerializeField] private TutorialOrderKey m_orderKey;
 
     [Tooltip("시네마틱: 재생할 시네마틱의 ID입니다. 씬의 TutorialCinematicSettings 목록에서 드롭다운으로 고릅니다.")]
     [SerializeField] private string m_cinematicId;
@@ -200,6 +244,12 @@ public sealed class TutorialBlock
 
     /// <summary>Interact 조건의 대상 ID입니다. 비어 있으면 아무 대상이나입니다.</summary>
     public string TargetId => m_targetId;
+
+    /// <summary>SwitchCharacter·UseSkill 조건의 캐릭터 번호(1~3)입니다. 0이면 아무 캐릭터입니다.</summary>
+    public int MemberNumber => m_memberNumber;
+
+    /// <summary>HoldOrder·RecallOrder 조건이 볼 AI 팀원입니다.</summary>
+    public TutorialOrderKey OrderKey => m_orderKey;
 
     /// <summary>시네마틱 블록이 재생할 시네마틱의 ID입니다(<see cref="TutorialCinematicSettings"/>의 항목).</summary>
     public string CinematicId => m_cinematicId;
