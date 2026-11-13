@@ -491,8 +491,9 @@ public sealed class TutorialEvents : MonoBehaviour
     /// <param name="position">만들 위치(월드 좌표)입니다.</param>
     /// <param name="spreadRadius">위치 둘레로 흩어 놓을 반경(m)입니다. 0이면 모두 같은 위치입니다.</param>
     /// <param name="targetMode">켜면 튜토리얼용 과녁 모드로 만듭니다. 감지·추적·공격을 하지 않고 시킨 이동만 합니다.</param>
+    /// <param name="killRule">과녁 모드일 때 이 적을 죽일 수 있는 공격입니다. 그 밖의 공격은 HP 1까지만 깎습니다.</param>
     [TutorialEvent("적 생성")]
-    public void SpawnEnemies(EnemyController prefab, int count, Vector3 position, float spreadRadius, bool targetMode)
+    public void SpawnEnemies(EnemyController prefab, int count, Vector3 position, float spreadRadius, bool targetMode, TutorialTargetKillRule killRule)
     {
         if (prefab == null)
         {
@@ -522,7 +523,7 @@ public sealed class TutorialEvents : MonoBehaviour
             }
 
             EnemyController enemy = Instantiate(prefab, spawnPosition, rotation);
-            enemy.TutorialTargetMode = targetMode;
+            SetTargetMode(enemy, targetMode, killRule);
             m_spawnedEnemies.Add(enemy);
         }
     }
@@ -531,13 +532,24 @@ public sealed class TutorialEvents : MonoBehaviour
     /// 적 생성으로 만든 적의 튜토리얼용 과녁 모드를 켜거나 끕니다. 켜면 감지·추적·공격을 하지 않고 시킨 이동만 한 뒤 제자리에 섭니다.
     /// </summary>
     /// <param name="prefab">바꿀 적 프리팹입니다. 비우면 프리팹을 가리지 않습니다.</param>
-    /// <param name="enabled">켜면 과녁 모드, 끄면 평소 판단으로 돌아갑니다.</param>
+    /// <param name="enabled">켜면 과녁 모드, 끄면 평소 판단과 평소 사망 규칙으로 돌아갑니다.</param>
+    /// <param name="killRule">과녁 모드일 때 죽일 수 있는 공격입니다. 그 밖의 공격은 HP 1까지만 깎습니다.</param>
     [TutorialEvent("튜토리얼 적 과녁 모드 (켜기/끄기)")]
-    public void SetEnemyTargetMode(EnemyController prefab, bool enabled)
+    public void SetEnemyTargetMode(EnemyController prefab, bool enabled, TutorialTargetKillRule killRule)
     {
         foreach (EnemyController enemy in GetSpawnedEnemies(prefab))
         {
-            enemy.TutorialTargetMode = enabled;
+            SetTargetMode(enemy, enabled, killRule);
+        }
+    }
+
+    /// <summary>적 하나의 과녁 모드(행동)와 처치 조건(체력)을 함께 바꿉니다.</summary>
+    private static void SetTargetMode(EnemyController enemy, bool enabled, TutorialTargetKillRule killRule)
+    {
+        enemy.TutorialTargetMode = enabled;
+        if (enemy.TryGetComponent(out EnemyHealth health))
+        {
+            health.SetTargetKillRule(enabled, killRule);
         }
     }
 
