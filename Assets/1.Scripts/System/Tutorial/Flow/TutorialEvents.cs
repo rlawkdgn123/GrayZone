@@ -32,6 +32,14 @@ public sealed class TutorialCinematicIdAttribute : Attribute
 }
 
 /// <summary>
+/// 이벤트 메서드의 string 파라미터가 씬 함정의 하이어라키 경로임을 표시합니다. Inspector가 씬의 함정 목록(종류별) 드롭다운을 그립니다.
+/// </summary>
+[AttributeUsage(AttributeTargets.Parameter)]
+public sealed class TutorialTrapPathAttribute : Attribute
+{
+}
+
+/// <summary>
 /// 튜토리얼 이벤트 메서드를 모아 둔 곳입니다. 시퀀스의 줄마다 여기 메서드를 골라 값만 채워 실행합니다.
 /// </summary>
 /// <remarks>
@@ -519,6 +527,75 @@ public sealed class TutorialEvents : MonoBehaviour
                 return;
             }
         }
+    }
+
+    /// <summary>씬의 청사진 상태인 함정 오브젝트를 모두 끕니다. 이미 설치된 함정은 그대로 둡니다.</summary>
+    [TutorialEvent("모든 트랩 청사진 끄기")]
+    public void HideAllTrapBlueprints()
+    {
+        foreach (Trap trap in FindObjectsByType<Trap>(FindObjectsInactive.Exclude, FindObjectsSortMode.None))
+        {
+            if (trap.IsBlueprint)
+            {
+                trap.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    /// <summary>꺼져 있는 함정 오브젝트를 모두 켭니다.</summary>
+    [TutorialEvent("모든 트랩 청사진 켜기")]
+    public void ShowAllTrapBlueprints()
+    {
+        foreach (Trap trap in FindObjectsByType<Trap>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            trap.gameObject.SetActive(true);
+        }
+    }
+
+    /// <summary>고른 함정 오브젝트 하나를 켭니다.</summary>
+    /// <param name="trapPath">켤 함정의 하이어라키 경로입니다. Inspector에서 씬의 함정 목록으로 고릅니다.</param>
+    [TutorialEvent("특정 트랩 청사진 켜기")]
+    public void ShowTrapBlueprint([TutorialTrapPath] string trapPath)
+    {
+        Trap trap = FindTrap(trapPath);
+        if (trap == null)
+        {
+            Debug.LogWarning($"특정 트랩 청사진 켜기: 씬에서 함정 '{trapPath}'를 찾지 못했습니다.", this);
+            return;
+        }
+
+        trap.gameObject.SetActive(true);
+    }
+
+    /// <summary>하이어라키 경로가 같은 함정을 찾습니다. 꺼진 오브젝트도 찾습니다. 없으면 null입니다.</summary>
+    public static Trap FindTrap(string path)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            return null;
+        }
+
+        foreach (Trap trap in FindObjectsByType<Trap>(FindObjectsInactive.Include, FindObjectsSortMode.None))
+        {
+            if (GetHierarchyPath(trap.transform) == path)
+            {
+                return trap;
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>"부모/자식" 형태의 하이어라키 경로입니다. 함정을 고르는 칸이 이 값으로 저장합니다.</summary>
+    public static string GetHierarchyPath(Transform target)
+    {
+        string path = target.name;
+        for (Transform parent = target.parent; parent != null; parent = parent.parent)
+        {
+            path = parent.name + "/" + path;
+        }
+
+        return path;
     }
 
     /// <summary>

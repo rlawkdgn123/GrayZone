@@ -89,6 +89,10 @@ public sealed class TutorialActionDrawer : PropertyDrawer
         {
             TutorialCinematicPopup.Draw(rect, arg.FindPropertyRelative("m_string"), label);
         }
+        else if (type == typeof(string) && parameter.GetCustomAttribute<TutorialTrapPathAttribute>() != null)
+        {
+            TutorialTrapPopup.Draw(rect, arg.FindPropertyRelative("m_string"), label);
+        }
         else if (type == typeof(string))
         {
             SerializedProperty p = arg.FindPropertyRelative("m_string");

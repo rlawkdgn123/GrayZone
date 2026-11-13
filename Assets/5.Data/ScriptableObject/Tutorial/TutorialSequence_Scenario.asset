@@ -17,6 +17,29 @@ MonoBehaviour:
   - m_label: "01. \uC774\uB3D9"
     m_lockedInputs: 0
     m_blocks:
+    - m_type: 1
+      m_dialogue:
+        m_speaker: {fileID: 0}
+        m_portrait: {fileID: 0}
+        m_text: 
+        m_bubbleText: 
+        m_advanceMode: 0
+        m_autoSeconds: 0
+      m_triggerId: f93f9cca
+      m_closeTriggerIds: []
+      m_actions:
+      - m_method: HideAllTrapBlueprints
+        m_args: []
+      m_condition: 0
+      m_seconds: 2
+      m_enemyPrefab: {fileID: 0}
+      m_killCount: 1
+      m_areaCenter: {x: 0, y: 0, z: 0}
+      m_areaRadius: 2
+      m_targetId: 
+      m_memberNumber: 1
+      m_orderKey: 0
+      m_cinematicId: 
     - m_type: 3
       m_dialogue:
         m_speaker: {fileID: 0}
