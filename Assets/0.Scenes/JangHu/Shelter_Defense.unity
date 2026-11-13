@@ -35401,7 +35401,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ObjectivePathArrow
   m_target: {fileID: 1611825375}
   m_targetOffset: {x: 0, y: 0, z: 0}
-  m_visibleOnStart: 1
+  m_visibleOnStart: 0
   m_originOverride: {fileID: 0}
   m_arrowVisual: {fileID: 0}
   m_ringRadius: 0.8
