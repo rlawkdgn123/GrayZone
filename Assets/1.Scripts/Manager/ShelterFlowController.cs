@@ -54,6 +54,9 @@ public sealed class ShelterFlowController : MonoBehaviour
     [Header("Flow Sources")]
     [SerializeField] private ManufacturingManager m_manufacturingManager;
 
+    [Tooltip("비워 두면 씬에서 자동으로 찾습니다. 환자를 한 명이라도 완치하면 의료 시설 안내를 끝냅니다.")]
+    [SerializeField] private MedicalManager m_medicalManager;
+
     [Header("Startup")]
     [Tooltip("Scene 시작 시 제조 시설 안내 단계부터 자동으로 시작함")]
     [SerializeField] private bool m_startAutomatically = true;
@@ -75,6 +78,7 @@ public sealed class ShelterFlowController : MonoBehaviour
     {
         CacheShelterDataManager();
         CacheManufacturingManager();
+        CacheMedicalManager();
     }
 
     private void OnEnable()
@@ -82,6 +86,10 @@ public sealed class ShelterFlowController : MonoBehaviour
         ManufacturingManager manufacturingManager = CacheManufacturingManager();
         if (manufacturingManager != null)
             manufacturingManager.CraftCompleted += HandleCraftCompleted;
+
+        MedicalManager medicalManager = CacheMedicalManager();
+        if (medicalManager != null)
+            medicalManager.OnPatientHealed += HandlePatientHealed;
 
         if (m_hasStarted)
             ApplyCurrentState();
@@ -91,6 +99,9 @@ public sealed class ShelterFlowController : MonoBehaviour
     {
         if (m_manufacturingManager != null)
             m_manufacturingManager.CraftCompleted -= HandleCraftCompleted;
+
+        if (m_medicalManager != null)
+            m_medicalManager.OnPatientHealed -= HandlePatientHealed;
     }
 
     private void Start()
@@ -212,13 +223,21 @@ public sealed class ShelterFlowController : MonoBehaviour
         EnterState(ShelterFlowState.GuideToMedical, true);
     }
 
-    /// <summary>플레이어가 의료 시설 안내 Trigger에 도착했음을 통지합니다.</summary>
-    public void NotifyMedicalFacilityReached()
+    /// <summary>
+    /// 의료 시설에서 환자가 한 명이라도 완치되었음을 통지합니다.
+    /// 의료 시설 안내가 마지막 단계이므로 다른 시설을 다시 안내하지 않고 안내를 끝냅니다.
+    /// </summary>
+    public void NotifyFirstPatientHealed()
     {
         if (!m_hasStarted || m_currentState != ShelterFlowState.GuideToMedical)
             return;
 
         EnterState(ShelterFlowState.Completed);
+    }
+
+    private void HandlePatientHealed(ShelterMemberRuntimeData _)
+    {
+        NotifyFirstPatientHealed();
     }
 
     private void EnterState(ShelterFlowState nextState, bool forceApply = false)
@@ -280,6 +299,14 @@ public sealed class ShelterFlowController : MonoBehaviour
             m_manufacturingManager = FindFirstObjectByType<ManufacturingManager>();
 
         return m_manufacturingManager;
+    }
+
+    private MedicalManager CacheMedicalManager()
+    {
+        if (m_medicalManager == null)
+            m_medicalManager = FindFirstObjectByType<MedicalManager>(FindObjectsInactive.Include);
+
+        return m_medicalManager;
     }
 
     private static bool HasSuccessfulFieldResult()

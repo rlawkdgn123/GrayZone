@@ -12,6 +12,12 @@ public sealed class DefaultSaveData : ScriptableObject
         [SerializeField] private string resourceId;
         [SerializeField, Min(0)] private int amount;
 
+        public StartingResourceAmount(string resourceId, int amount)
+        {
+            this.resourceId = resourceId;
+            this.amount = amount;
+        }
+
         public string ResourceId => ResourceIds.Normalize(resourceId);
         public int Amount => Mathf.Max(0, amount);
     }
@@ -27,6 +33,7 @@ public sealed class DefaultSaveData : ScriptableObject
     [SerializeField, Min(0)] private int wireUpgradeLevel;
 
     [Header("Starting State")]
+    [Tooltip("StartingResource 시트(Assets/5.Data/DataSheet/TableData/StartingResource.csv)에서 가져옵니다. 여기서 직접 고쳐도 다음 가져오기에서 덮어씁니다.")]
     [SerializeField] private StartingResourceAmount[] startingResources = Array.Empty<StartingResourceAmount>();
     [SerializeField] private PlayerbleCharacterDefinition[] startingCharacterDefinitions = Array.Empty<PlayerbleCharacterDefinition>();
 
@@ -119,4 +126,12 @@ public sealed class DefaultSaveData : ScriptableObject
             });
         }
     }
+
+#if UNITY_EDITOR
+    /// <summary>시트 임포터 전용입니다. 검증을 마친 <c>StartingResource</c> 시트 행으로 시작 자원을 통째로 바꿉니다.</summary>
+    public void EditorReplaceStartingResources(List<StartingResourceAmount> rows)
+    {
+        startingResources = rows.ToArray();
+    }
+#endif
 }

@@ -39,10 +39,14 @@ public class MedicalPatientSlotView : MonoBehaviour
     [Header("Empty Slot State Text")]
     [Tooltip("시설 레벨이 부족해 해금되지 않은 슬롯")]
     [SerializeField] private string m_lockedStateText = "시설 업그레이드시 해제";
-    [Tooltip("해금됐지만 지금은 사용할 수 없는 슬롯")]
-    [SerializeField] private string m_unavailableStateText = "잠김";
+    [Tooltip("해금됐지만 치료 완료로 사용할 수 없게 된 슬롯")]
+    [SerializeField] private string m_unavailableStateText = "치료 완료";
     [Tooltip("환자를 배치할 수 있는 빈 슬롯")]
     [SerializeField] private string m_availableStateText = "사용 가능";
+
+    [Header("Treated Image (치료 완료로 잠긴 슬롯)")]
+    [Tooltip("프리팹에서 비활성화해 두는 이미지. 치료 완료 시 마지막 배치 환자의 초상화를 넣고 활성화합니다.")]
+    [SerializeField] private Image m_treatedImage;
 
     private int m_slotIndex = -1;
     private bool m_isUnlocked;
@@ -51,7 +55,12 @@ public class MedicalPatientSlotView : MonoBehaviour
     private string m_patientRuntimeId;           // null/공백 = 비점유
     private string m_patientDefinitionId;
     private CharacterInjuryState m_patientInjuryState;
+    // 이 슬롯에 마지막으로 배치됐던 환자 정의 ID. 슬롯이 다시 사용 가능해질 때만 지운다.
+    private string m_lastPatientDefinitionId;
     private Action<MedicalPatientSlotView> m_clicked;
+    // 부상상태 텍스트의 프리팹 기본색. 빈 슬롯 문구나 색 미지정 상태에서 되돌릴 때 사용한다.
+    private Color m_defaultInjuryStateTextColor;
+    private bool m_hasDefaultInjuryStateTextColor;
 
     /// <summary>세이브/로드 시에만 사용하는 슬롯 식별자</summary>
     public string SlotId => m_slotId;
@@ -97,6 +106,10 @@ public class MedicalPatientSlotView : MonoBehaviour
         m_isAvailable = isAvailable;
         m_clicked = onClicked;
 
+        // 사용 가능한 슬롯이면 치료 완료 기억이 필요 없다. 배치 중 환자는 이어지는 SetPatient에서 다시 기억한다.
+        if (isAvailable)
+            m_lastPatientDefinitionId = null;
+
         UpdateVisual();
 
         if (m_button != null)
@@ -124,6 +137,8 @@ public class MedicalPatientSlotView : MonoBehaviour
     {
         m_patientRuntimeId = runtimeId;
         m_patientDefinitionId = definitionId;
+        if (!string.IsNullOrWhiteSpace(definitionId))
+            m_lastPatientDefinitionId = definitionId;
         UpdateVisual();
         UpdateButtonStates();
     }
@@ -147,6 +162,8 @@ public class MedicalPatientSlotView : MonoBehaviour
     {
         if (m_injuryStateText == null || HasPatient)
             return;
+
+        ApplyInjuryStateTextColor(null);
 
         if (!m_isUnlocked)
             m_injuryStateText.text = m_lockedStateText;
@@ -179,10 +196,39 @@ public class MedicalPatientSlotView : MonoBehaviour
             m_nameText.text = string.Empty;
 
         if (m_injuryStateText != null)
+        {
             m_injuryStateText.text = string.Empty;
+            ApplyInjuryStateTextColor(null);
+        }
 
         if (m_daysText != null)
             m_daysText.text = string.Empty;
+    }
+
+    // 부상 상태별 카탈로그 색을 적용한다. state가 null이거나 색이 지정되지 않았으면 프리팹 기본색으로 되돌린다.
+    private void ApplyInjuryStateTextColor(CharacterInjuryState? state)
+    {
+        if (m_injuryStateText == null)
+            return;
+
+        CacheDefaultInjuryStateTextColor();
+
+        Color color = m_defaultInjuryStateTextColor;
+        if (state.HasValue && m_characterInjuryCatalog != null
+            && m_characterInjuryCatalog.TryGetTextColor(state.Value, out Color stateColor))
+            color = stateColor;
+
+        if (m_injuryStateText.color != color)
+            m_injuryStateText.color = color;
+    }
+
+    private void CacheDefaultInjuryStateTextColor()
+    {
+        if (m_hasDefaultInjuryStateTextColor || m_injuryStateText == null)
+            return;
+
+        m_defaultInjuryStateTextColor = m_injuryStateText.color;
+        m_hasDefaultInjuryStateTextColor = true;
     }
 
     /// <summary>
@@ -220,7 +266,10 @@ public class MedicalPatientSlotView : MonoBehaviour
             m_nameText.text = string.Format(m_nameFormat, status.DisplayName);
 
         if (m_injuryStateText != null)
+        {
             m_injuryStateText.text = string.Format(m_stateFormat, CharacterInjuryStateText.ToWord(status.InjuryState));
+            ApplyInjuryStateTextColor(status.InjuryState);
+        }
 
         if (m_daysText != null)
             m_daysText.text = string.Format(m_daysFormat, status.RemainingDays);
@@ -248,8 +297,40 @@ public class MedicalPatientSlotView : MonoBehaviour
         }
     }
 
+    // 치료 완료로 잠긴 슬롯이면 마지막 배치 환자 초상화를 치료 완료 이미지에 넣고 켠다.
+    private void UpdateTreatedImage()
+    {
+        if (m_treatedImage == null)
+            return;
+
+        Sprite portrait = m_isUnlocked && !m_isAvailable
+            ? ResolvePortrait(m_lastPatientDefinitionId, CharacterInjuryState.Normal)
+            : null;
+
+        m_treatedImage.sprite = portrait;
+        if (m_treatedImage.gameObject.activeSelf != (portrait != null))
+            m_treatedImage.gameObject.SetActive(portrait != null);
+    }
+
+    // 캐릭터 정의 ID와 부상 상태로 초상화를 찾는다. 부상 이미지 → 기본 초상화 순.
+    private Sprite ResolvePortrait(string definitionId, CharacterInjuryState state)
+    {
+        if (string.IsNullOrWhiteSpace(definitionId))
+            return null;
+
+        Sprite portrait = m_characterInjuryCatalog != null
+            ? m_characterInjuryCatalog.GetIcon(definitionId, state)
+            : null;
+        if (portrait == null && m_characterCatalog != null)
+            portrait = m_characterCatalog.GetPortrait(definitionId);
+
+        return portrait;
+    }
+
     private void UpdateVisual()
     {
+        UpdateTreatedImage();
+
         if (m_slotImage == null)
             return;
 
@@ -269,14 +350,9 @@ public class MedicalPatientSlotView : MonoBehaviour
             return;
         }
 
-        if (HasPatient && (m_characterInjuryCatalog != null || m_characterCatalog != null))
+        if (HasPatient)
         {
-            Sprite portrait = m_characterInjuryCatalog != null
-                ? m_characterInjuryCatalog.GetIcon(m_patientDefinitionId, m_patientInjuryState)
-                : null;
-            if (portrait == null && m_characterCatalog != null)
-                portrait = m_characterCatalog.GetPortrait(m_patientDefinitionId);
-
+            Sprite portrait = ResolvePortrait(m_patientDefinitionId, m_patientInjuryState);
             m_slotImage.sprite = portrait != null ? portrait : m_unlockedSprite;
         }
         else
@@ -294,5 +370,9 @@ public class MedicalPatientSlotView : MonoBehaviour
 
         if (m_slotImage == null)
             m_slotImage = GetComponent<Image>();
+
+        // Reset(에디터)에서는 런타임 기본색을 고정하지 않는다.
+        if (Application.isPlaying)
+            CacheDefaultInjuryStateTextColor();
     }
 }

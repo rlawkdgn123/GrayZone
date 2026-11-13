@@ -65,15 +65,10 @@ public sealed class ShelterObjectiveArrivalTrigger : MonoBehaviour
                 m_flowController.NotifyOperationFacilityReached();
                 break;
 
+            // 의료 시설 안내는 도착이 아니라 환자 완치(ShelterFlowController.NotifyFirstPatientHealed)로 끝납니다.
+            // 직렬화 값 호환을 위해 항목은 남겨 두고 도착만으로는 아무것도 하지 않습니다.
             case ObjectiveStep.MedicalFacility:
-                if (m_flowController.CurrentState
-                    != ShelterFlowState.GuideToMedical)
-                {
-                    return;
-                }
-
-                m_flowController.NotifyMedicalFacilityReached();
-                break;
+                return;
         }
 
         m_consumed = true;

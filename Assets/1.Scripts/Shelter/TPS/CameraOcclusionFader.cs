@@ -139,6 +139,8 @@ public sealed class CameraOcclusionFader : MonoBehaviour
             m_triggerInteraction
         );
 
+        Vector3 targetPosition = m_visibilityTarget.position;
+
         for (int i = 0; i < hitCount; i++)
         {
             Collider hitCollider = m_hitBuffer[i].collider;
@@ -148,8 +150,14 @@ public sealed class CameraOcclusionFader : MonoBehaviour
             RoofOcclusionTarget target =
                 hitCollider.GetComponentInParent<RoofOcclusionTarget>();
 
-            if (target != null && target.isActiveAndEnabled && target.OwnsCollider(hitCollider))
+            // SphereCast는 넓게 후보를 모으고, 최종 판정은 대상별 Detection Mode가 정합니다.
+            if (target != null &&
+                target.isActiveAndEnabled &&
+                target.OwnsCollider(hitCollider) &&
+                target.ConfirmOcclusion(hitCollider, origin, targetPosition))
+            {
                 m_currentTargets.Add(target);
+            }
         }
     }
 

@@ -239,8 +239,9 @@ public sealed class ManufacturingUI : MonoBehaviour, IFacilityStageSource
                 request.RequestedBatchCount,
                 out ManufacturingStartJobFailureReason failureReason))
         {
+            // 즉시 제작은 슬롯을 점유하지 않으므로 CreateView를 닫지 않고 유지합니다.
+            // 선택한 레시피/수량은 그대로 두고, 차감된 재료 기준으로 견적과 확정 버튼만 갱신합니다.
             ClearNotice();
-            m_createView.CloseAfterConfirmed();
             Refresh();
             return;
         }

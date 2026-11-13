@@ -1,0 +1,5 @@
+﻿ResourceId,Amount,#Memo
+upgrade_material,20,시설 업그레이드 재료
+crafting_material,50,제작 재료
+trap_material,100,함정 설치 재료
+trap_upgrade_material,20,함정 업그레이드 재료
