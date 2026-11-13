@@ -30,6 +30,32 @@ MonoBehaviour:
       m_actions:
       - m_method: HideAllTrapBlueprints
         m_args: []
+      - m_method: SpawnEnemies
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 6670782890415228131, guid: e1862b3bfc486144f86ceb7ddbecd341, type: 3}
+        - m_string: 
+          m_float: 0
+          m_int: 3
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 76.63, y: 199.99, z: 16.09}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 2
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
       m_condition: 0
       m_seconds: 2
       m_enemyPrefab: {fileID: 0}
@@ -315,33 +341,7 @@ MonoBehaviour:
         m_autoSeconds: 0
       m_triggerId: ca4f4483
       m_closeTriggerIds: []
-      m_actions:
-      - m_method: SpawnEnemies
-        m_args:
-        - m_string: 
-          m_float: 0
-          m_int: 0
-          m_bool: 0
-          m_vector: {x: 0, y: 0, z: 0}
-          m_object: {fileID: 2990036820463330610, guid: eda57c1f100ad23449048090ceed8a7f, type: 3}
-        - m_string: 
-          m_float: 0
-          m_int: 3
-          m_bool: 0
-          m_vector: {x: 0, y: 0, z: 0}
-          m_object: {fileID: 0}
-        - m_string: 
-          m_float: 0
-          m_int: 0
-          m_bool: 0
-          m_vector: {x: 76.63, y: 199.99, z: 16.09}
-          m_object: {fileID: 0}
-        - m_string: 
-          m_float: 2
-          m_int: 0
-          m_bool: 0
-          m_vector: {x: 0, y: 0, z: 0}
-          m_object: {fileID: 0}
+      m_actions: []
       m_condition: 0
       m_seconds: 2
       m_enemyPrefab: {fileID: 0}
@@ -498,7 +498,7 @@ MonoBehaviour:
           m_object: {fileID: 0}
       m_condition: 2
       m_seconds: 2
-      m_enemyPrefab: {fileID: 2990036820463330610, guid: eda57c1f100ad23449048090ceed8a7f, type: 3}
+      m_enemyPrefab: {fileID: 6670782890415228131, guid: e1862b3bfc486144f86ceb7ddbecd341, type: 3}
       m_killCount: 3
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
@@ -549,7 +549,7 @@ MonoBehaviour:
           m_int: 0
           m_bool: 0
           m_vector: {x: 0, y: 0, z: 0}
-          m_object: {fileID: 2990036820463330610, guid: eda57c1f100ad23449048090ceed8a7f, type: 3}
+          m_object: {fileID: 6670782890415228131, guid: e1862b3bfc486144f86ceb7ddbecd341, type: 3}
         - m_string: 
           m_float: 0
           m_int: 10
@@ -750,7 +750,7 @@ MonoBehaviour:
           m_object: {fileID: 0}
       m_condition: 2
       m_seconds: 2
-      m_enemyPrefab: {fileID: 2990036820463330610, guid: eda57c1f100ad23449048090ceed8a7f, type: 3}
+      m_enemyPrefab: {fileID: 6670782890415228131, guid: e1862b3bfc486144f86ceb7ddbecd341, type: 3}
       m_killCount: 10
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
