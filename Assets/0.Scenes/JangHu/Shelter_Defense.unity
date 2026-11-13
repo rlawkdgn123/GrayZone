@@ -226290,12 +226290,20 @@ MonoBehaviour:
     m_cameras: []
     m_secondsPerCamera: 3
     m_lockInput: 1
+    m_fadeToPlayer: 0
+    m_fadeOutSeconds: 0.5
+    m_blackSeconds: 0.3
+    m_fadeInSeconds: 0.8
   - m_id: 43fd9e67
     m_name: "\uC2DC\uC791 \uB098\uB9B0 \uCD94\uC801"
     m_timeline: {fileID: 2010718512}
     m_cameras: []
     m_secondsPerCamera: 3
     m_lockInput: 1
+    m_fadeToPlayer: 1
+    m_fadeOutSeconds: 0.5
+    m_blackSeconds: 0.3
+    m_fadeInSeconds: 0.8
 --- !u!1001 &960030669
 PrefabInstance:
   m_ObjectHideFlags: 0

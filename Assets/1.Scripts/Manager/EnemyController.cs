@@ -1300,6 +1300,13 @@ public class EnemyController : MonoBehaviour, IKnockbackReceiver
         // 판단은 이미 재개된 상태이므로 아래 Tick은 그대로 돌립니다.
         UpdateStaggerHandover();
 
+        // 제자리에 세워 둔 개체는 이동·추격·공격 판단을 하지 않습니다. 피격 경직과 넉백은 위에서 그대로 처리합니다.
+        if (m_holdStill)
+        {
+            StopMoving();
+            return;
+        }
+
         if (TickDefenseNavigation())
         {
             return;
@@ -3116,6 +3123,18 @@ public class EnemyController : MonoBehaviour, IKnockbackReceiver
         agent.isStopped = false;
         agent.SetDestination(worldPosition);
     }
+
+    /// <summary>
+    /// 켜면 이 개체가 제자리에 서서 움직이지도 공격하지도 않습니다. 맞으면 경직과 넉백은 그대로 받습니다.
+    /// 튜토리얼에서 적을 표적처럼 세워 둘 때 씁니다.
+    /// </summary>
+    public bool HoldStill
+    {
+        get => m_holdStill;
+        set => m_holdStill = value;
+    }
+
+    private bool m_holdStill;
 
     /// <summary>이동을 멈춥니다.</summary>
     public void StopMoving()

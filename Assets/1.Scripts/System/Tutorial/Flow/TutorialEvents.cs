@@ -140,6 +140,9 @@ public sealed class TutorialEvents : MonoBehaviour
     /// <summary><see cref="SkipCinematic"/>으로 재생 중인 시네마틱을 끝내라는 요청이 있었는지 여부입니다.</summary>
     private bool m_cinematicSkipRequested;
 
+    /// <summary>시네마틱 끝 전환에 쓰는 화면 전체 검은 막입니다. 처음 쓸 때 만듭니다.</summary>
+    private CanvasGroup m_fadeOverlay;
+
     /// <summary>창 닫기 키를 누른 시간을 셀 때 한 프레임에 더하는 최대 시간(초)입니다.</summary>
     private const float MaxHoldStepSeconds = 0.1f;
 
@@ -201,6 +204,7 @@ public sealed class TutorialEvents : MonoBehaviour
         HidePathLine();
         DespawnEnemies(null, 0);
         StopCinematic();
+        SetFadeAlpha(0.0f);
         ResumeTime();
         SquadInventoryManager.FreeUse = false;
         SquadInventoryManager.UseWhenEmpty = false;
@@ -486,8 +490,9 @@ public sealed class TutorialEvents : MonoBehaviour
     /// <param name="count">만들 수입니다.</param>
     /// <param name="position">만들 위치(월드 좌표)입니다.</param>
     /// <param name="spreadRadius">위치 둘레로 흩어 놓을 반경(m)입니다. 0이면 모두 같은 위치입니다.</param>
+    /// <param name="holdStill">켜면 만든 적이 제자리에 서서 움직이지도 공격하지도 않습니다.</param>
     [TutorialEvent("적 생성")]
-    public void SpawnEnemies(EnemyController prefab, int count, Vector3 position, float spreadRadius)
+    public void SpawnEnemies(EnemyController prefab, int count, Vector3 position, float spreadRadius, bool holdStill)
     {
         if (prefab == null)
         {
@@ -516,7 +521,9 @@ public sealed class TutorialEvents : MonoBehaviour
                 }
             }
 
-            m_spawnedEnemies.Add(Instantiate(prefab, spawnPosition, rotation));
+            EnemyController enemy = Instantiate(prefab, spawnPosition, rotation);
+            enemy.HoldStill = holdStill;
+            m_spawnedEnemies.Add(enemy);
         }
     }
 
@@ -823,8 +830,17 @@ public sealed class TutorialEvents : MonoBehaviour
             director.time = 0.0;
             director.Play();
             double duration = director.duration;
-            while (m_cinematicDirector == director && director != null && director.state == PlayState.Playing && director.time < duration)
+
+            // 검은 화면으로 끝내면 마지막 카메라 클립의 Ease Out(플레이어 카메라로 옮겨 가는 구간)은 재생하지 않고, 그 직전까지 검게 덮습니다.
+            double endTime = cinematic.FadeToPlayer ? Math.Max(0.0, duration - GetTailEaseOut(director)) : duration;
+            double fadeStart = endTime - cinematic.FadeOutSeconds;
+            while (m_cinematicDirector == director && director != null && director.state == PlayState.Playing && director.time < endTime)
             {
+                if (cinematic.FadeToPlayer && cinematic.FadeOutSeconds > 0.0f && director.time >= fadeStart)
+                {
+                    SetFadeAlpha((float)((director.time - fadeStart) / cinematic.FadeOutSeconds));
+                }
+
                 yield return null;
             }
         }
@@ -859,6 +875,18 @@ public sealed class TutorialEvents : MonoBehaviour
                     yield return null;
                 }
             }
+        }
+
+        if (cinematic.FadeToPlayer)
+        {
+            // 건너뛰어서 아직 덜 덮였으면 마저 덮은 뒤, 검은 화면 뒤에서 플레이어 카메라로 바로 바꿉니다.
+            yield return FadeTo(1.0f, cinematic.FadeOutSeconds * (1.0f - GetFadeAlpha()));
+            StopCinematicPlayback();
+            CutToLiveCamera();
+            yield return Wait(cinematic.BlackSeconds);
+            yield return FadeTo(0.0f, cinematic.FadeInSeconds);
+            ReleaseCinematicState();
+            yield break;
         }
 
         // 화면이 플레이어 카메라로 다 돌아올 때까지 조작 잠금과 컷신 상태를 유지한 뒤 풉니다.
@@ -1001,6 +1029,102 @@ public sealed class TutorialEvents : MonoBehaviour
             elapsed += Time.unscaledDeltaTime;
             yield return null;
         }
+    }
+
+    /// <summary>Timeline 마지막 카메라 클립의 Ease Out 길이(초)입니다. 카메라 클립이 없으면 0입니다.</summary>
+    private static double GetTailEaseOut(PlayableDirector director)
+    {
+        if (director.playableAsset is not UnityEngine.Timeline.TimelineAsset timeline)
+        {
+            return 0.0;
+        }
+
+        double easeOut = 0.0;
+        double lastEnd = double.MinValue;
+        foreach (UnityEngine.Timeline.TrackAsset track in timeline.GetOutputTracks())
+        {
+            if (track is not CinemachineTrack)
+            {
+                continue;
+            }
+
+            foreach (UnityEngine.Timeline.TimelineClip clip in track.GetClips())
+            {
+                if (clip.end > lastEnd)
+                {
+                    lastEnd = clip.end;
+                    easeOut = clip.easeOutDuration;
+                }
+            }
+        }
+
+        return easeOut;
+    }
+
+    /// <summary>Main Camera가 블렌드 없이 지금 우선순위가 가장 높은 카메라(플레이어 카메라)를 바로 비추게 합니다.</summary>
+    private static void CutToLiveCamera()
+    {
+        Camera mainCamera = Camera.main;
+        CinemachineBrain brain = mainCamera != null ? mainCamera.GetComponent<CinemachineBrain>() : null;
+        if (brain != null)
+        {
+            brain.ResetState();
+            brain.ManualUpdate();
+        }
+    }
+
+    private float GetFadeAlpha()
+    {
+        return m_fadeOverlay != null ? m_fadeOverlay.alpha : 0.0f;
+    }
+
+    /// <summary>화면 전체 검은 막의 알파를 정합니다. 0이면 막을 끕니다.</summary>
+    private void SetFadeAlpha(float alpha)
+    {
+        alpha = Mathf.Clamp01(alpha);
+        if (m_fadeOverlay == null)
+        {
+            if (alpha <= 0.0f)
+            {
+                return;
+            }
+
+            var root = new GameObject("TutorialFadeOverlay", typeof(Canvas), typeof(CanvasGroup));
+            root.transform.SetParent(transform, false);
+            Canvas canvas = root.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = short.MaxValue;
+            m_fadeOverlay = root.GetComponent<CanvasGroup>();
+            m_fadeOverlay.blocksRaycasts = false;
+            m_fadeOverlay.interactable = false;
+
+            var image = new GameObject("Black", typeof(RectTransform), typeof(UnityEngine.UI.Image));
+            image.transform.SetParent(root.transform, false);
+            RectTransform rect = (RectTransform)image.transform;
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.offsetMin = Vector2.zero;
+            rect.offsetMax = Vector2.zero;
+            UnityEngine.UI.Image graphic = image.GetComponent<UnityEngine.UI.Image>();
+            graphic.color = Color.black;
+            graphic.raycastTarget = false;
+        }
+
+        m_fadeOverlay.alpha = alpha;
+        m_fadeOverlay.gameObject.SetActive(alpha > 0.0f);
+    }
+
+    /// <summary>검은 막을 정한 시간(초, 실제 시간) 동안 목표 알파까지 바꿉니다.</summary>
+    private IEnumerator FadeTo(float target, float seconds)
+    {
+        float start = GetFadeAlpha();
+        for (float t = 0.0f; t < seconds; t += Time.unscaledDeltaTime)
+        {
+            SetFadeAlpha(Mathf.Lerp(start, target, t / seconds));
+            yield return null;
+        }
+
+        SetFadeAlpha(target);
     }
 
     /// <summary>시네마틱 카메라와 Timeline을 멈춥니다. 조작 잠금과 컷신 상태는 그대로 둡니다.</summary>

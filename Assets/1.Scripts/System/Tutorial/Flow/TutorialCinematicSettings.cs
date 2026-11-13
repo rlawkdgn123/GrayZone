@@ -29,6 +29,35 @@ public sealed class TutorialCinematic
     [Tooltip("켜면 재생하는 동안 분대 조작을 막습니다.")]
     [SerializeField] private bool m_lockInput = true;
 
+    [Header("End Transition")]
+    [Tooltip("켜면 끝날 때 카메라를 플레이어 쪽으로 옮기지 않고, 화면을 검게 덮은 뒤 플레이어 시점으로 바로 바꾸고 페이드인합니다. " +
+             "Timeline이면 마지막 카메라 클립의 Ease Out(플레이어 카메라로 옮겨 가는 구간)이 시작되기 전에 검게 덮습니다.")]
+    [SerializeField] private bool m_fadeToPlayer;
+
+    [Tooltip("검게 덮는 시간(초)입니다.")]
+    [Min(0.0f)]
+    [SerializeField] private float m_fadeOutSeconds = 0.5f;
+
+    [Tooltip("검은 화면을 유지하는 시간(초)입니다.")]
+    [Min(0.0f)]
+    [SerializeField] private float m_blackSeconds = 0.3f;
+
+    [Tooltip("플레이어 시점으로 밝아지는 시간(초)입니다.")]
+    [Min(0.0f)]
+    [SerializeField] private float m_fadeInSeconds = 0.8f;
+
+    /// <summary>끝날 때 검은 화면을 거쳐 플레이어 시점으로 바꿀지 여부입니다.</summary>
+    public bool FadeToPlayer => m_fadeToPlayer;
+
+    /// <summary>검게 덮는 시간(초)입니다.</summary>
+    public float FadeOutSeconds => m_fadeOutSeconds;
+
+    /// <summary>검은 화면을 유지하는 시간(초)입니다.</summary>
+    public float BlackSeconds => m_blackSeconds;
+
+    /// <summary>플레이어 시점으로 밝아지는 시간(초)입니다.</summary>
+    public float FadeInSeconds => m_fadeInSeconds;
+
     /// <summary>시퀀스가 이 시네마틱을 가리키는 ID입니다.</summary>
     public string Id => m_id;
 
