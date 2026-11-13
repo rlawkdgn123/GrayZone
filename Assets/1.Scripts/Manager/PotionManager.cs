@@ -144,7 +144,7 @@ public sealed class PotionManager : MonoBehaviour
     {
         SquadMemberController member = m_squadManager != null ? m_squadManager.PlayerSquadMember : null;
         PlayerInputController input = member != null ? member.GetComponent<PlayerInputController>() : null;
-        return input != null && input.IsInputEnabled;
+        return input != null && input.IsInputEnabled && !PlayerInputController.IsInputLocked(PlayerInputLock.Potion);
     }
 
     private void ResolveReferences()

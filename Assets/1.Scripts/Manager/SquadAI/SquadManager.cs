@@ -425,7 +425,8 @@ public class SquadManager : MonoBehaviour
     private void HandleSkillInput()
     {
         Keyboard keyboard = Keyboard.current;
-        if (keyboard == null || m_skillKey == Key.None || !IsOrderInputAllowed())
+        if (keyboard == null || m_skillKey == Key.None || !IsOrderInputAllowed()
+            || PlayerInputController.IsInputLocked(PlayerInputLock.Skill))
         {
             return;
         }
@@ -502,10 +503,11 @@ public class SquadManager : MonoBehaviour
         }
 
         bool inputAllowed = IsOrderInputAllowed(allowInThrowMode: true);
-        UpdateOrderKey(keyboard, m_orderMember1Key, 0, inputAllowed, ref m_orderMember1State);
-        UpdateOrderKey(keyboard, m_orderMember2Key, 1, inputAllowed, ref m_orderMember2State);
+        bool orderAllowed = inputAllowed && !PlayerInputController.IsInputLocked(PlayerInputLock.SquadOrder);
+        UpdateOrderKey(keyboard, m_orderMember1Key, 0, orderAllowed, ref m_orderMember1State);
+        UpdateOrderKey(keyboard, m_orderMember2Key, 1, orderAllowed, ref m_orderMember2State);
 
-        if (inputAllowed && m_recallAllKey != Key.None && keyboard[m_recallAllKey].wasPressedThisFrame)
+        if (inputAllowed && !PlayerInputController.IsInputLocked(PlayerInputLock.Recall) && m_recallAllKey != Key.None && keyboard[m_recallAllKey].wasPressedThisFrame)
         {
             RecallAllAiMembers();
         }
@@ -1114,7 +1116,7 @@ public class SquadManager : MonoBehaviour
             return;
         }
 
-        if (Time.time < m_nextSwitchInputTime)
+        if (Time.time < m_nextSwitchInputTime || PlayerInputController.IsInputLocked(PlayerInputLock.SwitchMember))
         {
             return;
         }

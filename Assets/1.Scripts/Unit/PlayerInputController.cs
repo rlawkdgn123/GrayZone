@@ -184,6 +184,12 @@ public class PlayerInputController : MonoBehaviour
         return (s_lockedInputs & input) != 0;
     }
 
+    /// <summary>지정한 입력이 지금 닫혀 있는지 여부입니다. 키보드를 직접 읽는 쪽(분대 명령, 회복약)이 씁니다.</summary>
+    public static bool IsInputLocked(PlayerInputLock input)
+    {
+        return IsLocked(input);
+    }
+
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     private static void ResetStaticLock()
     {
