@@ -1303,7 +1303,7 @@ public class EnemyController : MonoBehaviour, IKnockbackReceiver
         // 제자리에 세워 둔 개체는 이동·추격·공격 판단을 하지 않습니다. 피격 경직과 넉백은 위에서 그대로 처리합니다.
         if (m_holdStill)
         {
-            StopMoving();
+            UpdateHoldStill();
             return;
         }
 
@@ -3131,10 +3131,50 @@ public class EnemyController : MonoBehaviour, IKnockbackReceiver
     public bool HoldStill
     {
         get => m_holdStill;
-        set => m_holdStill = value;
+        set
+        {
+            m_holdStill = value;
+            m_hasHoldPoint = false;
+        }
     }
 
     private bool m_holdStill;
+    private bool m_hasHoldPoint;
+    private Vector3 m_holdPoint;
+
+    /// <summary>제자리 대기 개체를 이 위치까지 걸어가게 한 뒤 거기서 세워 둡니다. <see cref="HoldStill"/>을 함께 켭니다.</summary>
+    public void HoldAt(Vector3 worldPosition)
+    {
+        m_holdStill = true;
+        m_hasHoldPoint = true;
+        m_holdPoint = worldPosition;
+    }
+
+    /// <summary>대기 위치가 있으면 그곳까지 걷고, 도착했거나 위치가 없으면 멈춰 섭니다.</summary>
+    private void UpdateHoldStill()
+    {
+        if (m_hasHoldPoint && agent != null && agent.isOnNavMesh)
+        {
+            Vector3 offset = m_holdPoint - transform.position;
+            offset.y = 0.0f;
+            if (offset.sqrMagnitude > HoldArriveDistance * HoldArriveDistance)
+            {
+                if (agent.isStopped || !agent.hasPath || (agent.destination - m_holdPoint).sqrMagnitude > 0.01f)
+                {
+                    MoveTo(m_holdPoint);
+                }
+
+                return;
+            }
+
+            m_hasHoldPoint = false;
+        }
+
+        StopMoving();
+    }
+
+    /// <summary>대기 위치에 도착했다고 보는 평면 거리(m)입니다.</summary>
+    private const float HoldArriveDistance = 0.4f;
 
     /// <summary>이동을 멈춥니다.</summary>
     public void StopMoving()

@@ -70,6 +70,12 @@ MonoBehaviour:
           m_bool: 0
           m_vector: {x: 0, y: 0, z: 0}
           m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
       - m_method: SetItemCount
         m_args:
         - m_string: 
@@ -624,6 +630,12 @@ MonoBehaviour:
           m_bool: 1
           m_vector: {x: 0, y: 0, z: 0}
           m_object: {fileID: 0}
+        - m_string: 
+          m_float: 10
+          m_int: 0
+          m_bool: 0
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
       m_condition: 0
       m_seconds: 2
       m_enemyPrefab: {fileID: 0}
@@ -992,6 +1004,12 @@ MonoBehaviour:
           m_float: 0
           m_int: 0
           m_bool: 1
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 0
           m_vector: {x: 0, y: 0, z: 0}
           m_object: {fileID: 0}
       m_condition: 0

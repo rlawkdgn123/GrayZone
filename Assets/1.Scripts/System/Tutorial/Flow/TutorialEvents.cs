@@ -491,8 +491,9 @@ public sealed class TutorialEvents : MonoBehaviour
     /// <param name="position">만들 위치(월드 좌표)입니다.</param>
     /// <param name="spreadRadius">위치 둘레로 흩어 놓을 반경(m)입니다. 0이면 모두 같은 위치입니다.</param>
     /// <param name="holdStill">켜면 만든 적이 제자리에 서서 움직이지도 공격하지도 않습니다.</param>
+    /// <param name="walkInDistance">제자리 대기일 때, 서기 전에 조작 중인 캐릭터 쪽으로 걸어 나올 거리(m)입니다. 0이면 생성 위치에 바로 섭니다.</param>
     [TutorialEvent("적 생성")]
-    public void SpawnEnemies(EnemyController prefab, int count, Vector3 position, float spreadRadius, bool holdStill)
+    public void SpawnEnemies(EnemyController prefab, int count, Vector3 position, float spreadRadius, bool holdStill, float walkInDistance)
     {
         if (prefab == null)
         {
@@ -523,6 +524,18 @@ public sealed class TutorialEvents : MonoBehaviour
 
             EnemyController enemy = Instantiate(prefab, spawnPosition, rotation);
             enemy.HoldStill = holdStill;
+            if (holdStill && walkInDistance > 0.0f)
+            {
+                // 생성할 때 캐릭터를 바라보게 세웠으므로 정면이 캐릭터 쪽입니다.
+                Vector3 holdPoint = spawnPosition + rotation * Vector3.forward * walkInDistance;
+                if (NavMesh.SamplePosition(holdPoint, out NavMeshHit holdHit, m_spawnSampleRadius, NavMesh.AllAreas))
+                {
+                    holdPoint = holdHit.position;
+                }
+
+                enemy.HoldAt(holdPoint);
+            }
+
             m_spawnedEnemies.Add(enemy);
         }
     }
