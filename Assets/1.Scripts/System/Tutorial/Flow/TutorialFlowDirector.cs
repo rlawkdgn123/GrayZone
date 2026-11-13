@@ -381,8 +381,14 @@ public sealed class TutorialFlowDirector : MonoBehaviour
         }
 
         // 디버그 넘기기로 기다림만 끝냅니다. 이미 시작한 이벤트는 그대로 돌게 둡니다.
-        while (running > 0 && !ConsumeDebugAdvance())
+        // 튜토리얼 창은 같은 키를 길게 눌러 닫으므로, 창이 떠 있는 동안에는 넘기지 않습니다. 넘기면 창과 멈춘 시간이 남습니다.
+        while (running > 0)
         {
+            if (!events.IsWindowOpen && ConsumeDebugAdvance())
+            {
+                break;
+            }
+
             yield return null;
         }
     }

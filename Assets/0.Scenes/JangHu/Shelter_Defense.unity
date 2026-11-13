@@ -270391,6 +270391,7 @@ MonoBehaviour:
   m_spawnSampleRadius: 3
   m_cinematicPriority: 100
   m_closeKey: 20
+  m_closeHoldSeconds: 0.5
   m_closeGuardSeconds: 0.3
 --- !u!1001 &1147071289
 PrefabInstance:

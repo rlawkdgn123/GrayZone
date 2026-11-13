@@ -76,6 +76,10 @@ public sealed class TutorialEvents : MonoBehaviour
     [SerializeField] private Key m_closeKey = Key.F;
 
     [Min(0.0f)]
+    [Tooltip("닫기 키를 이 시간(초) 동안 누르고 있어야 창이 닫힙니다. 누르는 동안 창의 키 게이지가 찹니다. 중간에 떼면 처음부터 다시 셉니다. 0이면 누르는 순간 닫힙니다.")]
+    [SerializeField] private float m_closeHoldSeconds = 0.5f;
+
+    [Min(0.0f)]
     [Tooltip("창이 뜬 직후 닫기 입력을 무시하는 시간(초)입니다. 앞 대사를 넘긴 입력으로 창이 바로 닫히지 않게 합니다.")]
     [SerializeField] private float m_closeGuardSeconds = 0.3f;
 
@@ -84,6 +88,9 @@ public sealed class TutorialEvents : MonoBehaviour
     private bool m_isHoldingPause;
     private float m_resumeTimeScale = 1.0f;
     private bool m_isWindowOpen;
+
+    /// <summary>튜토리얼 창이 떠서 닫기 입력을 기다리는 중인지 여부입니다.</summary>
+    public bool IsWindowOpen => m_isWindowOpen;
 
     /// <summary>경로선 목표 위치로 옮길 오브젝트입니다. 처음 경로선을 띄울 때 만듭니다.</summary>
     private Transform m_pathAnchor;
@@ -112,6 +119,9 @@ public sealed class TutorialEvents : MonoBehaviour
 
     /// <summary><see cref="SkipCinematic"/>으로 재생 중인 시네마틱을 끝내라는 요청이 있었는지 여부입니다.</summary>
     private bool m_cinematicSkipRequested;
+
+    /// <summary>창 닫기 키를 누른 시간을 셀 때 한 프레임에 더하는 최대 시간(초)입니다.</summary>
+    private const float MaxHoldStepSeconds = 0.1f;
 
     /// <summary>시네마틱이 끝난 뒤 플레이어 카메라로 돌아오는 전환을 기다리는 최대 시간(초)입니다.</summary>
     private const float CameraReturnTimeout = 3.0f;
@@ -259,9 +269,12 @@ public sealed class TutorialEvents : MonoBehaviour
     }
 
     /// <summary>
-    /// 예전 튜토리얼 방식의 창을 띄우고, 닫기 키를 누를 때까지 기다립니다. 닫으면 창을 내립니다.
+    /// 예전 튜토리얼 방식의 창을 띄우고, 닫기 키를 정한 시간만큼 누르고 있을 때까지 기다립니다. 닫으면 창을 내립니다.
     /// </summary>
     /// <param name="pauseTime">켜면 창이 떠 있는 동안 게임 시간을 멈추고, 닫을 때 되돌립니다.</param>
+    /// <remarks>
+    /// 창이 뜰 때 이미 눌려 있던 닫기 키는 한 번 뗀 뒤부터 셉니다. 앞 대사를 넘기려고 누른 채로 있던 키로 창이 닫히지 않게 하기 위해서입니다.
+    /// </remarks>
     [TutorialEvent("튜토리얼 창 띄우기 (닫을 때까지 대기)")]
     public IEnumerator ShowWindow(string title, string body, Sprite image, string hint, bool pauseTime)
     {
@@ -272,6 +285,7 @@ public sealed class TutorialEvents : MonoBehaviour
         }
 
         window.Show(TutorialPage.CreateWindowPage(title, body, image, hint));
+        window.SetGaugeProgress(0.0f);
         m_isWindowOpen = true;
         if (pauseTime)
         {
@@ -280,11 +294,27 @@ public sealed class TutorialEvents : MonoBehaviour
 
         // 시간이 멈춰 있어도 닫을 수 있도록 실제 시간으로 셉니다.
         float elapsed = 0.0f;
+        float held = 0.0f;
+        bool released = false;
         while (m_isWindowOpen)
         {
-            elapsed += Time.unscaledDeltaTime;
+            float deltaTime = Time.unscaledDeltaTime;
+            elapsed += deltaTime;
             Keyboard keyboard = Keyboard.current;
-            if (elapsed >= m_closeGuardSeconds && keyboard != null && m_closeKey != Key.None && keyboard[m_closeKey].wasPressedThisFrame)
+            bool pressed = keyboard != null && m_closeKey != Key.None && keyboard[m_closeKey].isPressed;
+            released |= !pressed;
+            if (elapsed >= m_closeGuardSeconds && released && pressed)
+            {
+                // 프레임이 한 번 길게 멈추면 그 시간을 한꺼번에 더해 짧게 누른 것도 닫히므로, 한 프레임에 더하는 시간을 제한합니다.
+                held += Mathf.Min(deltaTime, MaxHoldStepSeconds);
+            }
+            else
+            {
+                held = 0.0f;
+            }
+
+            window.SetGaugeProgress(m_closeHoldSeconds > 0.0f ? Mathf.Clamp01(held / m_closeHoldSeconds) : 0.0f);
+            if (held > 0.0f && held >= m_closeHoldSeconds)
             {
                 break;
             }
@@ -293,6 +323,7 @@ public sealed class TutorialEvents : MonoBehaviour
         }
 
         m_isWindowOpen = false;
+        window.SetGaugeProgress(0.0f);
         window.Hide();
         if (pauseTime)
         {
