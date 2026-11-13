@@ -373,7 +373,29 @@ public class PlayerHealth : HealthSystemBase, IBalancePostProcess, ISharedBalanc
             return false;
         }
 
+        // 반무적 중에는 HP 1까지만 깎습니다. 이미 1 이하이면 피해를 무시합니다.
+        if (KeepMinimumHp)
+        {
+            damage = Mathf.Min(damage, m_currentHp - 1.0f);
+            if (damage <= 0.0f)
+            {
+                return false;
+            }
+        }
+
         return base.TakeDamage(damage, attacker);
+    }
+
+    /// <summary>
+    /// 켜면 모든 대원의 HP가 1 아래로 내려가지 않습니다(반무적). 튜토리얼의 "반무적" 이벤트가 켜고 끕니다.
+    /// </summary>
+    public static bool KeepMinimumHp { get; set; }
+
+    /// <summary>Play를 다시 시작할 때 반무적을 끕니다. 도메인 리로드를 끈 설정에서도 이전 값이 남지 않게 합니다.</summary>
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    private static void ResetKeepMinimumHp()
+    {
+        KeepMinimumHp = false;
     }
 
     /// <summary>

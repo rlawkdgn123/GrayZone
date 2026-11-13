@@ -542,6 +542,14 @@ MonoBehaviour:
       m_triggerId: 7fb5af80
       m_closeTriggerIds: []
       m_actions:
+      - m_method: SetKeepMinimumHp
+        m_args:
+        - m_string: 
+          m_float: 0
+          m_int: 0
+          m_bool: 1
+          m_vector: {x: 0, y: 0, z: 0}
+          m_object: {fileID: 0}
       - m_method: SpawnEnemies
         m_args:
         - m_string: 
@@ -560,7 +568,7 @@ MonoBehaviour:
           m_float: 0
           m_int: 0
           m_bool: 0
-          m_vector: {x: 81.34, y: 199.99, z: 20.38}
+          m_vector: {x: 99.74, y: 199.99, z: 15.64}
           m_object: {fileID: 0}
         - m_string: 
           m_float: 3

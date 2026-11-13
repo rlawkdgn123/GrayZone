@@ -200,6 +200,7 @@ public sealed class TutorialEvents : MonoBehaviour
         StopCinematic();
         ResumeTime();
         SquadInventoryManager.FreeUse = false;
+        PlayerHealth.KeepMinimumHp = false;
     }
 
     /// <summary>조작 중인 캐릭터가 위치의 반경 안에 있는지 여부입니다. 높이는 보지 않고 평면 거리로 잽니다.</summary>
@@ -601,6 +602,17 @@ public sealed class TutorialEvents : MonoBehaviour
     public void SetFreeUse(bool enabled)
     {
         SquadInventoryManager.FreeUse = enabled;
+    }
+
+    /// <summary>
+    /// 모든 대원의 HP가 1 아래로 내려가지 않게 하거나 원래대로 돌립니다. 투척물 자폭 등으로 다운되는 것을 막습니다.
+    /// </summary>
+    /// <param name="enabled">켜면 HP 1에서 더 깎이지 않습니다. 끄면 원래대로 피해를 받습니다.</param>
+    /// <remarks>튜토리얼이 끝나면 자동으로 꺼집니다.</remarks>
+    [TutorialEvent("반무적 (HP 1 아래로 안 떨어짐, 켜기/끄기)")]
+    public void SetKeepMinimumHp(bool enabled)
+    {
+        PlayerHealth.KeepMinimumHp = enabled;
     }
 
     /// <summary>씬의 청사진 상태인 함정 오브젝트를 모두 끕니다. 이미 설치된 함정은 그대로 둡니다.</summary>
