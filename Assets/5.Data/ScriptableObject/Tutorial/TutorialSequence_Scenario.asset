@@ -254,7 +254,7 @@ MonoBehaviour:
       m_seconds: 2
       m_enemyPrefab: {fileID: 0}
       m_killCount: 1
-      m_areaCenter: {x: 32.35, y: 200.09, z: 19.43}
+      m_areaCenter: {x: 63.11, y: 199.96, z: 25.19}
       m_areaRadius: 3
       m_targetId: 
       m_memberNumber: 1
