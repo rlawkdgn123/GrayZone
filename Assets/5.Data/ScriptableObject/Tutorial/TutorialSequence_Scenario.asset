@@ -303,7 +303,7 @@ MonoBehaviour:
           m_int: 0
           m_bool: 0
           m_vector: {x: 0, y: 0, z: 0}
-          m_object: {fileID: 0}
+          m_object: {fileID: 2990036820463330610, guid: eda57c1f100ad23449048090ceed8a7f, type: 3}
         - m_string: 
           m_float: 0
           m_int: 3
@@ -314,10 +314,10 @@ MonoBehaviour:
           m_float: 0
           m_int: 0
           m_bool: 0
-          m_vector: {x: 32.35, y: 200.09, z: 19.43}
+          m_vector: {x: 76.63, y: 199.99, z: 16.09}
           m_object: {fileID: 0}
         - m_string: 
-          m_float: 3
+          m_float: 2
           m_int: 0
           m_bool: 0
           m_vector: {x: 0, y: 0, z: 0}
@@ -478,7 +478,7 @@ MonoBehaviour:
           m_object: {fileID: 0}
       m_condition: 2
       m_seconds: 2
-      m_enemyPrefab: {fileID: 0}
+      m_enemyPrefab: {fileID: 2990036820463330610, guid: eda57c1f100ad23449048090ceed8a7f, type: 3}
       m_killCount: 3
       m_areaCenter: {x: 0, y: 0, z: 0}
       m_areaRadius: 2
