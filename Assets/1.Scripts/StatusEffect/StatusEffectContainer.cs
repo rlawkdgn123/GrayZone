@@ -11,13 +11,6 @@ public sealed class StatusEffectContainer : MonoBehaviour
         public StatusEffectDefinitionSO Definition;
         public Faction SourceFaction;
         public GameObject Source;
-
-        /// <summary>
-        /// 이 효과를 건 공격의 정보입니다. 주기 피해의 공격자·원래 공격으로 씁니다.
-        /// 공격자 오브젝트(화염 지대 등)가 먼저 사라져도 이름과 공격 방식이 남도록 걸 때 저장합니다.
-        /// </summary>
-        public DamageInfo Cause;
-
         public int Stacks;
         public float ExpireTime;
         public float NextTickTime;
@@ -48,6 +41,16 @@ public sealed class StatusEffectContainer : MonoBehaviour
     private static readonly int ColorProperty = Shader.PropertyToID("_Color");
 
     private readonly List<Entry> m_entries = new List<Entry>();
+
+    /// <summary>
+    /// 효과 정의별로 마지막에 그 효과를 건 공격의 정보입니다. 주기 피해의 공격자·원래 공격으로 씁니다.
+    /// </summary>
+    /// <remarks>
+    /// 상태이상 피해의 공격자는 마지막 적용자로 정합니다. 출처별로 따로 쌓이는 효과도 정의 하나에 하나만 두어,
+    /// 어느 쌓임에서 나온 피해든 마지막에 건 쪽으로 기록됩니다.
+    /// 공격자 오브젝트(화염 지대 등)가 먼저 사라져도 이름과 공격 방식이 남도록 걸 때 저장합니다.
+    /// </remarks>
+    private readonly Dictionary<StatusEffectDefinitionSO, DamageInfo> m_lastCauses = new Dictionary<StatusEffectDefinitionSO, DamageInfo>();
     private readonly List<OneShotVisual> m_oneShotVisuals = new List<OneShotVisual>();
     private readonly Dictionary<GameObject, Stack<GameObject>> m_visualPool =
         new Dictionary<GameObject, Stack<GameObject>>();
@@ -232,7 +235,7 @@ public sealed class StatusEffectContainer : MonoBehaviour
     /// <param name="cause">
     /// 이 효과를 건 공격의 정보입니다. 주기 피해가 있는 효과(화상 등)는 이 값을 공격자·원래 공격으로 남깁니다.
     /// 비우면 <paramref name="source"/>를 공격자로 하고 공격 방식은 모름으로 남깁니다.
-    /// 같은 효과를 다른 공격이 다시 걸면 마지막에 건 공격으로 바뀝니다(출처별로 따로 쌓는 효과는 따로 남습니다).
+    /// 같은 효과를 다른 공격이 다시 걸면 마지막에 건 공격으로 바뀝니다. 출처별로 따로 쌓는 효과도 마찬가지입니다.
     /// </param>
     public bool Apply(StatusEffectDefinitionSO definition, Faction sourceFaction, GameObject source = null, DamageInfo cause = default)
     {
@@ -252,6 +255,7 @@ public sealed class StatusEffectContainer : MonoBehaviour
             return false;
         }
 
+        m_lastCauses[definition] = cause;
         float now = Time.time;
         Entry entry = FindEntry(definition, source);
         if (entry == null)
@@ -261,7 +265,6 @@ public sealed class StatusEffectContainer : MonoBehaviour
                 Definition = definition,
                 SourceFaction = sourceFaction,
                 Source = source,
-                Cause = cause,
                 Stacks = 1,
                 ExpireTime = now + definition.Duration,
                 NextTickTime = now + definition.TickInterval,
@@ -274,7 +277,6 @@ public sealed class StatusEffectContainer : MonoBehaviour
         {
             entry.SourceFaction = sourceFaction;
             entry.Source = source;
-            entry.Cause = cause;
             entry.ExpireTime = now + definition.Duration;
             entry.VisualSequence = ++m_nextVisualSequence;
             if (definition.StackPolicy == StatusEffectStackPolicy.StackIntensity)
@@ -518,6 +520,14 @@ public sealed class StatusEffectContainer : MonoBehaviour
         return component != null ? GetOrAdd(component.gameObject) : null;
     }
 
+    /// <summary>이 효과를 마지막에 건 공격의 정보입니다. 기록이 없으면 그 쌓임의 출처를 공격자로 한 모름 정보입니다.</summary>
+    private DamageInfo GetLastCause(StatusEffectDefinitionSO definition, Entry entry)
+    {
+        return m_lastCauses.TryGetValue(definition, out DamageInfo cause)
+            ? cause
+            : DamageInfo.Unknown(0.0f, entry.Source);
+    }
+
     private Entry FindEntry(StatusEffectDefinitionSO definition, GameObject source)
     {
         for (int i = 0; i < m_entries.Count; i++)
@@ -553,7 +563,7 @@ public sealed class StatusEffectContainer : MonoBehaviour
 
             // 감소율 100%로 0이 되면 이번 틱은 건너뛰고 다음 틱 시각만 넘깁니다.
             if (damage > 0
-                && !CombatDamage.TryApplyDamage(m_damageable, entry.SourceFaction, entry.Cause.ToStatusEffect(damage, definition.name)))
+                && !CombatDamage.TryApplyDamage(m_damageable, entry.SourceFaction, GetLastCause(definition, entry).ToStatusEffect(damage, definition.name)))
             {
                 break;
             }

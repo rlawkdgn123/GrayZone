@@ -1755,6 +1755,9 @@ public class EnemyController : MonoBehaviour, IKnockbackReceiver
     /// <summary>대기 동작 혼합 비율입니다. 개체마다 한 번 뽑아 고정합니다.</summary>
     private static readonly int AnimIdleType = Animator.StringToHash("IdleType");
 
+    /// <summary>공격 외 동작의 좌우반전을 켜는 Bool 파라미터입니다. 개체마다 한 번 정합니다.</summary>
+    private static readonly int AnimMirror = Animator.StringToHash("Mirror");
+
     /// <summary>애니메이터를 기본 상태로 되돌리는 트리거입니다.</summary>
     private static readonly int AnimReset = Animator.StringToHash("DoReset");
 
@@ -2105,6 +2108,35 @@ public class EnemyController : MonoBehaviour, IKnockbackReceiver
     {
         IdleType = Random.Range(idleTypeMin, idleTypeMax);
         animator?.SetFloat(AnimIdleType, IdleType);
+        RollAnimationMirror();
+    }
+
+    /// <summary>이 개체가 공격 외 동작(이동·대기·경직·사망 등)을 좌우반전해서 쓰는지 여부입니다.</summary>
+    public bool IsAnimationMirrored { get; private set; }
+
+    /// <summary>
+    /// 공격 외 동작을 좌우반전할지 개체마다 한 번 뽑아 고정합니다. 같은 종류가 모여 있어도 몸짓이 서로 달라 보이게 하려는 것입니다.
+    /// </summary>
+    /// <remarks>
+    /// 애니메이터의 <c>Mirror</c> 파라미터가 공격 외 상태의 좌우반전을 켭니다. 공격은 <c>AttackSide</c>가 공격마다 좌우를 따로 고르므로 이 값과 겹치지 않습니다.
+    /// 좌우반전은 Humanoid 아바타에서만 적용되며, 파라미터가 없는 애니메이터에는 넣지 않습니다(없는 파라미터를 넣으면 경고가 쌓입니다).
+    /// </remarks>
+    private void RollAnimationMirror()
+    {
+        IsAnimationMirrored = Random.value < 0.5f;
+        if (animator == null)
+        {
+            return;
+        }
+
+        foreach (AnimatorControllerParameter parameter in animator.parameters)
+        {
+            if (parameter.nameHash == AnimMirror && parameter.type == AnimatorControllerParameterType.Bool)
+            {
+                animator.SetBool(AnimMirror, IsAnimationMirrored);
+                return;
+            }
+        }
     }
 
     /// <summary>Spawn SO 값이 있으면 그 값을, 없으면 Always Run 또는 상태별 Balance/Inspector 속도를 반환합니다.</summary>
