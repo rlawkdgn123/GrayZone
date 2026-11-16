@@ -51,6 +51,8 @@ public class PlayerMove : MonoBehaviour
     private Vector3 horizontalVelocity;
     private bool jumpedThisFrame;
     private bool jumpAnimationActive;
+    private bool groundStateInitialized;
+    private bool wasGrounded;
 
 #if ENABLE_INPUT_SYSTEM
     private Vector2 playerInputMove;
@@ -101,6 +103,7 @@ public class PlayerMove : MonoBehaviour
             ClearMoveState();
             ApplyGravity();
             MoveCharacter();
+            UpdateLandingState();
             UpdateAnimator();
             return;
         }
@@ -113,6 +116,7 @@ public class PlayerMove : MonoBehaviour
         ApplyJump();
         ApplyGravity();
         MoveCharacter();
+        UpdateLandingState();
         UpdateAnimator();
     }
 
@@ -381,6 +385,25 @@ public class PlayerMove : MonoBehaviour
         Vector3 verticalMove = Vector3.up * verticalVelocity;
 
         characterController.Move((horizontalVelocity + verticalMove) * Time.deltaTime);
+    }
+
+    /// <summary>CharacterController 이동 결과를 기준으로 공중에서 지면으로 바뀐 순간을 한 번만 알립니다.</summary>
+    private void UpdateLandingState()
+    {
+        bool isGrounded = IsGrounded;
+
+        // CharacterController의 접지 값은 첫 Move 이후에 유효해지므로 시작 프레임의 가짜 착지음을 막습니다.
+        if (!groundStateInitialized)
+        {
+            wasGrounded = isGrounded;
+            groundStateInitialized = true;
+            return;
+        }
+
+        if (isGrounded && !wasGrounded)
+            footstepEmitter?.PlayLand();
+
+        wasGrounded = isGrounded;
     }
 
     private void UpdateAnimator()

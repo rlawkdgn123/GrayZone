@@ -37,9 +37,13 @@ public sealed class ShelterPlayerFootstepEmitter : MonoBehaviour
     [Tooltip("Blend Tree에서 이 비중 미만인 클립의 발 디딤 이벤트는 무시합니다. 0.5면 Walk/Run 중 더 많이 섞인 클립의 박자만 소리를 냅니다.")]
     [Range(0f, 1f)]
     [SerializeField] private float m_minFootstepClipWeight = 0.5f;
+    [Tooltip("코드의 접지 전환과 착지 애니메이션 이벤트가 겹쳐도 착지음을 한 번만 재생하는 간격입니다.")]
+    [Min(0f)]
+    [SerializeField] private float m_minLandInterval = 0.2f;
 
     private bool m_loggedMissingMovementFmodEvent;
     private float m_nextFootstepTime;
+    private float m_nextLandTime;
 
     private void Reset()
     {
@@ -73,13 +77,23 @@ public sealed class ShelterPlayerFootstepEmitter : MonoBehaviour
         if (animationEvent.animatorClipInfo.weight <= 0.5f)
             return;
 
-        TryPlaySurfaceFmod(m_landEvent, ResolveFootstepSurface());
+        PlayLand();
     }
 
     /// <summary>실제 점프 입력이 적용되는 프레임에 도약음을 재생합니다.</summary>
     public void PlayJump()
     {
         TryPlaySurfaceFmod(m_jumpEvent, ResolveFootstepSurface());
+    }
+
+    /// <summary>캐릭터가 실제로 공중 상태에서 접지 상태로 바뀐 순간 착지음을 재생합니다.</summary>
+    public void PlayLand()
+    {
+        if (Time.time < m_nextLandTime)
+            return;
+
+        if (TryPlaySurfaceFmod(m_landEvent, ResolveFootstepSurface()))
+            m_nextLandTime = Time.time + m_minLandInterval;
     }
 
     private bool TryPlaySurfaceFmod(EventReference eventReference, SurfaceMaterialType surfaceType)
