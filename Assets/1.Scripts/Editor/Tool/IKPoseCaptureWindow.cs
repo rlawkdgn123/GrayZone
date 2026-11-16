@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -59,9 +60,94 @@ public sealed class IKPoseCaptureWindow : EditorWindow
     [MenuItem("Tools/GrayZone/Animation/IK Pose Capture")]
     private static void Open()
     {
+        ShowWindow();
+    }
+
+    /// <summary>선택한 캐릭터의 Hand IK 제약과 활성 무기를 찾아 캡처 창에 자동 연결합니다.</summary>
+    public static void OpenFor(GameObject characterRoot)
+    {
+        IKPoseCaptureWindow window = ShowWindow();
+        window.AutoBindCharacter(characterRoot);
+        window.Repaint();
+    }
+
+    private static IKPoseCaptureWindow ShowWindow()
+    {
         IKPoseCaptureWindow window = GetWindow<IKPoseCaptureWindow>("IK Pose Capture");
         window.minSize = new Vector2(430.0f, 470.0f);
         window.Show();
+        return window;
+    }
+
+    private void AutoBindCharacter(GameObject characterRoot)
+    {
+        if (characterRoot == null)
+        {
+            SetStatus("자동 연결할 캐릭터가 없습니다.", MessageType.Warning);
+            return;
+        }
+
+        m_leftHandTarget = null;
+        m_leftElbowHint = null;
+        m_rightHandTarget = null;
+        m_rightElbowHint = null;
+        m_weaponReference = null;
+
+        TwoBoneIKConstraint[] constraints = characterRoot.GetComponentsInChildren<TwoBoneIKConstraint>(true);
+        for (int i = 0; i < constraints.Length; i++)
+        {
+            TwoBoneIKConstraint constraint = constraints[i];
+            if (constraint == null)
+            {
+                continue;
+            }
+
+            string constraintName = constraint.name;
+            TwoBoneIKConstraintData data = constraint.data;
+            if (constraintName.IndexOf("Left Hand", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                m_leftHandTarget = data.target;
+                m_leftElbowHint = data.hint;
+            }
+            else if (constraintName.IndexOf("Right Hand", StringComparison.OrdinalIgnoreCase) >= 0)
+            {
+                m_rightHandTarget = data.target;
+                m_rightElbowHint = data.hint;
+            }
+        }
+
+        Transform preferredTarget = m_leftHandTarget != null ? m_leftHandTarget : m_rightHandTarget;
+        Gun[] guns = characterRoot.GetComponentsInChildren<Gun>(true);
+        for (int i = 0; i < guns.Length; i++)
+        {
+            Gun gun = guns[i];
+            if (gun == null)
+            {
+                continue;
+            }
+
+            if (preferredTarget != null && preferredTarget.IsChildOf(gun.transform))
+            {
+                m_weaponReference = gun.transform;
+                break;
+            }
+
+            if (m_weaponReference == null && gun.gameObject.activeSelf)
+            {
+                m_weaponReference = gun.transform;
+            }
+        }
+
+        bool hasHandTarget = m_leftHandTarget != null || m_rightHandTarget != null;
+        if (m_weaponReference == null || !hasHandTarget)
+        {
+            SetStatus(
+                $"{characterRoot.name}에서 활성 무기 또는 Hand IK Target을 완전히 찾지 못했습니다. 필요한 항목을 수동으로 확인해 주세요.",
+                MessageType.Warning);
+            return;
+        }
+
+        SetStatus($"{characterRoot.name}의 무기와 Hand IK를 자동 연결했습니다.", MessageType.Info);
     }
 
     private void OnEnable()
