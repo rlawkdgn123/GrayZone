@@ -227015,7 +227015,7 @@ MonoBehaviour:
   m_cameraPriority: 100
   m_toBeforeView:
     fadeOut: 0.4
-    blackHold: 2.1
+    blackHold: 0.8
     fadeIn: 0.4
   m_toAfterView:
     fadeOut: 0.4
@@ -227023,7 +227023,7 @@ MonoBehaviour:
     fadeIn: 0.4
   m_toPlayerView:
     fadeOut: 0.4
-    blackHold: 2.1
+    blackHold: 0.8
     fadeIn: 0.4
   m_beforeHold: 1.5
   m_afterHold: 1.5
@@ -305862,6 +305862,7 @@ MonoBehaviour:
   m_footstepAudioVolume: 0.5
   m_minFootstepInterval: 0.18
   m_minFootstepClipWeight: 0.5
+  m_minLandInterval: 0.2
 --- !u!1001 &1155722703
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -551590,7 +551591,7 @@ MonoBehaviour:
   m_cameraPriority: 100
   m_toBeforeView:
     fadeOut: 0.4
-    blackHold: 2.1
+    blackHold: 0.8
     fadeIn: 0.4
   m_toAfterView:
     fadeOut: 0.4
@@ -551598,7 +551599,7 @@ MonoBehaviour:
     fadeIn: 0.4
   m_toPlayerView:
     fadeOut: 0.4
-    blackHold: 2.1
+    blackHold: 0.8
     fadeIn: 0.4
   m_beforeHold: 1.5
   m_afterHold: 1.5
