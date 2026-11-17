@@ -209666,6 +209666,7 @@ MonoBehaviour:
     Amount: 50
     Icon: {fileID: 0}
   m_schedule: {fileID: 11400000, guid: f56d537c5a8409c48a3292ff8c30bced, type: 2}
+  m_hardSchedule: {fileID: 11400000, guid: f394761485400874b8914deec449edc0, type: 2}
   m_debugRoundOverride: -1
   m_trapUpgradeTable: {fileID: 0}
   m_defenseEntryData:
@@ -444096,6 +444097,7 @@ MonoBehaviour:
   totalFieldKillCount: 0
   fieldKillHistory: 
   defenseClearCount: 0
+  difficulty: 0
 --- !u!1001 &1663388343
 PrefabInstance:
   m_ObjectHideFlags: 0
