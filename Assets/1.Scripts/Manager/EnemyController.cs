@@ -70,6 +70,9 @@ public class EnemyController : MonoBehaviour, IKnockbackReceiver
     [FormerlySerializedAs("m_balance")]
     [SerializeField] private EnemyBalanceSO m_balanceSO;
 
+    [Tooltip("어려움 난이도에서 위 밸런스 대신 쓸 데이터입니다. 비어 있으면 어려움에서도 위 데이터를 씁니다.")]
+    [SerializeField] private EnemyBalanceSO m_hardBalanceSO;
+
     [Header("Feedback Data")]
     [Tooltip("이 감염체 타입이 사용할 피격 표현, 혈흔, 행동 사운드 피드백 데이터입니다.")]
     [FormerlySerializedAs("m_feedbackProfile")]
@@ -1126,7 +1129,8 @@ public class EnemyController : MonoBehaviour, IKnockbackReceiver
         CacheReferences();
         CollectAbilities();
         CreateStates();
-        ApplyBalance(m_balanceSO);
+        // 난이도는 판 단위로 정해지고 적은 씬과 함께 새로 만들어지므로 생성 때 한 번만 고릅니다.
+        ApplyBalance(GameDifficultyBalance.Select(m_balanceSO, m_hardBalanceSO));
     }
 
     /// <summary>같은 GameObject에 붙은 특수 능력을 모아 이 적에 연결합니다.</summary>

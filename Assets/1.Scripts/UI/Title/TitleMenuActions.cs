@@ -64,13 +64,14 @@ public sealed class TitleMenuActions : MonoBehaviour
     {
         ResolveButtons();
 
-        // 씬에서 새 게임 버튼에 MainSceneSaveManager.OnStartNewGameButtonClicked가 이미 연결돼 있으면(새 게임 데이터
-        // 생성 + 셸터 이동) 여기서는 붙이지 않습니다. 둘 다 붙으면 한 번 눌러도 셸터 씬을 두 번 불러옵니다.
-        if (m_newGameButton != null && m_newGameButton.onClick.GetPersistentEventCount() == 0)
+        // 새 게임은 난이도를 고른 뒤에 시작하므로, 씬에서 새 게임 버튼에 바로 시작하는 연결을 걸어 두면 안 됩니다.
+        // 걸려 있으면 팝업이 뜨기도 전에 셸터로 넘어갑니다.
+        if (m_newGameButton != null && m_newGameButton.onClick.GetPersistentEventCount() > 0)
         {
-            Bind(m_newGameButton, StartNewGame);
+            Debug.LogWarning("[TitleMenuActions] 새 게임 버튼에 씬 연결이 남아 있습니다. 난이도 선택 전에 시작되지 않게 지워 주세요.", m_newGameButton);
         }
 
+        Bind(m_newGameButton, StartNewGame);
         Bind(m_loadGameButton, LoadSavedGame);
         Bind(m_quitButton, QuitGame);
         Bind(m_settingsButton, OpenSettings);
@@ -93,9 +94,39 @@ public sealed class TitleMenuActions : MonoBehaviour
         }
     }
 
-    /// <summary>"새 게임": 새 게임 씬으로 이동합니다.</summary>
+    /// <summary>"새 게임": 난이도 선택 팝업을 띄우고, 고르면 그 난이도로 새 게임을 시작합니다.</summary>
     public void StartNewGame()
     {
+        if (m_isLeaving)
+        {
+            return;
+        }
+
+        if (m_settingsMenu == null)
+        {
+            Debug.LogWarning("[TitleMenuActions] 설정 화면을 찾지 못해 난이도 선택 없이 중간으로 시작합니다.", this);
+            BeginNewGame(GameDifficulty.Normal);
+            return;
+        }
+
+        m_settingsMenu.ShowDifficultySelect(BeginNewGame);
+    }
+
+    /// <summary>고른 난이도로 새 게임을 시작합니다.</summary>
+    /// <remarks>
+    /// 새 게임 데이터(시작 자원·캐릭터·첫 체크포인트)는 <see cref="MainSceneSaveManager"/>가 만듭니다. 없으면 난이도만 정하고 씬을 옮깁니다.
+    /// </remarks>
+    private void BeginNewGame(GameDifficulty difficulty)
+    {
+        MainSceneSaveManager saveManager = MainSceneSaveManager.Instance;
+        if (saveManager != null)
+        {
+            m_isLeaving = true;
+            saveManager.StartNewGameAndEnterShelter(difficulty);
+            return;
+        }
+
+        GameDataManager.Instance?.SetDifficulty(difficulty);
         LeaveTo(m_newGameSceneName, loadSave: false);
     }
 

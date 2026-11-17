@@ -117,6 +117,10 @@ public sealed class GameplayPauseMenuController : MonoBehaviour
     private Button m_demoResetPopupBackButton;
     private System.Action<bool> m_demoResetDecision;
     private bool m_demoResetPopupStandalone;
+    private GameObject m_difficultyPopup;
+    private TextMeshProUGUI m_difficultyDescription;
+    private System.Action<GameDifficulty> m_difficultyDecision;
+    private bool m_difficultyPopupStandalone;
     private readonly List<Button> m_pauseButtons = new();
     private MenuSelectionIndicator m_pauseSelectionIndicator;
     private TMP_Dropdown m_resolutionDropdown;
@@ -228,6 +232,12 @@ public sealed class GameplayPauseMenuController : MonoBehaviour
         if (IsDemoResetPopupOpen)
         {
             CancelDemoResetPopup();
+            return;
+        }
+
+        if (IsDifficultyPopupOpen)
+        {
+            CancelDifficultyPopup();
             return;
         }
 
@@ -718,6 +728,7 @@ public sealed class GameplayPauseMenuController : MonoBehaviour
         BuildPausePage();
         BuildSettingsPage();
         BuildDemoResetPopup();
+        BuildDifficultyPopup();
     }
 
     private void EnsureViewBuilt()
@@ -755,6 +766,10 @@ public sealed class GameplayPauseMenuController : MonoBehaviour
         m_demoResetPopupBackButton = null;
         m_demoResetDecision = null;
         m_demoResetPopupStandalone = false;
+        m_difficultyPopup = null;
+        m_difficultyDescription = null;
+        m_difficultyDecision = null;
+        m_difficultyPopupStandalone = false;
         m_tabBackgrounds.Clear();
         m_tabLabels.Clear();
         m_settingsContentPages.Clear();
@@ -1197,6 +1212,127 @@ public sealed class GameplayPauseMenuController : MonoBehaviour
         if (m_demoResetPopupStandalone)
         {
             m_demoResetPopupStandalone = false;
+            SetViewActive(false);
+        }
+    }
+
+    /// <summary>
+    /// 타이틀에서 새 게임을 누르면 띄우는 난이도 선택 팝업입니다. 저장 확인 팝업과 같은 모양입니다.
+    /// </summary>
+    /// <remarks>
+    /// 중간·어려움은 고른 난이도로 새 게임을 시작합니다. 오른쪽 위 돌아가기와 ESC는 팝업만 닫습니다.
+    /// 버튼에 마우스를 올리면(또는 선택하면) 제목과 버튼 사이에 그 난이도 설명이 뜹니다. 설정 화면 밖에서 뜨도록 화면 루트 바로 아래에 둡니다.
+    /// </remarks>
+    private void BuildDifficultyPopup()
+    {
+        m_difficultyPopup = CreateConfirmPopup(
+            m_viewRoot.transform,
+            "Difficulty Popup",
+            "난이도를 선택하세요",
+            out Button[] buttons,
+            ("Normal Button", GameDifficultyBalance.DisplayName(GameDifficulty.Normal), () => DecideDifficulty(GameDifficulty.Normal)),
+            ("Hard Button", GameDifficultyBalance.DisplayName(GameDifficulty.Hard), () => DecideDifficulty(GameDifficulty.Hard)));
+
+        // 제목(32pt)의 3분의 2 크기입니다. 어려움 설명은 한 줄에 다 들어가지 않아 두 줄까지 받도록 높이를 둡니다.
+        m_difficultyDescription = CreateFigmaText(
+            "Difficulty Description",
+            m_difficultyPopup.transform,
+            PopupLeft + 30f,
+            450f,
+            PopupWidth - 60f,
+            80f,
+            string.Empty,
+            DifficultyDescriptionFontSize,
+            TextAlignmentOptions.Center);
+        m_difficultyDescription.textWrappingMode = TextWrappingModes.Normal;
+
+        AddDifficultyHover(buttons[0], GameDifficulty.Normal);
+        AddDifficultyHover(buttons[1], GameDifficulty.Hard);
+
+        // 아래 버튼 줄은 난이도만 두고, 돌아가기는 화면 오른쪽 위에 둡니다. ESC와 같습니다.
+        // 셸터 의료·제조 UI의 '돌아가기'(MedicalUI/cancel)와 같은 자리·모양입니다: 배경 없는 흰 글자 36pt 굵은 글꼴, 오른쪽에 Arrow_mark.
+        Button backButton = CreateButton(
+            "Back Button",
+            m_difficultyPopup.transform,
+            new Vector2(1496f, -112f),
+            new Vector2(400f, 40f),
+            "돌아가기",
+            36f,
+            Color.clear);
+        TextMeshProUGUI backLabel = backButton.GetComponentInChildren<TextMeshProUGUI>();
+        backLabel.color = Color.white;
+        backLabel.font = m_boldFont != null ? m_boldFont : m_regularFont;
+        backButton.targetGraphic = backLabel;
+        backButton.onClick.AddListener(CancelDifficultyPopup);
+
+        Image backArrow = CreateTopLeftImage(
+            "Back Arrow",
+            backButton.transform,
+            new Vector2(200f + 83.6f - 15f, -(20f - 1f - 16f)),
+            new Vector2(30f, 32f),
+            Color.white);
+        ApplySprite(backArrow, m_theme != null ? m_theme.backIcon : null);
+        backArrow.raycastTarget = false;
+    }
+
+    private const float DifficultyDescriptionFontSize = 32f * 2f / 3f;
+
+    private void AddDifficultyHover(Button button, GameDifficulty difficulty)
+    {
+        AddEventTrigger(button, EventTriggerType.PointerEnter, _ => ShowDifficultyDescription(difficulty));
+        AddEventTrigger(button, EventTriggerType.Select, _ => ShowDifficultyDescription(difficulty));
+        AddEventTrigger(button, EventTriggerType.PointerExit, _ => m_difficultyDescription.text = string.Empty);
+    }
+
+    private void ShowDifficultyDescription(GameDifficulty difficulty)
+    {
+        m_difficultyDescription.text = difficulty == GameDifficulty.Hard
+            ? "보다 적들이 더 많고 강해집니다. TPS가 비교적 익숙한 사람에게 추천합니다."
+            : "지스타에 맞춘 누구나 즐길 수 있는 난이도입니다.";
+    }
+
+    private bool IsDifficultyPopupOpen => m_difficultyPopup != null && m_difficultyPopup.activeSelf;
+
+    /// <summary>
+    /// 난이도 선택 팝업을 띄웁니다. <paramref name="onDecide"/>는 난이도를 고르면 불립니다. 돌아가기를 고르면 불리지 않습니다.
+    /// </summary>
+    /// <remarks>설정 화면이 닫혀 있으면(타이틀) 설정 화면 없이 팝업만 띄우고, ESC로 닫으면 다시 숨깁니다.</remarks>
+    public void ShowDifficultySelect(System.Action<GameDifficulty> onDecide)
+    {
+        EnsureViewBuilt();
+        m_difficultyDecision = onDecide;
+        m_difficultyPopupStandalone = !m_isOpen;
+        if (m_difficultyPopupStandalone)
+        {
+            m_pausePage.SetActive(false);
+            m_settingsPage.SetActive(false);
+            SetViewActive(true);
+        }
+
+        // 설명은 마우스를 올린 버튼 것만 보입니다. 열 때 버튼을 미리 선택하면 올리지 않은 중간 설명이 먼저 떠서 선택하지 않습니다.
+        m_difficultyDescription.text = string.Empty;
+        m_difficultyPopup.SetActive(true);
+        m_difficultyPopup.transform.SetAsLastSibling();
+        if (EventSystem.current != null)
+        {
+            EventSystem.current.SetSelectedGameObject(null);
+        }
+    }
+
+    private void DecideDifficulty(GameDifficulty difficulty)
+    {
+        System.Action<GameDifficulty> decision = m_difficultyDecision;
+        CancelDifficultyPopup();
+        decision?.Invoke(difficulty);
+    }
+
+    private void CancelDifficultyPopup()
+    {
+        m_difficultyDecision = null;
+        m_difficultyPopup.SetActive(false);
+        if (m_difficultyPopupStandalone)
+        {
+            m_difficultyPopupStandalone = false;
             SetViewActive(false);
         }
     }
