@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c98ef138f4c58e84badaad187e4b3347, type: 3}
+  m_Name: DefenseWave_D2_W1_BridgeNear_Hard
+  m_EditorClassIdentifier: Assembly-CSharp::DefenseWaveSO
+  m_groups:
+  - {fileID: 11400000, guid: ac4bc3df1ea1c789b2e3f507ee07dae5, type: 2}
+  - {fileID: 11400000, guid: 35fb9cf6bbe6adfdacaf1d1a0224f5c3, type: 2}
+  - {fileID: 11400000, guid: 535fff53a3423777383b244b97bc99c4, type: 2}
+  - {fileID: 11400000, guid: e63243d60526485f933f3828f4be0d62, type: 2}
+  m_targetGroupValue: 0
+  m_fixedGroups: []
+  m_fixedSpawnDelay: 3
+  m_firstSpawnDelayMin: 2.5
+  m_firstSpawnDelayMax: 2.5
+  m_spawnIntervalMin: 4.78
+  m_spawnIntervalMax: 5.65
+  m_previewCombatDuration: 50

@@ -657,12 +657,14 @@ MonoBehaviour:
   m_isDefenseEnemy: 1
   m_defenseDisposition: 1
   m_balanceSO: {fileID: 11400000, guid: 480344ed84c94f64681511a8c303edea, type: 2}
+  m_hardBalanceSO: {fileID: 11400000, guid: 32b87bce56d7adf419f7f22a2a5840a7, type: 2}
   m_feedback: {fileID: 11400000, guid: 0b0d847d0605c734885a718ca336bdc5, type: 2}
   wanderRadius: 8
   wanderInterval: 3
   wanderSpeed: 2
   chaseSpeed: 6
   m_alwaysRun: 1
+  m_moveAnimDampTime: 0.15
   rotationSpeed: 8
   idleTypeMin: 0
   idleTypeMax: 1
@@ -855,6 +857,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Melee
   m_balanceSO: {fileID: 11400000, guid: 2ee1bbc3ef9629342a37af01c5b2a75d, type: 2}
+  m_hardBalanceSO: {fileID: 11400000, guid: 8af4369f66b76424682401a4e2eb41d0, type: 2}
   m_attack: {fileID: 442783041056669385}
 --- !u!1 &5606661558721766919
 GameObject:
@@ -1483,6 +1486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Melee
   m_balanceSO: {fileID: 11400000, guid: 2ee1bbc3ef9629342a37af01c5b2a75d, type: 2}
+  m_hardBalanceSO: {fileID: 11400000, guid: 8af4369f66b76424682401a4e2eb41d0, type: 2}
   m_attack: {fileID: 442783041056669385}
 --- !u!1 &8698061882770314044
 GameObject:

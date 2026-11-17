@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5988b99f96deccc4f82b779ec9fbb60c, type: 3}
+  m_Name: TestStage_Shelter_Day2_Hard
+  m_EditorClassIdentifier: Assembly-CSharp::DefenseStageSO
+  m_totalWaveCount: 3
+  m_maxActiveEnemies: 86
+  m_waveClearTrapMaterialRewards: 3c0000004b00000000000000
+  m_routes:
+  - m_routeId: Bridge
+    m_waves:
+    - {fileID: 11400000, guid: 63f783d93a30c4d44a3e8b85d6572ac3, type: 2}
+    - {fileID: 11400000, guid: 5cb0ba78a3e013649b51460ff26cc160, type: 2}
+    - {fileID: 11400000, guid: b7527297cd884364db577c845814927c, type: 2}
+  - m_routeId: BridgeNear
+    m_waves:
+    - {fileID: 11400000, guid: baf76b6c25e125a499c6b4f9a9f45de0, type: 2}
+    - {fileID: 11400000, guid: 6597d9cf2483e324e8e4c7a766e8e523, type: 2}
+    - {fileID: 11400000, guid: 81185572b7f4d48448143f184aac2ad9, type: 2}
+  - m_routeId: Tunnel
+    m_waves:
+    - {fileID: 11400000, guid: 08580261279bac146a03c3a44ba8bd5d, type: 2}
+    - {fileID: 11400000, guid: 39ab15cafb61d0e4a8d874c248031460, type: 2}
+    - {fileID: 11400000, guid: b68c688594a3f2345b92971383073e4f, type: 2}
