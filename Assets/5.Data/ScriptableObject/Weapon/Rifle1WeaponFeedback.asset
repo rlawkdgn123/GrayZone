@@ -38,7 +38,7 @@ MonoBehaviour:
     Path:
   m_muzzleEffectPrefab: {fileID: 6724971032020575412, guid: b3b414b7851452e4ab06717f5d8bf3d6, type: 3}
   m_muzzleEffectLifetime: 2
-  m_tracerEffectPrefab: {fileID: 0}
+  m_tracerEffectPrefab: {fileID: 3219495448367476540, guid: bcacbc1af136ed642b4ef04134e2a89c, type: 3}
   m_tracerEffectLifetime: 0.15
   m_impactEffectPrefab: {fileID: 6724971032020575412, guid: 5ac41cfd35e51d04a964af243e01a996, type: 3}
   m_impactEffectLifetime: 1

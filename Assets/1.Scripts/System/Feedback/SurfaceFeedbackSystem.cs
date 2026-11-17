@@ -32,7 +32,7 @@ public sealed class SurfaceFeedbackSystem : MonoBehaviour
     public IReadOnlyList<SurfaceFeedbackSO> Feedbacks => m_feedbacks;
 
     /// <summary>Raycast로 맞은 표면을 판별하고 해당 위치에 이펙트·사운드·데칼을 출력합니다.</summary>
-    /// <returns>사용할 표면 피드백을 찾았으면 true입니다.</returns>
+    /// <returns>재질 전용 순간 탄착 이펙트를 생성했으면 true입니다.</returns>
     public bool PlayImpact(RaycastHit hit)
     {
         if (hit.collider == null)
@@ -54,6 +54,12 @@ public sealed class SurfaceFeedbackSystem : MonoBehaviour
             return false;
         }
 
+        GameObject impactEffect = FeedbackPlaybackUtility.SpawnAligned(
+            feedback.ImpactEffectPrefab,
+            hit.point,
+            hit.normal,
+            feedback.ImpactEffectLifetime);
+
         FeedbackPlaybackUtility.SpawnAligned(
             feedback.DecalPrefab,
             hit.point,
@@ -62,7 +68,7 @@ public sealed class SurfaceFeedbackSystem : MonoBehaviour
             parent: hit.collider.transform);
 
         PlayImpactSound(feedback, hit.point);
-        return true;
+        return impactEffect != null;
     }
 
     /// <summary>표면 타입과 일치하는 피드백을 찾고, 없으면 기본 피드백을 반환합니다.</summary>
@@ -103,6 +109,20 @@ public sealed class SurfaceFeedbackSystem : MonoBehaviour
 
     private void PlayImpactSound(SurfaceFeedbackSO feedback, Vector3 position)
     {
+        if (!feedback.ImpactSoundEvent.IsNull)
+        {
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlayOneShot(feedback.ImpactSoundEvent, position);
+            }
+            else
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(feedback.ImpactSoundEvent, position);
+            }
+
+            return;
+        }
+
         m_lastSoundIndices.TryGetValue(feedback, out int lastIndex);
         if (!m_lastSoundIndices.ContainsKey(feedback))
         {

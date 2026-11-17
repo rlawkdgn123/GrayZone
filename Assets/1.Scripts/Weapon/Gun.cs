@@ -2465,8 +2465,17 @@ public class Gun : MonoBehaviour, IBalancePostProcess, ISharedBalanceReceiver
             // 탄흔은 탄이 실제로 멈춘 지형에 남깁니다. 첫 충돌을 쓰면 적을 꿰뚫고 벽에 박혀도 벽이 깨끗합니다.
             if (m_hasSurfaceImpact)
             {
-                ResolveFeedbackEmitter()?.PlayImpact(m_surfaceImpact);
-                CombatSceneManager.Instance?.EffectManager?.PlaySurfaceResponse(m_surfaceImpact);
+                EffectManager effectManager = CombatSceneManager.Instance != null
+                    ? CombatSceneManager.Instance.EffectManager
+                    : null;
+                bool playedSurfaceImpact = effectManager != null
+                    && effectManager.PlaySurfaceResponse(m_surfaceImpact);
+
+                // 재질 전용 탄착 VFX가 없거나 풀 예산 때문에 생성하지 못했을 때만 무기 공통 효과를 대신 냅니다.
+                if (!playedSurfaceImpact)
+                {
+                    ResolveFeedbackEmitter()?.PlayImpact(m_surfaceImpact);
+                }
 
                 // 맞으면 터지는 소품(드럼통 등)은 탄이 멈춘 지형 콜라이더에서 찾습니다. 플레이어 쪽 사격만 반응시킵니다.
                 if (m_ownerFaction == Faction.Player && m_surfaceImpact.collider != null)

@@ -145,6 +145,13 @@ internal static class FeedbackPlaybackUtility
             return;
         }
 
+        BulletTrailVisual animatedTrail = instance.GetComponentInChildren<BulletTrailVisual>(true);
+        if (animatedTrail != null)
+        {
+            animatedTrail.Configure(start, end);
+            return;
+        }
+
         LineRenderer line = instance.GetComponentInChildren<LineRenderer>(true);
         if (line != null)
         {

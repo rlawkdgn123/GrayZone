@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// 한 표면 타입에 대응하는 충돌 사운드와 데칼 에셋 참조를 보관합니다.
+/// 한 표면 타입에 대응하는 탄착 이펙트·충돌 사운드·데칼 에셋 참조를 보관합니다.
 /// </summary>
 /// <remarks>
 /// 실제 표면 판별과 피드백 생성은 필드 씬의 <see cref="EffectManager"/>가 담당합니다.
@@ -26,7 +26,18 @@ public sealed class SurfaceFeedbackSO : ScriptableObject, IFeedbackData
     [SerializeField] private SurfaceMaterialType[] m_materialTypes = Array.Empty<SurfaceMaterialType>();
 
     [Header("Surface Response")]
-    [Tooltip("표면이 피격됐을 때 후보 중 하나를 선택해 재생할 사운드 목록입니다.")]
+    [Tooltip("표면 피격 순간에 재생할 탄착 이펙트 프리팹입니다.")]
+    [FeedbackReference(FeedbackReferenceKind.VisualEffect, "표면 탄착 이펙트 프리팹")]
+    [SerializeField] private GameObject m_impactEffectPrefab;
+
+    [Tooltip("생성한 표면 탄착 이펙트를 자동 회수하기까지의 시간(초)입니다.")]
+    [Min(0.0f)]
+    [SerializeField] private float m_impactEffectLifetime = 1.0f;
+
+    [Tooltip("표면이 피격됐을 때 재생할 FMOD 3D 이벤트입니다. 설정되어 있으면 아래 AudioClip 목록보다 우선합니다.")]
+    [SerializeField] private FMODUnity.EventReference m_impactSoundEvent;
+
+    [Tooltip("FMOD 이벤트가 비어 있을 때만 사용하는 구형 Unity AudioClip 후보 목록입니다.")]
     [FeedbackReference(FeedbackReferenceKind.Audio, "표면 피격 사운드 목록")]
     [SerializeField] private AudioClip[] m_impactSounds = Array.Empty<AudioClip>();
 
@@ -50,6 +61,15 @@ public sealed class SurfaceFeedbackSO : ScriptableObject, IFeedbackData
 
     /// <summary>표면 피격 사운드 후보 목록입니다.</summary>
     public IReadOnlyList<AudioClip> ImpactSounds => m_impactSounds;
+
+    /// <summary>표면 피격 위치에서 재생할 FMOD 3D 이벤트입니다.</summary>
+    public FMODUnity.EventReference ImpactSoundEvent => m_impactSoundEvent;
+
+    /// <summary>표면 피격 순간에 재생할 탄착 이펙트 프리팹입니다.</summary>
+    public GameObject ImpactEffectPrefab => m_impactEffectPrefab;
+
+    /// <summary>표면 탄착 이펙트의 런타임 수명(초)입니다.</summary>
+    public float ImpactEffectLifetime => m_impactEffectLifetime;
 
     /// <summary>표면 피격 데칼 프리팹입니다.</summary>
     public GameObject DecalPrefab => m_decalPrefab;

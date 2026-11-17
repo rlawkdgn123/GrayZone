@@ -13,7 +13,7 @@ using UnityEngine.Serialization;
 /// 두 책임을 나눈 이유는 "무엇을 언제 내는가"와 "씬이 얼마나 감당하는가"가 서로 다른 이유로 바뀌기 때문입니다.
 /// </para>
 /// <para>
-/// 총구 화염·트레이서·총기 탄착처럼 무기에 종속된 개인 이펙트는 이 매니저가 생성하거나 재사용하지 않습니다.
+/// 총구 화염·트레이서처럼 무기에 종속된 개인 이펙트는 이 매니저가 생성하거나 재사용하지 않습니다.
 /// 개인 이펙트는 각 무기가 풀링하고, 같은 GameObject의 <see cref="EffectPool"/>에는 활성 개수만 보고합니다.
 /// </para>
 /// <para>
@@ -74,10 +74,10 @@ public sealed class EffectManager : MonoBehaviour
 #endif
 
     /// <summary>
-    /// 맞은 표면을 판별하고 그 자리에 표면 데칼·사운드를 냅니다.
+    /// 맞은 표면을 판별하고 그 자리에 표면 탄착 이펙트·데칼·사운드를 냅니다.
     /// </summary>
     /// <param name="hit">사격이 멈춘 지점의 충돌 정보입니다.</param>
-    /// <returns>사용할 표면 피드백을 찾았으면 true입니다.</returns>
+    /// <returns>재질 전용 순간 탄착 이펙트를 생성했으면 true입니다.</returns>
     public bool PlaySurfaceResponse(RaycastHit hit)
     {
         if (hit.collider == null)
@@ -91,10 +91,16 @@ public sealed class EffectManager : MonoBehaviour
             return false;
         }
 
+        GameObject impactEffect = SpawnEffect(
+            feedback.ImpactEffectPrefab,
+            hit.point,
+            hit.normal,
+            feedback.ImpactEffectLifetime);
+
         SpawnDecal(feedback.DecalPrefab, hit.point, hit.normal, feedback.DecalLifetime, hit.collider.transform);
 
         PlayImpactSound(feedback, hit.point);
-        return true;
+        return impactEffect != null;
     }
 
     /// <summary>
@@ -181,6 +187,20 @@ public sealed class EffectManager : MonoBehaviour
 
     private void PlayImpactSound(SurfaceFeedbackSO feedback, Vector3 position)
     {
+        if (!feedback.ImpactSoundEvent.IsNull)
+        {
+            if (SoundManager.Instance != null)
+            {
+                SoundManager.Instance.PlayOneShot(feedback.ImpactSoundEvent, position);
+            }
+            else
+            {
+                FMODUnity.RuntimeManager.PlayOneShot(feedback.ImpactSoundEvent, position);
+            }
+
+            return;
+        }
+
         if (!m_lastSoundIndices.TryGetValue(feedback, out int lastIndex))
         {
             lastIndex = -1;
