@@ -176,6 +176,13 @@ public sealed class ShelterMemberRuntimeData
         int baseMaxHp = Mathf.Max(1, MaxHp - previousBonus);
         medicalFacilityMaxHpBonus = normalizedBonus;
         maxHp = baseMaxHp + normalizedBonus;
+
+        // 보너스가 늘어난 만큼 현재 체력도 함께 올려, 업그레이드만으로 체력이 깎인 것처럼 보이지 않게 합니다.
+        // 체력 0(사망) 상태는 보너스로 되살리지 않습니다. 보너스가 줄어들면 최대치로 자르기만 합니다.
+        int bonusDelta = normalizedBonus - previousBonus;
+        if (bonusDelta > 0 && currentHp > 0)
+            currentHp += bonusDelta;
+
         currentHp = Mathf.Min(currentHp, MaxHp);
         return true;
     }
