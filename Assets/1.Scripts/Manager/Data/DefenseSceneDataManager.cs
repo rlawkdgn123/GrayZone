@@ -44,6 +44,9 @@ public sealed class DefenseSceneDataManager : CombatSceneDataManager
     [Tooltip("방어전 회차별로 쓸 방어전 SO 표입니다. 입장할 때 회차(클리어 횟수 + 1)로 이번 방어전 구성을 고릅니다.")]
     [SerializeField] private DefenseScheduleSO m_schedule;
 
+    [Tooltip("어려움 난이도에서 위 표 대신 쓸 회차 표입니다. 비어 있으면 어려움에서도 위 표를 씁니다.")]
+    [SerializeField] private DefenseScheduleSO m_hardSchedule;
+
     [Tooltip("0 이상이면 클리어 횟수 대신 이 회차로 방어전 구성을 고릅니다. -1이면 GameDataManager의 다음 회차를 씁니다. " +
              "셸터를 거치지 않고 이 씬만 실행해 특정 회차를 확인할 때 씁니다. 0은 1회차로 봅니다.")]
     [Min(-1)]
@@ -389,16 +392,17 @@ public sealed class DefenseSceneDataManager : CombatSceneDataManager
     /// <summary>회차 표에서 이 회차의 방어전 구성을 고릅니다. 표가 없으면 경고하고 null을 돌려줍니다.</summary>
     private DefenseStageSO ResolveScheduledStage(int round)
     {
-        if (m_schedule == null)
+        DefenseScheduleSO schedule = GameDifficultyBalance.Select(m_schedule, m_hardSchedule);
+        if (schedule == null)
         {
             Debug.LogWarning("[DefenseSceneDataManager] 방어전 회차 표(Defense Schedule)가 비어 있어 방어전 구성을 정하지 못했습니다.", this);
             return null;
         }
 
-        DefenseStageSO stage = m_schedule.GetStage(round);
+        DefenseStageSO stage = schedule.GetStage(round);
         if (stage == null)
         {
-            Debug.LogWarning($"[DefenseSceneDataManager] 회차 표 '{m_schedule.name}'의 {round}회차 칸이 비어 있습니다.", this);
+            Debug.LogWarning($"[DefenseSceneDataManager] 회차 표 '{schedule.name}'의 {round}회차 칸이 비어 있습니다.", this);
         }
 
         return stage;

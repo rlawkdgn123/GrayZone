@@ -110,6 +110,10 @@ public class GameDataManager : MonoBehaviour
     /// <summary>방어전을 클리어하고 귀환까지 마친 횟수입니다. 다음 방어전 회차를 정하는 기준이며 저장됩니다.</summary>
     [Min(0)][SerializeField] private int defenseClearCount;
 
+    /// <summary>새 게임을 시작할 때 고른 난이도입니다. 저장됩니다.</summary>
+    [Tooltip("현재 판의 난이도입니다. 어려움이면 적이 어려움용 밸런스 SO를 씁니다.")]
+    [SerializeField] private GameDifficulty difficulty = GameDifficulty.Normal;
+
     /// <summary>
     /// 방어전에서 승리했지만 아직 귀환 정산이 반영되지 않은 스테이지 ID입니다. 없으면 빈 문자열입니다.
     /// </summary>
@@ -249,6 +253,15 @@ public class GameDataManager : MonoBehaviour
     public void MarkDefenseVictoryPending(string stageId)
     {
         pendingDefenseVictoryStageId = stageId?.Trim() ?? string.Empty;
+    }
+
+    /// <summary>현재 판의 난이도입니다.</summary>
+    public GameDifficulty Difficulty => difficulty;
+
+    /// <summary>현재 판의 난이도를 정합니다. 적은 생성될 때 난이도를 읽으므로 전투 씬에 들어가기 전에 정해야 합니다.</summary>
+    public void SetDifficulty(GameDifficulty value)
+    {
+        difficulty = value;
     }
 
     /// <summary>검증용으로 방어전 클리어 횟수를 직접 정합니다. 0보다 작으면 0으로 봅니다.</summary>
@@ -744,6 +757,7 @@ public class GameDataManager : MonoBehaviour
         {
             shelterCheckpointId = ShelterCheckpointId,
             defenseClearCount = DefenseClearCount,
+            difficulty = Difficulty,
             // 새 게임 첫 체크포인트는 인트로 컷신 재생 중에 저장되어 NotStarted로 남습니다.
             // 그대로 저장하면 복구할 때마다 컷신이 다시 나오므로, 컷신을 본 뒤의 첫 안내 단계로 기록합니다.
             shelterFlowState = ShelterFlowState == ShelterFlowState.NotStarted
@@ -809,6 +823,7 @@ public class GameDataManager : MonoBehaviour
 
         shelterCheckpointId = saveData.shelterCheckpointId;
         defenseClearCount = Mathf.Max(0, saveData.defenseClearCount);
+        difficulty = saveData.difficulty;
         shelterFlowState = saveData.shelterFlowState;
         // 불러오기 전 판에서 정산 대기 중이던 승리가 불러온 진행 상태에 더해지지 않게 비웁니다.
         pendingDefenseVictoryStageId = string.Empty;

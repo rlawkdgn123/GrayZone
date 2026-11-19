@@ -12,6 +12,12 @@ public class SaveData
     /// <summary>방어전 클리어 횟수입니다. 다음 방어전 회차(클리어 횟수 + 1)와 일차 표시의 기준입니다.</summary>
     public int defenseClearCount;
 
+    /// <summary>새 게임을 시작할 때 고른 난이도입니다.</summary>
+    /// <remarks>
+    /// 이 값이 없던 저장 파일은 중간(0)으로 읽히므로 스키마 버전을 올리지 않았습니다. 버전을 올리면 기존 저장을 불러올 수 없게 됩니다.
+    /// </remarks>
+    public GameDifficulty difficulty = GameDifficulty.Normal;
+
     /// <summary>셸터 안내 진행 단계입니다.</summary>
     public ShelterFlowState shelterFlowState = ShelterFlowState.NotStarted;
 

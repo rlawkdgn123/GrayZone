@@ -50,7 +50,18 @@ public class MainSceneSaveManager : MonoBehaviour
         }
     }
 
+    /// <summary>새 게임 데이터를 만듭니다.</summary>
+    /// <remarks>
+    /// 난이도는 지금 판의 값을 그대로 씁니다. 셸터 단독 테스트 흐름(<see cref="GameDataManager.UseDefaultSaveDataOnShelterStart"/>)이
+    /// 셸터에 들어올 때마다 이 함수를 불러, 중간으로 고정하면 타이틀에서 고른 난이도가 덮이기 때문입니다.
+    /// </remarks>
     public bool StartNewGame()
+    {
+        return StartNewGame(GameDifficultyBalance.Current);
+    }
+
+    /// <summary>고른 난이도로 새 게임 데이터를 만듭니다. 난이도는 첫 체크포인트 저장에 함께 들어갑니다.</summary>
+    public bool StartNewGame(GameDifficulty difficulty)
     {
         if (GameDataManager.Instance == null)
         {
@@ -63,6 +74,8 @@ public class MainSceneSaveManager : MonoBehaviour
         {
             return false;
         }
+
+        newGameSaveData.difficulty = difficulty;
 
         // 일시정지 메뉴로 타이틀에 돌아온 경우 이전 판의 저장 밖 값(날짜·분대·필드 결과 등)이 남지 않게 먼저 비웁니다.
         GameDataManager.Instance.ResetSessionState();
@@ -82,7 +95,13 @@ public class MainSceneSaveManager : MonoBehaviour
 
     public void OnStartNewGameButtonClicked()
     {
-        if (StartNewGame())
+        StartNewGameAndEnterShelter(GameDifficulty.Normal);
+    }
+
+    /// <summary>고른 난이도로 새 게임 데이터를 만들고 셸터로 이동합니다. 타이틀의 난이도 선택 팝업이 부릅니다.</summary>
+    public void StartNewGameAndEnterShelter(GameDifficulty difficulty)
+    {
+        if (StartNewGame(difficulty))
         {
             SceneTransitionController.LoadScene(ShelterSceneName);
             return;

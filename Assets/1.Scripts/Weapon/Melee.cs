@@ -21,6 +21,9 @@ public class Melee : MonoBehaviour
     [Tooltip("이 근접 무기의 밸런스 수치입니다. 연타별 피해량과 약점 판정 사용 여부를 담습니다.")]
     [SerializeField] private MeleeBalanceSO m_balanceSO;
 
+    [Tooltip("어려움 난이도에서 위 밸런스 대신 쓸 데이터입니다. 비어 있으면 어려움에서도 위 데이터를 씁니다.")]
+    [SerializeField] private MeleeBalanceSO m_hardBalanceSO;
+
     [Tooltip("적중을 넘겨 줄 공격 모듈입니다. 비어 있으면 상위에서 찾습니다.")]
     [SerializeField] private EnemyAttack m_attack;
 
@@ -39,6 +42,9 @@ public class Melee : MonoBehaviour
     private void Awake()
     {
         m_collider = GetComponent<Collider>();
+
+        // 난이도는 판 단위로 정해지고 무기는 적과 함께 새로 만들어지므로 생성 때 한 번만 고릅니다.
+        m_balanceSO = GameDifficultyBalance.Select(m_balanceSO, m_hardBalanceSO);
 
         if (m_attack == null)
         {

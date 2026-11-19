@@ -3469,19 +3469,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameplayPauseMenuController
   m_regularFont: {fileID: 11400000, guid: bf8aeade3619e8744aae78c1609fa80c, type: 2}
   m_boldFont: {fileID: 11400000, guid: bc77ed116053d1142821833a97b0e3a9, type: 2}
-  m_settingsIcon: {fileID: 21300000, guid: 4f5cda07b7ca5fe4abd91807d32ef030, type: 3}
-  m_backButtonFrame: {fileID: 21300000, guid: 18f8e111d7d3f8f429d1726b803b284b, type: 3}
+  m_theme: {fileID: 0}
   m_menuSelectionLeftTexture: {fileID: 0}
   m_menuSelectionRightTexture: {fileID: 0}
-  m_sliderTrackSprite: {fileID: 0}
-  m_sliderFillSprite: {fileID: 0}
-  m_sliderHandleSprite: {fileID: 0}
-  m_sliderHandleSize: {x: 18, y: 18}
-  m_audioPanelSprite: {fileID: 0}
   m_titleSceneName: TitleScene
   m_pauseTime: 0
   m_showSettingsButton: 0
-  m_showCombatTab: 0
   m_settingsOnly: 1
 --- !u!224 &1356254151
 RectTransform:
@@ -4606,19 +4599,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1952490561}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1589198061}
-        m_TargetAssemblyTypeName: MainSceneSaveManager, Assembly-CSharp
-        m_MethodName: OnStartNewGameButtonClicked
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1952490561
 MonoBehaviour:
   m_ObjectHideFlags: 0

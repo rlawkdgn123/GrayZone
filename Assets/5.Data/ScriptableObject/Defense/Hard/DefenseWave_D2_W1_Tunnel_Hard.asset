@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c98ef138f4c58e84badaad187e4b3347, type: 3}
+  m_Name: DefenseWave_D2_W1_Tunnel_Hard
+  m_EditorClassIdentifier: Assembly-CSharp::DefenseWaveSO
+  m_groups:
+  - {fileID: 11400000, guid: 29fb6f92c7e5bad6b8af4e79f6236326, type: 2}
+  - {fileID: 11400000, guid: 163d5cb4ece750d153a918ba75f0d977, type: 2}
+  - {fileID: 11400000, guid: 32d1fd6f20b971d3aea206a8321c1b2a, type: 2}
+  - {fileID: 11400000, guid: 173d5701efe7438852a9110f78f0bc3e, type: 2}
+  m_targetGroupValue: 0
+  m_fixedGroups: []
+  m_fixedSpawnDelay: 3
+  m_firstSpawnDelayMin: 5
+  m_firstSpawnDelayMax: 5
+  m_spawnIntervalMin: 6.09
+  m_spawnIntervalMax: 7.83
+  m_previewCombatDuration: 50
